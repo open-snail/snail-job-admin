@@ -52,14 +52,28 @@ declare namespace Api {
    */
   namespace Auth {
     interface LoginToken {
+      id: string;
+      mode: string;
+      role: String;
       token: string;
       refreshToken: string;
+      createDt: string;
+      updateDt: string;
+      namespaceIds: NamespaceId[];
     }
 
     interface UserInfo {
-      userId: string;
-      userName: string;
-      roles: string[];
+      id: string;
+      mode: string;
+      username: string;
+      role: string;
+      namespaceIds: NamespaceId[];
+    }
+
+    interface NamespaceId {
+      id: string;
+      name: string;
+      uniqueId: string;
     }
   }
 

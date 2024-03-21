@@ -8,9 +8,7 @@ const { baseURL, otherBaseURL } = getServiceBaseURL(import.meta.env, isHttpProxy
 export const request = createFlatRequest<App.Service.Response>(
   {
     baseURL,
-    headers: {
-      apifoxToken: 'XL299LiMEDZ0H5h3A29PxwQXdMJqWyY2'
-    }
+    timeout: 6000
   },
   {
     async onRequest(config) {
@@ -18,15 +16,18 @@ export const request = createFlatRequest<App.Service.Response>(
 
       // set token
       const token = localStg.get('token');
-      const Authorization = token ? `Bearer ${token}` : null;
-      Object.assign(headers, { Authorization });
+      const namespaceId = localStg.get('namespaceId');
+      // const Authorization = token ? `Bearer ${token}` : null;
+      headers['EASY-RETRY-AUTH'] = token;
+      headers['EASY-RETRY-NAMESPACE-ID'] = namespaceId;
+      Object.assign(headers, { 'EASY-RETRY-AUTH': token, 'EASY-RETRY-NAMESPACE-ID': namespaceId });
 
       return config;
     },
     isBackendSuccess(response) {
       // when the backend response code is "0000", it means the request is success
       // you can change this logic by yourself
-      return response.data.code === '0000';
+      return response.data.status === 1;
     },
     async onBackendFail(_response) {
       // when the backend response code is not "0000", it means the request is fail
@@ -42,7 +43,7 @@ export const request = createFlatRequest<App.Service.Response>(
 
       // show backend error message
       if (error.code === BACKEND_ERROR_CODE) {
-        message = error.response?.data?.msg || message;
+        message = error.response?.data?.message || message;
       }
 
       window.$message?.error(message);

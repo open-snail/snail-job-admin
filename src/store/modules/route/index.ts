@@ -9,7 +9,7 @@ import { ROOT_ROUTE, createRoutes, getAuthVueRoutes } from '@/router/routes';
 import { getRouteName, getRoutePath } from '@/router/elegant/transform';
 import { fetchGetUserRoutes, fetchIsRouteExist } from '@/service/api';
 import { useAppStore } from '../app';
-import { useAuthStore } from '../auth';
+// import { useAuthStore } from '../auth';
 import { useTabStore } from '../tab';
 import {
   filterAuthRoutesByRoles,
@@ -25,7 +25,7 @@ import {
 
 export const useRouteStore = defineStore(SetupStoreId.Route, () => {
   const appStore = useAppStore();
-  const authStore = useAuthStore();
+  // const authStore = useAuthStore();
   const tabStore = useTabStore();
   const { bool: isInitAuthRoute, setBool: setIsInitAuthRoute } = useBoolean();
   const removeRouteFns: (() => void)[] = [];
@@ -160,7 +160,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
   async function initStaticAuthRoute() {
     const { authRoutes } = createRoutes();
 
-    const filteredAuthRoutes = filterAuthRoutesByRoles(authRoutes, authStore.userInfo.roles);
+    const filteredAuthRoutes = filterAuthRoutesByRoles(authRoutes, []);
 
     handleAuthRoutes(filteredAuthRoutes);
 
