@@ -1,7 +1,6 @@
-import { theme as antdTheme } from 'ant-design-vue';
-import type { ConfigProviderProps } from 'ant-design-vue';
-import { getColorPalette } from '@sa/color-palette';
-import { getRgbOfColor } from '@sa/utils';
+import type { GlobalThemeOverrides } from 'naive-ui';
+import { getColorByColorPaletteNumber, getColorPalette } from '@sa/color-palette';
+import { addColorAlpha, getRgbOfColor } from '@sa/utils';
 import { overrideThemeSettings, themeSettings } from '@/theme/settings';
 import { themeVars } from '@/theme/vars';
 import { localStg } from '@/utils/storage';
@@ -179,30 +178,57 @@ export function toggleCssDarkMode(darkMode = false) {
   }
 }
 
+type NaiveColorScene = '' | 'Suppl' | 'Hover' | 'Pressed' | 'Active';
+type NaiveColorKey = `${App.Theme.ThemeColorKey}Color${NaiveColorScene}`;
+type NaiveThemeColor = Partial<Record<NaiveColorKey, string>>;
+interface NaiveColorAction {
+  scene: NaiveColorScene;
+  handler: (color: string) => string;
+}
+
 /**
- * Get antd theme
+ * Get naive theme colors
  *
  * @param colors Theme colors
- * @param darkMode Is dark mode
  */
-export function getAntdTheme(colors: App.Theme.ThemeColor, darkMode: boolean) {
-  const { defaultAlgorithm, darkAlgorithm } = antdTheme;
+function getNaiveThemeColors(colors: App.Theme.ThemeColor) {
+  const colorActions: NaiveColorAction[] = [
+    { scene: '', handler: color => color },
+    { scene: 'Suppl', handler: color => color },
+    { scene: 'Hover', handler: color => getColorByColorPaletteNumber(color, 500) },
+    { scene: 'Pressed', handler: color => getColorByColorPaletteNumber(color, 700) },
+    { scene: 'Active', handler: color => addColorAlpha(color, 0.1) }
+  ];
 
-  const { primary, info, success, warning, error } = colors;
+  const themeColors: NaiveThemeColor = {};
 
-  const theme: ConfigProviderProps['theme'] = {
-    token: {
-      colorPrimary: primary,
-      colorInfo: info,
-      colorSuccess: success,
-      colorWarning: warning,
-      colorError: error
+  const colorEntries = Object.entries(colors) as [App.Theme.ThemeColorKey, string][];
+
+  colorEntries.forEach(color => {
+    colorActions.forEach(action => {
+      const [colorType, colorValue] = color;
+      const colorKey: NaiveColorKey = `${colorType}Color${action.scene}`;
+      themeColors[colorKey] = action.handler(colorValue);
+    });
+  });
+
+  return themeColors;
+}
+
+/**
+ * Get naive theme
+ *
+ * @param colors Theme colors
+ */
+export function getNaiveTheme(colors: App.Theme.ThemeColor) {
+  const { primary: colorLoading } = colors;
+
+  const theme: GlobalThemeOverrides = {
+    common: {
+      ...getNaiveThemeColors(colors)
     },
-    algorithm: [darkMode ? darkAlgorithm : defaultAlgorithm],
-    components: {
-      Menu: {
-        colorSubItemBg: 'transparent'
-      }
+    LoadingBar: {
+      colorLoading
     }
   };
 

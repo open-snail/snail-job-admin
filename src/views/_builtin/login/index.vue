@@ -7,8 +7,10 @@ import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
 import { loginModuleRecord } from '@/constants/app';
 import PwdLogin from './modules/pwd-login.vue';
-
-const { VITE_APP_VERSION } = import.meta.env;
+import CodeLogin from './modules/code-login.vue';
+import Register from './modules/register.vue';
+import ResetPwd from './modules/reset-pwd.vue';
+import BindWechat from './modules/bind-wechat.vue';
 
 interface Props {
   /** The login module */
@@ -28,7 +30,13 @@ interface LoginModule {
   component: Component;
 }
 
-const modules: LoginModule[] = [{ key: 'pwd-login', label: loginModuleRecord['pwd-login'], component: PwdLogin }];
+const modules: LoginModule[] = [
+  { key: 'pwd-login', label: loginModuleRecord['pwd-login'], component: PwdLogin },
+  { key: 'code-login', label: loginModuleRecord['code-login'], component: CodeLogin },
+  { key: 'register', label: loginModuleRecord.register, component: Register },
+  { key: 'reset-pwd', label: loginModuleRecord['reset-pwd'], component: ResetPwd },
+  { key: 'bind-wechat', label: loginModuleRecord['bind-wechat'], component: BindWechat }
+];
 
 const activeModule = computed(() => {
   const findItem = modules.find(item => item.key === props.module);
@@ -49,16 +57,13 @@ const bgColor = computed(() => {
 </script>
 
 <template>
-  <div class="relative flex-center wh-full" :style="{ backgroundColor: bgColor }">
+  <div class="relative size-full flex-center overflow-hidden" :style="{ backgroundColor: bgColor }">
     <WaveBg :theme-color="bgThemeColor" />
-    <ACard class="relative z-4">
+    <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
       <div class="w-400px <sm:w-300px">
         <header class="flex-y-center justify-between">
           <SystemLogo class="text-64px text-primary <sm:text-48px" />
-          <h3 class="text-28px font-500 text-primary <sm:text-22px title">
-            {{ $t('system.title') }}
-            <span class="version">{{ VITE_APP_VERSION }}</span>
-          </h3>
+          <h3 class="text-28px text-primary font-500 <sm:text-22px">{{ $t('system.title') }}</h3>
           <div class="i-flex-vertical">
             <ThemeSchemaSwitch
               :theme-schema="themeStore.themeScheme"
@@ -74,35 +79,17 @@ const bgColor = computed(() => {
             />
           </div>
         </header>
-        <main class="pt-12px">
-          <div class="desc">{{ $t('system.desc') }}</div>
-          <div class="pt-24px animation-slide-in-left">
+        <main class="pt-24px">
+          <h3 class="text-18px text-primary font-medium">{{ $t(activeModule.label) }}</h3>
+          <div class="pt-24px">
             <Transition :name="themeStore.page.animateMode" mode="out-in" appear>
               <component :is="activeModule.component" />
             </Transition>
           </div>
         </main>
       </div>
-    </ACard>
+    </NCard>
   </div>
 </template>
 
-<style scoped>
-.title {
-  display: flex;
-  align-items: center;
-}
-
-.version {
-  font-size: 16px;
-  font-weight: 600;
-  padding-left: 12px;
-  color: rgba(0, 0, 0, 0.45);
-}
-
-.desc {
-  font-size: 14px;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.45);
-}
-</style>
+<style scoped></style>

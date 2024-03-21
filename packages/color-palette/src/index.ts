@@ -31,6 +31,21 @@ export function getColorPalette(color: string, colorName: string) {
   return colorPalette;
 }
 
+/**
+ * Get color by color palette number
+ *
+ * @param color Color
+ * @param num Color palette number
+ * @returns Color hexcode
+ */
+export function getColorByColorPaletteNumber(color: string, num: ColorPaletteNumber) {
+  const colorPalette = getColorPalette(color, color);
+
+  const colorItem = colorPalette.colorMap.get(num) as ColorPaletteItem;
+
+  return colorItem.hexcode;
+}
+
 export default getColorPalette;
 
 /** The builtin color palettes */

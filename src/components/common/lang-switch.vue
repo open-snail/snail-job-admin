@@ -37,18 +37,13 @@ function changeLang(lang: App.I18n.LangType) {
 </script>
 
 <template>
-  <ADropdown placement="bottom">
-    <ButtonIcon :tooltip-content="tooltipContent" tooltip-placement="left">
-      <SvgIcon icon="heroicons:language" />
-    </ButtonIcon>
-    <template #overlay>
-      <AMenu :selected-keys="[lang]">
-        <AMenuItem v-for="option in langOptions" :key="option.key" @click="changeLang(option.key)">
-          {{ option.label }}
-        </AMenuItem>
-      </AMenu>
-    </template>
-  </ADropdown>
+  <NDropdown :value="lang" :options="langOptions" trigger="hover" @select="changeLang">
+    <div>
+      <ButtonIcon :tooltip-content="tooltipContent" tooltip-placement="left">
+        <SvgIcon icon="heroicons:language" />
+      </ButtonIcon>
+    </div>
+  </NDropdown>
 </template>
 
 <style scoped></style>

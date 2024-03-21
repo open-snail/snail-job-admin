@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import Clipboard from 'clipboard';
 import { $t } from '@/locales';
 import { useThemeStore } from '@/store/modules/theme';
@@ -15,9 +15,7 @@ const domRef = ref<HTMLElement | null>(null);
 function initClipboard() {
   if (!domRef.value) return;
 
-  const clipboard = new Clipboard(domRef.value, {
-    text: () => getClipboardText()
-  });
+  const clipboard = new Clipboard(domRef.value);
 
   clipboard.on('success', () => {
     window.$message?.success($t('theme.configOperation.copySuccessMsg'));
@@ -40,16 +38,19 @@ function handleReset() {
   }, 50);
 }
 
+const dataClipboardText = computed(() => getClipboardText());
+
 onMounted(() => {
   initClipboard();
 });
 </script>
 
 <template>
-  <div class="flex justify-between">
-    <AButton danger @click="handleReset">{{ $t('theme.configOperation.resetConfig') }}</AButton>
-    <div ref="domRef">
-      <AButton type="primary">{{ $t('theme.configOperation.copyConfig') }}</AButton>
+  <div class="w-full flex justify-between">
+    <textarea id="themeConfigCopyTarget" v-model="dataClipboardText" class="absolute opacity-0 -z-1" />
+    <NButton type="error" ghost @click="handleReset">{{ $t('theme.configOperation.resetConfig') }}</NButton>
+    <div ref="domRef" data-clipboard-target="#themeConfigCopyTarget">
+      <NButton type="primary">{{ $t('theme.configOperation.copyConfig') }}</NButton>
     </div>
   </div>
 </template>

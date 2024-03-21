@@ -1,61 +1,68 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Trigger } from 'ant-design-vue/es/dropdown/props';
+import type { VNode } from 'vue';
+import { useSvgIconRender } from '@sa/hooks';
 import { $t } from '@/locales';
 import { useTabStore } from '@/store/modules/tab';
+import SvgIcon from '@/components/custom/svg-icon.vue';
 
 defineOptions({
   name: 'ContextMenu'
 });
 
 interface Props {
+  /** ClientX */
+  x: number;
+  /** ClientY */
+  y: number;
   tabId: string;
-  trigger?: Trigger[];
   excludeKeys?: App.Global.DropdownKey[];
   disabledKeys?: App.Global.DropdownKey[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  trigger: () => ['contextmenu'],
   excludeKeys: () => [],
   disabledKeys: () => []
 });
 
-const { removeTab, clearTabs, clearLeftTabs, clearRightTabs } = useTabStore();
+const visible = defineModel<boolean>('visible');
 
-interface DropdownOption {
+const { removeTab, clearTabs, clearLeftTabs, clearRightTabs } = useTabStore();
+const { SvgIconVNode } = useSvgIconRender(SvgIcon);
+
+type DropdownOption = {
   key: App.Global.DropdownKey;
   label: string;
-  icon: string;
+  icon?: () => VNode;
   disabled?: boolean;
-}
+};
 
 const options = computed(() => {
   const opts: DropdownOption[] = [
     {
       key: 'closeCurrent',
       label: $t('dropdown.closeCurrent'),
-      icon: 'ant-design:close-outlined'
+      icon: SvgIconVNode({ icon: 'ant-design:close-outlined', fontSize: 18 })
     },
     {
       key: 'closeOther',
       label: $t('dropdown.closeOther'),
-      icon: 'ant-design:column-width-outlined'
+      icon: SvgIconVNode({ icon: 'ant-design:column-width-outlined', fontSize: 18 })
     },
     {
       key: 'closeLeft',
       label: $t('dropdown.closeLeft'),
-      icon: 'mdi:format-horizontal-align-left'
+      icon: SvgIconVNode({ icon: 'mdi:format-horizontal-align-left', fontSize: 18 })
     },
     {
       key: 'closeRight',
       label: $t('dropdown.closeRight'),
-      icon: 'mdi:format-horizontal-align-right'
+      icon: SvgIconVNode({ icon: 'mdi:format-horizontal-align-right', fontSize: 18 })
     },
     {
       key: 'closeAll',
       label: $t('dropdown.closeAll'),
-      icon: 'ant-design:line-outlined'
+      icon: SvgIconVNode({ icon: 'ant-design:line-outlined', fontSize: 18 })
     }
   ];
   const { excludeKeys, disabledKeys } = props;
@@ -72,6 +79,10 @@ const options = computed(() => {
 
   return result;
 });
+
+function hideDropdown() {
+  visible.value = false;
+}
 
 const dropdownAction: Record<App.Global.DropdownKey, () => void> = {
   closeCurrent() {
@@ -90,27 +101,24 @@ const dropdownAction: Record<App.Global.DropdownKey, () => void> = {
     clearTabs();
   }
 };
+
+function handleDropdown(optionKey: App.Global.DropdownKey) {
+  dropdownAction[optionKey]?.();
+  hideDropdown();
+}
 </script>
 
 <template>
-  <ADropdown :trigger="trigger" placement="bottom" destroy-popup-on-hide>
-    <slot></slot>
-    <template #overlay>
-      <AMenu>
-        <AMenuItem
-          v-for="option in options"
-          :key="option.key"
-          :disabled="option.disabled"
-          @click="dropdownAction[option.key]"
-        >
-          <div class="flex-y-center gap-12px">
-            <SvgIcon :icon="option.icon" class="text-icon" />
-            <span>{{ option.label }}</span>
-          </div>
-        </AMenuItem>
-      </AMenu>
-    </template>
-  </ADropdown>
+  <NDropdown
+    :show="visible"
+    placement="bottom-start"
+    trigger="manual"
+    :x="x"
+    :y="y"
+    :options="options"
+    @clickoutside="hideDropdown"
+    @select="handleDropdown"
+  />
 </template>
 
 <style scoped></style>

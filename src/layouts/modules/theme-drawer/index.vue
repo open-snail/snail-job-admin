@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { SimpleScrollbar } from '@sa/materials';
 import { useAppStore } from '@/store/modules/app';
 import { $t } from '@/locales';
 import DarkMode from './modules/dark-mode.vue';
@@ -16,28 +15,17 @@ const appStore = useAppStore();
 </script>
 
 <template>
-  <ADrawer
-    :open="appStore.themeDrawerVisible"
-    :title="$t('theme.themeDrawerTitle')"
-    :closable="false"
-    :body-style="{ padding: '0px' }"
-    @close="appStore.closeThemeDrawer"
-  >
-    <template #extra>
-      <ButtonIcon icon="ant-design:close-outlined" class="h-28px" @click="appStore.closeThemeDrawer" />
-    </template>
-    <SimpleScrollbar>
-      <div class="pt-8px pb-24px px-24px">
-        <DarkMode />
-        <LayoutMode />
-        <ThemeColor />
-        <PageFun />
-      </div>
-    </SimpleScrollbar>
-    <template #footer>
-      <ConfigOperation />
-    </template>
-  </ADrawer>
+  <NDrawer v-model:show="appStore.themeDrawerVisible" display-directive="show" :width="360">
+    <NDrawerContent :title="$t('theme.themeDrawerTitle')" :native-scrollbar="false" closable>
+      <DarkMode />
+      <LayoutMode />
+      <ThemeColor />
+      <PageFun />
+      <template #footer>
+        <ConfigOperation />
+      </template>
+    </NDrawerContent>
+  </NDrawer>
 </template>
 
 <style scoped></style>

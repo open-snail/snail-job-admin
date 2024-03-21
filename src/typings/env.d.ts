@@ -25,14 +25,20 @@ declare namespace Env {
      * This prefix is start with the icon prefix
      */
     readonly VITE_ICON_LOCAL_PREFIX: 'local-icon';
+    /** backend service base url */
+    readonly VITE_SERVICE_BASE_URL: string;
+    /**
+     * other backend service base url
+     *
+     * the value is a json
+     */
+    readonly VITE_OTHER_SERVICE_BASE_URL: string;
     /**
      * Whether to enable the http proxy
      *
      * Only valid in the development environment
      */
-    readonly VITE_HTTP_PROXY?: Common.YesOrNo;
-    /** The back service env */
-    readonly VITE_SERVICE_ENV?: App.Service.EnvType;
+    readonly VITE_HTTP_PROXY?: CommonType.YesOrNo;
     /**
      * The auth route mode
      *
@@ -54,7 +60,7 @@ declare namespace Env {
      */
     readonly VITE_MENU_ICON: string;
     /** Whether to build with sourcemap */
-    readonly VITE_SOURCE_MAP?: Common.YesOrNo;
+    readonly VITE_SOURCE_MAP?: CommonType.YesOrNo;
     /**
      * Iconify api provider url
      *

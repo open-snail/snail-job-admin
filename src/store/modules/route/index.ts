@@ -19,6 +19,7 @@ import {
   getSelectedMenuKeyPathByKey,
   isRouteExistByRouteName,
   sortRoutesByOrder,
+  transformMenuToSearchMenus,
   updateLocaleOfGlobalMenus
 } from './shared';
 
@@ -52,6 +53,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
   /** Global menus */
   const menus = ref<App.Global.Menu[]>([]);
+  const searchMenus = computed(() => transformMenuToSearchMenus(menus.value));
 
   /** Get global menus */
   function getGlobalMenus(routes: ElegantConstRoute[]) {
@@ -194,7 +196,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
     addRoutesToVueRouter(vueRoutes);
 
-    getGlobalMenus(routes);
+    getGlobalMenus(sortRoutes);
 
     getCacheRoutes(vueRoutes);
   }
@@ -271,10 +273,23 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     return getSelectedMenuKeyPathByKey(selectedKey, menus.value);
   }
 
+  /**
+   * Get selected menu meta by key
+   *
+   * @param selectedKey Selected menu key
+   */
+  function getSelectedMenuMetaByKey(selectedKey: string) {
+    // The routes in router.options.routes are static, you need to use router.getRoutes() to get all the routes.
+    const allRoutes = router.getRoutes();
+
+    return allRoutes.find(route => route.name === selectedKey)?.meta || null;
+  }
+
   return {
     resetStore,
     routeHome,
     menus,
+    searchMenus,
     updateGlobalMenusByLocale,
     cacheRoutes,
     reCacheRoutesByKey,
@@ -284,6 +299,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     isInitAuthRoute,
     setIsInitAuthRoute,
     getIsAuthRouteExist,
-    getSelectedMenuKeyPath
+    getSelectedMenuKeyPath,
+    getSelectedMenuMetaByKey
   };
 });

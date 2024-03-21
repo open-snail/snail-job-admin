@@ -22,22 +22,19 @@ const newses = computed<NewsItem[]>(() => [
 </script>
 
 <template>
-  <ACard :title="$t('page.home.projectNews.title')" :bordered="false" size="small" class="card-wrapper">
-    <template #extra>
+  <NCard :title="$t('page.home.projectNews.title')" :bordered="false" size="small" segmented class="card-wrapper">
+    <template #header-extra>
       <a class="text-primary" href="javascript:;">{{ $t('page.home.projectNews.moreNews') }}</a>
     </template>
-    <AList :data-source="newses">
-      <template #renderItem="{ item }">
-        <AListItem>
-          <AListItemMeta :title="item.content" :description="item.time">
-            <template #avatar>
-              <SoybeanAvatar class="size-48px!" />
-            </template>
-          </AListItemMeta>
-        </AListItem>
-      </template>
-    </AList>
-  </ACard>
+    <NList>
+      <NListItem v-for="item in newses" :key="item.id">
+        <template #prefix>
+          <SoybeanAvatar class="size-48px!" />
+        </template>
+        <NThing :title="item.content" :description="item.time" />
+      </NListItem>
+    </NList>
+  </NCard>
 </template>
 
 <style scoped></style>

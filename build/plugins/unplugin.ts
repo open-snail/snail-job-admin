@@ -4,7 +4,7 @@ import type { PluginOption } from 'vite';
 import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import Components from 'unplugin-vue-components/vite';
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import { AntDesignVueResolver, NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
@@ -34,6 +34,7 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
         AntDesignVueResolver({
           importStyle: false
         }),
+        NaiveUiResolver(),
         IconsResolver({ customCollections: [collectionName], componentPrefix: VITE_ICON_PREFIX })
       ]
     }),

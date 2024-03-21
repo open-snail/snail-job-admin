@@ -29,12 +29,12 @@ const icon = computed(() => iconMap[props.type]);
 </script>
 
 <template>
-  <div class="flex-vertical-center gap-24px min-h-520px wh-full overflow-hidden">
+  <div class="size-full min-h-520px flex-vertical-center gap-24px overflow-hidden">
     <div class="flex text-400px text-primary">
       <SvgIcon :local-icon="icon" />
     </div>
     <RouterLink to="/">
-      <AButton type="primary">{{ $t('common.backToHome') }}</AButton>
+      <NButton type="primary">{{ $t('common.backToHome') }}</NButton>
     </RouterLink>
   </div>
 </template>

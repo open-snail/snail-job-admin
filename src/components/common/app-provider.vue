@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createTextVNode, defineComponent } from 'vue';
-import { App } from 'ant-design-vue';
+import { useDialog, useLoadingBar, useMessage, useNotification } from 'naive-ui';
 
 defineOptions({
   name: 'AppProvider'
@@ -9,12 +9,11 @@ defineOptions({
 const ContextHolder = defineComponent({
   name: 'ContextHolder',
   setup() {
-    const { message, modal, notification } = App.useApp();
-
     function register() {
-      window.$message = message;
-      window.$modal = modal;
-      window.$notification = notification;
+      window.$loadingBar = useLoadingBar();
+      window.$dialog = useDialog();
+      window.$message = useMessage();
+      window.$notification = useNotification();
     }
 
     register();
@@ -25,10 +24,16 @@ const ContextHolder = defineComponent({
 </script>
 
 <template>
-  <App class="h-full">
-    <ContextHolder />
-    <slot></slot>
-  </App>
+  <NLoadingBarProvider>
+    <NDialogProvider>
+      <NNotificationProvider>
+        <NMessageProvider>
+          <ContextHolder />
+          <slot></slot>
+        </NMessageProvider>
+      </NNotificationProvider>
+    </NDialogProvider>
+  </NLoadingBarProvider>
 </template>
 
 <style scoped></style>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
-import type { TooltipPlacement } from 'ant-design-vue/es/tooltip';
+import type { PopoverPlacement } from 'naive-ui';
 
 defineOptions({
   name: 'ButtonIcon',
@@ -16,17 +16,14 @@ interface Props {
   /** Tooltip content */
   tooltipContent?: string;
   /** Tooltip placement */
-  tooltipPlacement?: TooltipPlacement;
-  /** Trigger tooltip on parent */
-  triggerParent?: boolean;
+  tooltipPlacement?: PopoverPlacement;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   class: 'h-36px text-icon',
   icon: '',
   tooltipContent: '',
-  tooltipPlacement: 'bottom',
-  triggerParent: false
+  tooltipPlacement: 'bottom'
 });
 
 interface ButtonProps {
@@ -48,35 +45,29 @@ const cls = computed(() => {
 
   return clsStr;
 });
-
-function getPopupContainer(triggerNode: HTMLElement) {
-  return props.triggerParent ? triggerNode.parentElement! : document.body;
-}
 </script>
 
 <template>
   <!-- define component: Button -->
   <DefineButton v-slot="{ $slots, className }">
-    <AButton type="text" :class="className">
+    <NButton quaternary :class="className">
       <div class="flex-center gap-8px">
         <component :is="$slots.default" />
       </div>
-    </AButton>
+    </NButton>
   </DefineButton>
 
   <!-- template -->
-  <ATooltip
-    v-if="tooltipContent"
-    :placement="tooltipPlacement"
-    :get-popup-container="getPopupContainer"
-    :title="tooltipContent"
-  >
-    <Button :class-name="cls" v-bind="$attrs">
-      <slot>
-        <SvgIcon :icon="icon" />
-      </slot>
-    </Button>
-  </ATooltip>
+  <NTooltip v-if="tooltipContent" :placement="tooltipPlacement" :z-index="98">
+    <template #trigger>
+      <Button :class-name="cls" v-bind="$attrs">
+        <slot>
+          <SvgIcon :icon="icon" />
+        </slot>
+      </Button>
+    </template>
+    {{ tooltipContent }}
+  </NTooltip>
   <Button v-else :class-name="cls" v-bind="$attrs">
     <slot>
       <SvgIcon :icon="icon" />

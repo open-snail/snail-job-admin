@@ -85,7 +85,7 @@ export function getGlobalMenusByAuthRoutes(routes: ElegantConstRoute[]) {
     if (!route.meta?.hideInMenu) {
       const menu = getGlobalMenuByBaseRoute(route);
 
-      if (route.children?.length) {
+      if (route.children?.some(child => !child.meta?.hideInMenu)) {
         menu.children = getGlobalMenusByAuthRoutes(route.children);
       }
 
@@ -111,8 +111,7 @@ export function updateLocaleOfGlobalMenus(menus: App.Global.Menu[]) {
 
     const newMenu: App.Global.Menu = {
       ...menu,
-      label: newLabel,
-      title: newLabel
+      label: newLabel
     };
 
     if (children?.length) {
@@ -144,8 +143,7 @@ function getGlobalMenuByBaseRoute(route: RouteLocationNormalizedLoaded | Elegant
     i18nKey,
     routeKey: name as RouteKey,
     routePath: path as RouteMap[RouteKey],
-    icon: SvgIconVNode({ icon, localIcon, fontSize: 20 }),
-    title: label
+    icon: SvgIconVNode({ icon, localIcon, fontSize: 20 })
   };
 
   return menu;
@@ -262,6 +260,25 @@ function findMenuPath(targetKey: string, menu: App.Global.Menu): string[] | null
 }
 
 /**
+ * Transform menu to breadcrumb
+ *
+ * @param menu
+ */
+function transformMenuToBreadcrumb(menu: App.Global.Menu) {
+  const { children, ...rest } = menu;
+
+  const breadcrumb: App.Global.Breadcrumb = {
+    ...rest
+  };
+
+  if (children?.length) {
+    breadcrumb.options = children.map(transformMenuToBreadcrumb);
+  }
+
+  return breadcrumb;
+}
+
+/**
  * Get breadcrumbs by route
  *
  * @param route
@@ -270,7 +287,7 @@ function findMenuPath(targetKey: string, menu: App.Global.Menu): string[] | null
 export function getBreadcrumbsByRoute(
   route: RouteLocationNormalizedLoaded,
   menus: App.Global.Menu[]
-): App.Global.Menu[] {
+): App.Global.Breadcrumb[] {
   const key = route.name as string;
   const activeKey = route.meta?.activeMenu;
 
@@ -278,18 +295,37 @@ export function getBreadcrumbsByRoute(
 
   for (const menu of menus) {
     if (menu.key === menuKey) {
-      const breadcrumb = menuKey !== activeKey ? menu : getGlobalMenuByBaseRoute(route);
+      const breadcrumbMenu = menuKey !== activeKey ? menu : getGlobalMenuByBaseRoute(route);
 
-      return [breadcrumb];
+      return [transformMenuToBreadcrumb(breadcrumbMenu)];
     }
 
     if (menu.children?.length) {
       const result = getBreadcrumbsByRoute(route, menu.children);
       if (result.length > 0) {
-        return [menu, ...result];
+        return [transformMenuToBreadcrumb(menu), ...result];
       }
     }
   }
 
   return [];
+}
+
+/**
+ * Transform menu to searchMenus
+ *
+ * @param menus - menus
+ * @param treeMap
+ */
+export function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: App.Global.Menu[] = []) {
+  if (menus && menus.length === 0) return [];
+  return menus.reduce((acc, cur) => {
+    if (!cur.children) {
+      acc.push(cur);
+    }
+    if (cur.children && cur.children.length > 0) {
+      transformMenuToSearchMenus(cur.children, treeMap);
+    }
+    return acc;
+  }, treeMap);
 }

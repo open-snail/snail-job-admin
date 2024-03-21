@@ -161,15 +161,17 @@ declare namespace App {
       routePath: RoutePath;
       /** The menu icon */
       icon?: () => VNode;
-      /** The tooltip title */
-      title?: string;
       /** The menu children */
       children?: Menu[];
     }
 
+    type Breadcrumb = Omit<Menu, 'children'> & {
+      options?: Breadcrumb[];
+    };
+
     /** Tab route */
     type TabRoute = Pick<RouteLocationNormalizedLoaded, 'name' | 'path' | 'meta'> &
-      Partial<Pick<RouteLocationNormalizedLoaded, 'fullPath' | 'query'>>;
+      Partial<Pick<RouteLocationNormalizedLoaded, 'fullPath' | 'query' | 'matched'>>;
 
     /** The global tab */
     type Tab = {
@@ -214,7 +216,7 @@ declare namespace App {
     };
 
     /** Form rule */
-    type FormRule = import('ant-design-vue/es/form/interface.d.ts').Rule;
+    type FormRule = import('naive-ui').FormItemRule;
 
     /** The global dropdown key */
     type DropdownKey = 'closeCurrent' | 'closeOther' | 'closeLeft' | 'closeRight' | 'closeAll';
@@ -247,23 +249,42 @@ declare namespace App {
         title: string;
       };
       common: {
-        tip: string;
+        action: string;
         add: string;
         addSuccess: string;
-        edit: string;
-        editSuccess: string;
+        backToHome: string;
+        batchDelete: string;
+        cancel: string;
+        close: string;
+        check: string;
+        columnSetting: string;
+        confirm: string;
         delete: string;
         deleteSuccess: string;
-        batchDelete: string;
-        confirm: string;
-        cancel: string;
-        pleaseCheckValue: string;
-        action: string;
-        backToHome: string;
-        lookForward: string;
-        userCenter: string;
+        confirmDelete: string;
+        edit: string;
+        index: string;
+        keywordSearch: string;
         logout: string;
         logoutConfirm: string;
+        lookForward: string;
+        modify: string;
+        modifySuccess: string;
+        noData: string;
+        operate: string;
+        pleaseCheckValue: string;
+        refresh: string;
+        reset: string;
+        search: string;
+        switch: string;
+        tip: string;
+        update: string;
+        updateSuccess: string;
+        userCenter: string;
+        yesOrNo: {
+          yes: string;
+          no: string;
+        };
       };
       theme: {
         themeSchema: { title: string } & Record<UnionKey.ThemeScheme, string>;
@@ -426,8 +447,117 @@ declare namespace App {
             backTab: string;
           };
         };
+        manage: {
+          common: {
+            status: {
+              enable: string;
+              disable: string;
+            };
+          };
+          role: {
+            title: string;
+            roleName: string;
+            roleCode: string;
+            roleStatus: string;
+            roleDesc: string;
+            form: {
+              roleName: string;
+              roleCode: string;
+              roleStatus: string;
+              roleDesc: string;
+            };
+            addRole: string;
+            editRole: string;
+          };
+          user: {
+            title: string;
+            userName: string;
+            userGender: string;
+            nickName: string;
+            userPhone: string;
+            userEmail: string;
+            userStatus: string;
+            userRole: string;
+            form: {
+              userName: string;
+              userGender: string;
+              nickName: string;
+              userPhone: string;
+              userEmail: string;
+              userStatus: string;
+              userRole: string;
+            };
+            addUser: string;
+            editUser: string;
+            gender: {
+              male: string;
+              female: string;
+            };
+          };
+          menu: {
+            title: string;
+            id: string;
+            parentId: string;
+            menuType: string;
+            menuName: string;
+            routeName: string;
+            routePath: string;
+            page: string;
+            layout: string;
+            i18nKey: string;
+            icon: string;
+            localIcon: string;
+            iconTypeTitle: string;
+            order: string;
+            keepAlive: string;
+            href: string;
+            hideInMenu: string;
+            activeMenu: string;
+            multiTab: string;
+            fixedIndexInTab: string;
+            button: string;
+            buttonCode: string;
+            buttonDesc: string;
+            menuStatus: string;
+            form: {
+              menuType: string;
+              menuName: string;
+              routeName: string;
+              routePath: string;
+              page: string;
+              layout: string;
+              i18nKey: string;
+              icon: string;
+              localIcon: string;
+              order: string;
+              keepAlive: string;
+              href: string;
+              hideInMenu: string;
+              activeMenu: string;
+              multiTab: string;
+              fixedInTab: string;
+              fixedIndexInTab: string;
+              button: string;
+              buttonCode: string;
+              buttonDesc: string;
+              menuStatus: string;
+            };
+            addMenu: string;
+            editMenu: string;
+            addChildMenu: string;
+            type: {
+              directory: string;
+              menu: string;
+            };
+            iconType: {
+              iconify: string;
+              local: string;
+            };
+          };
+        };
       };
       form: {
+        required: string;
         userName: FormMsg;
         phone: FormMsg;
         pwd: FormMsg;
@@ -462,8 +592,8 @@ declare namespace App {
     interface $T {
       (key: I18nKey): string;
       (key: I18nKey, plural: number, options?: TranslateOptions<LangType>): string;
-      (key: I18nKey, defaultMsg: string, options?: TranslateOptions<LangType>): string;
-      (key: I18nKey, list: unknown[], options?: TranslateOptions<LangType>): string;
+      (key: I18nKey, defaultMsg: string, options?: TranslateOptions<I18nKey>): string;
+      (key: I18nKey, list: unknown[], options?: TranslateOptions<I18nKey>): string;
       (key: I18nKey, list: unknown[], plural: number): string;
       (key: I18nKey, list: unknown[], defaultMsg: string): string;
       (key: I18nKey, named: Record<string, unknown>, options?: TranslateOptions<LangType>): string;
@@ -474,22 +604,29 @@ declare namespace App {
 
   /** Service namespace */
   namespace Service {
-    /** The backend service env type */
-    type EnvType = 'dev' | 'test' | 'prod';
-
     /** Other baseURL key */
     type OtherBaseURLKey = 'demo';
 
-    /** The backend service config */
-    interface ServiceConfig<T extends OtherBaseURLKey = OtherBaseURLKey> {
+    interface ServiceConfigItem {
       /** The backend service base url */
       baseURL: string;
-      /** Other backend service base url map */
-      otherBaseURL: Record<T, string>;
+      /** The proxy pattern of the backend service base url */
+      proxyPattern: string;
     }
 
-    /** The backend service config map */
-    type ServiceConfigMap = Record<EnvType, ServiceConfig>;
+    interface OtherServiceConfigItem extends ServiceConfigItem {
+      key: OtherBaseURLKey;
+    }
+
+    /** The backend service config */
+    interface ServiceConfig extends ServiceConfigItem {
+      /** Other backend service config */
+      other: OtherServiceConfigItem[];
+    }
+
+    interface SimpleServiceConfig extends Pick<ServiceConfigItem, 'baseURL'> {
+      other: Record<OtherBaseURLKey, string>;
+    }
 
     /** The backend service response data */
     type Response<T = unknown> = {

@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { useEventListener, usePreferredColorScheme } from '@vueuse/core';
 import { SetupStoreId } from '@/enum';
 import { localStg } from '@/utils/storage';
-import { addThemeVarsToHtml, createThemeToken, getAntdTheme, initThemeSettings, toggleCssDarkMode } from './shared';
+import { addThemeVarsToHtml, createThemeToken, getNaiveTheme, initThemeSettings, toggleCssDarkMode } from './shared';
 
 /** Theme store */
 export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
@@ -14,12 +14,13 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
   /** Theme settings */
   const settings: Ref<App.Theme.ThemeSetting> = ref(initThemeSettings());
 
-  /** Reset store */
-  function resetStore() {
-    const themeStore = useThemeStore();
-
-    themeStore.$reset();
-  }
+  /** Dark mode */
+  const darkMode = computed(() => {
+    if (settings.value.themeScheme === 'auto') {
+      return osTheme.value === 'dark';
+    }
+    return settings.value.themeScheme === 'dark';
+  });
 
   /** Theme colors */
   const themeColors = computed(() => {
@@ -32,16 +33,8 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
     return colors;
   });
 
-  /** Dark mode */
-  const darkMode = computed(() => {
-    if (settings.value.themeScheme === 'auto') {
-      return osTheme.value === 'dark';
-    }
-    return settings.value.themeScheme === 'dark';
-  });
-
-  /** Antd theme */
-  const antdTheme = computed(() => getAntdTheme(themeColors.value, darkMode.value));
+  /** Naive theme */
+  const naiveTheme = computed(() => getNaiveTheme(themeColors.value));
 
   /**
    * Settings json
@@ -49,6 +42,13 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
    * It is for copy settings
    */
   const settingsJson = computed(() => JSON.stringify(settings.value));
+
+  /** Reset store */
+  function resetStore() {
+    const themeStore = useThemeStore();
+
+    themeStore.$reset();
+  }
 
   /**
    * Set theme scheme
@@ -73,15 +73,6 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
   }
 
   /**
-   * Set theme layout
-   *
-   * @param mode Theme layout mode
-   */
-  function setThemeLayout(mode: UnionKey.ThemeLayoutMode) {
-    settings.value.layout.mode = mode;
-  }
-
-  /**
    * Update theme colors
    *
    * @param key Theme color key
@@ -93,6 +84,15 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
     } else {
       settings.value.otherColor[key] = color;
     }
+  }
+
+  /**
+   * Set theme layout
+   *
+   * @param mode Theme layout mode
+   */
+  function setThemeLayout(mode: UnionKey.ThemeLayoutMode) {
+    settings.value.layout.mode = mode;
   }
 
   /** Setup theme vars to html */
@@ -145,13 +145,13 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
 
   return {
     ...toRefs(settings.value),
-    resetStore,
-    settingsJson,
     darkMode,
     themeColors,
-    antdTheme,
-    toggleThemeScheme,
+    naiveTheme,
+    settingsJson,
+    resetStore,
     setThemeScheme,
+    toggleThemeScheme,
     updateThemeColors,
     setThemeLayout
   };

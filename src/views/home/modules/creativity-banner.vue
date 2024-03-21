@@ -7,17 +7,11 @@ defineOptions({
 </script>
 
 <template>
-  <ACard
-    :title="$t('page.home.creativity')"
-    :bordered="false"
-    size="small"
-    class="card-wrapper flex-vertical-stretch h-full"
-    :body-style="{ flex: 1, overflow: 'hidden' }"
-  >
-    <div class="flex-center h-full">
-      <IconLocalBanner class="text-400px sm:text-320px text-primary" />
+  <NCard :title="$t('page.home.creativity')" :bordered="false" size="small" class="h-full card-wrapper">
+    <div class="h-full flex-center">
+      <IconLocalBanner class="text-400px text-primary sm:text-320px" />
     </div>
-  </ACard>
+  </NCard>
 </template>
 
 <style scoped></style>

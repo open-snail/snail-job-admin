@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { TooltipPlacement } from 'ant-design-vue/es/tooltip';
+import type { PopoverPlacement } from 'naive-ui';
 import { $t } from '@/locales';
 
 defineOptions({ name: 'ThemeSchemaSwitch' });
@@ -11,7 +11,7 @@ interface Props {
   /** Show tooltip */
   showTooltip?: boolean;
   /** Tooltip placement */
-  tooltipPlacement?: TooltipPlacement;
+  tooltipPlacement?: PopoverPlacement;
 }
 
 const props = withDefaults(defineProps<Props>(), {

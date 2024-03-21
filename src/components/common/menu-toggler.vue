@@ -36,11 +36,7 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <ButtonIcon
-    :tooltip-content="collapsed ? $t('icon.expand') : $t('icon.collapse')"
-    tooltip-placement="bottomLeft"
-    trigger-parent
-  >
+  <ButtonIcon :tooltip-content="collapsed ? $t('icon.expand') : $t('icon.collapse')" tooltip-placement="bottom-start">
     <SvgIcon :icon="icon" />
   </ButtonIcon>
 </template>
