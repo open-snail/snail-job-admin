@@ -2,7 +2,7 @@
 import { getRgbOfColor } from '@sa/utils';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
-import systemLogo from '@/assets/svg-icon/logo.svg?raw';
+import systemLogo from '@/assets/svg-icon/full-logo.svg?raw';
 
 export function setupLoading() {
   const themeColor = localStg.get('themeColor') || '#646cff';
@@ -18,7 +18,7 @@ export function setupLoading() {
     'right-0 bottom-0 animate-delay-1500'
   ];
 
-  const logoWithClass = systemLogo.replace('<svg', `<svg class="size-128px text-primary"`);
+  const logoWithClass = systemLogo.replace('<svg', `<svg class="size-256px text-primary"`);
 
   const dot = loadingClasses
     .map(item => {
@@ -34,7 +34,7 @@ export function setupLoading() {
       ${dot}
     </div>
   </div>
-  <h2 class="text-28px font-500 text-#646464">${$t('system.title')}</h2>
+  <h2 class="text-26px font-500 pt-32px text-#646464">${$t('system.desc')}</h2>
 </div>`;
 
   const app = document.getElementById('app');

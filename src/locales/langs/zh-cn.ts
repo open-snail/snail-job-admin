@@ -1,6 +1,7 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'Soybean 管理系统'
+    title: 'Easy Retry',
+    desc: '灵活，可靠和快速的分布式任务重试和分布式任务调度平台'
   },
   common: {
     action: '操作',
@@ -35,6 +36,10 @@ const local: App.I18n.Schema = {
     update: '更新',
     updateSuccess: '更新成功',
     userCenter: '个人中心',
+    success: '成功',
+    fail: '失败',
+    stop: '停止',
+    running: '运行中',
     yesOrNo: {
       yes: '是',
       no: '否'
@@ -163,6 +168,7 @@ const local: App.I18n.Schema = {
         passwordPlaceholder: '请输入密码',
         confirmPasswordPlaceholder: '请再次输入密码',
         codeLogin: '验证码登录',
+        login: '登录',
         confirm: '确定',
         back: '返回',
         validateSuccess: '验证成功',
@@ -212,8 +218,26 @@ const local: App.I18n.Schema = {
       devDep: '开发依赖'
     },
     home: {
-      greeting: '早安，{userName}, 今天又是充满活力的一天!',
+      Greeting: '{userName}，欢迎回来！',
+      morningGreeting: '早安，{userName}，今天又是充满活力的一天！',
+      bthGreeting: '上午好，{userName}，工作顺利吗，不要久坐，多起来走动走动哦！',
+      noonGreeting: '中午好，{userName}，工作了一个上午，现在是午餐时间！',
+      athGreeting: '下午好，{userName}，午后很容易犯困呢，是时候该打个盹了!',
+      duskGreeting: '{userName}，傍晚了，窗外夕阳的景色很美丽呢，最美不过夕阳红~',
+      eveningGreeting: '晚上好，{userName}，今天过得怎么样？请注意早点休息！',
+      earlyMorningGreeting: '{userName}，已经这么晚了呀，早点休息吧，晚安~',
       weatherDesc: '今日多云转晴，20℃ - 25℃!',
+      retryTaskCount: '重试任务',
+      jobTaskCount: '定时任务',
+      userCount: '用户',
+      retryTask: '重试任务',
+      retryTaskTip: '总任务量: 重试/回调任务量',
+      jobTask: '定时任务',
+      jobTaskTip: '成功率:总完成/总调度量',
+      onlineServiceCount: '总在线机器',
+      onlineServiceTip: '总在线机器:注册到系统的客户端和服务端之和',
+      workflow: '工作流',
+      workflowTip: '工作流提示',
       projectCount: '项目数',
       todo: '待办',
       message: '消息',
@@ -269,6 +293,18 @@ const local: App.I18n.Schema = {
         status: {
           enable: '启用',
           disable: '禁用'
+        }
+      },
+      machine: {
+        type: {
+          client: '客户端',
+          server: '服务端'
+        }
+      },
+      retryTask: {
+        status: {
+          maxRetryTimes: '最大重试次数',
+          pauseRetry: '暂停重试'
         }
       },
       role: {

@@ -247,6 +247,7 @@ declare namespace App {
     type Schema = {
       system: {
         title: string;
+        desc: string;
       };
       common: {
         action: string;
@@ -281,6 +282,10 @@ declare namespace App {
         update: string;
         updateSuccess: string;
         userCenter: string;
+        success: string;
+        fail: string;
+        stop: string;
+        running: string;
         yesOrNo: {
           yes: string;
           no: string;
@@ -346,6 +351,7 @@ declare namespace App {
             passwordPlaceholder: string;
             confirmPasswordPlaceholder: string;
             codeLogin: string;
+            login: string;
             confirm: string;
             back: string;
             validateSuccess: string;
@@ -395,7 +401,25 @@ declare namespace App {
           devDep: string;
         };
         home: {
-          greeting: string;
+          Greeting: string;
+          morningGreeting: string;
+          bthGreeting: string;
+          noonGreeting: string;
+          athGreeting: string;
+          duskGreeting: string;
+          eveningGreeting: string;
+          earlyMorningGreeting: string;
+          retryTaskCount: string;
+          jobTaskCount: string;
+          userCount: string;
+          retryTask: string;
+          retryTaskTip: string;
+          jobTask: string;
+          jobTaskTip: string;
+          onlineServiceCount: string;
+          onlineServiceTip: string;
+          workflow: string;
+          workflowTip: string;
           weatherDesc: string;
           projectCount: string;
           todo: string;
@@ -452,6 +476,18 @@ declare namespace App {
             status: {
               enable: string;
               disable: string;
+            };
+          };
+          machine: {
+            type: {
+              client: string;
+              server: string;
+            };
+          };
+          retryTask: {
+            status: {
+              maxRetryTimes: string;
+              pauseRetry: string;
             };
           };
           role: {

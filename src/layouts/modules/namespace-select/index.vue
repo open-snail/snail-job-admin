@@ -16,9 +16,7 @@ const options = ref(
 
 const onChange = (value: string) => {
   localStg.set('namespaceId', value);
-  setTimeout(() => {
-    router.go(0);
-  }, 500);
+  router.go(0);
 };
 </script>
 

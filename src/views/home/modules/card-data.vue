@@ -7,62 +7,138 @@ defineOptions({
   name: 'CardData'
 });
 
+interface Props {
+  modelValue: Api.Dashboard.CardCount;
+}
+
+const props = defineProps<Props>();
+
 interface CardData {
   key: string;
   title: string;
+  tip: string;
   value: number;
-  unit: string;
   color: {
     start: string;
     end: string;
   };
   icon: string;
+  bottom: { label: string; value: number }[];
 }
+
+console.log(props.modelValue);
 
 const cardData = computed<CardData[]>(() => [
   {
-    key: 'visitCount',
-    title: $t('page.home.visitCount'),
-    value: 9725,
+    key: 'retryTask',
+    title: $t('page.home.retryTask'),
+    tip: $t('page.home.retryTaskTip'),
+    value: props.modelValue?.retryTask.totalNum ?? 0,
     unit: '',
     color: {
-      start: '#ec4786',
-      end: '#b955a4'
+      start: '#40e9c5',
+      end: '#BEE3DB'
     },
-    icon: 'ant-design:bar-chart-outlined'
+    icon: 'ant-design:schedule-outlined',
+    bottom: [
+      {
+        label: $t('common.success'),
+        value: props.modelValue?.retryTask.finishNum ?? 0
+      },
+      {
+        label: $t('common.running'),
+        value: props.modelValue?.retryTask.runningNum ?? 0
+      },
+      {
+        label: $t('page.manage.retryTask.status.maxRetryTimes'),
+        value: props.modelValue?.retryTask.maxCountNum ?? 0
+      },
+      {
+        label: $t('page.manage.retryTask.status.pauseRetry'),
+        value: props.modelValue?.retryTask.suspendNum ?? 0
+      }
+    ]
   },
   {
-    key: 'turnover',
-    title: $t('page.home.turnover'),
-    value: 1026,
-    unit: '$',
+    key: 'jobTask',
+    title: $t('page.home.jobTask'),
+    tip: $t('page.home.jobTaskTip'),
+    value: props.modelValue?.jobTask.totalNum ?? 0,
     color: {
-      start: '#865ec0',
-      end: '#5144b4'
+      start: '#f5b386',
+      end: '#FFD6BA'
     },
-    icon: 'ant-design:money-collect-outlined'
+    icon: 'ant-design:profile-outlined',
+    bottom: [
+      {
+        label: $t('common.success'),
+        value: props.modelValue?.jobTask.successNum ?? 0
+      },
+      {
+        label: $t('common.fail'),
+        value: props.modelValue?.jobTask.failNum ?? 0
+      },
+      {
+        label: $t('common.stop'),
+        value: props.modelValue?.jobTask.stopNum ?? 0
+      },
+      {
+        label: $t('common.cancel'),
+        value: props.modelValue?.jobTask.cancelNum ?? 0
+      }
+    ]
   },
   {
-    key: 'downloadCount',
-    title: $t('page.home.downloadCount'),
-    value: 970925,
+    key: 'onlineServiceCount',
+    title: $t('page.home.onlineServiceCount'),
+    tip: $t('page.home.onlineServiceTip'),
+    value: props.modelValue?.onLineService.total ?? 0,
     unit: '',
     color: {
-      start: '#56cdf3',
-      end: '#719de3'
+      start: '#b686d4',
+      end: '#c5a5d8'
     },
-    icon: 'carbon:document-download'
+    icon: 'ant-design:database-outlined',
+    bottom: [
+      {
+        label: $t('page.manage.machine.type.client'),
+        value: props.modelValue?.onLineService.clientTotal ?? 0
+      },
+      {
+        label: $t('page.manage.machine.type.server'),
+        value: props.modelValue?.onLineService.serverTotal ?? 0
+      }
+    ]
   },
   {
-    key: 'dealCount',
-    title: $t('page.home.dealCount'),
-    value: 9527,
+    key: 'workflow',
+    title: $t('page.home.workflow'),
+    tip: $t('page.home.workflowTip'),
+    value: 7,
     unit: '',
     color: {
-      start: '#fcbc25',
-      end: '#f68057'
+      start: '#ec6f6f',
+      end: '#f99797'
     },
-    icon: 'ant-design:trademark-circle-outlined'
+    icon: 'ant-design:database-outlined',
+    bottom: [
+      {
+        label: $t('common.success'),
+        value: 185
+      },
+      {
+        label: $t('common.fail'),
+        value: 37
+      },
+      {
+        label: $t('common.stop'),
+        value: 5
+      },
+      {
+        label: $t('common.cancel'),
+        value: 13
+      }
+    ]
   }
 ]);
 
@@ -89,21 +165,45 @@ function getGradientColor(color: CardData['color']) {
 
     <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
       <NGi v-for="item in cardData" :key="item.key">
-        <GradientBg :gradient-color="getGradientColor(item.color)" class="flex-1">
-          <h3 class="text-16px">{{ item.title }}</h3>
-          <div class="flex justify-between pt-12px">
-            <SvgIcon :icon="item.icon" class="text-32px" />
-            <CountTo
-              :prefix="item.unit"
-              :start-value="1"
-              :end-value="item.value"
-              class="text-30px text-white dark:text-dark"
-            />
-          </div>
-        </GradientBg>
+        <NSpin :show="false">
+          <GradientBg :gradient-color="getGradientColor(item.color)" class="h-165px flex-1">
+            <div class="flex justify-between">
+              <div class="align-center flex">
+                <SvgIcon :icon="item.icon" class="text-26px" />
+                <h3 class="ml-2 text-18px">{{ item.title }}</h3>
+              </div>
+              <NPopover trigger="hover">
+                <template #trigger>
+                  <NButton text>
+                    <SvgIcon icon="ant-design:info-circle-outlined" class="text-20px color-white" />
+                  </NButton>
+                </template>
+                {{ item.tip }}
+              </NPopover>
+            </div>
+            <div class="flex pt-12px">
+              <CountTo :start-value="0" :end-value="item.value" class="text-30px text-white" />
+            </div>
+            <NProgress type="line" color="#728bf9" rail-color="#ebebeb" :percentage="30" indicator-text-color="#fff" />
+            <NDivider />
+            <template v-for="(bottomItem, bottomIndex) in item.bottom" :key="bottomIndex">
+              <NDivider v-if="bottomIndex !== 0" vertical />
+              {{ bottomItem.label }}
+              <CountTo :start-value="0" :end-value="bottomItem.value" class="text-white" />
+            </template>
+          </GradientBg>
+        </NSpin>
       </NGi>
     </NGrid>
   </NCard>
 </template>
 
-<style scoped></style>
+<style scoped>
+.n-divider {
+  margin: 16px 0 6px;
+}
+
+.n-divider--vertical {
+  margin: 0 1px 0 5px;
+}
+</style>

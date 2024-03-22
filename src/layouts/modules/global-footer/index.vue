@@ -2,12 +2,14 @@
 defineOptions({
   name: 'GlobalFooter'
 });
+
+const { VITE_APP_VERSION } = import.meta.env;
 </script>
 
 <template>
   <DarkModeContainer class="h-full flex-center">
-    <a href="https://github.com/soybeanjs/soybean-admin/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
-      Copyright MIT © 2021 Soybean
+    <a href="https://www.easyretry.com/" target="_blank" rel="noopener noreferrer">
+      Copyright © 2024 Easy Retry {{ VITE_APP_VERSION }}
     </a>
   </DarkModeContainer>
 </template>

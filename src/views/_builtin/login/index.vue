@@ -3,14 +3,11 @@ import { computed } from 'vue';
 import type { Component } from 'vue';
 import { getColorPalette, mixColor } from '@sa/utils';
 import { $t } from '@/locales';
+import GlobalFooter from '@/layouts/modules/global-footer/index.vue';
 import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
 import { loginModuleRecord } from '@/constants/app';
 import PwdLogin from './modules/pwd-login.vue';
-import CodeLogin from './modules/code-login.vue';
-import Register from './modules/register.vue';
-import ResetPwd from './modules/reset-pwd.vue';
-import BindWechat from './modules/bind-wechat.vue';
 
 interface Props {
   /** The login module */
@@ -21,6 +18,8 @@ const props = withDefaults(defineProps<Props>(), {
   module: 'pwd-login'
 });
 
+const { VITE_APP_VERSION } = import.meta.env;
+
 const appStore = useAppStore();
 const themeStore = useThemeStore();
 
@@ -30,13 +29,7 @@ interface LoginModule {
   component: Component;
 }
 
-const modules: LoginModule[] = [
-  { key: 'pwd-login', label: loginModuleRecord['pwd-login'], component: PwdLogin },
-  { key: 'code-login', label: loginModuleRecord['code-login'], component: CodeLogin },
-  { key: 'register', label: loginModuleRecord.register, component: Register },
-  { key: 'reset-pwd', label: loginModuleRecord['reset-pwd'], component: ResetPwd },
-  { key: 'bind-wechat', label: loginModuleRecord['bind-wechat'], component: BindWechat }
-];
+const modules: LoginModule[] = [{ key: 'pwd-login', label: loginModuleRecord['pwd-login'], component: PwdLogin }];
 
 const activeModule = computed(() => {
   const findItem = modules.find(item => item.key === props.module);
@@ -63,7 +56,10 @@ const bgColor = computed(() => {
       <div class="w-400px <sm:w-300px">
         <header class="flex-y-center justify-between">
           <SystemLogo class="text-64px text-primary <sm:text-48px" />
-          <h3 class="text-28px text-primary font-500 <sm:text-22px">{{ $t('system.title') }}</h3>
+          <h3 class="flex text-28px text-primary font-500 <sm:text-22px">
+            {{ $t('system.title') }}
+            <span class="mt-3px pl-12px text-16px color-#00000072 font-600">{{ VITE_APP_VERSION }}</span>
+          </h3>
           <div class="i-flex-vertical">
             <ThemeSchemaSwitch
               :theme-schema="themeStore.themeScheme"
@@ -80,12 +76,18 @@ const bgColor = computed(() => {
           </div>
         </header>
         <main class="pt-24px">
-          <h3 class="text-18px text-primary font-medium">{{ $t(activeModule.label) }}</h3>
-          <div class="pt-24px">
+          <!-- <h3 class="text-18px text-primary font-medium">{{ $t(activeModule.label) }}</h3> -->
+          <div class="pt-12px">
             <Transition :name="themeStore.page.animateMode" mode="out-in" appear>
               <component :is="activeModule.component" />
             </Transition>
           </div>
+          <div class="pt-12px text-center">
+            <ButtonIcon tooltip-content="Mail" class="color-#272636 dark:color-#f0f2f5" icon="simple-icons:maildotru" />
+            <ButtonIcon class="color-#c71d23" tooltip-content="Gitee" icon="simple-icons:gitee" />
+            <ButtonIcon tooltip-content="Github" class="color-#010409 dark:color-#e6edf3" icon="simple-icons:github" />
+          </div>
+          <GlobalFooter />
         </main>
       </div>
     </NCard>

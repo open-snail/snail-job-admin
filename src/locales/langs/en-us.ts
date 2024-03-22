@@ -1,6 +1,7 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'SoybeanAdmin'
+    title: 'Easy Retry',
+    desc: 'A flexible, reliable, and fast platform for distributed task retry and distributed task scheduling.'
   },
   common: {
     action: 'Action',
@@ -35,6 +36,10 @@ const local: App.I18n.Schema = {
     update: 'Update',
     updateSuccess: 'Update Success',
     userCenter: 'User Center',
+    success: 'Success',
+    fail: 'Fail',
+    stop: 'Stop',
+    running: 'Running',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
@@ -164,6 +169,7 @@ const local: App.I18n.Schema = {
         confirmPasswordPlaceholder: 'Please enter password again',
         codeLogin: 'Verification code login',
         confirm: 'Confirm',
+        login: 'Login',
         back: 'Back',
         validateSuccess: 'Verification passed',
         loginSuccess: 'Login successfully',
@@ -212,8 +218,30 @@ const local: App.I18n.Schema = {
       devDep: 'Development Dependency'
     },
     home: {
-      greeting: 'Good morning, {userName}, today is another day full of vitality!',
+      // 问候语
+      Greeting: '{userName}, welcome back.',
+      morningGreeting: 'Good morning, {userName}, today is another day full of vitality!',
+      bthGreeting: "Good morning, {userName}, how's work going? Don't be sedentary. Get up and walk around more often!",
+      noonGreeting: "Good noon, {userName}, it's lunchtime after a long morning at work!",
+      athGreeting: "Good afternoon, {userName}, it's easy to get sleepy in the late afternoon yet, time for a nap!",
+      duskGreeting:
+        "{userName}, it's evening, the view of the sunset outside the window is very beautiful, the most beautiful thing is the red sunset.",
+      eveningGreeting: 'Good evening, {userName}, how are you doing today? Please take care to rest early!',
+      earlyMorningGreeting: "{userName}, It's so late already. Get some rest. Good night.",
       weatherDesc: 'Today is cloudy to clear, 20℃ - 25℃!',
+      // 卡片统计
+      retryTaskCount: 'Retry Task',
+      jobTaskCount: 'Job Task',
+      userCount: 'User',
+      retryTask: 'Retry Task',
+      retryTaskTip: 'Total task volume: retry/callback task volume',
+      jobTask: 'Job Task',
+      jobTaskTip: 'Success rate: total completion/total dispatch amount',
+      onlineServiceCount: 'Online Machine',
+      onlineServiceTip: 'Always online machines: the sum of clients and servers registered to the system',
+      workflow: 'Workflow',
+      workflowTip: 'Workflow Tip',
+      // ...
       projectCount: 'Project Count',
       todo: 'Todo',
       message: 'Message',
@@ -269,6 +297,18 @@ const local: App.I18n.Schema = {
         status: {
           enable: 'Enable',
           disable: 'Disable'
+        }
+      },
+      machine: {
+        type: {
+          client: 'Client',
+          server: 'Server'
+        }
+      },
+      retryTask: {
+        status: {
+          maxRetryTimes: 'Max times',
+          pauseRetry: 'Pause'
         }
       },
       role: {

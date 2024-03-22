@@ -96,6 +96,48 @@ declare namespace Api {
   }
 
   /**
+   * namespace Dashboard
+   *
+   * backend api module: "dashboard"
+   */
+  namespace Dashboard {
+    type CardCount = {
+      jobTask: JobTask;
+      retryTask: RetryTask;
+      retryTaskBarList: RetryTaskBarList[];
+      onLineService: OnlineService;
+    };
+
+    type OnlineService = {
+      total: number;
+      clientTotal: number;
+      serverTotal: number;
+    };
+
+    type RetryTaskBarList = {
+      x: string;
+      taskTotal: number;
+    };
+
+    type RetryTask = {
+      totalNum: number;
+      runningNum: number;
+      finishNum: number;
+      maxCountNum: number;
+      suspendNum: number;
+    };
+
+    type JobTask = {
+      successNum: number;
+      failNum: number;
+      cancelNum: number;
+      stopNum: number;
+      totalNum: number;
+      successRate: number;
+    };
+  }
+
+  /**
    * namespace SystemManage
    *
    * backend api module: "systemManage"
