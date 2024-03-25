@@ -45,15 +45,15 @@ const timeFix = () => {
     text = 'morning';
   } else if (hour > 8 && hour <= 11) {
     text = 'bth';
-  } else if (hour > 11 && hour <= 14) {
+  } else if (hour > 11 && hour < 14) {
     text = 'noon';
-  } else if (hour > 14 && hour <= 17) {
+  } else if (hour >= 14 && hour < 17) {
     text = 'ath';
-  } else if (hour > 17 && hour <= 19) {
+  } else if (hour >= 17 && hour <= 19) {
     text = 'dusk';
-  } else if (hour > 19 && hour <= 21) {
+  } else if (hour > 19 && hour < 21) {
     text = 'evening';
-  } else if (hour > 21 && hour <= 5) {
+  } else if (hour >= 21 && hour <= 5) {
     text = 'earlyMorning';
   }
   return text;

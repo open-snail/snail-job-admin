@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { $t } from '@/locales';
+import DardRetryChart from './card-retry-chart.vue';
 
 defineOptions({
   name: 'CardData'
@@ -181,10 +182,20 @@ function getGradientColor(color: CardData['color']) {
                 {{ item.tip }}
               </NPopover>
             </div>
-            <div class="flex pt-12px">
+            <div class="flex">
               <CountTo :start-value="0" :end-value="item.value" class="text-30px text-white" />
             </div>
-            <NProgress type="line" color="#728bf9" rail-color="#ebebeb" :percentage="30" indicator-text-color="#fff" />
+            <NProgress
+              v-if="item.key === 'jobTask'"
+              class="mb-24px h-20px pt-18px"
+              type="line"
+              color="#728bf9"
+              rail-color="#ebebeb"
+              :percentage="props.modelValue?.jobTask.successRate ?? 0"
+              indicator-text-color="#fff"
+            />
+            <DardRetryChart v-else-if="item.key === 'retryTask'" :model-value="props.modelValue?.retryTaskBarList" />
+            <div v-else class="mb-12px h-32px"></div>
             <NDivider />
             <template v-for="(bottomItem, bottomIndex) in item.bottom" :key="bottomIndex">
               <NDivider v-if="bottomIndex !== 0" vertical />
@@ -200,10 +211,14 @@ function getGradientColor(color: CardData['color']) {
 
 <style scoped>
 .n-divider {
-  margin: 16px 0 6px;
+  margin: 0px 0 6px;
 }
 
 .n-divider--vertical {
   margin: 0 1px 0 5px;
+}
+
+:deep(.n-progress-icon--as-text) {
+  width: 53px !important;
 }
 </style>
