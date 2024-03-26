@@ -13,6 +13,7 @@ const local: App.I18n.Schema = {
     close: 'Close',
     check: 'Check',
     columnSetting: 'Column Setting',
+    config: 'Config',
     confirm: 'Confirm',
     delete: 'Delete',
     deleteSuccess: 'Delete Success',
@@ -33,6 +34,7 @@ const local: App.I18n.Schema = {
     search: 'Search',
     switch: 'Switch',
     tip: 'Tip',
+    trigger: 'Trigger',
     update: 'Update',
     updateSuccess: 'Update Success',
     userCenter: 'User Center',
@@ -44,6 +46,14 @@ const local: App.I18n.Schema = {
       yes: 'Yes',
       no: 'No'
     }
+  },
+  request: {
+    logout: 'Logout user after request failed',
+    logoutMsg: 'User status is invalid, please log in again',
+    logoutWithModal: 'Pop up modal after request failed and then log out user',
+    logoutWithModalMsg: 'User status is invalid, please log in again',
+    refreshToken: 'The requested token has expired, refresh the token',
+    tokenExpired: 'The requested token has expired'
   },
   theme: {
     themeSchema: {
@@ -142,6 +152,9 @@ const local: App.I18n.Schema = {
     'function_hide-child_one': 'Hide Child',
     'function_hide-child_two': 'Two',
     'function_hide-child_three': 'Three',
+    function_request: 'Request',
+    'function_toggle-auth': 'Toggle Auth',
+    'function_super-page': 'Super Admin Visible',
     manage: 'System Manage',
     manage_user: 'User Manage',
     'manage_user-detail': 'User Detail',
@@ -182,13 +195,15 @@ const local: App.I18n.Schema = {
         register: 'Register',
         otherAccountLogin: 'Other Account Login',
         otherLoginMode: 'Other Login Mode',
-        superAdmin: 'Super Administrator',
-        admin: 'Administrator',
-        user: 'Ordinary User'
+        superAdmin: 'Super Admin',
+        admin: 'Admin',
+        user: 'User'
       },
       codeLogin: {
         title: 'Verification Code Login',
         getCode: 'Get verification code',
+        reGetCode: 'Reacquire after {time}s',
+        sendCodeSuccess: 'Verification code sent successfully',
         imageCodePlaceholder: 'Please enter image verification code'
       },
       register: {
@@ -290,6 +305,13 @@ const local: App.I18n.Schema = {
       multiTab: {
         routeParam: 'Route Param',
         backTab: 'Back function_tab'
+      },
+      toggleAuth: {
+        toggleAccount: 'Toggle Account',
+        authHook: 'Auth Hook Function `hasAuth`',
+        superAdminVisible: 'Super Admin Visible',
+        adminVisible: 'Admin Visible',
+        adminOrUserVisible: 'Admin and User Visible'
       }
     },
     manage: {
@@ -317,6 +339,8 @@ const local: App.I18n.Schema = {
         roleCode: 'Role Code',
         roleStatus: 'Role Status',
         roleDesc: 'Role Description',
+        menuAuth: 'Menu Auth',
+        buttonAuth: 'Button Auth',
         form: {
           roleName: 'Please enter role name',
           roleCode: 'Please enter role code',
@@ -352,6 +376,7 @@ const local: App.I18n.Schema = {
         }
       },
       menu: {
+        home: 'Home',
         title: 'Menu List',
         id: 'ID',
         parentId: 'Parent ID',
@@ -359,8 +384,9 @@ const local: App.I18n.Schema = {
         menuName: 'Menu Name',
         routeName: 'Route Name',
         routePath: 'Route Path',
-        page: 'Page Component',
+        routeParams: 'Route Params',
         layout: 'Layout Component',
+        page: 'Page Component',
         i18nKey: 'I18n Key',
         icon: 'Icon',
         localIcon: 'Local Icon',
@@ -377,6 +403,7 @@ const local: App.I18n.Schema = {
         buttonDesc: 'Button Desc',
         menuStatus: 'Menu Status',
         form: {
+          home: 'Please select home',
           menuType: 'Please select menu type',
           menuName: 'Please enter menu name',
           routeName: 'Please enter route name',
@@ -425,7 +452,11 @@ const local: App.I18n.Schema = {
     },
     pwd: {
       required: 'Please enter password',
-      invalid: 'Password format is incorrect'
+      invalid: '6-18 characters, including letters, numbers, and underscores'
+    },
+    confirmPwd: {
+      required: 'Please enter password again',
+      invalid: 'The two passwords are inconsistent'
     },
     code: {
       required: 'Please enter verification code',

@@ -13,6 +13,7 @@ const local: App.I18n.Schema = {
     close: '关闭',
     check: '勾选',
     columnSetting: '列设置',
+    config: '配置',
     confirm: '确认',
     delete: '删除',
     deleteSuccess: '删除成功',
@@ -33,6 +34,7 @@ const local: App.I18n.Schema = {
     search: '搜索',
     switch: '切换',
     tip: '提示',
+    trigger: '触发',
     update: '更新',
     updateSuccess: '更新成功',
     userCenter: '个人中心',
@@ -44,6 +46,14 @@ const local: App.I18n.Schema = {
       yes: '是',
       no: '否'
     }
+  },
+  request: {
+    logout: '请求失败后登出用户',
+    logoutMsg: '用户状态失效，请重新登录',
+    logoutWithModal: '请求失败后弹出模态框再登出用户',
+    logoutWithModalMsg: '用户状态失效，请重新登录',
+    refreshToken: '请求的token已过期，刷新token',
+    tokenExpired: 'token已过期'
   },
   theme: {
     themeSchema: {
@@ -142,6 +152,9 @@ const local: App.I18n.Schema = {
     'function_hide-child_one': '隐藏子菜单',
     'function_hide-child_two': '菜单二',
     'function_hide-child_three': '菜单三',
+    function_request: '请求',
+    'function_toggle-auth': '切换权限',
+    'function_super-page': '超级管理员可见',
     manage: '系统管理',
     manage_user: '用户管理',
     'manage_user-detail': '用户详情',
@@ -189,6 +202,8 @@ const local: App.I18n.Schema = {
       codeLogin: {
         title: '验证码登录',
         getCode: '获取验证码',
+        reGetCode: '{time}秒后重新获取',
+        sendCodeSuccess: '验证码发送成功',
         imageCodePlaceholder: '请输入图片验证码'
       },
       register: {
@@ -286,6 +301,13 @@ const local: App.I18n.Schema = {
       multiTab: {
         routeParam: '路由参数',
         backTab: '返回 function_tab'
+      },
+      toggleAuth: {
+        toggleAccount: '切换账号',
+        authHook: '权限钩子函数 `hasAuth`',
+        superAdminVisible: '超级管理员可见',
+        adminVisible: '管理员可见',
+        adminOrUserVisible: '管理员和用户可见'
       }
     },
     manage: {
@@ -313,6 +335,8 @@ const local: App.I18n.Schema = {
         roleCode: '角色编码',
         roleStatus: '角色状态',
         roleDesc: '角色描述',
+        menuAuth: '菜单权限',
+        buttonAuth: '按钮权限',
         form: {
           roleName: '请输入角色名称',
           roleCode: '请输入角色编码',
@@ -348,6 +372,7 @@ const local: App.I18n.Schema = {
         }
       },
       menu: {
+        home: '首页',
         title: '菜单列表',
         id: 'ID',
         parentId: '父级菜单ID',
@@ -355,8 +380,9 @@ const local: App.I18n.Schema = {
         menuName: '菜单名称',
         routeName: '路由名称',
         routePath: '路由路径',
-        page: '页面组件',
+        routeParams: '路由参数',
         layout: '布局',
+        page: '页面组件',
         i18nKey: '国际化key',
         icon: '图标',
         localIcon: '本地图标',
@@ -373,6 +399,7 @@ const local: App.I18n.Schema = {
         buttonDesc: '按钮描述',
         menuStatus: '菜单状态',
         form: {
+          home: '请选择首页',
           menuType: '请选择菜单类型',
           menuName: '请输入菜单名称',
           routeName: '请输入路由名称',
@@ -421,7 +448,11 @@ const local: App.I18n.Schema = {
     },
     pwd: {
       required: '请输入密码',
-      invalid: '密码格式不正确'
+      invalid: '密码格式不正确，6-18位字符，包含字母、数字、下划线'
+    },
+    confirmPwd: {
+      required: '请输入确认密码',
+      invalid: '两次输入密码不一致'
     },
     code: {
       required: '请输入验证码',

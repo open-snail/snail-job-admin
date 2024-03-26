@@ -29,7 +29,6 @@ function createProxyItem(item: App.Service.ServiceConfigItem) {
   proxy[item.proxyPattern] = {
     target: item.baseURL,
     changeOrigin: true,
-    ws: false,
     rewrite: path => path.replace(new RegExp(`^${item.proxyPattern}`), '')
   };
 

@@ -1,8 +1,7 @@
 import type { RouteLocationNormalizedLoaded, RouteRecordRaw, _RouteRecordBase } from 'vue-router';
 import type { ElegantConstRoute, LastLevelRouteKey, RouteKey, RouteMap } from '@elegant-router/types';
-import { useSvgIconRender } from '@sa/hooks';
 import { $t } from '@/locales';
-import SvgIcon from '@/components/custom/svg-icon.vue';
+import { useSvgIcon } from '@/hooks/common/icon';
 
 /**
  * Filter auth routes by roles
@@ -11,13 +10,6 @@ import SvgIcon from '@/components/custom/svg-icon.vue';
  * @param roles Roles
  */
 export function filterAuthRoutesByRoles(routes: ElegantConstRoute[], roles: string[]) {
-  const SUPER_ROLE = 'R_SUPER';
-
-  // if the user is super admin, then it is allowed to access all routes
-  if (roles.includes(SUPER_ROLE)) {
-    return routes;
-  }
-
   return routes.flatMap(route => filterAuthRouteByRoles(route, roles));
 }
 
@@ -31,9 +23,7 @@ function filterAuthRouteByRoles(route: ElegantConstRoute, roles: string[]) {
   const routeRoles = (route.meta && route.meta.roles) || [];
 
   // if the route's "roles" is empty, then it is allowed to access
-  if (!routeRoles.length) {
-    return [route];
-  }
+  const isEmptyRoles = !routeRoles.length;
 
   // if the user's role is included in the route's "roles", then it is allowed to access
   const hasPermission = routeRoles.some(role => roles.includes(role));
@@ -44,7 +34,7 @@ function filterAuthRouteByRoles(route: ElegantConstRoute, roles: string[]) {
     filterRoute.children = filterRoute.children.flatMap(item => filterAuthRouteByRoles(item, roles));
   }
 
-  return hasPermission ? [filterRoute] : [];
+  return hasPermission || isEmptyRoles ? [filterRoute] : [];
 }
 
 /**
@@ -130,7 +120,7 @@ export function updateLocaleOfGlobalMenus(menus: App.Global.Menu[]) {
  * @param route
  */
 function getGlobalMenuByBaseRoute(route: RouteLocationNormalizedLoaded | ElegantConstRoute) {
-  const { SvgIconVNode } = useSvgIconRender(SvgIcon);
+  const { SvgIconVNode } = useSvgIcon();
 
   const { name, path } = route;
   const { title, i18nKey, icon = import.meta.env.VITE_MENU_ICON, localIcon } = route.meta ?? {};

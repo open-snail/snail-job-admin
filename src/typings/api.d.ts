@@ -16,7 +16,7 @@ declare namespace Api {
     }
 
     /** common params of paginating query list data */
-    interface PaginatingQueryRecord<T extends NonNullable<unknown>> extends PaginatingCommonParams {
+    interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
       records: T[];
     }
 
@@ -29,7 +29,7 @@ declare namespace Api {
     type EnableStatus = '1' | '2';
 
     /** common record */
-    type CommonRecord<T extends NonNullable<unknown>> = {
+    type CommonRecord<T = any> = {
       /** record id */
       id: number;
       /** record creator */
@@ -63,10 +63,13 @@ declare namespace Api {
     }
 
     interface UserInfo {
-      id: string;
-      mode: string;
+      userId: string;
       username: string;
+      userName: string;
+      mode: string;
       role: string;
+      roles: string[];
+      buttons: string[];
       namespaceIds: NamespaceId[];
     }
 
@@ -275,5 +278,15 @@ declare namespace Api {
       /** children menu */
       children?: Menu[];
     }>;
+
+    /** menu list */
+    type MenuList = Common.PaginatingQueryRecord<Menu>;
+
+    type MenuTree = {
+      id: number;
+      label: string;
+      pId: number;
+      children?: MenuTree[];
+    };
   }
 }

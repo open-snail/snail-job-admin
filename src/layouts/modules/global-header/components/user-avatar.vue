@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { VNode } from 'vue';
-import { useSvgIconRender } from '@sa/hooks';
 import { useAuthStore } from '@/store/modules/auth';
 import { useRouterPush } from '@/hooks/common/router';
+import { useSvgIcon } from '@/hooks/common/icon';
 import { $t } from '@/locales';
-import SvgIcon from '@/components/custom/svg-icon.vue';
 
 defineOptions({
   name: 'UserAvatar'
@@ -13,7 +12,7 @@ defineOptions({
 
 const authStore = useAuthStore();
 const { routerPushByKey, toLogin } = useRouterPush();
-const { SvgIconVNode } = useSvgIconRender(SvgIcon);
+const { SvgIconVNode } = useSvgIcon();
 
 function loginOrRegister() {
   toLogin();
@@ -82,7 +81,7 @@ function handleDropdown(key: DropdownKey) {
     <div>
       <ButtonIcon>
         <SvgIcon icon="ph:user-circle" class="text-icon-large" />
-        <span class="text-16px font-medium">{{ authStore.userInfo.username }}</span>
+        <span class="text-16px font-medium">{{ authStore.userInfo.userName }}</span>
       </ButtonIcon>
     </div>
   </NDropdown>

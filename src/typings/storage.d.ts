@@ -14,10 +14,10 @@ declare namespace StorageType {
     lang: App.I18n.LangType;
     /** The token */
     token: string;
-    /** The namespace id */
-    namespaceId: string;
     /** The refresh token */
     refreshToken: string;
+    /** The namespace id */
+    namespaceId: string;
     /** The user info */
     userInfo: Api.Auth.UserInfo;
     /** The theme color */

@@ -121,7 +121,7 @@ const cardData = computed<CardData[]>(() => [
       start: '#ec6f6f',
       end: '#f99797'
     },
-    icon: 'ant-design:database-outlined',
+    icon: 'typcn:flow-merge',
     bottom: [
       {
         label: $t('common.success'),
@@ -192,6 +192,15 @@ function getGradientColor(color: CardData['color']) {
               color="#728bf9"
               rail-color="#ebebeb"
               :percentage="props.modelValue?.jobTask.successRate ?? 0"
+              indicator-text-color="#fff"
+            />
+            <NProgress
+              v-else-if="item.key === 'workflow'"
+              class="mb-24px h-20px pt-18px"
+              type="line"
+              color="#728bf9"
+              rail-color="#ebebeb"
+              :percentage="12.58 ?? 0"
               indicator-text-color="#fff"
             />
             <DardRetryChart v-else-if="item.key === 'retryTask'" :model-value="props.modelValue?.retryTaskBarList" />

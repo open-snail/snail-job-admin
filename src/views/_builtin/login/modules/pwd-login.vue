@@ -23,7 +23,8 @@ const model: FormModel = reactive({
 });
 
 const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
-  const { formRules } = useFormRules(); // inside computed to make locale reactive
+  // inside computed to make locale reactive, if not apply i18n, you can define it without computed
+  const { formRules } = useFormRules();
 
   return {
     userName: formRules.userName,
@@ -49,6 +50,7 @@ async function handleSubmit() {
       <NInput
         v-model:value="model.password"
         type="password"
+        show-password-on="click"
         :placeholder="$t('page.login.common.passwordPlaceholder')"
       />
     </NFormItem>

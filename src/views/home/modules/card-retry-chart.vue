@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useEcharts } from '@/hooks/chart/use-echarts';
+import { useEcharts } from '@/hooks/common/echarts';
 
 defineOptions({
   name: 'CardRetryChart'

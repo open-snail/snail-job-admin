@@ -259,6 +259,7 @@ declare namespace App {
         close: string;
         check: string;
         columnSetting: string;
+        config: string;
         confirm: string;
         delete: string;
         deleteSuccess: string;
@@ -279,6 +280,7 @@ declare namespace App {
         search: string;
         switch: string;
         tip: string;
+        trigger: string;
         update: string;
         updateSuccess: string;
         userCenter: string;
@@ -290,6 +292,14 @@ declare namespace App {
           yes: string;
           no: string;
         };
+      };
+      request: {
+        logout: string;
+        logoutMsg: string;
+        logoutWithModal: string;
+        logoutWithModalMsg: string;
+        refreshToken: string;
+        tokenExpired: string;
       };
       theme: {
         themeSchema: { title: string } & Record<UnionKey.ThemeScheme, string>;
@@ -372,6 +382,8 @@ declare namespace App {
           codeLogin: {
             title: string;
             getCode: string;
+            reGetCode: string;
+            sendCodeSuccess: string;
             imageCodePlaceholder: string;
           };
           register: {
@@ -409,6 +421,7 @@ declare namespace App {
           duskGreeting: string;
           eveningGreeting: string;
           earlyMorningGreeting: string;
+          weatherDesc: string;
           retryTaskCount: string;
           jobTaskCount: string;
           userCount: string;
@@ -420,7 +433,6 @@ declare namespace App {
           onlineServiceTip: string;
           workflow: string;
           workflowTip: string;
-          weatherDesc: string;
           projectCount: string;
           todo: string;
           message: string;
@@ -470,6 +482,13 @@ declare namespace App {
             routeParam: string;
             backTab: string;
           };
+          toggleAuth: {
+            toggleAccount: string;
+            authHook: string;
+            superAdminVisible: string;
+            adminVisible: string;
+            adminOrUserVisible: string;
+          };
         };
         manage: {
           common: {
@@ -504,6 +523,8 @@ declare namespace App {
             };
             addRole: string;
             editRole: string;
+            menuAuth: string;
+            buttonAuth: string;
           };
           user: {
             title: string;
@@ -531,6 +552,7 @@ declare namespace App {
             };
           };
           menu: {
+            home: string;
             title: string;
             id: string;
             parentId: string;
@@ -538,8 +560,9 @@ declare namespace App {
             menuName: string;
             routeName: string;
             routePath: string;
-            page: string;
+            routeParams: string;
             layout: string;
+            page: string;
             i18nKey: string;
             icon: string;
             localIcon: string;
@@ -556,12 +579,13 @@ declare namespace App {
             buttonDesc: string;
             menuStatus: string;
             form: {
+              home: string;
               menuType: string;
               menuName: string;
               routeName: string;
               routePath: string;
-              page: string;
               layout: string;
+              page: string;
               i18nKey: string;
               icon: string;
               localIcon: string;
@@ -597,6 +621,7 @@ declare namespace App {
         userName: FormMsg;
         phone: FormMsg;
         pwd: FormMsg;
+        confirmPwd: FormMsg;
         code: FormMsg;
         email: FormMsg;
       };
@@ -667,7 +692,7 @@ declare namespace App {
     /** The backend service response data */
     type Response<T = unknown> = {
       /** The backend service response code */
-      status: number;
+      status: string;
       /** The backend service response message */
       message: string;
       /** The backend service response data */

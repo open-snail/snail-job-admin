@@ -3,15 +3,15 @@ import { request } from '../request';
 /**
  * Login
  *
- * @param username User name
+ * @param userName User name
  * @param password Password
  */
-export function fetchLogin(username: string, password: string) {
+export function fetchLogin(userName: string, password: string) {
   return request<Api.Auth.LoginToken>({
     url: '/auth/login',
     method: 'post',
     data: {
-      username,
+      username: userName,
       password
     }
   });
@@ -37,13 +37,12 @@ export function fetchRefreshToken(refreshToken: string) {
   });
 }
 
-export function fetchDebug() {
-  return request<string>({
-    url: '/debug-post',
-    method: 'post',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    data: {
-      a: '1'
-    }
-  });
+/**
+ * return custom backend error
+ *
+ * @param code error code
+ * @param msg error message
+ */
+export function fetchCustomBackendError(code: string, msg: string) {
+  return request({ url: '/auth/error', params: { code, msg } });
 }

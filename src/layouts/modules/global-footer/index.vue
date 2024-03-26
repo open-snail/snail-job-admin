@@ -8,7 +8,7 @@ const { VITE_APP_VERSION } = import.meta.env;
 
 <template>
   <DarkModeContainer class="h-full flex-center">
-    <a href="https://www.easyretry.com/" target="_blank" rel="noopener noreferrer">
+    <a href="https://gitee.com/aizuda/easy-retry/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">
       Copyright © 2024 Easy Retry {{ VITE_APP_VERSION }}
     </a>
   </DarkModeContainer>

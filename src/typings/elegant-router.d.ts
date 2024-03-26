@@ -31,9 +31,12 @@ declare module "@elegant-router/types" {
     "function_hide-child_three": "/function/hide-child/three";
     "function_hide-child_two": "/function/hide-child/two";
     "function_multi-tab": "/function/multi-tab";
+    "function_request": "/function/request";
+    "function_super-page": "/function/super-page";
     "function_tab": "/function/tab";
+    "function_toggle-auth": "/function/toggle-auth";
     "home": "/home";
-    "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
+    "login": "/login/:module(pwd-login)?";
     "manage": "/manage";
     "manage_menu": "/manage/menu";
     "manage_role": "/manage/role";
@@ -117,7 +120,10 @@ declare module "@elegant-router/types" {
     | "function_hide-child_three"
     | "function_hide-child_two"
     | "function_multi-tab"
+    | "function_request"
+    | "function_super-page"
     | "function_tab"
+    | "function_toggle-auth"
     | "home"
     | "manage_menu"
     | "manage_role"
