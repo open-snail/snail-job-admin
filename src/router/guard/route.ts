@@ -9,6 +9,7 @@ import type { RouteKey, RoutePath } from '@elegant-router/types';
 import { useAuthStore } from '@/store/modules/auth';
 import { useRouteStore } from '@/store/modules/route';
 import { localStg } from '@/utils/storage';
+import { $t } from '@/locales';
 
 /**
  * create route guard
@@ -57,6 +58,9 @@ export function createRouteGuard(router: Router) {
       {
         condition: !isLogin && needLogin,
         callback: () => {
+          setTimeout(() => {
+            window.$message?.error?.($t('request.logoutMsg'));
+          }, 500);
           next({ name: loginRoute, query: { redirect: to.fullPath } });
         }
       },
@@ -158,6 +162,13 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     };
 
     return location;
+  }
+
+  if (isLogin) {
+    if (to.path !== '/pwd-login') {
+      const authStore = useAuthStore();
+      await authStore.getInfo();
+    }
   }
 
   // initialize the auth route

@@ -21,7 +21,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   /** is super role in static route */
   const isStaticSuper = computed(() => {
     const { VITE_AUTH_ROUTE_MODE, VITE_STATIC_SUPER_ROLE } = import.meta.env;
-    return VITE_AUTH_ROUTE_MODE === 'static' && userInfo.roles.includes(VITE_STATIC_SUPER_ROLE);
+    return (
+      VITE_AUTH_ROUTE_MODE === 'static' && userInfo.roles.map(role => role.toString()).includes(VITE_STATIC_SUPER_ROLE)
+    );
   });
 
   /** Is login */
@@ -103,6 +105,21 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     return false;
   }
 
+  async function getInfo() {
+    const { data: info, error } = await fetchGetUserInfo();
+
+    if (!error) {
+      info!.userName = info?.username;
+      info!.roles = [info.role];
+      localStg.set('userInfo', info);
+      Object.assign(userInfo, info);
+
+      return true;
+    }
+    resetStore();
+    return false;
+  }
+
   return {
     token,
     userInfo,
@@ -110,6 +127,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     isLogin,
     loginLoading,
     resetStore,
-    login
+    login,
+    getInfo
   };
 });

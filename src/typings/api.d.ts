@@ -104,6 +104,7 @@ declare namespace Api {
    * backend api module: "dashboard"
    */
   namespace Dashboard {
+    /** Task Retry Job */
     type CardCount = {
       jobTask: JobTask;
       retryTask: RetryTask;
@@ -118,8 +119,8 @@ declare namespace Api {
     };
 
     type RetryTaskBarList = {
-      x: string;
-      taskTotal: number;
+      x?: string;
+      taskTotal?: number;
     };
 
     type RetryTask = {
@@ -137,6 +138,65 @@ declare namespace Api {
       stopNum: number;
       totalNum: number;
       successRate: number;
+    };
+
+    /** Dashboard Line */
+    type DashboardLine = {
+      taskList: TaskList;
+      rankList: RankList[];
+      dashboardLineResponseDOList: DashboardLineResponseDOList[];
+    };
+
+    type DashboardLineResponseDOList = {
+      createDt: string;
+      total: number;
+    } & DashboardLineJob &
+      DashboardLineRetry;
+
+    type DashboardLineJob = {
+      createDt: string;
+      total: number;
+      fail: number;
+      stop: number;
+      cancel: number;
+      success: number;
+    };
+
+    type DashboardLineRetry = {
+      createDt: string;
+      total: number;
+      successNum: number;
+      runningNum: number;
+      maxCountNum: number;
+      suspendNum: number;
+    };
+
+    type RankList = {
+      name: string;
+      total: string;
+    };
+
+    type TaskList = {
+      status: number;
+      data: Datum[];
+      page: number;
+      size: number;
+      total: number;
+    };
+
+    type Datum = {
+      groupName: string;
+      run: number;
+      total: number;
+    };
+
+    type DashboardLineType = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' | 'OTHERS';
+
+    type DashboardLineParams = {
+      groupName?: string;
+      type: DashboardLineType;
+      startTime?: string;
+      endTime?: string;
     };
   }
 

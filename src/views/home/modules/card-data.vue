@@ -9,10 +9,34 @@ defineOptions({
 });
 
 interface Props {
-  modelValue: Api.Dashboard.CardCount;
+  modelValue?: Api.Dashboard.CardCount;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: () => ({
+    jobTask: {
+      successNum: 0,
+      failNum: 0,
+      cancelNum: 0,
+      stopNum: 0,
+      totalNum: 0,
+      successRate: 0
+    },
+    retryTask: {
+      totalNum: 0,
+      runningNum: 0,
+      finishNum: 0,
+      maxCountNum: 0,
+      suspendNum: 0
+    },
+    retryTaskBarList: [],
+    onLineService: {
+      total: 0,
+      clientTotal: 0,
+      serverTotal: 0
+    }
+  })
+});
 
 interface CardData {
   key: string;
@@ -26,8 +50,6 @@ interface CardData {
   icon: string;
   bottom: { label: string; value: number }[];
 }
-
-console.log(props.modelValue);
 
 const cardData = computed<CardData[]>(() => [
   {
