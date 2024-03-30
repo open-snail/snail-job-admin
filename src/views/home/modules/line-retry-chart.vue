@@ -211,6 +211,13 @@ function updateLocale() {
 }
 
 watch(
+  () => props.modelValue,
+  () => {
+    getData();
+  }
+);
+
+watch(
   () => props.type,
   () => {
     updateLocale();

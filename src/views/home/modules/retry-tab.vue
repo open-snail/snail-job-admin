@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useAppStore } from '@/store/modules/app';
 import { fetchJobLine, fetchRetryLine } from '@/service/api';
 import LineRetryChart from './line-retry-chart.vue';
@@ -10,6 +10,7 @@ defineOptions({
 
 interface Props {
   type?: number;
+  lineParams: Api.Dashboard.DashboardLineParams;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,12 +24,17 @@ const gap = computed(() => (appStore.isMobile ? 0 : 16));
 const data = ref<Api.Dashboard.DashboardLine>();
 
 const getData = async () => {
-  const { data: lineData, error } = props.type === 1 ? await fetchJobLine() : await fetchRetryLine();
+  const { data: lineData, error } =
+    props.type === 1 ? await fetchJobLine(props.lineParams) : await fetchRetryLine(props.lineParams);
 
   if (!error) {
     data.value = lineData;
   }
 };
+
+watch(props.lineParams, () => {
+  getData();
+});
 
 getData();
 </script>
@@ -36,7 +42,7 @@ getData();
 <template>
   <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
     <NGi span="24 s:24 m:16">
-      <LineRetryChart :type="type" :model-value="data!"></LineRetryChart>
+      <LineRetryChart v-model="data!" :type="type"></LineRetryChart>
     </NGi>
     <NGi span="24 s:24 m:8">
       <div>任务量排名</div>

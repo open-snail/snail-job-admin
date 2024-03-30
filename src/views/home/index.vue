@@ -16,6 +16,10 @@ const cardCount = ref<Api.Dashboard.CardCount>();
 const tabParams = ref<Api.Dashboard.DashboardLineParams>({
   type: 'WEEK'
 });
+const dateRange = ref<[number, number] | null>();
+const formattedValue = ref<[string, string] | null>(
+  tabParams.value.startTime && tabParams.value.endTime ? [tabParams.value.startTime, tabParams.value.endTime] : null
+);
 
 const getCardData = async () => {
   const { data: cardData, error } = await fetchCardCount();
@@ -25,6 +29,29 @@ const getCardData = async () => {
 };
 
 getCardData();
+
+const onUpdateDate = (value: [string, string]) => {
+  if (value) {
+    tabParams.value.type = 'OTHERS';
+    tabParams.value.startTime = value[0];
+    tabParams.value.endTime = value[1];
+  }
+};
+
+const onClearDate = () => {
+  tabParams.value.type = 'WEEK';
+  tabParams.value.startTime = undefined;
+  tabParams.value.endTime = undefined;
+};
+
+const onUpdateType = (value: string) => {
+  if (value !== 'OTHERS') {
+    dateRange.value = null;
+    formattedValue.value = null;
+    tabParams.value.startTime = undefined;
+    tabParams.value.endTime = undefined;
+  }
+};
 </script>
 
 <template>
@@ -35,19 +62,30 @@ getCardData();
       <div class="relative">
         <NTabs type="line" animated>
           <NTabPane name="retryTask" :tab="$t('page.home.retryTask')">
-            <RetryTab :type="0" />
+            <RetryTab :type="0" :line-params="tabParams" />
           </NTabPane>
           <NTabPane name="jobTask" :tab="$t('page.home.jobTask')">
-            <RetryTab :type="1" />
+            <RetryTab :type="1" :line-params="tabParams" />
           </NTabPane>
         </NTabs>
-        <div class="absolute right-40px top-4px">
-          <NRadioGroup v-model:value="tabParams.type">
+        <div class="absolute right-40px top-0 flex gap-16px">
+          <NRadioGroup v-model:value="tabParams.type" @update:value="onUpdateType">
             <NRadioButton value="DAY" label="今日" />
             <NRadioButton value="WEEK" label="最近一周" />
             <NRadioButton value="MONTH" label="最近一月" />
             <NRadioButton value="YEAR" label="全年" />
           </NRadioGroup>
+          <NDatePicker
+            v-model:value="dateRange"
+            v-model:formatted-value="formattedValue"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="daterange"
+            class="w-300px"
+            clearable
+            @update:formatted-value="onUpdateDate"
+            @clear="onClearDate"
+          />
+          <NSelect v-model:value="tabParams.groupName" class="w-200px" />
         </div>
       </div>
     </NCard>
