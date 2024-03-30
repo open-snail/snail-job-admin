@@ -155,6 +155,7 @@ const local: App.I18n.Schema = {
     function_request: '请求',
     'function_toggle-auth': '切换权限',
     'function_super-page': '超级管理员可见',
+    pods: '在线机器',
     manage: '系统管理',
     manage_user: '用户管理',
     'manage_user-detail': '用户详情',
@@ -276,6 +277,24 @@ const local: App.I18n.Schema = {
         desc5: 'Soybean 刚才把工作台页面随便写了一些，凑合能看了！'
       },
       creativity: '创意'
+    },
+    pods: {
+      title: '在线机器',
+      nodeType: '类型',
+      groupName: '组名称',
+      hostId: 'Pod ID',
+      hostIp: 'IP',
+      hostPort: 'Port',
+      consumerBuckets: '路径/组',
+      updateDt: '更新时间',
+      contextPath: '路径/组',
+      form: {
+        groupName: '请输入组名称'
+      },
+      type: {
+        client: '客户端',
+        server: '服务端'
+      }
     },
     function: {
       tab: {

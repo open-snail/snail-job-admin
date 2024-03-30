@@ -155,6 +155,7 @@ const local: App.I18n.Schema = {
     function_request: 'Request',
     'function_toggle-auth': 'Toggle Auth',
     'function_super-page': 'Super Admin Visible',
+    pods: 'Online Machine',
     manage: 'System Manage',
     manage_user: 'User Manage',
     'manage_user-detail': 'User Detail',
@@ -280,6 +281,24 @@ const local: App.I18n.Schema = {
         desc5: 'Soybean just wrote some of the workbench pages casually, and it was enough to see!'
       },
       creativity: 'Creativity'
+    },
+    pods: {
+      title: 'Online Machine',
+      nodeType: 'Node Type',
+      groupName: 'Group Name',
+      hostId: 'Pod ID',
+      hostIp: 'IP',
+      hostPort: 'Port',
+      consumerBuckets: 'Path/Buckets',
+      updateDt: 'Update Time',
+      contextPath: 'Path/Buckets',
+      form: {
+        groupName: 'Please enter group name'
+      },
+      type: {
+        client: 'Client',
+        server: 'Server'
+      }
     },
     function: {
       tab: {

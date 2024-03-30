@@ -457,6 +457,24 @@ declare namespace App {
           };
           creativity: string;
         };
+        pods: {
+          title: string;
+          nodeType: string;
+          groupName: string;
+          hostId: string;
+          hostIp: string;
+          hostPort: string;
+          consumerBuckets: string;
+          updateDt: string;
+          contextPath: string;
+          form: {
+            groupName: string;
+          };
+          type: {
+            client: string;
+            server: string;
+          };
+        };
         function: {
           tab: {
             tabOperate: {
@@ -697,6 +715,9 @@ declare namespace App {
       message: string;
       /** The backend service response data */
       data: T;
+      page?: number;
+      size?: number;
+      total?: number;
     };
 
     /** The demo backend service response data */

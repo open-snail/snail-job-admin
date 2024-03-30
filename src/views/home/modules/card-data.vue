@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 import { $t } from '@/locales';
 import DardRetryChart from './card-retry-chart.vue';
+
+const router = useRouter();
 
 defineOptions({
   name: 'CardData'
@@ -189,7 +192,12 @@ function getGradientColor(color: CardData['color']) {
     <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
       <NGi v-for="item in cardData" :key="item.key">
         <NSpin :show="false">
-          <GradientBg :gradient-color="getGradientColor(item.color)" class="h-165px flex-1">
+          <GradientBg
+            :gradient-color="getGradientColor(item.color)"
+            class="h-165px flex-1"
+            :class="item.key === 'onlineServiceCount' ? 'cursor-pointer' : ''"
+            @click="() => (item.key === 'onlineServiceCount' ? router.push('pods') : null)"
+          >
             <div class="flex justify-between">
               <div class="align-center flex">
                 <SvgIcon :icon="item.icon" class="text-26px" />

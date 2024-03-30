@@ -107,7 +107,7 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       return null;
     },
     transformBackendResponse(response) {
-      return response.data.data;
+      return response.data.total ? response.data : response.data.data;
     },
     onError(error) {
       // when the request is fail, you can show error message

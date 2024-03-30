@@ -104,9 +104,9 @@ const { columns, columnChecks, data, loading, pagination, getData } = useTable({
           2: 'warning'
         };
 
-        const label = $t(enableStatusRecord[row.status]);
+        const label = $t(enableStatusRecord[row.status!]);
 
-        return <NTag type={tagMap[row.status]}>{label}</NTag>;
+        return <NTag type={tagMap[row.status!]}>{label}</NTag>;
       }
     },
     {

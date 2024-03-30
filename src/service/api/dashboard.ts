@@ -25,3 +25,12 @@ export function fetchJobLine(params?: Api.Dashboard.DashboardLineParams) {
     params
   });
 }
+
+/** Pods */
+export function fetchPods(params?: Api.Dashboard.DashboardPodsParams) {
+  return request<Api.Dashboard.DashboardPodList>({
+    url: '/dashboard/pods',
+    method: 'get',
+    params
+  });
+}

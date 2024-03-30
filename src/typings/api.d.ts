@@ -7,18 +7,28 @@ declare namespace Api {
   namespace Common {
     /** common params of paginating */
     interface PaginatingCommonParams {
-      /** current page number */
-      current: number;
       /** page size */
       size: number;
       /** total count */
       total: number;
+      /** current page number */
+      page: number;
     }
 
     /** common params of paginating query list data */
     interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
-      records: T[];
+      data: T[];
+      status: number;
     }
+
+    /** common page record */
+    type CommonPageRecord<T> = {
+      data: T[];
+      page: number;
+      size: number;
+      status: number;
+      total: number;
+    };
 
     /**
      * enable status
@@ -31,17 +41,17 @@ declare namespace Api {
     /** common record */
     type CommonRecord<T = any> = {
       /** record id */
-      id: number;
+      id?: number;
       /** record creator */
-      createBy: string;
+      createBy?: string;
       /** record create time */
-      createTime: string;
+      createTime?: string;
       /** record updater */
-      updateBy: string;
+      updateBy?: string;
       /** record update time */
-      updateTime: string;
+      updateTime?: string;
       /** record status */
-      status: EnableStatus | null;
+      status?: EnableStatus | null;
     } & T;
   }
 
@@ -104,6 +114,8 @@ declare namespace Api {
    * backend api module: "dashboard"
    */
   namespace Dashboard {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
     /** Task Retry Job */
     type CardCount = {
       jobTask: JobTask;
@@ -198,6 +210,37 @@ declare namespace Api {
       startTime?: string;
       endTime?: string;
     };
+
+    type DashboardPodsType = 1 | 2;
+
+    type DashboardPodList = Common.PaginatingQueryRecord<DashboardPod>;
+
+    type DashboardPod = {
+      /** 路径/组 */
+      consumerBuckets: number[];
+      /** context path */
+      contextPath: string;
+      /** 创建时间 */
+      createDt: string;
+      /** ext attrs */
+      extAttrs: string;
+      /** 组名称 */
+      groupName: string;
+      /** host id */
+      hostId: string;
+      /** host IP */
+      hostIp: string;
+      /** host port */
+      hostPort: string;
+      /** 类型 */
+      nodeType: DashboardPodsType;
+      /** 更新时间 */
+      updateDt: string;
+    };
+
+    type DashboardPodsParams = CommonType.RecordNullable<
+      Pick<Api.Dashboard.DashboardPod, 'groupName'> & CommonSearchParams
+    >;
   }
 
   /**
@@ -206,10 +249,11 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
 
     /** role */
     type Role = Common.CommonRecord<{
+      id: number;
       /** role name */
       roleName: string;
       /** role code */
@@ -290,6 +334,7 @@ declare namespace Api {
     type IconType = '1' | '2';
 
     type Menu = Common.CommonRecord<{
+      id: number;
       /** parent menu id */
       parentId: number;
       /** menu type */

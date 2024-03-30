@@ -318,6 +318,17 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'pods',
+    path: '/pods',
+    component: 'layout.base$view.pods',
+    meta: {
+      title: 'pods',
+      i18nKey: 'route.pods',
+      icon: 'ant-design:database-outlined',
+      order: 1
+    }
+  },
+  {
     name: 'user-center',
     path: '/user-center',
     component: 'layout.base$view.user-center',
