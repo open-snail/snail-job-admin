@@ -318,17 +318,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
-    name: 'pods',
-    path: '/pods',
-    component: 'layout.base$view.pods',
-    meta: {
-      title: 'pods',
-      i18nKey: 'route.pods',
-      icon: 'ant-design:database-outlined',
-      order: 1
-    }
-  },
-    {
     name: 'namepase',
     path: '/namepase',
     component: 'layout.base$view.namepase',
@@ -337,6 +326,17 @@ export const generatedRoutes: GeneratedRoute[] = [
       i18nKey: 'route.namepase',
       icon: 'oui:app-spaces',
       order: 2
+    }
+  },
+  {
+    name: 'pods',
+    path: '/pods',
+    component: 'layout.base$view.pods',
+    meta: {
+      title: 'pods',
+      i18nKey: 'route.pods',
+      icon: 'ant-design:database-outlined',
+      order: 1
     }
   },
   {
