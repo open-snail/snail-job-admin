@@ -41,15 +41,15 @@ declare namespace Api {
     /** common record */
     type CommonRecord<T = any> = {
       /** record id */
-      id?: number;
+      id?: string;
       /** record creator */
       createBy?: string;
       /** record create time */
-      createTime?: string;
+      createDt?: string;
       /** record updater */
       updateBy?: string;
       /** record update time */
-      updateTime?: string;
+      updateDt?: string;
       /** record status */
       status?: EnableStatus | null;
     } & T;
@@ -244,6 +244,31 @@ declare namespace Api {
   }
 
   /**
+   * namespace Namespace
+   *
+   * backend api module: "Namespace"
+   */
+  namespace Namespace {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** namespace */
+    type Namespace = Common.CommonRecord<{
+      /** 主键 */
+      id: string;
+      /** 名称 */
+      name: string;
+      /** UniqueId */
+      uniqueId: string;
+    }>;
+
+    /** namespace search params */
+    type NamespaceSearchParams = CommonType.RecordNullable<{ keyword: string } & CommonSearchParams>;
+
+    /** namespace list */
+    type NamespaceList = Common.PaginatingQueryRecord<Namespace>;
+  }
+
+  /**
    * namespace SystemManage
    *
    * backend api module: "systemManage"
@@ -253,7 +278,7 @@ declare namespace Api {
 
     /** role */
     type Role = Common.CommonRecord<{
-      id: number;
+      id: string;
       /** role name */
       roleName: string;
       /** role code */
@@ -334,7 +359,7 @@ declare namespace Api {
     type IconType = '1' | '2';
 
     type Menu = Common.CommonRecord<{
-      id: number;
+      id: string;
       /** parent menu id */
       parentId: number;
       /** menu type */
@@ -388,7 +413,7 @@ declare namespace Api {
     type MenuList = Common.PaginatingQueryRecord<Menu>;
 
     type MenuTree = {
-      id: number;
+      id: string;
       label: string;
       pId: number;
       children?: MenuTree[];

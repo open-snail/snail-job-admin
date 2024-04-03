@@ -117,7 +117,13 @@ const { checkedRowKeys } = useTableOperate(data, getData);
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <PodsSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <NCard :title="$t('page.pods.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard
+      :title="$t('page.pods.title')"
+      :bordered="false"
+      size="small"
+      header-style="font-weight: 800;"
+      class="sm:flex-1-hidden card-wrapper"
+    >
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
@@ -144,4 +150,8 @@ const { checkedRowKeys } = useTableOperate(data, getData);
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.n-card-header) {
+  --n-title-font-weight: 600 !important;
+}
+</style>

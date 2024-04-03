@@ -352,6 +352,10 @@ declare namespace App {
       };
       route: Record<I18nRouteKey, string>;
       page: {
+        common: {
+          upadteTime: string;
+          createTime: string;
+        };
         login: {
           common: {
             loginOrRegister: string;
@@ -474,6 +478,19 @@ declare namespace App {
             client: string;
             server: string;
           };
+        };
+        namespace: {
+          title: string;
+          name: string;
+          keyword: string;
+          uniqueId: string;
+          form: {
+            name: string;
+            keyword: string;
+            uniqueId: string;
+          };
+          addNamespace: string;
+          editNamespace: string;
         };
         function: {
           tab: {

@@ -1,25 +1,20 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetRoleList } from '@/service/api';
+import { NButton, NPopconfirm } from 'naive-ui';
+import { fetchGetNamespaceList } from '@/service/api';
+import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { $t } from '@/locales';
-import { enableStatusRecord } from '@/constants/business';
-import RoleOperateDrawer from './modules/role-operate-drawer.vue';
-import RoleSearch from './modules/role-search.vue';
+import NamespaceOperateDrawer from './modules/namespace-operate-drawer.vue';
+import NamespaceSearch from './modules/namespace-search.vue';
 
 const appStore = useAppStore();
 
-const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: fetchGetRoleList,
+const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
+  apiFn: fetchGetNamespaceList,
   apiParams: {
     page: 1,
     size: 10,
-    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
-    // the value can not be undefined, otherwise the property in Form will not be reactive
-    status: null,
-    roleName: null,
-    roleCode: null
+    keyword: undefined
   },
   columns: () => [
     {
@@ -30,45 +25,32 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     {
       key: 'index',
       title: $t('common.index'),
-      width: 64,
-      align: 'center'
+      align: 'center',
+      width: 64
     },
     {
-      key: 'roleName',
-      title: $t('page.manage.role.roleName'),
-      align: 'center',
+      key: 'name',
+      title: $t('page.namespace.name'),
+      align: 'left',
       minWidth: 120
     },
     {
-      key: 'roleCode',
-      title: $t('page.manage.role.roleCode'),
-      align: 'center',
+      key: 'uniqueId',
+      title: $t('page.namespace.uniqueId'),
+      align: 'left',
+      minWidth: 180
+    },
+    {
+      key: 'createDt',
+      title: $t('page.common.createTime'),
+      align: 'left',
       minWidth: 120
     },
     {
-      key: 'roleDesc',
-      title: $t('page.manage.role.roleDesc'),
+      key: 'updateDt',
+      title: $t('page.common.upadteTime'),
+      align: 'left',
       minWidth: 120
-    },
-    {
-      key: 'status',
-      title: $t('page.manage.role.roleStatus'),
-      align: 'center',
-      width: 100,
-      render: row => {
-        if (row.status === null) {
-          return null;
-        }
-
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-          1: 'success',
-          2: 'warning'
-        };
-
-        const label = $t(enableStatusRecord[row.status!]);
-
-        return <NTag type={tagMap[row.status!]}>{label}</NTag>;
-      }
     },
     {
       key: 'operate',
@@ -129,8 +111,8 @@ function edit(id: string) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <RoleSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <NCard :title="$t('page.manage.role.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NamespaceSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <NCard :title="$t('page.namespace.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
@@ -147,14 +129,14 @@ function edit(id: string) {
         :data="data"
         size="small"
         :flex-height="!appStore.isMobile"
-        :scroll-x="702"
+        :scroll-x="962"
         :loading="loading"
         remote
         :row-key="row => row.id"
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <RoleOperateDrawer
+      <NamespaceOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"
@@ -164,4 +146,8 @@ function edit(id: string) {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.n-card-header) {
+  --n-title-font-weight: 600 !important;
+}
+</style>

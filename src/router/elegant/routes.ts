@@ -328,6 +328,17 @@ export const generatedRoutes: GeneratedRoute[] = [
       order: 1
     }
   },
+    {
+    name: 'namepase',
+    path: '/namepase',
+    component: 'layout.base$view.namepase',
+    meta: {
+      title: 'namepase',
+      i18nKey: 'route.namepase',
+      icon: 'oui:app-spaces',
+      order: 2
+    }
+  },
   {
     name: 'user-center',
     path: '/user-center',

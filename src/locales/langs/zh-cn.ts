@@ -156,6 +156,7 @@ const local: App.I18n.Schema = {
     'function_toggle-auth': '切换权限',
     'function_super-page': '超级管理员可见',
     pods: '在线机器',
+    namepase: '命名空间',
     manage: '系统管理',
     manage_user: '用户管理',
     'manage_user-detail': '用户详情',
@@ -173,6 +174,10 @@ const local: App.I18n.Schema = {
     exception_500: '500'
   },
   page: {
+    common: {
+      upadteTime: '更新时间',
+      createTime: '创建时间'
+    },
     login: {
       common: {
         loginOrRegister: '登录 / 注册',
@@ -295,6 +300,19 @@ const local: App.I18n.Schema = {
         client: '客户端',
         server: '服务端'
       }
+    },
+    namespace: {
+      title: '命名空间',
+      name: '名称',
+      keyword: '空间名称/唯一标识',
+      uniqueId: 'UniqueId',
+      form: {
+        name: '请输入名称',
+        keyword: '请输入空间名称/唯一标识',
+        uniqueId: '请输入UniqueId'
+      },
+      addNamespace: '新增命名空间',
+      editNamespace: '编辑命名空间'
     },
     function: {
       tab: {

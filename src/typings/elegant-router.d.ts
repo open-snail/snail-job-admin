@@ -48,6 +48,7 @@ declare module "@elegant-router/types" {
     "multi-menu_second": "/multi-menu/second";
     "multi-menu_second_child": "/multi-menu/second/child";
     "multi-menu_second_child_home": "/multi-menu/second/child/home";
+    "namepase": "/namepase";
     "pods": "/pods";
     "user-center": "/user-center";
   };
@@ -94,6 +95,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "manage"
     | "multi-menu"
+    | "namepase"
     | "pods"
     | "user-center"
   >;
@@ -133,6 +135,7 @@ declare module "@elegant-router/types" {
     | "manage_user"
     | "multi-menu_first_child"
     | "multi-menu_second_child_home"
+    | "namepase"
     | "pods"
     | "user-center"
   >;

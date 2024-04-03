@@ -156,6 +156,7 @@ const local: App.I18n.Schema = {
     'function_toggle-auth': 'Toggle Auth',
     'function_super-page': 'Super Admin Visible',
     pods: 'Online Machine',
+    namepase: 'Namepase',
     manage: 'System Manage',
     manage_user: 'User Manage',
     'manage_user-detail': 'User Detail',
@@ -173,6 +174,10 @@ const local: App.I18n.Schema = {
     exception_500: '500'
   },
   page: {
+    common: {
+      upadteTime: 'Update Time',
+      createTime: 'Create Time'
+    },
     login: {
       common: {
         loginOrRegister: 'Login / Register',
@@ -299,6 +304,19 @@ const local: App.I18n.Schema = {
         client: 'Client',
         server: 'Server'
       }
+    },
+    namespace: {
+      title: 'Namespace',
+      name: 'Name',
+      keyword: 'Name/UniqueId',
+      uniqueId: 'UniqueId',
+      form: {
+        name: 'Please enter name',
+        keyword: 'Please enter name/uniqueId',
+        uniqueId: 'Please enter UniqueId'
+      },
+      addNamespace: 'Add Namespaces',
+      editNamespace: 'Edit Namespaces'
     },
     function: {
       tab: {

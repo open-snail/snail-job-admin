@@ -14,24 +14,24 @@ const authStore = useAuthStore();
 const gap = computed(() => (appStore.isMobile ? 0 : 16));
 
 interface StatisticData {
-  id: number;
+  id: string;
   label: string;
   value: string;
 }
 
 const statisticData = computed<StatisticData[]>(() => [
   {
-    id: 0,
+    id: '0',
     label: $t('page.home.userCount'),
     value: '2'
   },
   {
-    id: 1,
+    id: '1',
     label: $t('page.home.jobTaskCount'),
     value: '8'
   },
   {
-    id: 2,
+    id: '2',
     label: $t('page.home.retryTaskCount'),
     value: '3'
   }
