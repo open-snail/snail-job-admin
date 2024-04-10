@@ -7,8 +7,8 @@ interface Props {
   itemAlign?: NaiveUI.Align;
   disabledDelete?: boolean;
   loading?: boolean;
-  showDelete: boolean;
-  showAdd: boolean;
+  showDelete?: boolean;
+  showAdd?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {

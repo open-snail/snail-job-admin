@@ -1,0 +1,117 @@
+<script setup lang="ts">
+import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
+import { useAppStore } from '@/store/modules/app';
+
+defineOptions({
+  name: 'NamespaceOperateDrawer'
+});
+
+interface Props {
+  title?: string;
+  modelValue?: boolean;
+}
+
+const props = defineProps<Props>();
+
+interface Emits {
+  (e: 'handleSubmit'): void;
+  (e: 'update:modelValue', modelValue: boolean): void;
+}
+
+const emit = defineEmits<Emits>();
+const appStore = useAppStore();
+const state = reactive({ width: 0 });
+const visible = ref(props.modelValue);
+const isFullscreen = ref(false);
+const drawerWidth = computed(() => {
+  const maxMinWidth = 360;
+  const maxMaxWidth = 600;
+  if (appStore.isMobile) {
+    return state.width * 0.9 >= maxMinWidth ? `${maxMinWidth}px` : '90%';
+  }
+  let minWidth = state.width * 0.3 >= maxMinWidth ? `${maxMinWidth}px` : '30%';
+  minWidth = state.width <= 420 ? '90%' : '30%';
+  let maxWidth = state.width * 0.5 >= maxMaxWidth ? `${maxMaxWidth}px` : '50%';
+  maxWidth = state.width <= 420 ? '90%' : '50%';
+  return isFullscreen.value ? maxWidth : minWidth;
+});
+
+const getState = () => {
+  state.width = document.documentElement.clientWidth;
+};
+
+nextTick(() => {
+  getState();
+  window.addEventListener('resize', getState);
+});
+
+onUnmounted(() => {
+  // 移除监听事件
+  window.removeEventListener('resize', getState);
+});
+
+watch(
+  () => props.modelValue,
+  val => {
+    visible.value = val;
+  },
+  { immediate: true }
+);
+
+const closeDrawer = () => {
+  visible.value = false;
+  emit('update:modelValue', false);
+};
+
+const onUpdateShow = (value: boolean) => {
+  emit('update:modelValue', value);
+};
+
+const handleSubmit = () => {
+  emit('handleSubmit');
+  closeDrawer();
+};
+</script>
+
+<template>
+  <NDrawer v-model:show="visible" display-directive="show" :width="drawerWidth" @update:show="onUpdateShow">
+    <NDrawerContent :title="props.title" :native-scrollbar="false" closable header-class="operate-dawer-header">
+      <template #header>
+        {{ props.title }}
+        <div
+          v-if="!appStore.isMobile && state.width <= 1920"
+          quaternary
+          class="fullscreen text-18px color-#6a6a6a"
+          @click="isFullscreen = !isFullscreen"
+        >
+          <icon-material-symbols:close-fullscreen-rounded v-if="isFullscreen" />
+          <icon-material-symbols:open-in-full-rounded v-else />
+        </div>
+      </template>
+      <slot></slot>
+      <template #footer>
+        <NSpace :size="16">
+          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
+          <NButton type="primary" @click="handleSubmit">{{ $t('common.save') }}</NButton>
+        </NSpace>
+      </template>
+    </NDrawerContent>
+  </NDrawer>
+</template>
+
+<style scoped>
+.fullscreen {
+  height: 22px;
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen:hover {
+  background-color: #e8e8e8;
+  color: #696969;
+  border-radius: 6px;
+  cursor: pointer;
+}
+</style>

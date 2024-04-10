@@ -254,9 +254,9 @@ declare namespace Api {
     /** namespace */
     type Namespace = Common.CommonRecord<{
       /** 主键 */
-      id: string;
+      id?: string;
       /** 名称 */
-      name: string;
+      name?: string;
       /** UniqueId */
       uniqueId: string;
     }>;

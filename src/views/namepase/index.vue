@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton } from 'naive-ui';
 import { fetchGetNamespaceList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -18,11 +18,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   },
   columns: () => [
     {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
-    {
       key: 'index',
       title: $t('common.index'),
       align: 'center',
@@ -32,46 +27,36 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'name',
       title: $t('page.namespace.name'),
       align: 'left',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'uniqueId',
       title: $t('page.namespace.uniqueId'),
       align: 'left',
-      minWidth: 180
+      width: 180
     },
     {
       key: 'createDt',
       title: $t('page.common.createTime'),
       align: 'left',
-      minWidth: 120
+      width: 130
     },
     {
       key: 'updateDt',
       title: $t('page.common.upadteTime'),
       align: 'left',
-      minWidth: 120
+      width: 130
     },
     {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 64,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
         </div>
       )
     }
@@ -84,25 +69,9 @@ const {
   editingData,
   handleAdd,
   handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
+  checkedRowKeys
   // closeDrawer
 } = useTableOperate(data, getData);
-
-async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
-}
-
-function handleDelete(id: string) {
-  // request
-  console.log(id);
-
-  onDeleted();
-}
 
 function edit(id: string) {
   handleEdit(id);
@@ -112,14 +81,20 @@ function edit(id: string) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <NamespaceSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <NCard :title="$t('page.namespace.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard
+      :title="$t('page.namespace.title')"
+      :bordered="false"
+      size="small"
+      class="sm:flex-1-hidden card-wrapper"
+      header-class="view-card-header"
+    >
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="false"
           @add="handleAdd"
-          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>
@@ -127,7 +102,6 @@ function edit(id: string) {
         v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
         :data="data"
-        size="small"
         :flex-height="!appStore.isMobile"
         :scroll-x="962"
         :loading="loading"
@@ -146,8 +120,4 @@ function edit(id: string) {
   </div>
 </template>
 
-<style scoped>
-:deep(.n-card-header) {
-  --n-title-font-weight: 600 !important;
-}
-</style>
+<style scoped></style>

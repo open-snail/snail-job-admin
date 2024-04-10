@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
+import { fetchAddNamespace, fetchEditNamespace } from '@/service/api';
 
 defineOptions({
   name: 'NamespaceOperateDrawer'
@@ -25,7 +27,6 @@ const emit = defineEmits<Emits>();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
-
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 
@@ -37,7 +38,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.Namespace.Namespace, 'name' | 'uniqueId'>;
+type Model = Pick<Api.Namespace.Namespace, 'id' | 'name' | 'uniqueId'>;
 
 const model: Model = reactive(createDefaultModel());
 
@@ -65,15 +66,19 @@ function handleUpdateModelWhenEdit() {
   }
 }
 
-function closeDrawer() {
-  visible.value = false;
-}
-
 async function handleSubmit() {
   await validate();
   // request
+  if (props.operateType === 'add') {
+    const { name, uniqueId } = model;
+    fetchAddNamespace({ name, uniqueId });
+  }
+
+  if (props.operateType === 'edit') {
+    const { id, name, uniqueId } = model;
+    fetchEditNamespace({ id, name, uniqueId });
+  }
   window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
   emit('submitted');
 }
 
@@ -86,24 +91,20 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" :title="title" display-directive="show" :width="360">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
-      <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.namespace.name')" path="name">
-          <NInput v-model:value="model.name" :placeholder="$t('page.namespace.form.name')" />
-        </NFormItem>
-        <NFormItem :label="$t('page.namespace.uniqueId')" path="uniqueId">
-          <NInput v-model:value="model.uniqueId" :placeholder="$t('page.namespace.form.uniqueId')" />
-        </NFormItem>
-      </NForm>
-      <template #footer>
-        <NSpace :size="16">
-          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
-        </NSpace>
-      </template>
-    </NDrawerContent>
-  </NDrawer>
+  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
+    <NForm ref="formRef" :model="model" :rules="rules">
+      <NFormItem :label="$t('page.namespace.uniqueId')" path="uniqueId">
+        <NInput
+          v-model:value="model.uniqueId"
+          :disabled="props.operateType === 'edit'"
+          :placeholder="$t('page.namespace.form.uniqueId')"
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.namespace.name')" path="name">
+        <NInput v-model:value="model.name" :placeholder="$t('page.namespace.form.name')" />
+      </NFormItem>
+    </NForm>
+  </OperateDrawer>
 </template>
 
 <style scoped></style>

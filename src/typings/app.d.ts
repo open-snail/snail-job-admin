@@ -261,6 +261,7 @@ declare namespace App {
         columnSetting: string;
         config: string;
         confirm: string;
+        save: string;
         delete: string;
         deleteSuccess: string;
         confirmDelete: string;
@@ -667,11 +668,14 @@ declare namespace App {
         lang: string;
         fullscreen: string;
         fullscreenExit: string;
+        magnify: string;
+        restore: string;
         reload: string;
         collapse: string;
         expand: string;
         pin: string;
         unpin: string;
+        namepase: string;
       };
     };
 

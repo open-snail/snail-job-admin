@@ -15,6 +15,7 @@ const local: App.I18n.Schema = {
     columnSetting: 'Column Setting',
     config: 'Config',
     confirm: 'Confirm',
+    save: 'Save',
     delete: 'Delete',
     deleteSuccess: 'Delete Success',
     confirmDelete: 'Are you sure you want to delete?',
@@ -309,11 +310,11 @@ const local: App.I18n.Schema = {
       title: 'Namespace',
       name: 'Name',
       keyword: 'Name/UniqueId',
-      uniqueId: 'UniqueId',
+      uniqueId: 'Unique ID (default UUID)',
       form: {
         name: 'Please enter name',
         keyword: 'Please enter name/uniqueId',
-        uniqueId: 'Please enter UniqueId'
+        uniqueId: 'Please enter Unique ID'
       },
       addNamespace: 'Add Namespaces',
       editNamespace: 'Edit Namespaces'
@@ -517,11 +518,14 @@ const local: App.I18n.Schema = {
     lang: 'Switch Language',
     fullscreen: 'Fullscreen',
     fullscreenExit: 'Exit Fullscreen',
+    magnify: 'Magnify',
+    restore: 'Restore',
     reload: 'Reload Page',
     collapse: 'Collapse Menu',
     expand: 'Expand Menu',
     pin: 'Pin',
-    unpin: 'Unpin'
+    unpin: 'Unpin',
+    namepase: 'Switch Namepase'
   }
 };
 

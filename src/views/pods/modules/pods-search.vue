@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
+import { useAppStore } from '@/store/modules/app';
 import { useNaiveForm } from '@/hooks/common/form';
 
 defineOptions({
@@ -12,6 +13,8 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>();
+
+const appStore = useAppStore();
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 
@@ -30,7 +33,7 @@ async function search() {
 
 <template>
   <NCard :bordered="false" size="small" class="card-wrapper">
-    <NForm ref="formRef" :model="model" label-placement="left" :label-width="60" :show-feedback="false">
+    <NForm ref="formRef" :model="model" label-placement="left" :label-width="60" :show-feedback="appStore.isMobile">
       <NGrid responsive="screen" item-responsive>
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.pods.groupName')" path="groupName" class="pr-24px">
           <NInput v-model:value="model.groupName" :placeholder="$t('page.pods.form.groupName')" />

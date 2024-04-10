@@ -65,7 +65,7 @@ const headerMenus = computed(() => {
         :is-dark="themeStore.darkMode"
         @switch="themeStore.toggleThemeScheme"
       />
-      <ThemeButton />
+      <ThemeButton v-if="!appStore.isMobile" />
       <UserAvatar />
     </div>
   </DarkModeContainer>

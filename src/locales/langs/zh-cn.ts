@@ -15,6 +15,7 @@ const local: App.I18n.Schema = {
     columnSetting: '列设置',
     config: '配置',
     confirm: '确认',
+    save: '保存',
     delete: '删除',
     deleteSuccess: '删除成功',
     confirmDelete: '确认删除吗？',
@@ -305,11 +306,11 @@ const local: App.I18n.Schema = {
       title: '命名空间',
       name: '名称',
       keyword: '空间名称/唯一标识',
-      uniqueId: 'UniqueId',
+      uniqueId: '唯一标识(默认UUID)',
       form: {
-        name: '请输入名称',
+        name: '请输入空间名称',
         keyword: '请输入空间名称/唯一标识',
-        uniqueId: '请输入UniqueId'
+        uniqueId: '请输入唯一标识'
       },
       addNamespace: '新增命名空间',
       editNamespace: '编辑命名空间'
@@ -513,11 +514,14 @@ const local: App.I18n.Schema = {
     lang: '切换语言',
     fullscreen: '全屏',
     fullscreenExit: '退出全屏',
+    magnify: '放大',
+    restore: '还原',
     reload: '刷新页面',
     collapse: '折叠菜单',
     expand: '展开菜单',
     pin: '固定',
-    unpin: '取消固定'
+    unpin: '取消固定',
+    namepase: '切换空间'
   }
 };
 
