@@ -58,7 +58,7 @@ const onUpdateType = (value: string) => {
   <NSpace vertical :size="16">
     <HeaderBanner />
     <CardData :model-value="cardCount!" />
-    <NCard :bordered="false" class="card-wrapper">
+    <NCard :bordered="false" class="card-wrapper p-t-136px xl:p-t-0">
       <div class="relative">
         <NTabs type="line" animated>
           <NTabPane name="retryTask" :tab="$t('page.home.retryTask')">
@@ -68,7 +68,7 @@ const onUpdateType = (value: string) => {
             <RetryTab :type="1" :line-params="tabParams" />
           </NTabPane>
         </NTabs>
-        <div class="absolute right-40px top-0 flex gap-16px">
+        <div class="absolute top--136px flex flex-wrap gap-16px xl:right-40px xl:top-0 xl:flex-nowrap">
           <NRadioGroup v-model:value="tabParams.type" @update:value="onUpdateType">
             <NRadioButton value="DAY" label="今日" />
             <NRadioButton value="WEEK" label="最近一周" />
