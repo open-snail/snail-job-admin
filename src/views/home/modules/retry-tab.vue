@@ -24,7 +24,6 @@ const data = ref<Api.Dashboard.DashboardLine>();
 const groupOptions = ref();
 const tabParams = ref<Api.Dashboard.DashboardLineParams>({
   type: 'WEEK',
-  groupName: 'Default',
   page: 1,
   size: 6
 });
@@ -67,6 +66,7 @@ watch(
 const onUpdateTab = (value: string) => {
   if (value === 'retryTask') {
     type.value = 0;
+    tabParams.value.mode = undefined;
   }
   if (value === 'jobTask') {
     type.value = 1;

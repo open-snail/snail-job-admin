@@ -49,6 +49,14 @@ const props = withDefaults(defineProps<Props>(), {
       totalNum: 0,
       successRate: 0
     },
+    workFlowTask: {
+      successNum: 0,
+      failNum: 0,
+      cancelNum: 0,
+      stopNum: 0,
+      totalNum: 0,
+      successRate: 0
+    },
     retryTask: {
       totalNum: 0,
       runningNum: 0,
@@ -139,6 +147,36 @@ const cardData = computed<CardData[]>(() => [
     ]
   },
   {
+    key: 'workflow',
+    title: $t('page.home.workflow'),
+    tip: $t('page.home.workflowTip'),
+    value: 7,
+    unit: '',
+    color: {
+      start: '#ec6f6f',
+      end: '#f99797'
+    },
+    icon: 'typcn:flow-merge',
+    bottom: [
+      {
+        label: $t('common.success'),
+        value: props.modelValue?.workFlowTask.successNum ?? 0
+      },
+      {
+        label: $t('common.fail'),
+        value: props.modelValue?.workFlowTask.failNum ?? 0
+      },
+      {
+        label: $t('common.stop'),
+        value: props.modelValue?.workFlowTask.stopNum ?? 0
+      },
+      {
+        label: $t('common.cancel'),
+        value: props.modelValue?.workFlowTask.cancelNum ?? 0
+      }
+    ]
+  },
+  {
     key: 'onlineServiceCount',
     title: $t('page.home.onlineServiceCount'),
     tip: $t('page.home.onlineServiceTip'),
@@ -157,36 +195,6 @@ const cardData = computed<CardData[]>(() => [
       {
         label: $t('page.manage.machine.type.server'),
         value: props.modelValue?.onLineService.serverTotal ?? 0
-      }
-    ]
-  },
-  {
-    key: 'workflow',
-    title: $t('page.home.workflow'),
-    tip: $t('page.home.workflowTip'),
-    value: 7,
-    unit: '',
-    color: {
-      start: '#ec6f6f',
-      end: '#f99797'
-    },
-    icon: 'typcn:flow-merge',
-    bottom: [
-      {
-        label: $t('common.success'),
-        value: 185
-      },
-      {
-        label: $t('common.fail'),
-        value: 37
-      },
-      {
-        label: $t('common.stop'),
-        value: 5
-      },
-      {
-        label: $t('common.cancel'),
-        value: 13
       }
     ]
   }

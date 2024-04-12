@@ -119,6 +119,7 @@ declare namespace Api {
     /** Task Retry Job */
     type CardCount = {
       jobTask: JobTask;
+      workFlowTask: JobTask;
       retryTask: RetryTask;
       retryTaskBarList: RetryTaskBarList[];
       onLineService: OnlineService;

@@ -21,7 +21,8 @@ const appStore = useAppStore();
 
 const { domRef, updateOptions } = useEcharts(() => ({
   tooltip: {
-    trigger: 'item'
+    trigger: 'item',
+    formatter: '{a} <br/>{b}: {d}%'
   },
   legend: {
     bottom: '1%',
@@ -60,23 +61,46 @@ const { domRef, updateOptions } = useEcharts(() => ({
   ]
 }));
 
-const getData = () => {
-  updateOptions(opts => {
-    const retryTask = props.modelValue.retryTask;
-    const jobTask = props.modelValue.jobTask;
-    const totalNum = props.type === 0 ? retryTask.totalNum : jobTask.totalNum;
-    opts.series[0].data = [
-      { name: $t('common.success'), value: props.type === 0 ? retryTask.finishNum : jobTask.successNum / totalNum },
-      { name: $t('common.running'), value: props.type === 0 ? retryTask.runningNum : jobTask.failNum / totalNum },
-      {
-        name: $t('page.manage.retryTask.status.maxRetryTimes'),
-        value: props.type === 0 ? retryTask.maxCountNum : jobTask.stopNum / totalNum
-      },
-      {
-        name: $t('page.manage.retryTask.status.pauseRetry'),
-        value: props.type === 0 ? retryTask.suspendNum : jobTask.cancelNum / totalNum
-      }
-    ];
+const getData = async () => {
+  await new Promise(resolve => {
+    setTimeout(resolve, 1);
+  });
+
+  if (!props.modelValue) {
+    await getData();
+    return;
+  }
+
+  updateOptions((opts, factory) => {
+    const originOpts = factory();
+    opts.series[0].name = originOpts.series[0].name;
+    if (props.type === 0) {
+      const retryTask = props.modelValue.retryTask;
+      opts.series[0].data = [
+        { name: $t('common.success'), value: retryTask.finishNum / retryTask.totalNum },
+        { name: $t('common.running'), value: retryTask.runningNum / retryTask.totalNum },
+        { name: $t('page.manage.retryTask.status.maxRetryTimes'), value: retryTask.maxCountNum / retryTask.totalNum },
+        { name: $t('page.manage.retryTask.status.pauseRetry'), value: retryTask.suspendNum / retryTask.totalNum }
+      ];
+    }
+    if (props.type === 1) {
+      const jobTask = props.modelValue.jobTask;
+      opts.series[0].data = [
+        { name: $t('common.success'), value: jobTask.successNum / jobTask.totalNum },
+        { name: $t('common.fail'), value: jobTask.failNum / jobTask.totalNum },
+        { name: $t('common.stop'), value: jobTask.stopNum / jobTask.totalNum },
+        { name: $t('common.cancel'), value: jobTask.cancelNum / jobTask.totalNum }
+      ];
+    }
+    if (props.type === 2) {
+      const workFlowTask = props.modelValue.workFlowTask;
+      opts.series[0].data = [
+        { name: $t('common.success'), value: workFlowTask.successNum / workFlowTask.totalNum },
+        { name: $t('common.fail'), value: workFlowTask.failNum / workFlowTask.totalNum },
+        { name: $t('common.stop'), value: workFlowTask.stopNum / workFlowTask.totalNum },
+        { name: $t('common.cancel'), value: workFlowTask.cancelNum / workFlowTask.totalNum }
+      ];
+    }
     return opts;
   });
 };

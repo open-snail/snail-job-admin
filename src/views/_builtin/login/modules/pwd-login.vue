@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { reactive } from 'vue';
 import { Md5 } from 'ts-md5';
 import { $t } from '@/locales';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
@@ -11,6 +11,7 @@ defineOptions({
 
 const authStore = useAuthStore();
 const { formRef, validate } = useNaiveForm();
+const { defaultRequiredRule } = useFormRules();
 
 interface FormModel {
   userName: string;
@@ -22,15 +23,12 @@ const model: FormModel = reactive({
   password: '654321'
 });
 
-const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
-  // inside computed to make locale reactive, if not apply i18n, you can define it without computed
-  const { formRules } = useFormRules();
+type RuleKey = Extract<keyof FormModel, 'userName' | 'password'>;
 
-  return {
-    userName: formRules.userName,
-    password: formRules.pwd
-  };
-});
+const rules: Record<RuleKey, App.Global.FormRule> = {
+  userName: defaultRequiredRule,
+  password: defaultRequiredRule
+};
 
 async function handleSubmit() {
   await validate();
