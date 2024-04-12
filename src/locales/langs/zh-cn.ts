@@ -259,7 +259,7 @@ const local: App.I18n.Schema = {
       onlineServiceCount: '总在线机器',
       onlineServiceTip: '总在线机器:注册到系统的客户端和服务端之和',
       workflow: '工作流',
-      workflowTip: '工作流提示',
+      workflowTip: '成功率:总完成/总调度量',
       projectCount: '项目数',
       todo: '待办',
       message: '消息',
@@ -273,6 +273,26 @@ const local: App.I18n.Schema = {
       visitCount: '访问量',
       turnover: '成交额',
       dealCount: '成交量',
+      retryTab: {
+        params: {
+          day: '今日',
+          week: '最近一周',
+          month: '最近一月',
+          year: '全年'
+        },
+        rank: {
+          title: '任务量排名'
+        },
+        task: {
+          title: '场景列表',
+          groupName: '组名称',
+          run: '运行中任务数',
+          total: '总任务数'
+        },
+        pie: {
+          title: '成功比例图'
+        }
+      },
       projectNews: {
         title: '项目动态',
         moreNews: '更多动态',

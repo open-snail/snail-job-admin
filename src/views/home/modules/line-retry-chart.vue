@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { watch } from 'vue';
+import { $t } from '@/locales';
+import { useAppStore } from '@/store/modules/app';
 import { useEcharts } from '@/hooks/common/echarts';
 
 defineOptions({
@@ -15,6 +17,8 @@ const props = withDefaults(defineProps<Props>(), {
   type: 0
 });
 
+const appStore = useAppStore();
+
 const { domRef, updateOptions } = useEcharts(() => ({
   tabIndex: props.type,
   tooltip: {
@@ -27,7 +31,15 @@ const { domRef, updateOptions } = useEcharts(() => ({
     }
   },
   legend: {
-    data: ['Success Num', 'Running Num', 'Max Count Num', 'Suspend Num']
+    data:
+      props.type === 0
+        ? [
+            $t('common.success'),
+            $t('common.running'),
+            $t('page.manage.retryTask.status.maxRetryTimes'),
+            $t('page.manage.retryTask.status.pauseRetry')
+          ]
+        : [$t('common.success'), $t('common.fail'), $t('common.stop'), $t('common.cancel')]
   },
   grid: {
     left: '3%',
@@ -46,7 +58,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
   series: [
     {
       color: '#f5b386',
-      name: 'Success Num',
+      name: $t('common.success'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -76,7 +88,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#40e9c5',
-      name: 'Running Num',
+      name: props.type === 0 ? $t('common.running') : $t('common.fail'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -106,7 +118,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#b686d4',
-      name: 'Max Count Num',
+      name: props.type === 0 ? $t('page.manage.retryTask.status.maxRetryTimes') : $t('common.stop'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -136,7 +148,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#ec6f6f',
-      name: 'Suspend Num',
+      name: props.type === 0 ? $t('page.manage.retryTask.status.pauseRetry') : $t('common.cancel'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -167,48 +179,38 @@ const { domRef, updateOptions } = useEcharts(() => ({
   ]
 }));
 
-async function getData() {
-  await new Promise(resolve => {
-    setTimeout(resolve, 1);
-  });
+const getData = () => {
+  updateOptions((opts, factory) => {
+    const originOpts = factory();
+    opts.legend.data = originOpts.legend.data;
+    opts.series[0].name = originOpts.series[0].name;
+    opts.series[1].name = originOpts.series[1].name;
+    opts.series[2].name = originOpts.series[2].name;
+    opts.series[3].name = originOpts.series[3].name;
 
-  if (!props.modelValue) {
-    await getData();
-    return;
-  }
-
-  updateOptions(opts => {
     opts.xAxis.data = props.modelValue?.dashboardLineResponseDOList.map(x => x.createDt);
     opts.series[0].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 1 ? x.success : x.successNum
+      opts.tabIndex === 0 ? x.successNum : x.success
     );
     opts.series[1].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 1 ? x.fail : x.runningNum
+      opts.tabIndex === 0 ? x.runningNum : x.fail
     );
     opts.series[2].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 1 ? x.stop : x.maxCountNum
+      opts.tabIndex === 0 ? x.maxCountNum : x.stop
     );
     opts.series[3].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 1 ? x.cancel : x.suspendNum
+      opts.tabIndex === 0 ? x.suspendNum : x.cancel
     );
     return opts;
   });
-}
+};
 
-function updateLocale() {
-  updateOptions(opts => {
-    opts.legend.data =
-      opts.tabIndex === 1
-        ? ['Success', 'Fail', 'Stop', 'Cancel']
-        : ['Success Num', 'Running Num', 'Max Count Num', 'Suspend Num'];
-
-    opts.series[0].name = opts.legend.data[0];
-    opts.series[1].name = opts.legend.data[1];
-    opts.series[2].name = opts.legend.data[2];
-    opts.series[3].name = opts.legend.data[3];
-    return opts;
-  });
-}
+watch(
+  () => appStore.locale,
+  () => {
+    getData();
+  }
+);
 
 watch(
   () => props.modelValue,
@@ -220,7 +222,6 @@ watch(
 watch(
   () => props.type,
   () => {
-    updateLocale();
     getData();
   },
   { immediate: true }

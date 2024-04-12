@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ACheckableTag: typeof import('ant-design-vue/es')['CheckableTag']
     AppProvider: typeof import('./../components/common/app-provider.vue')['default']
     BetterScroll: typeof import('./../components/custom/better-scroll.vue')['default']
     ButtonIcon: typeof import('./../components/custom/button-icon.vue')['default']
@@ -34,11 +33,11 @@ declare module 'vue' {
     IconMdiKeyboardEsc: typeof import('~icons/mdi/keyboard-esc')['default']
     IconMdiKeyboardReturn: typeof import('~icons/mdi/keyboard-return')['default']
     IconMdiRefresh: typeof import('~icons/mdi/refresh')['default']
-    'IconOui:appSpaces': typeof import('~icons/oui/app-spaces')['default']
     IconUilSearch: typeof import('~icons/uil/search')['default']
     LangSwitch: typeof import('./../components/common/lang-switch.vue')['default']
     LookForward: typeof import('./../components/custom/look-forward.vue')['default']
     MenuToggler: typeof import('./../components/common/menu-toggler.vue')['default']
+    NBadge: typeof import('naive-ui')['NBadge']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']

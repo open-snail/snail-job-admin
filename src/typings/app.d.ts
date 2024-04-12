@@ -451,6 +451,26 @@ declare namespace App {
           visitCount: string;
           turnover: string;
           dealCount: string;
+          retryTab: {
+            params: {
+              day: string;
+              week: string;
+              month: string;
+              year: string;
+            };
+            rank: {
+              title: string;
+            };
+            task: {
+              title: string;
+              groupName: string;
+              run: string;
+              total: string;
+            };
+            pie: {
+              title: string;
+            };
+          };
           projectNews: {
             title: string;
             moreNews: string;

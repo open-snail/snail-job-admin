@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, nextTick, onUnmounted, reactive } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 import { $t } from '@/locales';
@@ -14,6 +14,30 @@ defineOptions({
 interface Props {
   modelValue?: Api.Dashboard.CardCount;
 }
+
+const state = reactive({ width: 0 });
+const gridCol = computed(() => {
+  if (state.width >= 1600) {
+    return 4;
+  } else if (state.width >= 1024) {
+    return 2;
+  }
+  return 1;
+});
+
+const getState = () => {
+  state.width = document.documentElement.clientWidth;
+};
+
+nextTick(() => {
+  getState();
+  window.addEventListener('resize', getState);
+});
+
+onUnmounted(() => {
+  // 移除监听事件
+  window.removeEventListener('resize', getState);
+});
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: () => ({
@@ -189,7 +213,7 @@ function getGradientColor(color: CardData['color']) {
     </DefineGradientBg>
     <!-- define component end: GradientBg -->
 
-    <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
+    <NGrid :cols="gridCol" responsive="screen" :x-gap="16" :y-gap="16">
       <NGi v-for="item in cardData" :key="item.key">
         <NSpin :show="false">
           <GradientBg
