@@ -179,7 +179,7 @@ watch(
             </div>
           </NGi>
         </NGrid>
-        <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive class="h-460px p-t-16px">
+        <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive class="p-t-16px">
           <NGi span="24 s:24 m:16">
             <h4 class="retry-tab-title">{{ $t('page.home.retryTab.task.title') }}</h4>
             <NDivider />
