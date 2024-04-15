@@ -119,6 +119,7 @@ declare namespace Api {
     /** Task Retry Job */
     type CardCount = {
       jobTask: JobTask;
+      workFlowTask: JobTask;
       retryTask: RetryTask;
       retryTaskBarList: RetryTaskBarList[];
       onLineService: OnlineService;
@@ -190,26 +191,28 @@ declare namespace Api {
 
     type TaskList = {
       status: number;
-      data: Datum[];
+      data: Task[];
       page: number;
       size: number;
       total: number;
     };
 
-    type Datum = {
+    type Task = {
       groupName: string;
       run: number;
       total: number;
     };
 
     type DashboardLineType = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' | 'OTHERS';
+    type DashboardLineMode = 'JOB' | 'WORKFLOW';
 
     type DashboardLineParams = {
       groupName?: string;
       type: DashboardLineType;
+      mode?: DashboardLineMode;
       startTime?: string;
       endTime?: string;
-    };
+    } & CommonSearchParams;
 
     type DashboardPodsType = 1 | 2;
 

@@ -8,6 +8,14 @@ export function fetchCardCount() {
   });
 }
 
+/** All Group Name */
+export function fetchAllGroupName() {
+  return request<string[]>({
+    url: '/group/all/group-name/list',
+    method: 'get'
+  });
+}
+
 /** Retry Line */
 export function fetchRetryLine(params?: Api.Dashboard.DashboardLineParams) {
   return request<Api.Dashboard.DashboardLine>({

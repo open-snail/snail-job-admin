@@ -262,7 +262,7 @@ const local: App.I18n.Schema = {
       onlineServiceCount: 'Online Machine',
       onlineServiceTip: 'Always online machines: the sum of clients and servers registered to the system',
       workflow: 'Workflow',
-      workflowTip: 'Workflow Tip',
+      workflowTip: 'Success rate: total completion/total dispatch amount',
       // ...
       projectCount: 'Project Count',
       todo: 'Todo',
@@ -277,6 +277,26 @@ const local: App.I18n.Schema = {
       visitCount: 'Visit Count',
       turnover: 'Turnover',
       dealCount: 'Deal Count',
+      retryTab: {
+        params: {
+          day: 'Today',
+          week: 'Lask Week',
+          month: 'Last Month',
+          year: 'Year Round'
+        },
+        rank: {
+          title: 'Task volume ranking'
+        },
+        task: {
+          title: 'List of scenes',
+          groupName: 'Group Name',
+          run: 'Running Task Total',
+          total: 'Task Total'
+        },
+        pie: {
+          title: 'Success scale chart'
+        }
+      },
       projectNews: {
         title: 'Project News',
         moreNews: 'More News',

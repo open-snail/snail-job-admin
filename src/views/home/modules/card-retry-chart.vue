@@ -51,13 +51,13 @@ const { domRef, updateOptions } = useEcharts(() => ({
   ]
 }));
 
-async function mockData() {
+const getData = async () => {
   await new Promise(resolve => {
     setTimeout(resolve, 1);
   });
 
   if (!props.modelValue) {
-    await mockData();
+    await getData();
     return;
   }
 
@@ -68,14 +68,9 @@ async function mockData() {
     opts.series[0].data = props.modelValue!.map(item => item.taskTotal);
     return opts;
   });
-}
+};
 
-async function init() {
-  await mockData();
-}
-
-// init
-init();
+getData();
 </script>
 
 <template>
