@@ -31,9 +31,9 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       const token = localStg.get('token');
       const namespaceId = localStg.get('namespaceId');
       // const Authorization = token ? `Bearer ${token}` : null;
-      headers['EASY-RETRY-AUTH'] = token;
-      headers['EASY-RETRY-NAMESPACE-ID'] = namespaceId;
-      Object.assign(headers, { 'EASY-RETRY-AUTH': token, 'EASY-RETRY-NAMESPACE-ID': namespaceId });
+      headers['SNAIL-JOB-AUTH'] = token;
+      headers['SNAIL-JOB-NAMESPACE-ID'] = namespaceId;
+      Object.assign(headers, { 'SNAIL-JOB-AUTH': token, 'SNAIL-JOB-NAMESPACE-ID': namespaceId });
 
       return config;
     },
