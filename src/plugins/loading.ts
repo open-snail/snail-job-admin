@@ -5,7 +5,7 @@ import { localStg } from '@/utils/storage';
 import systemLogo from '@/assets/svg-icon/full-logo.svg?raw';
 
 export function setupLoading() {
-  const themeColor = localStg.get('themeColor') || '#646cff';
+  const themeColor = localStg.get('themeColor') || '#22aae3';
 
   const { r, g, b } = getRgbOfColor(themeColor);
 
@@ -27,14 +27,14 @@ export function setupLoading() {
     .join('\n');
 
   const loading = `
-<div class="fixed-center flex-col" style="${primaryColor}">
+<div class="fixed-center flex-col dark:bg-#121212" style="${primaryColor}">
   ${logoWithClass}
   <div class="w-42px h-42px my-36px">
     <div class="relative h-full animate-spin">
       ${dot}
     </div>
   </div>
-  <h2 class="text-18px font-500 pt-32px w-80% text-center text-#646464">${$t('system.desc')}</h2>
+  <h2 class="text-18px font-500 pt-32px w-80% text-center text-#646464 dark:#d6d6d6">${$t('system.desc')}</h2>
 </div>`;
 
   const app = document.getElementById('app');

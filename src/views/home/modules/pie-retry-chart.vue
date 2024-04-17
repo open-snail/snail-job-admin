@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { watch } from 'vue';
+import { getColorPalette } from '@sa/utils';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useEcharts } from '@/hooks/common/echarts';
+import { useThemeStore } from '@/store/modules/theme';
 
 defineOptions({
   name: 'PieRetryChart'
@@ -18,6 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const appStore = useAppStore();
+const themeStore = useThemeStore();
 
 const { domRef, updateOptions } = useEcharts(() => ({
   tooltip: {
@@ -33,14 +36,14 @@ const { domRef, updateOptions } = useEcharts(() => ({
   },
   series: [
     {
-      color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
+      color: [getColor('#5da8ff'), getColor('#8e9dff'), getColor('#fedc69'), getColor('#26deca')],
       name: $t('page.home.retryTab.pie.title'),
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 10,
-        borderColor: '#fff',
+        borderColor: themeStore.darkMode ? '#18181c' : '#fff',
         borderWidth: 1
       },
       label: {
@@ -61,6 +64,10 @@ const { domRef, updateOptions } = useEcharts(() => ({
   ]
 }));
 
+function getColor(color: string) {
+  return themeStore.darkMode ? getColorPalette(color, 7) : color;
+}
+
 const getData = async () => {
   await new Promise(resolve => {
     setTimeout(resolve, 1);
@@ -71,9 +78,16 @@ const getData = async () => {
     return;
   }
 
+  updateLocale();
+};
+
+function updateLocale() {
   updateOptions((opts, factory) => {
     const originOpts = factory();
     opts.series[0].name = originOpts.series[0].name;
+    opts.series[0].color = originOpts.series[0].color;
+    opts.series[0].itemStyle.borderColor = originOpts.series[0].itemStyle.borderColor;
+
     if (props.type === 0) {
       const retryTask = props.modelValue.retryTask;
       opts.series[0].data = [
@@ -103,19 +117,19 @@ const getData = async () => {
     }
     return opts;
   });
-};
+}
 
 watch(
   () => appStore.locale,
   () => {
-    getData();
+    updateLocale();
   }
 );
 
 watch(
-  () => props.modelValue,
+  () => themeStore.darkMode,
   () => {
-    getData();
+    updateLocale();
   }
 );
 
@@ -125,6 +139,13 @@ watch(
     getData();
   },
   { immediate: true }
+);
+
+watch(
+  () => props.modelValue,
+  () => {
+    getData();
+  }
 );
 </script>
 

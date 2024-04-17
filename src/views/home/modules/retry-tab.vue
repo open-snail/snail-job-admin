@@ -228,15 +228,15 @@ watch(
 .retry-table-number {
   padding: 3px 7px;
   background-color: #f4f4f4;
-  color: #555;
+  color: #d6d6d6;
   text-shadow: none !important;
   font-weight: 400;
   border-radius: 4px;
 }
 
 .dark .retry-table-number {
-  background: #000;
-  color: #aaa;
+  background: #2c2c2c;
+  color: #d6d6d6;
 }
 </style>
 
@@ -304,18 +304,18 @@ watch(
 
 .dark {
   .retry-tab-badge {
-    background: #000;
-    color: #aaa;
+    background: #2c2c2c;
+    color: #d6d6d6;
   }
 
   .retry-tab-rank {
     &__list {
       &--index {
-        color: #aaa;
+        color: #d6d6d6;
       }
 
       &--item {
-        border: 1px solid #000;
+        border: 1px solid #646464;
       }
 
       &--item:hover {

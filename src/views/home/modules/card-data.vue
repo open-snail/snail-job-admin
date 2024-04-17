@@ -2,10 +2,13 @@
 import { computed, nextTick, onUnmounted, reactive } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { useRouter } from 'vue-router';
+import { getColorPalette } from '@sa/utils';
 import { $t } from '@/locales';
+import { useThemeStore } from '@/store/modules/theme';
 import DardRetryChart from './card-retry-chart.vue';
 
 const router = useRouter();
+const themeStore = useThemeStore();
 
 defineOptions({
   name: 'CardData'
@@ -207,7 +210,9 @@ interface GradientBgProps {
 const [DefineGradientBg, GradientBg] = createReusableTemplate<GradientBgProps>();
 
 function getGradientColor(color: CardData['color']) {
-  return `linear-gradient(to bottom right, ${color.start}, ${color.end})`;
+  const start = themeStore.darkMode ? getColorPalette(color.start, 7) : color.start;
+  const end = themeStore.darkMode ? getColorPalette(color.end, 7) : color.end;
+  return `linear-gradient(to bottom right, ${start}, ${end})`;
 }
 </script>
 

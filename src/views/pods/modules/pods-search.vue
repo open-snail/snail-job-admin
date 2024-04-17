@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useNaiveForm } from '@/hooks/common/form';
@@ -16,6 +17,8 @@ const emit = defineEmits<Emits>();
 
 const appStore = useAppStore();
 
+const title = ref(appStore.isMobile ? $t('common.search') : undefined);
+
 const { formRef, validate, restoreValidation } = useNaiveForm();
 
 const model = defineModel<Api.Dashboard.DashboardPodsParams>('model', { required: true });
@@ -32,7 +35,7 @@ async function search() {
 </script>
 
 <template>
-  <NCard :bordered="false" size="small" class="card-wrapper">
+  <NCard :title="title" :bordered="false" size="small" class="card-wrapper">
     <NForm ref="formRef" :model="model" label-placement="left" :label-width="60" :show-feedback="appStore.isMobile">
       <NGrid responsive="screen" item-responsive>
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.pods.groupName')" path="groupName" class="pr-24px">
