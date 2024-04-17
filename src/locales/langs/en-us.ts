@@ -160,6 +160,7 @@ const local: App.I18n.Schema = {
     namepase: 'Namepase',
     manage: 'System Manage',
     manage_user: 'User Manage',
+    notify: 'notify',
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
@@ -496,6 +497,29 @@ const local: App.I18n.Schema = {
           local: 'Local Icon'
         }
       }
+    },
+    notifyConfig: {
+      title: 'Alarm Notify List',
+      groupName: 'Group name',
+      businessName: 'Business ID',
+      notifyStatus: 'State',
+      notifyType: 'Notify type',
+      notifyScene: 'Notify scene',
+      notifyThreshold: 'Notify threshold',
+      description: 'Describe',
+      notifyAttribute: 'Notify Attribute',
+      form: {
+        businessId: 'Please select Business ID',
+        description: 'Please enter Describe',
+        notifyType: 'Please select Notification type',
+        notifyAttribute: 'Please enter notify attribute',
+        notifyScene: 'Please select Notification scene',
+        groupName: 'Please select Group name',
+        notifyThreshold: 'Please enter Notification threshold',
+        notifyStatus: 'Please select State'
+      },
+      addNotifyConfig: 'Add Alarm notification',
+      editNotifyConfig: 'Add Alarm notification'
     }
   },
   form: {

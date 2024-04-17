@@ -671,6 +671,29 @@ declare namespace App {
             };
           };
         };
+        notifyConfig: {
+          title: string;
+          groupName: string;
+          businessName: string;
+          notifyStatus: string;
+          notifyType: string;
+          notifyScene: string;
+          notifyThreshold: string;
+          description: string;
+          notifyAttribute: string;
+          form: {
+            businessId: string;
+            description: string;
+            notifyType: string;
+            notifyAttribute: string;
+            notifyScene: string;
+            groupName: string;
+            notifyThreshold: string;
+            notifyStatus: string;
+          };
+          addNotifyConfig: string;
+          editNotifyConfig: string;
+        };
       };
       form: {
         required: string;

@@ -333,6 +333,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'notify',
+    path: '/notify',
+    component: 'layout.base$view.notify',
+    meta: {
+      title: 'notify',
+      i18nKey: 'route.notify'
+    }
+  },
+  {
     name: 'pods',
     path: '/pods',
     component: 'layout.base$view.pods',

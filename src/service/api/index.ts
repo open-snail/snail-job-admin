@@ -4,3 +4,4 @@ export * from './system';
 export * from './dashboard';
 export * from './namespace';
 export * from './system-manage';
+export * from './notify';

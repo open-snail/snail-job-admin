@@ -49,6 +49,7 @@ declare module "@elegant-router/types" {
     "multi-menu_second_child": "/multi-menu/second/child";
     "multi-menu_second_child_home": "/multi-menu/second/child/home";
     "namepase": "/namepase";
+    "notify": "/notify";
     "pods": "/pods";
     "user-center": "/user-center";
   };
@@ -65,7 +66,7 @@ declare module "@elegant-router/types" {
 
   /**
    * custom route key
-   */ 
+   */
   export type CustomRouteKey = Extract<
     RouteKey,
     | "root"
@@ -78,7 +79,7 @@ declare module "@elegant-router/types" {
 
   /**
    * the generated route key
-   */ 
+   */
   export type GeneratedRouteKey = Exclude<RouteKey, CustomRouteKey>;
 
   /**
@@ -90,12 +91,14 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "about"
+    | "demo-route"
     | "function"
     | "home"
     | "login"
     | "manage"
     | "multi-menu"
     | "namepase"
+    | "notify"
     | "pods"
     | "user-center"
   >;
@@ -120,6 +123,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "login"
     | "about"
+    | "demo-route_child"
     | "function_hide-child_one"
     | "function_hide-child_three"
     | "function_hide-child_two"
@@ -136,6 +140,7 @@ declare module "@elegant-router/types" {
     | "multi-menu_first_child"
     | "multi-menu_second_child_home"
     | "namepase"
+    | "notify"
     | "pods"
     | "user-center"
   >;
@@ -212,7 +217,7 @@ declare module "@elegant-router/types" {
         component: `view.${K}`;
       }
     : never;
-  
+
   /**
    * the center level route
    */
@@ -235,7 +240,7 @@ declare module "@elegant-router/types" {
         children: (CenterLevelRoute<GetChildRouteKey<K>> | LastLevelRoute<GetChildRouteKey<K>>)[];
       }
     : never;
-  
+
   /**
    * the custom first level route
    */
