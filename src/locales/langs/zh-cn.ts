@@ -158,6 +158,7 @@ const local: App.I18n.Schema = {
     'function_super-page': '超级管理员可见',
     pods: '在线机器',
     namepase: '命名空间',
+    'group-config': '组管理',
     manage: '系统管理',
     manage_user: '用户管理',
     notify: '告警通知',
@@ -337,6 +338,29 @@ const local: App.I18n.Schema = {
       },
       addNamespace: '新增命名空间',
       editNamespace: '编辑命名空间'
+    },
+    groupConfig: {
+      title: '组管理',
+      namespaceId: '命名空间ID',
+      groupName: '组名称',
+      groupStatus: '状态',
+      idGeneratorMode: 'ID生成模式',
+      version: '版本',
+      groupPartition: '分区',
+      initScene: '初始化场景',
+      bucketIndex: 'Bucket',
+      updateDt: '更新时间',
+      description: '描述',
+      form: {
+        namespaceId: '请选择命名空间ID',
+        groupName: '请输入组名称'
+      },
+      idMode: {
+        idWorker: '雪花算法',
+        segment: '号段模式'
+      },
+      addGroupConfig: '新增组管理',
+      editGroupConfig: '编辑组管理'
     },
     function: {
       tab: {

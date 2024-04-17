@@ -513,6 +513,30 @@ declare namespace App {
           addNamespace: string;
           editNamespace: string;
         };
+        groupConfig: {
+          title: string;
+          namespaceId: string;
+          groupName: string;
+          description: string;
+          // token: string;
+          groupStatus: string;
+          version: string;
+          groupPartition: string;
+          idGeneratorMode: string;
+          initScene: string;
+          bucketIndex: string;
+          updateDt: string;
+          form: {
+            namespaceId: string;
+            groupName: string;
+          };
+          idMode: {
+            idWorker: string;
+            segment: string;
+          };
+          addGroupConfig: string;
+          editGroupConfig: string;
+        };
         function: {
           tab: {
             tabOperate: {

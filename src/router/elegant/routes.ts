@@ -171,6 +171,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'group-config',
+    path: '/group-config',
+    component: 'layout.base$view.group-config',
+    meta: {
+      title: 'group-config',
+      i18nKey: 'route.group-config'
+    }
+  },
+  {
     name: 'home',
     path: '/home',
     component: 'layout.base$view.home',

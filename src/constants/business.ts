@@ -1,5 +1,10 @@
 import { transformRecordToOption } from '@/utils/common';
 
+export const yesOrNoRecord: Record<Api.Common.YesOrNo, App.I18n.I18nKey> = {
+  '0': 'common.yesOrNo.no',
+  '1': 'common.yesOrNo.yes'
+};
+
 export const enableStatusRecord: Record<Api.Common.EnableStatus, App.I18n.I18nKey> = {
   '1': 'page.manage.common.status.enable',
   '2': 'page.manage.common.status.disable'
@@ -31,4 +36,9 @@ export const menuIconTypeOptions = transformRecordToOption(menuIconTypeRecord);
 export const podsType: Record<Api.Dashboard.DashboardPodsType, App.I18n.I18nKey> = {
   1: 'page.pods.type.client',
   2: 'page.pods.type.server'
+};
+
+export const idGeneratorModeRecord: Record<Api.GroupConfig.IdGeneratorModeType, App.I18n.I18nKey> = {
+  '1': 'page.groupConfig.idMode.segment',
+  '2': 'page.groupConfig.idMode.idWorker'
 };

@@ -175,7 +175,8 @@ const local: App.I18n.Schema = {
     exception: 'Exception',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500'
+    exception_500: '500',
+    'group-config': 'Group Config'
   },
   page: {
     common: {
@@ -339,8 +340,31 @@ const local: App.I18n.Schema = {
         keyword: 'Please enter name/uniqueId',
         uniqueId: 'Please enter Unique ID'
       },
-      addNamespace: 'Add Namespaces',
-      editNamespace: 'Edit Namespaces'
+      addNamespace: 'Add Namespace',
+      editNamespace: 'Edit Namespace'
+    },
+    groupConfig: {
+      title: 'Group Config List',
+      namespaceId: 'Namespace ID',
+      groupName: 'Name',
+      groupStatus: 'Status',
+      idGeneratorMode: 'ID Generator Mode',
+      version: 'Version',
+      groupPartition: 'Parition',
+      initScene: 'Initial Scene',
+      bucketIndex: 'Bucket',
+      updateDt: 'Update Time',
+      description: 'Description',
+      form: {
+        namespaceId: 'Please enter namespace ID',
+        groupName: 'Please enter group name'
+      },
+      idMode: {
+        idWorker: 'Id Workder',
+        segment: 'Segment'
+      },
+      addGroupConfig: 'Add Group Config',
+      editGroupConfig: 'Edit Group Config'
     },
     function: {
       tab: {

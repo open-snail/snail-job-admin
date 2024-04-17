@@ -35,6 +35,7 @@ declare module "@elegant-router/types" {
     "function_super-page": "/function/super-page";
     "function_tab": "/function/tab";
     "function_toggle-auth": "/function/toggle-auth";
+    "group-config": "/group-config";
     "home": "/home";
     "login": "/login/:module(pwd-login)?";
     "manage": "/manage";
@@ -68,7 +69,7 @@ declare module "@elegant-router/types" {
 
   /**
    * custom route key
-   */
+   */ 
   export type CustomRouteKey = Extract<
     RouteKey,
     | "root"
@@ -81,7 +82,7 @@ declare module "@elegant-router/types" {
 
   /**
    * the generated route key
-   */
+   */ 
   export type GeneratedRouteKey = Exclude<RouteKey, CustomRouteKey>;
 
   /**
@@ -94,6 +95,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "about"
     | "function"
+    | "group-config"
     | "home"
     | "login"
     | "manage"
@@ -132,6 +134,7 @@ declare module "@elegant-router/types" {
     | "function_super-page"
     | "function_tab"
     | "function_toggle-auth"
+    | "group-config"
     | "home"
     | "manage_menu"
     | "manage_role"
@@ -218,7 +221,7 @@ declare module "@elegant-router/types" {
         component: `view.${K}`;
       }
     : never;
-
+  
   /**
    * the center level route
    */
@@ -241,7 +244,7 @@ declare module "@elegant-router/types" {
         children: (CenterLevelRoute<GetChildRouteKey<K>> | LastLevelRoute<GetChildRouteKey<K>>)[];
       }
     : never;
-
+  
   /**
    * the custom first level route
    */
