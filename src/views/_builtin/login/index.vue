@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import type { Component } from 'vue';
 import { getColorPalette, mixColor } from '@sa/utils';
 import { $t } from '@/locales';
@@ -7,6 +7,8 @@ import GlobalFooter from '@/layouts/modules/global-footer/index.vue';
 import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
 import { loginModuleRecord } from '@/constants/app';
+import { localStg } from '@/utils/storage';
+import { fetchVersion } from '@/service/api';
 import PwdLogin from './modules/pwd-login.vue';
 // import CodeLogin from './modules/code-login.vue';
 // import Register from './modules/register.vue';
@@ -21,6 +23,17 @@ interface Props {
 const props = defineProps<Props>();
 
 const { VITE_APP_VERSION } = import.meta.env;
+const version = ref<string>(`v${localStg.get('version') || VITE_APP_VERSION}`);
+
+const getVersion = async () => {
+  const { data, error } = await fetchVersion();
+  if (!error) {
+    version.value = data;
+    localStg.set('version', data);
+  }
+};
+
+getVersion();
 
 const appStore = useAppStore();
 const themeStore = useThemeStore();
@@ -66,7 +79,7 @@ const href = (url: string) => {
           <SystemLogo class="text-64px text-primary lt-sm:text-48px" />
           <h3 class="flex text-28px text-primary font-500 lt-sm:text-22px">
             {{ $t('system.title') }}
-            <span class="mt-3px pl-12px text-16px color-#00000072 font-600">{{ VITE_APP_VERSION }}</span>
+            <span class="mt-3px pl-12px text-16px color-#00000072 font-600">{{ version }}</span>
           </h3>
           <div class="i-flex-col">
             <ThemeSchemaSwitch

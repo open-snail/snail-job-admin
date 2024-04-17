@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/modules/auth';
 import { useRouteStore } from '@/store/modules/route';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
+import { fetchVersion } from '@/service/api';
 
 /**
  * create route guard
@@ -168,6 +169,10 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     if (to.path !== '/pwd-login') {
       const authStore = useAuthStore();
       await authStore.getInfo();
+      const { data, error } = await fetchVersion();
+      if (!error) {
+        localStg.set('version', data!);
+      }
     }
   }
 

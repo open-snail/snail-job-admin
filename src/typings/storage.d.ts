@@ -16,6 +16,8 @@ declare namespace StorageType {
     token: string;
     /** The refresh token */
     refreshToken: string;
+    /** The version */
+    version: string;
     /** The namespace id */
     namespaceId: string;
     /** The user info */

@@ -30,9 +30,9 @@ const drawerWidth = computed(() => {
     return state.width * 0.9 >= maxMinWidth ? `${maxMinWidth}px` : '90%';
   }
   let minWidth = state.width * 0.3 >= maxMinWidth ? `${maxMinWidth}px` : '30%';
-  minWidth = state.width <= 420 ? '90%' : '30%';
+  minWidth = state.width <= 420 ? '90%' : minWidth;
   let maxWidth = state.width * 0.5 >= maxMaxWidth ? `${maxMaxWidth}px` : '50%';
-  maxWidth = state.width <= 420 ? '90%' : '50%';
+  maxWidth = state.width <= 420 ? '90%' : maxWidth;
   return isFullscreen.value ? maxWidth : minWidth;
 });
 
