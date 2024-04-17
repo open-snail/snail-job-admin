@@ -114,13 +114,13 @@ const href = (url: string) => {
               class="color-#c71d23"
               tooltip-content="Gitee"
               icon="simple-icons:gitee"
-              @click="href('https://gitee.com/aizuda/easy-retry')"
+              @click="href('https://gitee.com/aizuda/snail-job')"
             />
             <ButtonIcon
               tooltip-content="Github"
               class="color-#010409 dark:color-#e6edf3"
               icon="simple-icons:github"
-              @click="href('https://github.com/aizuda/easy-retry')"
+              @click="href('https://github.com/aizuda/snail-job')"
             />
           </div>
           <GlobalFooter />

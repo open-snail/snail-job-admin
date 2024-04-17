@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'Easy Retry',
+    title: 'Snail Job',
     desc: '灵活，可靠和快速的分布式任务重试和分布式任务调度平台'
   },
   common: {

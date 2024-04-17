@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'Easy Retry',
+    title: 'Snail Job',
     desc: 'A flexible, reliable, and fast platform for distributed task retry and distributed task scheduling.'
   },
   common: {

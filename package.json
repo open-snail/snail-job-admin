@@ -1,20 +1,20 @@
 {
-  "name": "easy-retry",
+  "name": "snail-job",
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@8.15.5",
   "description": "A flexible, reliable, and fast platform for distributed task retry and distributed task scheduling.",
   "license": "MIT",
-  "homepage": "https://gitee.com/aizuda/easy-retry",
+  "homepage": "https://gitee.com/aizuda/snail-job",
   "repository": {
-    "url": "https://gitee.com/aizuda/easy-retry.git"
+    "url": "https://gitee.com/aizuda/snail-job.git"
   },
   "bugs": {
-    "url": "https://gitee.com/aizuda/easy-retry/issues"
+    "url": "https://gitee.com/aizuda/snail-job/issues"
   },
   "keywords": [
     "Job",
-    "Easy Retry",
+    "Snail Job",
     "Vue3 admin ",
     "vue-admin-template",
     "Vite5",
