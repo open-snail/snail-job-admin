@@ -161,6 +161,8 @@ const local: App.I18n.Schema = {
     manage: 'System Manage',
     manage_user: 'User Manage',
     notify: 'notify',
+    notify_recipient: 'Notify recipient',
+    notify_scene: 'Notify scene',
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
@@ -520,6 +522,21 @@ const local: App.I18n.Schema = {
       },
       addNotifyConfig: 'Add Alarm notification',
       editNotifyConfig: 'Add Alarm notification'
+    },
+    notifyRecipient: {
+      title: 'NotifyRecipient List',
+      recipientName: 'Recipient name',
+      notifyType: 'Notification type',
+      notifyAttribute: 'Attribute information',
+      description: 'Describe',
+      form: {
+        description: 'Please enter Describe',
+        notifyAttribute: 'Please enter Attribute information',
+        recipientName: 'Please enter Recipient name',
+        notifyType: 'lease select Notification type'
+      },
+      addNotifyRecipient: 'Add Notify recipients',
+      editNotifyRecipient: 'Add Notify recipients'
     }
   },
   form: {

@@ -50,6 +50,8 @@ declare module "@elegant-router/types" {
     "multi-menu_second_child_home": "/multi-menu/second/child/home";
     "namepase": "/namepase";
     "notify": "/notify";
+    "notify_recipient": "/notify/recipient";
+    "notify_scene": "/notify/scene";
     "pods": "/pods";
     "user-center": "/user-center";
   };
@@ -91,7 +93,6 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "about"
-    | "demo-route"
     | "function"
     | "home"
     | "login"
@@ -123,7 +124,6 @@ declare module "@elegant-router/types" {
     | "500"
     | "login"
     | "about"
-    | "demo-route_child"
     | "function_hide-child_one"
     | "function_hide-child_three"
     | "function_hide-child_two"
@@ -140,7 +140,8 @@ declare module "@elegant-router/types" {
     | "multi-menu_first_child"
     | "multi-menu_second_child_home"
     | "namepase"
-    | "notify"
+    | "notify_recipient"
+    | "notify_scene"
     | "pods"
     | "user-center"
   >;

@@ -694,6 +694,21 @@ declare namespace App {
           addNotifyConfig: string;
           editNotifyConfig: string;
         };
+        notifyRecipient: {
+          title: string;
+          recipientName: string;
+          notifyType: string;
+          notifyAttribute: string;
+          description: string;
+          form: {
+            description: string;
+            notifyAttribute: string;
+            recipientName: string;
+            notifyType: string;
+          };
+          addNotifyRecipient: string;
+          editNotifyRecipient: string;
+        };
       };
       form: {
         required: string;

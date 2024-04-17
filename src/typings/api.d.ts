@@ -475,4 +475,34 @@ declare namespace Api {
       } & NotifyConfig
     >;
   }
+
+  /**
+   * namespace Notify-recipient
+   *
+   * backend api module: "notify-recipient"
+   */
+  namespace NotifyRecipient {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** notifyRecipient */
+    type NotifyRecipient = Common.CommonRecord<{
+      /** 接收人名称 */
+      recipientName: string;
+      /** 通知类型 */
+      notifyType: string;
+      /** 属性信息 */
+      notifyAttribute: string;
+      /** 描述 */
+      description: string;
+    }>;
+
+    /** notifyRecipient search params */
+    type NotifyRecipientParams = CommonType.RecordNullable<
+      Pick<Api.NotifyRecipient.NotifyRecipient, 'recipientName' | 'notifyType' | 'notifyAttribute' | 'description'> &
+        CommonSearchParams
+    >;
+
+    /** notifyRecipient list */
+    type NotifyRecipientList = Common.PaginatingQueryRecord<NotifyRecipient>;
+  }
 }

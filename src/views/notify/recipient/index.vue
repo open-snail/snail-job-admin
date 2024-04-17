@@ -1,26 +1,23 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm } from 'naive-ui';
-import { fetchGetNotifyConfigList } from '@/service/api';
+import { fetchGetNotifyRecipientList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import NotifyConfigOperateDrawer from './modules/notify-config-operate-drawer.vue';
-import NotifyConfigSearch from './modules/notify-config-search.vue';
+import NotifyRecipientOperateDrawer from './modules/notify-recipient-operate-drawer.vue';
+import NotifyRecipientSearch from './modules/notify-recipient-search.vue';
 
 const appStore = useAppStore();
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: fetchGetNotifyConfigList,
+  apiFn: fetchGetNotifyRecipientList,
   apiParams: {
     page: 1,
     size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    groupName: null,
-    notifyStatus: null,
-    notifyScene: null,
-    notifyThreshold: null,
-    description: null
+    recipientName: '',
+    notifyType: null
   },
   columns: () => [
     {
@@ -35,46 +32,28 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 64
     },
     {
-      key: 'groupName',
-      title: $t('page.notifyConfig.groupName'),
+      key: 'recipientName',
+      title: $t('page.notifyRecipient.recipientName'),
       align: 'left',
-      width: 120
-    },
-    {
-      key: 'businessName',
-      title: $t('page.notifyConfig.businessName'),
-      align: 'left',
-      width: 120
-    },
-    {
-      key: 'notifyStatus',
-      title: $t('page.notifyConfig.notifyStatus'),
-      align: 'left',
-      width: 120
+      minWidth: 120
     },
     {
       key: 'notifyType',
-      title: $t('page.notifyConfig.notifyType'),
+      title: $t('page.notifyRecipient.notifyType'),
       align: 'left',
-      width: 120
+      minWidth: 120
     },
     {
-      key: 'notifyScene',
-      title: $t('page.notifyConfig.notifyScene'),
+      key: 'notifyAttribute',
+      title: $t('page.notifyRecipient.notifyAttribute'),
       align: 'left',
-      width: 120
-    },
-    {
-      key: 'notifyThreshold',
-      title: $t('page.notifyConfig.notifyThreshold'),
-      align: 'left',
-      width: 120
+      minWidth: 120
     },
     {
       key: 'description',
-      title: $t('page.notifyConfig.description'),
+      title: $t('page.notifyRecipient.description'),
       align: 'left',
-      width: 120
+      minWidth: 120
     },
     {
       key: 'operate',
@@ -135,9 +114,9 @@ function edit(id: string) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <NotifyConfigSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <NotifyRecipientSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
     <NCard
-      :title="$t('page.notifyConfig.title')"
+      :title="$t('page.notifyRecipient.title')"
       :bordered="false"
       size="small"
       class="sm:flex-1-hidden card-wrapper"
@@ -165,7 +144,7 @@ function edit(id: string) {
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <NotifyConfigOperateDrawer
+      <NotifyRecipientOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"

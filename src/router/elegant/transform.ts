@@ -114,14 +114,14 @@ function transformElegantRouteToVueRoute(
     }
 
   }
-
+  
   // add redirect to child
   if (children?.length && !vueRoute.redirect) {
     vueRoute.redirect = {
       name: children[0].name
     };
   }
-
+  
   if (children?.length) {
     const childRoutes = children.flatMap(child => transformElegantRouteToVueRoute(child, layouts, views));
 
@@ -176,6 +176,8 @@ const routeMap: RouteMap = {
   "multi-menu_second_child_home": "/multi-menu/second/child/home",
   "namepase": "/namepase",
   "notify": "/notify",
+  "notify_recipient": "/notify/recipient",
+  "notify_scene": "/notify/scene",
   "pods": "/pods",
   "user-center": "/user-center"
 };

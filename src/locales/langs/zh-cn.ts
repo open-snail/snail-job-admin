@@ -161,6 +161,8 @@ const local: App.I18n.Schema = {
     manage: '系统管理',
     manage_user: '用户管理',
     notify: '告警通知',
+    notify_recipient: '通知人',
+    notify_scene: '通知场景',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
@@ -516,6 +518,21 @@ const local: App.I18n.Schema = {
       },
       addNotifyConfig: '新增告警通知',
       editNotifyConfig: '编辑告警通知'
+    },
+    notifyRecipient: {
+      title: 'NotifyRecipient 列表',
+      recipientName: '接收人名称',
+      notifyType: '通知类型',
+      notifyAttribute: '属性信息',
+      description: '描述',
+      form: {
+        description: '请输入描述',
+        notifyAttribute: '请输入属性信息',
+        recipientName: '请输入接收人名称',
+        notifyType: '请选择通知类型'
+      },
+      addNotifyRecipient: '新增通知接收人',
+      editNotifyRecipient: '编辑通知接收人'
     }
   },
   form: {

@@ -335,11 +335,31 @@ export const generatedRoutes: GeneratedRoute[] = [
   {
     name: 'notify',
     path: '/notify',
-    component: 'layout.base$view.notify',
+    component: 'layout.base',
     meta: {
       title: 'notify',
       i18nKey: 'route.notify'
-    }
+    },
+    children: [
+      {
+        name: 'notify_recipient',
+        path: '/notify/recipient',
+        component: 'view.notify_recipient',
+        meta: {
+          title: 'notify_recipient',
+          i18nKey: 'route.notify_recipient'
+        }
+      },
+      {
+        name: 'notify_scene',
+        path: '/notify/scene',
+        component: 'view.notify_scene',
+        meta: {
+          title: 'notify_scene',
+          i18nKey: 'route.notify_scene'
+        }
+      }
+    ]
   },
   {
     name: 'pods',

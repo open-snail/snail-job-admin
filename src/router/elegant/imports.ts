@@ -36,7 +36,8 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   "multi-menu_first_child": () => import("@/views/multi-menu/first_child/index.vue"),
   "multi-menu_second_child_home": () => import("@/views/multi-menu/second_child_home/index.vue"),
   namepase: () => import("@/views/namepase/index.vue"),
-  notify: () => import("@/views/notify/index.vue"),
+  notify_recipient: () => import("@/views/notify/recipient/index.vue"),
+  notify_scene: () => import("@/views/notify/scene/index.vue"),
   pods: () => import("@/views/pods/index.vue"),
   "user-center": () => import("@/views/user-center/index.vue"),
 };
