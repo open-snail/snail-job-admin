@@ -422,4 +422,57 @@ declare namespace Api {
       children?: MenuTree[];
     };
   }
+
+  /**
+   * namespace NotifyConfig
+   *
+   * backend api module: "notifyConfig"
+   */
+  namespace NotifyConfig {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** notify-config */
+    type NotifyConfig = Common.CommonRecord<{
+      /** 组名称 */
+      groupName: string;
+      /** 业务ID */
+      businessId: string;
+      /** 状态 */
+      notifyStatus: string;
+      /** 通知类型 */
+      notifyType: string;
+      /** 通知属性 */
+      notifyAttribute: string;
+      /** 通知场景 */
+      notifyScene: string;
+      /** 通知阈值 */
+      notifyThreshold: number;
+      /** 描述 */
+      description: string;
+    }>;
+
+    /** notify-config search params */
+    type NotifySearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.NotifyConfig.NotifyConfig,
+        | 'groupName'
+        | 'businessId'
+        | 'notifyStatus'
+        | 'notifyType'
+        | 'notifyAttribute'
+        | 'notifyScene'
+        | 'notifyThreshold'
+        | 'description'
+      > &
+        CommonSearchParams
+    >;
+
+    /** notify-config list */
+    type NotifyConfigList = Common.PaginatingQueryRecord<
+      {
+        /** 业务名称 */
+        businessName: string;
+      } & NotifyConfig
+    >;
+  }
 }

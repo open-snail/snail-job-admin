@@ -160,6 +160,7 @@ const local: App.I18n.Schema = {
     namepase: '命名空间',
     manage: '系统管理',
     manage_user: '用户管理',
+    notify: '告警通知',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
@@ -492,6 +493,29 @@ const local: App.I18n.Schema = {
           local: '本地图标'
         }
       }
+    },
+    notifyConfig: {
+      title: '告警通知列表',
+      groupName: '组名称',
+      businessName: '业务ID',
+      notifyStatus: '状态',
+      notifyType: '通知类型',
+      notifyScene: '通知场景',
+      notifyThreshold: '通知阈值',
+      description: '描述',
+      notifyAttribute: '通知属性',
+      form: {
+        businessId: '请选择业务ID',
+        description: '请输入描述',
+        notifyType: '请选择通知类型',
+        notifyAttribute: '请求输入通知属性',
+        notifyScene: '请选择通知场景',
+        groupName: '请选择组名称',
+        notifyThreshold: '请输入通知阈值',
+        notifyStatus: '请选择状态'
+      },
+      addNotifyConfig: '新增告警通知',
+      editNotifyConfig: '编辑告警通知'
     }
   },
   form: {
