@@ -25,6 +25,10 @@ const themeStore = useThemeStore();
 const { domRef, updateOptions } = useEcharts(() => ({
   tooltip: {
     trigger: 'item',
+    textStyle: {
+      color: themeStore.darkMode ? '#dededf' : '#333639'
+    },
+    backgroundColor: themeStore.darkMode ? '#48484e' : '#fff',
     formatter: '{a} <br/>{b}: {d}%'
   },
   legend: {
@@ -87,6 +91,8 @@ function updateLocale() {
     opts.series[0].name = originOpts.series[0].name;
     opts.series[0].color = originOpts.series[0].color;
     opts.series[0].itemStyle.borderColor = originOpts.series[0].itemStyle.borderColor;
+    opts.tooltip.textStyle.color = originOpts.tooltip.textStyle.color;
+    opts.tooltip.backgroundColor = originOpts.tooltip.backgroundColor;
 
     if (props.type === 0) {
       const retryTask = props.modelValue.retryTask;
