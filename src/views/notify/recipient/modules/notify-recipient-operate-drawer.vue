@@ -93,6 +93,10 @@ const dingDingFetchAdd = (dingDingModel: Api.NotifyRecipient.NotifyRecipient) =>
   fetchAddNotifyRecipient({ recipientName, notifyAttribute, notifyType, description });
 };
 
+function closeDrawer() {
+  visible.value = false;
+}
+
 watch(visible, () => {
   if (visible.value) {
     handleUpdateModelWhenEdit();
