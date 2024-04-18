@@ -5,12 +5,15 @@ import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddNotifyRecipient } from '@/service/api';
 import DingDingForm from './dingding-form.vue';
+import LarkForm from './lark-form.vue';
+import EmailForm from './email-form.vue';
+import QiyeWechtForm from './qiye-wecht-form.vue';
 
 defineOptions({
   name: 'NotifyRecipientOperateDrawer'
 });
 
-const DingDingRef = ref();
+const CommonRef = ref();
 
 interface Props {
   /** the type of operation */
@@ -57,13 +60,6 @@ function createDefaultModel(): Model {
   };
 }
 
-// const rules: Record<RuleKey, App.Global.FormRule> = {
-//   recipientName: defaultRequiredRule,
-//   notifyType: defaultRequiredRule,
-//   notifyAttribute: defaultRequiredRule,
-//   description: defaultRequiredRule
-// };
-
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
@@ -78,7 +74,7 @@ function handleUpdateModelWhenEdit() {
 async function handleSubmit() {
   // request
   if (props.operateType === 'add') {
-    DingDingRef.value?.save();
+    CommonRef.value?.save();
   }
 
   if (props.operateType === 'edit') {
@@ -88,7 +84,7 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-const dingDingFetchAdd = (dingDingModel: Api.NotifyRecipient.NotifyRecipient) => {
+const commonFetchAdd = (dingDingModel: Api.NotifyRecipient.NotifyRecipient) => {
   const { recipientName, notifyAttribute, notifyType, description } = dingDingModel;
   fetchAddNotifyRecipient({ recipientName, notifyAttribute, notifyType, description });
 };
@@ -109,18 +105,16 @@ watch(visible, () => {
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NTabs type="segment" animated>
       <NTabPane name="dingding" tab="钉钉">
-        <DingDingForm ref="DingDingRef" @fetch-add="dingDingFetchAdd" />
+        <DingDingForm ref="CommonRef" @fetch-add="commonFetchAdd" />
       </NTabPane>
-      <NTabPane name="feishu" tab="飞书"></NTabPane>
-      <NTabPane name="email" tab="企业微信">
-        <NFormItem :label="$t('page.notifyRecipient.recipientName')" path="recipientName">
-          <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
-        </NFormItem>
+      <NTabPane name="feishu" tab="飞书">
+        <LarkForm ref="CommonRef" @fetch-add="commonFetchAdd" />
+      </NTabPane>
+      <NTabPane name="qiYeWeche" tab="企业微信">
+        <QiyeWechtForm ref="CommonRef" @fetch-add="commonFetchAdd" />
       </NTabPane>
       <NTabPane name="email" tab="邮箱">
-        <NFormItem :label="$t('page.notifyRecipient.recipientName')" path="recipientName">
-          <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
-        </NFormItem>
+        <EmailForm ref="CommonRef" @fetch-add="commonFetchAdd" />
       </NTabPane>
     </NTabs>
     <template #footer>

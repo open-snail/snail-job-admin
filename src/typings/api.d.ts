@@ -568,8 +568,15 @@ declare namespace Api {
     type DingDingNotify = Common.CommonRecord<{
       /** 接收人名称 */
       webhookUrl: string;
-      /** 通知类型 */
+      /** @的用户 */
       ats: string[];
+    }> &
+      NotifyRecipient;
+
+    /** email Notify */
+    type EmailNotify = Common.CommonRecord<{
+      /** 通知人 */
+      tos: string[];
     }> &
       NotifyRecipient;
 

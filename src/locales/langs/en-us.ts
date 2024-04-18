@@ -566,7 +566,8 @@ const local: App.I18n.Schema = {
       addNotifyRecipient: 'Add Notify recipients',
       editNotifyRecipient: 'Add Notify recipients',
       ats: "{'@'}通知人",
-      webhookUrl: '通知地址'
+      webhookUrl: '通知地址',
+      tos: '通知人邮箱地址'
     }
   },
   form: {

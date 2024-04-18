@@ -4,7 +4,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 
 defineOptions({
-  name: 'DingDingForm'
+  name: 'LarkForm'
 });
 
 interface Emits {
@@ -26,7 +26,7 @@ function createDefaultModel(): Model {
   return {
     id: '',
     recipientName: '',
-    notifyType: 1,
+    notifyType: 4,
     webhookUrl: '',
     ats: [],
     description: ''
@@ -71,14 +71,14 @@ defineExpose({
     <NFormItem :label="$t('page.notifyRecipient.webhookUrl')" path="webhookUrl">
       <NInput v-model:value="model.webhookUrl" :placeholder="$t('page.notifyRecipient.form.webhookUrl')" clearable />
     </NFormItem>
-    <NFormItem :label="$t('page.notifyRecipient.ats')" path="ats">
+    <NFormItem path="ats">
       <template #label>
         <a href="#">
           <NTooltip trigger="hover">
             <template #trigger>
               {{ $t('page.notifyRecipient.ats') }}
             </template>
-            {{ $t('page.notifyRecipient.form.dingdingAts') }}
+            {{ $t('page.notifyRecipient.form.larkAts') }}
           </NTooltip>
         </a>
       </template>

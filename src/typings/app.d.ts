@@ -738,6 +738,7 @@ declare namespace App {
           editNotifyRecipient: string;
           ats: string;
           webhookUrl: string;
+          tos: string;
         };
       };
       form: {
