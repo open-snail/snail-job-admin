@@ -3,7 +3,7 @@ import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
 import { useAppStore } from '@/store/modules/app';
 
 defineOptions({
-  name: 'NamespaceOperateDrawer'
+  name: 'OperateDrawer'
 });
 
 interface Props {

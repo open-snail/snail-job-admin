@@ -483,6 +483,8 @@ declare namespace Api {
       groupName: string;
       /** 业务ID */
       businessId: string;
+      /** 业务名称 */
+      businessName?: string;
       /** 状态 */
       notifyStatus: string;
       /** 通知类型 */
@@ -514,12 +516,7 @@ declare namespace Api {
     >;
 
     /** notify-config list */
-    type NotifyConfigList = Common.PaginatingQueryRecord<
-      {
-        /** 业务名称 */
-        businessName: string;
-      } & NotifyConfig
-    >;
+    type NotifyConfigList = Common.PaginatingQueryRecord<NotifyConfig>;
   }
 
   /**

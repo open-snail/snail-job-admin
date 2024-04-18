@@ -121,7 +121,7 @@ const { checkedRowKeys } = useTableOperate(data, getData);
       :title="$t('page.pods.title')"
       :bordered="false"
       size="small"
-      header-style="font-weight: 800;"
+      header-class="view-card-header"
       class="sm:flex-1-hidden card-wrapper"
     >
       <template #header-extra>
@@ -150,8 +150,4 @@ const { checkedRowKeys } = useTableOperate(data, getData);
   </div>
 </template>
 
-<style scoped>
-:deep(.n-card-header) {
-  --n-title-font-weight: 600 !important;
-}
-</style>
+<style scoped></style>

@@ -149,7 +149,13 @@ function edit(id: string) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <GroupConfigSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <NCard :title="$t('page.groupConfig.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard
+      :title="$t('page.groupConfig.title')"
+      :bordered="false"
+      size="small"
+      header-class="view-card-header"
+      class="sm:flex-1-hidden card-wrapper"
+    >
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
@@ -164,7 +170,6 @@ function edit(id: string) {
         v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
         :data="data"
-        size="small"
         :flex-height="!appStore.isMobile"
         :scroll-x="962"
         :loading="loading"
@@ -183,8 +188,4 @@ function edit(id: string) {
   </div>
 </template>
 
-<style scoped>
-:deep(.n-card-header) {
-  --n-title-font-weight: 600 !important;
-}
-</style>
+<style scoped></style>

@@ -85,21 +85,13 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" :title="title" display-directive="show" :width="360">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
-      <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.groupConfig.namespaceId')" path="namespaceId">
-          <NInput v-model:value="model.namespaceId" :placeholder="$t('page.groupConfig.form.namespaceId')" />
-        </NFormItem>
-      </NForm>
-      <template #footer>
-        <NSpace :size="16">
-          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
-        </NSpace>
-      </template>
-    </NDrawerContent>
-  </NDrawer>
+  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
+    <NForm ref="formRef" :model="model" :rules="rules">
+      <NFormItem :label="$t('page.groupConfig.namespaceId')" path="namespaceId">
+        <NInput v-model:value="model.namespaceId" :placeholder="$t('page.groupConfig.form.namespaceId')" />
+      </NFormItem>
+    </NForm>
+  </OperateDrawer>
 </template>
 
 <style scoped></style>
