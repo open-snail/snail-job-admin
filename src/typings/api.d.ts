@@ -211,7 +211,23 @@ declare namespace Api {
       total: number;
     };
 
+    /**
+     * dashboard line type
+     *
+     * - "DAY": "今日"
+     * - "WEEK": "最近一周"
+     * - "MONTH": "最近一月"
+     * - "YEAR": "全年"
+     * - "OTHERS": "自选日期"
+     */
     type DashboardLineType = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' | 'OTHERS';
+
+    /**
+     * dashboard line mode
+     *
+     * - "JOB": "job"
+     * - "WORKFLOW": "workflow"
+     */
     type DashboardLineMode = 'JOB' | 'WORKFLOW';
 
     type DashboardLineParams = {
@@ -222,10 +238,18 @@ declare namespace Api {
       endTime?: string;
     } & CommonSearchParams;
 
+    /**
+     * dashboard line mode
+     *
+     * - "1": "client"
+     * - "2": "server"
+     */
     type DashboardPodsType = 1 | 2;
 
+    /** dashboard list */
     type DashboardPodList = Common.PaginatingQueryRecord<DashboardPod>;
 
+    /** dashboard pod */
     type DashboardPod = {
       /** 路径/组 */
       consumerBuckets: number[];
@@ -249,6 +273,7 @@ declare namespace Api {
       updateDt: string;
     };
 
+    /** dashboard search params */
     type DashboardPodsParams = CommonType.RecordNullable<
       Pick<Api.Dashboard.DashboardPod, 'groupName'> & CommonSearchParams
     >;
