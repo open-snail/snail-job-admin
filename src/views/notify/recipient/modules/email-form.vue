@@ -9,6 +9,7 @@ defineOptions({
 
 interface Emits {
   (e: 'fetchAdd', model: Api.NotifyRecipient.NotifyRecipient): void;
+  (e: 'fetchUpdate', model: Api.NotifyRecipient.NotifyRecipient): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -29,12 +30,11 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'recipientName' | 'notifyType' | 'tos' | 'description'>;
+type RuleKey = Extract<keyof Model, 'recipientName' | 'notifyType' | 'tos'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   recipientName: defaultRequiredRule,
   notifyType: defaultRequiredRule,
-  description: defaultRequiredRule,
   tos: defaultRequiredRule
 };
 
@@ -49,8 +49,26 @@ async function save() {
   emit('fetchAdd', { id, recipientName, notifyType, notifyAttribute, description });
 }
 
+const showData = (rowData: Api.NotifyRecipient.NotifyRecipient) => {
+  if (rowData.notifyAttribute) {
+    const notifyAttribute = JSON.parse(rowData.notifyAttribute);
+    Object.assign(model, rowData);
+    Object.assign(model, notifyAttribute);
+  }
+};
+
+async function update() {
+  await validate();
+  const { id, recipientName, notifyType, tos, description } = model;
+  const notifyAttribute = buildNotifyAttribute(tos);
+  emit('fetchUpdate', { id, recipientName, notifyType, notifyAttribute, description });
+}
+
 defineExpose({
-  save
+  save,
+  showData,
+  createDefaultModel,
+  update
 });
 </script>
 

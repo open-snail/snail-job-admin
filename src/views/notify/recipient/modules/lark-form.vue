@@ -9,6 +9,7 @@ defineOptions({
 
 interface Emits {
   (e: 'fetchAdd', model: Api.NotifyRecipient.NotifyRecipient): void;
+  (e: 'fetchUpdate', model: Api.NotifyRecipient.NotifyRecipient): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -33,12 +34,11 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'recipientName' | 'notifyType' | 'webhookUrl' | 'ats' | 'description'>;
+type RuleKey = Extract<keyof Model, 'recipientName' | 'notifyType' | 'webhookUrl' | 'ats'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   recipientName: defaultRequiredRule,
   notifyType: defaultRequiredRule,
-  description: defaultRequiredRule,
   webhookUrl: defaultRequiredRule,
   ats: defaultRequiredRule
 };
@@ -54,8 +54,26 @@ async function save() {
   emit('fetchAdd', { id, recipientName, notifyType, notifyAttribute, description });
 }
 
+async function update() {
+  await validate();
+  const { id, recipientName, notifyType, webhookUrl, ats, description } = model;
+  const notifyAttribute = buildNotifyAttribute(webhookUrl, ats);
+  emit('fetchUpdate', { id, recipientName, notifyType, notifyAttribute, description });
+}
+
+const showData = (rowData: Api.NotifyRecipient.NotifyRecipient) => {
+  if (rowData.notifyAttribute) {
+    const notifyAttribute = JSON.parse(rowData.notifyAttribute);
+    Object.assign(model, rowData);
+    Object.assign(model, notifyAttribute);
+  }
+};
+
 defineExpose({
-  save
+  save,
+  showData,
+  createDefaultModel,
+  update
 });
 </script>
 
