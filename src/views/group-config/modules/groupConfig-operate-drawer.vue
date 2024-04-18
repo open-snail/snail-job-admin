@@ -47,7 +47,7 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'namespaceId' | 'groupName'>;
+type RuleKey = Extract<keyof Model, 'namespaceId'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   namespaceId: defaultRequiredRule
@@ -85,12 +85,18 @@ watch(visible, () => {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
+  <OperateDrawer v-model="visible" :title="title" @submitted="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.groupConfig.namespaceId')" path="namespaceId">
         <NInput v-model:value="model.namespaceId" :placeholder="$t('page.groupConfig.form.namespaceId')" />
       </NFormItem>
     </NForm>
+    <template #footer>
+      <NSpace :size="16">
+        <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
+        <NButton type="primary" @click="handleSubmit">{{ $t('common.save') }}</NButton>
+      </NSpace>
+    </template>
   </OperateDrawer>
 </template>
 

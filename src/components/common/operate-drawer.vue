@@ -14,7 +14,7 @@ interface Props {
 const props = defineProps<Props>();
 
 interface Emits {
-  (e: 'handleSubmit'): void;
+  (e: 'submitted'): void;
   (e: 'update:modelValue', modelValue: boolean): void;
 }
 
@@ -58,18 +58,8 @@ watch(
   { immediate: true }
 );
 
-const closeDrawer = () => {
-  visible.value = false;
-  emit('update:modelValue', false);
-};
-
 const onUpdateShow = (value: boolean) => {
   emit('update:modelValue', value);
-};
-
-const handleSubmit = () => {
-  emit('handleSubmit');
-  closeDrawer();
 };
 </script>
 
@@ -90,10 +80,7 @@ const handleSubmit = () => {
       </template>
       <slot></slot>
       <template #footer>
-        <NSpace :size="16">
-          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" @click="handleSubmit">{{ $t('common.save') }}</NButton>
-        </NSpace>
+        <slot name="footer"></slot>
       </template>
     </NDrawerContent>
   </NDrawer>

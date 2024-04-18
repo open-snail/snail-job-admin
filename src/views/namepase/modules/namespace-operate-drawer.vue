@@ -66,6 +66,10 @@ function handleUpdateModelWhenEdit() {
   }
 }
 
+function closeDrawer() {
+  visible.value = false;
+}
+
 async function handleSubmit() {
   await validate();
   // request
@@ -79,6 +83,7 @@ async function handleSubmit() {
     fetchEditNamespace({ id, name, uniqueId });
   }
   window.$message?.success($t('common.updateSuccess'));
+  visible.value = false;
   emit('submitted');
 }
 
@@ -91,7 +96,7 @@ watch(visible, () => {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
+  <OperateDrawer v-model="visible" :title="title" @submitted="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.namespace.uniqueId')" path="uniqueId">
         <NInput
@@ -104,6 +109,12 @@ watch(visible, () => {
         <NInput v-model:value="model.name" :placeholder="$t('page.namespace.form.name')" />
       </NFormItem>
     </NForm>
+    <template #footer>
+      <NSpace :size="16">
+        <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
+        <NButton type="primary" @click="handleSubmit">{{ $t('common.save') }}</NButton>
+      </NSpace>
+    </template>
   </OperateDrawer>
 </template>
 

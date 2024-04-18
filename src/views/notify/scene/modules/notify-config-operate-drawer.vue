@@ -222,6 +222,12 @@ watch(visible, () => {
         <NInput v-model:value="model.description" :placeholder="$t('page.notifyConfig.form.description')" />
       </NFormItem>
     </NForm>
+    <template #footer>
+      <NSpace :size="16">
+        <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
+        <NButton type="primary" @click="handleSubmit">{{ $t('common.save') }}</NButton>
+      </NSpace>
+    </template>
   </OperateDrawer>
 </template>
 

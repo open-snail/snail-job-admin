@@ -114,6 +114,12 @@ watch(visible, () => {
         <NSelect v-model:value="model.notifyType" :placeholder="$t('page.notifyRecipient.form.notifyType')" clearable />
       </NFormItem>
     </NForm>
+    <template #footer>
+      <NSpace :size="16">
+        <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
+        <NButton type="primary" @click="handleSubmit">{{ $t('common.save') }}</NButton>
+      </NSpace>
+    </template>
   </OperateDrawer>
 </template>
 
