@@ -729,9 +729,15 @@ declare namespace App {
             notifyAttribute: string;
             recipientName: string;
             notifyType: string;
+            dingdingAts: string;
+            qiYeWechatAts: string;
+            larkAts: string;
+            webhookUrl: string;
           };
           addNotifyRecipient: string;
           editNotifyRecipient: string;
+          ats: string;
+          webhookUrl: string;
         };
       };
       form: {

@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
-import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { computed, reactive, ref, watch } from 'vue';
+import { useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import { fetchAddNotifyRecipient, fetchEditNotifyRecipient } from '@/service/api';
+import { fetchAddNotifyRecipient } from '@/service/api';
+import DingDingForm from './dingding-form.vue';
 
 defineOptions({
   name: 'NotifyRecipientOperateDrawer'
 });
+
+const DingDingRef = ref();
 
 interface Props {
   /** the type of operation */
@@ -28,8 +31,7 @@ const visible = defineModel<boolean>('visible', {
   default: false
 });
 
-const { formRef, validate, restoreValidation } = useNaiveForm();
-const { defaultRequiredRule } = useFormRules();
+const { restoreValidation } = useNaiveForm();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -49,20 +51,18 @@ const model: Model = reactive(createDefaultModel());
 function createDefaultModel(): Model {
   return {
     recipientName: '',
-    notifyType: '',
+    notifyType: 1,
     notifyAttribute: '',
     description: ''
   };
 }
 
-type RuleKey = Extract<keyof Model, 'recipientName' | 'notifyType' | 'notifyAttribute' | 'description'>;
-
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  recipientName: defaultRequiredRule,
-  notifyType: defaultRequiredRule,
-  notifyAttribute: defaultRequiredRule,
-  description: defaultRequiredRule
-};
+// const rules: Record<RuleKey, App.Global.FormRule> = {
+//   recipientName: defaultRequiredRule,
+//   notifyType: defaultRequiredRule,
+//   notifyAttribute: defaultRequiredRule,
+//   description: defaultRequiredRule
+// };
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
@@ -75,26 +75,23 @@ function handleUpdateModelWhenEdit() {
   }
 }
 
-function closeDrawer() {
-  visible.value = false;
-}
-
 async function handleSubmit() {
-  await validate();
   // request
   if (props.operateType === 'add') {
-    const { recipientName, notifyAttribute, notifyType, description } = model;
-    fetchAddNotifyRecipient({ recipientName, notifyAttribute, notifyType, description });
+    DingDingRef.value?.save();
   }
 
   if (props.operateType === 'edit') {
-    const { id, recipientName, notifyAttribute, notifyType, description } = model;
-    fetchEditNotifyRecipient({ id, recipientName, notifyAttribute, notifyType, description });
+    console.log('更新');
   }
   window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
   emit('submitted');
 }
+
+const dingDingFetchAdd = (dingDingModel: Api.NotifyRecipient.NotifyRecipient) => {
+  const { recipientName, notifyAttribute, notifyType, description } = dingDingModel;
+  fetchAddNotifyRecipient({ recipientName, notifyAttribute, notifyType, description });
+};
 
 watch(visible, () => {
   if (visible.value) {
@@ -106,14 +103,22 @@ watch(visible, () => {
 
 <template>
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
-    <NForm ref="formRef" :model="model" :rules="rules">
-      <NFormItem :label="$t('page.notifyRecipient.recipientName')" path="recipientName">
-        <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
-      </NFormItem>
-      <NFormItem :label="$t('page.notifyRecipient.notifyType')" path="recipientName">
-        <NSelect v-model:value="model.notifyType" :placeholder="$t('page.notifyRecipient.form.notifyType')" clearable />
-      </NFormItem>
-    </NForm>
+    <NTabs type="segment" animated>
+      <NTabPane name="dingding" tab="钉钉">
+        <DingDingForm ref="DingDingRef" @fetch-add="dingDingFetchAdd" />
+      </NTabPane>
+      <NTabPane name="feishu" tab="飞书"></NTabPane>
+      <NTabPane name="email" tab="企业微信">
+        <NFormItem :label="$t('page.notifyRecipient.recipientName')" path="recipientName">
+          <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
+        </NFormItem>
+      </NTabPane>
+      <NTabPane name="email" tab="邮箱">
+        <NFormItem :label="$t('page.notifyRecipient.recipientName')" path="recipientName">
+          <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
+        </NFormItem>
+      </NTabPane>
+    </NTabs>
     <template #footer>
       <NSpace :size="16">
         <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>

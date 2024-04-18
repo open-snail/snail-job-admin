@@ -557,12 +557,21 @@ declare namespace Api {
       /** 接收人名称 */
       recipientName: string;
       /** 通知类型 */
-      notifyType: string;
+      notifyType: AlarmType;
       /** 属性信息 */
-      notifyAttribute: string;
+      notifyAttribute?: string;
       /** 描述 */
       description: string;
     }>;
+
+    /** dingDing Notify */
+    type DingDingNotify = Common.CommonRecord<{
+      /** 接收人名称 */
+      webhookUrl: string;
+      /** 通知类型 */
+      ats: string[];
+    }> &
+      NotifyRecipient;
 
     /** notifyRecipient search params */
     type NotifyRecipientParams = CommonType.RecordNullable<
@@ -572,5 +581,8 @@ declare namespace Api {
 
     /** notifyRecipient list */
     type NotifyRecipientList = Common.PaginatingQueryRecord<NotifyRecipient>;
+
+    /** 1: 钉钉通知 2: 邮件通知 3: 企业通知 4: 飞书 */
+    type AlarmType = 1 | 2 | 3 | 4;
   }
 }

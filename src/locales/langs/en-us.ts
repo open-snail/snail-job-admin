@@ -557,10 +557,16 @@ const local: App.I18n.Schema = {
         description: 'Please enter Describe',
         notifyAttribute: 'Please enter Attribute information',
         recipientName: 'Please enter Recipient name',
-        notifyType: 'lease select Notification type'
+        notifyType: 'lease select Notification type',
+        dingdingAts: "请输入被{'@'}人手机号或钉钉号",
+        qiYeWechatAts: "请输入被{'@'}人企业微信用户id",
+        larkAts: "请输入被{'@'}人open_id",
+        webhookUrl: '请输入URL'
       },
       addNotifyRecipient: 'Add Notify recipients',
-      editNotifyRecipient: 'Add Notify recipients'
+      editNotifyRecipient: 'Add Notify recipients',
+      ats: "{'@'}通知人",
+      webhookUrl: '通知地址'
     }
   },
   form: {

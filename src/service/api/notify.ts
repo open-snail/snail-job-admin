@@ -39,7 +39,7 @@ export function fetchGetNotifyRecipientList(params?: Api.NotifyRecipient.NotifyR
 /** add notify recipient */
 export function fetchAddNotifyRecipient(data: Api.NotifyRecipient.NotifyRecipient) {
   return request<boolean>({
-    url: '/notify-config',
+    url: '/notify-recipient',
     method: 'post',
     data
   });
@@ -48,7 +48,7 @@ export function fetchAddNotifyRecipient(data: Api.NotifyRecipient.NotifyRecipien
 /** edit notify recipient */
 export function fetchEditNotifyRecipient(data: Api.NotifyRecipient.NotifyRecipient) {
   return request<boolean>({
-    url: '/notify-config',
+    url: '/notify-recipient',
     method: 'put',
     data
   });
