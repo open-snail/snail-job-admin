@@ -4,7 +4,12 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddNotify, fetchEditNotify } from '@/service/api';
-import { enableStatus01Options, retryNotifySceneOptions, systemTaskTypeOptions } from '@/constants/business';
+import {
+  enableStatus01Options,
+  jobNotifySceneOptions,
+  retryNotifySceneOptions,
+  systemTaskTypeOptions
+} from '@/constants/business';
 import { translateOptions } from '@/utils/common';
 
 defineOptions({
@@ -28,6 +33,10 @@ const emit = defineEmits<Emits>();
 
 const visible = defineModel<boolean>('visible', {
   default: false
+});
+
+const options = defineModel<CommonType.Option<string | number>[]>('options', {
+  default: translateOptions(retryNotifySceneOptions)
 });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
@@ -95,15 +104,7 @@ async function handleSubmit() {
   await validate();
   // request
   if (props.operateType === 'add') {
-    const {
-      groupName,
-      businessId,
-      systemTaskType,
-      notifyStatus,
-      notifyScene,
-      notifyThreshold,
-      description
-    } = model;
+    const { groupName, businessId, systemTaskType, notifyStatus, notifyScene, notifyThreshold, description } = model;
     const { error } = await fetchAddNotify({
       groupName,
       businessId,
@@ -117,16 +118,8 @@ async function handleSubmit() {
   }
 
   if (props.operateType === 'edit') {
-    const {
-      id,
-      groupName,
-      businessId,
-      notifyStatus,
-      systemTaskType,
-      notifyScene,
-      notifyThreshold,
-      description
-    } = model;
+    const { id, groupName, businessId, notifyStatus, systemTaskType, notifyScene, notifyThreshold, description } =
+      model;
     const { error } = await fetchEditNotify({
       id,
       groupName,
@@ -142,6 +135,16 @@ async function handleSubmit() {
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
+}
+
+function systemTaskTypeChange(value: string) {
+  if (value === '1') {
+    options.value = translateOptions(retryNotifySceneOptions);
+  } else if (value === '3') {
+    options.value = translateOptions(jobNotifySceneOptions);
+  }
+
+  model.notifyScene = '';
 }
 
 watch(visible, () => {
@@ -176,13 +179,14 @@ watch(visible, () => {
           :placeholder="$t('page.notifyConfig.form.systemTaskType')"
           :options="translateOptions(systemTaskTypeOptions)"
           clearable
+          @update:value="systemTaskTypeChange"
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyScene')" path="notifyScene">
         <NSelect
           v-model:value="model.notifyScene"
           :placeholder="$t('page.notifyConfig.form.notifyScene')"
-          :options="translateOptions(retryNotifySceneOptions)"
+          :options="options"
           clearable
         />
       </NFormItem>
