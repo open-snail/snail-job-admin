@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import { fetchAddNotify, fetchEditNotify } from '@/service/api';
+import { fetchAddNotify, fetchEditNotify, fetchGetAllGroupNameList } from '@/service/api';
 import {
   enableStatus01Options,
   jobNotifySceneOptions,
   retryNotifySceneOptions,
   systemTaskTypeOptions
 } from '@/constants/business';
-import { translateOptions } from '@/utils/common';
+import { translateOptions, translateOptions2 } from '@/utils/common';
 
 defineOptions({
   name: 'NotifyConfigOperateDrawer'
@@ -23,6 +23,7 @@ interface Props {
   rowData?: Api.NotifyConfig.NotifyConfig | null;
 }
 
+const groupNameList = ref<string[]>([]);
 const props = defineProps<Props>();
 
 interface Emits {
@@ -61,6 +62,18 @@ type Model = Pick<
   | 'notifyThreshold'
   | 'description'
 >;
+
+onMounted(() => {
+  nextTick(() => {
+    getGroupNameList();
+  });
+});
+
+async function getGroupNameList() {
+  const res = await fetchGetAllGroupNameList();
+  console.log(res.data);
+  groupNameList.value = res.data as string[];
+}
 
 const model: Model = reactive(createDefaultModel());
 
@@ -159,7 +172,12 @@ watch(visible, () => {
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.notifyConfig.groupName')" path="name">
-        <NSelect v-model:value="model.groupName" :placeholder="$t('page.notifyConfig.form.groupName')" clearable />
+        <NSelect
+          v-model:value="model.groupName"
+          :placeholder="$t('page.notifyConfig.form.groupName')"
+          :options="translateOptions2(groupNameList)"
+          clearable
+        />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus">
         <NRadioGroup v-model:value="model.notifyStatus" name="notifyStatus">

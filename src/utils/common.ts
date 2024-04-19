@@ -36,3 +36,15 @@ export function translateOptions(options: CommonType.Option<string | number>[]) 
     label: $t(option.label as App.I18n.I18nKey)
   }));
 }
+
+/**
+ * Translate options
+ *
+ * @param options
+ */
+export function translateOptions2(options: string[]) {
+  return options.map(option => ({
+    value: option,
+    label: option
+  }));
+}

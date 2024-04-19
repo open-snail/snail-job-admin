@@ -9,6 +9,14 @@ export function fetchGetGroupConfigList(params?: Api.GroupConfig.GroupConfigSear
   });
 }
 
+export function fetchGetAllGroupNameList(params?: Api.GroupConfig.GroupConfigSearchParams) {
+  return request<string[]>({
+    url: '/group/all/group-name/list',
+    method: 'get',
+    params
+  });
+}
+
 /** add groupConfig */
 export function fetchAddGroupConfig(data: Api.GroupConfig.GroupConfig) {
   return request<boolean>({
