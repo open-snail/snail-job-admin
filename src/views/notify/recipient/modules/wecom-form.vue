@@ -27,7 +27,7 @@ function createDefaultModel(): Model {
   return {
     id: '',
     recipientName: '',
-    notifyType: 3,
+    notifyType: '3',
     webhookUrl: '',
     ats: [],
     description: ''
@@ -96,7 +96,7 @@ defineExpose({
             <template #trigger>
               {{ $t('page.notifyRecipient.ats') }}
             </template>
-            {{ $t('page.notifyRecipient.form.qiYeWechatAts') }}
+            {{ $t('page.notifyRecipient.form.weComAts') }}
           </NTooltip>
         </a>
       </template>

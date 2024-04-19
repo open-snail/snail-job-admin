@@ -590,6 +590,6 @@ declare namespace Api {
     type NotifyRecipientList = Common.PaginatingQueryRecord<NotifyRecipient>;
 
     /** 1: 钉钉通知 2: 邮件通知 3: 企业通知 4: 飞书 */
-    type AlarmType = 1 | 2 | 3 | 4;
+    type AlarmType = '1' | '2' | '3' | '4';
   }
 }

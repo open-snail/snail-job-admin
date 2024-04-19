@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
 import SearchForm from '@/components/common/search-form.vue';
+import { alarmTypeRecordOptions } from '@/constants/business';
+import { translateOptions } from '@/utils/common';
 
 defineOptions({
   name: 'NotifyRecipientSearch'
@@ -36,7 +38,12 @@ function search() {
       <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyRecipient.notifyType')" path="userName" class="pr-24px">
-      <NSelect v-model:value="model.notifyType" :placeholder="$t('page.notifyRecipient.notifyType')" clearable />
+      <NSelect
+        v-model:value="model.notifyType"
+        :options="translateOptions(alarmTypeRecordOptions)"
+        :placeholder="$t('page.notifyRecipient.notifyType')"
+        clearable
+      />
     </NFormItemGi>
   </SearchForm>
 </template>

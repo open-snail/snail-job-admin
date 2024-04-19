@@ -24,7 +24,7 @@ function createDefaultModel(): Model {
   return {
     id: '',
     recipientName: '',
-    notifyType: 2,
+    notifyType: '2',
     tos: [],
     description: ''
   };

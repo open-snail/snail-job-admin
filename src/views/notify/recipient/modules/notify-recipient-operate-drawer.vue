@@ -7,7 +7,7 @@ import { fetchAddNotifyRecipient, fetchEditNotifyRecipient } from '@/service/api
 import DingDingForm from './dingding-form.vue';
 import LarkForm from './lark-form.vue';
 import EmailForm from './email-form.vue';
-import QiyeWechtForm from './qiye-wecht-form.vue';
+import WeComForm from './wecom-form.vue';
 
 defineOptions({
   name: 'NotifyRecipientOperateDrawer'
@@ -100,16 +100,16 @@ watch(visible, () => {
 <template>
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NTabs v-model:value="defaultTabPane" type="segment" animated>
-      <NTabPane name="1" tab="钉钉">
+      <NTabPane name="1" :tab="$t('page.notifyRecipient.dingDing')">
         <DingDingForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
       </NTabPane>
-      <NTabPane name="2" tab="邮箱">
+      <NTabPane name="2" :tab="$t('page.notifyRecipient.email')">
         <EmailForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
       </NTabPane>
-      <NTabPane name="3" tab="企业微信">
-        <QiyeWechtForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
+      <NTabPane name="3" :tab="$t('page.notifyRecipient.weCom')">
+        <WeComForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
       </NTabPane>
-      <NTabPane name="4" tab="飞书">
+      <NTabPane name="4" :tab="$t('page.notifyRecipient.lark')">
         <LarkForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
       </NTabPane>
     </NTabs>

@@ -729,8 +729,8 @@ declare namespace App {
             notifyAttribute: string;
             recipientName: string;
             notifyType: string;
-            dingdingAts: string;
-            qiYeWechatAts: string;
+            dingDingAts: string;
+            weComAts: string;
             larkAts: string;
             webhookUrl: string;
           };
@@ -739,6 +739,10 @@ declare namespace App {
           ats: string;
           webhookUrl: string;
           tos: string;
+          dingDing: string;
+          email: string;
+          weCom: string;
+          lark: string;
         };
       };
       form: {

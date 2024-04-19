@@ -27,7 +27,7 @@ function createDefaultModel(): Model {
   return {
     id: '',
     recipientName: '',
-    notifyType: 4,
+    notifyType: '4',
     webhookUrl: '',
     ats: [],
     description: ''

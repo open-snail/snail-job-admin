@@ -1,9 +1,10 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchGetNotifyRecipientList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { alarmTypeRecord } from '@/constants/business';
 import NotifyRecipientOperateDrawer from './modules/notify-recipient-operate-drawer.vue';
 import NotifyRecipientSearch from './modules/notify-recipient-search.vue';
 
@@ -41,13 +42,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'notifyType',
       title: $t('page.notifyRecipient.notifyType'),
       align: 'left',
-      minWidth: 120
-    },
-    {
-      key: 'notifyAttribute',
-      title: $t('page.notifyRecipient.notifyAttribute'),
-      align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        const label = $t(alarmTypeRecord[row.notifyType!]);
+        return <NTag type="primary">{label}</NTag>;
+      }
     },
     {
       key: 'description',

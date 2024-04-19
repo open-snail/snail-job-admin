@@ -544,7 +544,7 @@ const local: App.I18n.Schema = {
       editNotifyConfig: '编辑告警通知'
     },
     notifyRecipient: {
-      title: 'NotifyRecipient 列表',
+      title: '通知人列表',
       recipientName: '接收人名称',
       notifyType: '通知类型',
       notifyAttribute: '属性信息',
@@ -554,8 +554,8 @@ const local: App.I18n.Schema = {
         notifyAttribute: '请输入属性信息',
         recipientName: '请输入接收人名称',
         notifyType: '请选择通知类型',
-        dingdingAts: "请输入被{'@'}人手机号或钉钉号",
-        qiYeWechatAts: "请输入被{'@'}人企业微信用户id",
+        dingDingAts: "请输入被{'@'}人手机号或钉钉号",
+        weComAts: "请输入被{'@'}人企业微信用户id",
         larkAts: "请输入被{'@'}人open_id",
         webhookUrl: '请输入URL'
       },
@@ -563,7 +563,11 @@ const local: App.I18n.Schema = {
       editNotifyRecipient: '编辑通知接收人',
       ats: "{'@'}通知人",
       webhookUrl: '通知地址',
-      tos: '通知人邮箱地址'
+      tos: '通知人邮箱地址',
+      dingDing: '钉钉',
+      email: '邮箱',
+      weCom: '企业微信',
+      lark: '飞书'
     }
   },
   form: {

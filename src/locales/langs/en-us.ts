@@ -548,26 +548,30 @@ const local: App.I18n.Schema = {
       editNotifyConfig: 'Add Alarm notification'
     },
     notifyRecipient: {
-      title: 'NotifyRecipient List',
-      recipientName: 'Recipient name',
-      notifyType: 'Notification type',
-      notifyAttribute: 'Attribute information',
-      description: 'Describe',
+      title: 'Notify Recipient List',
+      recipientName: 'Recipient Name',
+      notifyType: 'Notification Type',
+      notifyAttribute: 'Attribute Information',
+      description: 'Description',
       form: {
-        description: 'Please enter Describe',
-        notifyAttribute: 'Please enter Attribute information',
-        recipientName: 'Please enter Recipient name',
-        notifyType: 'lease select Notification type',
-        dingdingAts: "请输入被{'@'}人手机号或钉钉号",
-        qiYeWechatAts: "请输入被{'@'}人企业微信用户id",
-        larkAts: "请输入被{'@'}人open_id",
-        webhookUrl: '请输入URL'
+        description: 'Please enter description',
+        notifyAttribute: 'Please enter attribute information',
+        recipientName: 'Please enter recipient name',
+        notifyType: 'Please select notification type',
+        dingDingAts: "Please enter the {'@'} phone number or DingTalk ID",
+        weComAts: "Please enter the {'@'} Enterprise WeChat user ID",
+        larkAts: "Please enter the {'@'} open_id",
+        webhookUrl: 'Please enter URL'
       },
-      addNotifyRecipient: 'Add Notify recipients',
-      editNotifyRecipient: 'Add Notify recipients',
-      ats: "{'@'}通知人",
-      webhookUrl: '通知地址',
-      tos: '通知人邮箱地址'
+      addNotifyRecipient: 'Add Notify Recipient',
+      editNotifyRecipient: 'Edit Notify Recipient',
+      ats: "{'@'} Notification Recipient",
+      webhookUrl: 'Notification Address',
+      tos: 'Recipient Email Address',
+      dingDing: 'DingTalk',
+      email: 'Email',
+      weCom: 'WeCom',
+      lark: 'Lark'
     }
   },
   form: {
