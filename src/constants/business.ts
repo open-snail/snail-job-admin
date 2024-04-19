@@ -44,9 +44,9 @@ export const idGeneratorModeRecord: Record<Api.GroupConfig.IdGeneratorModeType, 
 };
 
 export const alarmTypeRecord: Record<Api.NotifyRecipient.AlarmType, App.I18n.I18nKey> = {
-  '1': 'page.notifyRecipient.dingDing',
-  '2': 'page.notifyRecipient.email',
-  '3': 'page.notifyRecipient.weCom',
-  '4': 'page.notifyRecipient.lark'
+  1: 'page.notifyRecipient.dingDing',
+  2: 'page.notifyRecipient.email',
+  3: 'page.notifyRecipient.weCom',
+  4: 'page.notifyRecipient.lark'
 };
 export const alarmTypeRecordOptions = transformRecordToOption(alarmTypeRecord);
