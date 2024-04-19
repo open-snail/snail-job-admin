@@ -12,6 +12,13 @@ export const enableStatusRecord: Record<Api.Common.EnableStatus, App.I18n.I18nKe
 
 export const enableStatusOptions = transformRecordToOption(enableStatusRecord);
 
+export const enableStatus01Record: Record<Api.Common.EnableStatus01, App.I18n.I18nKey> = {
+  '0': 'page.manage.common.status.enable',
+  '1': 'page.manage.common.status.disable'
+};
+
+export const enableStatus01Options = transformRecordToOption(enableStatus01Record);
+
 export const userGenderRecord: Record<Api.SystemManage.UserGender, App.I18n.I18nKey> = {
   '1': 'page.manage.user.gender.male',
   '2': 'page.manage.user.gender.female'
@@ -50,3 +57,26 @@ export const alarmTypeRecord: Record<Api.NotifyRecipient.AlarmType, App.I18n.I18
   4: 'page.notifyRecipient.lark'
 };
 export const alarmTypeRecordOptions = transformRecordToOption(alarmTypeRecord);
+
+export const systemTaskType: Record<Api.NotifyConfig.SystemTaskType, App.I18n.I18nKey> = {
+  '1': 'common.systemTaskType.retry',
+  // '2': 'common.systemTaskType.callback',
+  '3': 'common.systemTaskType.job',
+  '4': 'common.systemTaskType.workflow'
+};
+export const systemTaskTypeOptions = transformRecordToOption(systemTaskType);
+
+export const retryNotifyScene: Record<Api.NotifyConfig.RetryNotifyScene, App.I18n.I18nKey> = {
+  '1': 'page.notifyConfig.retryNotifyScene.maxRetry',
+  '2': 'page.notifyConfig.retryNotifyScene.maxRetryError',
+  '3': 'page.notifyConfig.retryNotifyScene.clientReportError',
+  '4': 'page.notifyConfig.retryNotifyScene.clientComponentError',
+  '5': 'page.notifyConfig.retryNotifyScene.retryTaskReachThreshold',
+  '6': 'page.notifyConfig.retryNotifyScene.retryTaskEnterDeadLetter'
+};
+export const retryNotifySceneOptions = transformRecordToOption(retryNotifyScene);
+
+export const jobNotifyScene: Record<Api.NotifyConfig.JobNotifyScene, App.I18n.I18nKey> = {
+  '1': 'page.notifyConfig.jobNotifyScene.jobTaskError'
+};
+export const jobNotifySceneOptions = transformRecordToOption(jobNotifyScene);

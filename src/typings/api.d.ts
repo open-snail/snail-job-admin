@@ -39,6 +39,14 @@ declare namespace Api {
     type EnableStatus = '1' | '2';
 
     /**
+     * enable status
+     *
+     * - "0": enabled
+     * - "1": disabled
+     */
+    type EnableStatus01 = '0' | '1';
+
+    /**
      * yes/no status
      *
      * - "0": no
@@ -508,14 +516,12 @@ declare namespace Api {
       groupName: string;
       /** 业务ID */
       businessId: string;
+      /** 任务类型 1、重试任务 2、回调任务、3、JOB任务 4、WORKFLOW任务 */
+      systemTaskType: SystemTaskType;
       /** 业务名称 */
       businessName?: string;
       /** 状态 */
       notifyStatus: string;
-      /** 通知类型 */
-      notifyType: string;
-      /** 通知属性 */
-      notifyAttribute: string;
       /** 通知场景 */
       notifyScene: string;
       /** 通知阈值 */
@@ -528,20 +534,22 @@ declare namespace Api {
     type NotifySearchParams = CommonType.RecordNullable<
       Pick<
         Api.NotifyConfig.NotifyConfig,
-        | 'groupName'
-        | 'businessId'
-        | 'notifyStatus'
-        | 'notifyType'
-        | 'notifyAttribute'
-        | 'notifyScene'
-        | 'notifyThreshold'
-        | 'description'
+        'groupName' | 'businessId' | 'systemTaskType' | 'notifyStatus' | 'notifyScene'
       > &
         CommonSearchParams
     >;
 
     /** notify-config list */
     type NotifyConfigList = Common.PaginatingQueryRecord<NotifyConfig>;
+
+    /** 任务类型 1、重试任务 2、回调任务、 3、JOB任务 4、WORKFLOW任务 */
+    type SystemTaskType = '1' | '3' | '4';
+
+    /** 1、场景重试数量超过阈值 2、场景重试失败数量超过阈值 3、客户端上报失败 4、客户端组件异常 5、任务重试失败数量超过阈值 6、任务重试失败进入死信队列 */
+    type RetryNotifyScene = '1' | '2' | '3' | '4' | '5' | '6';
+
+    /** 1、任务执行失败 */
+    type JobNotifyScene = '1';
   }
 
   /**

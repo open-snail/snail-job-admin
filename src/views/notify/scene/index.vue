@@ -18,9 +18,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     // the value can not be undefined, otherwise the property in Form will not be reactive
     groupName: null,
     notifyStatus: null,
-    notifyScene: null,
-    notifyThreshold: null,
-    description: null
+    notifyScene: null
   },
   columns: () => [
     {
@@ -49,12 +47,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'notifyStatus',
       title: $t('page.notifyConfig.notifyStatus'),
-      align: 'left',
-      width: 120
-    },
-    {
-      key: 'notifyType',
-      title: $t('page.notifyConfig.notifyType'),
       align: 'left',
       width: 120
     },

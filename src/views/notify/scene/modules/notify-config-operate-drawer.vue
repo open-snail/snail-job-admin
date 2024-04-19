@@ -4,6 +4,8 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddNotify, fetchEditNotify } from '@/service/api';
+import { enableStatus01Options, retryNotifySceneOptions, systemTaskTypeOptions } from '@/constants/business';
+import { translateOptions } from '@/utils/common';
 
 defineOptions({
   name: 'NotifyConfigOperateDrawer'
@@ -44,9 +46,8 @@ type Model = Pick<
   | 'id'
   | 'groupName'
   | 'businessId'
+  | 'systemTaskType'
   | 'notifyStatus'
-  | 'notifyType'
-  | 'notifyAttribute'
   | 'notifyScene'
   | 'notifyThreshold'
   | 'description'
@@ -58,28 +59,21 @@ function createDefaultModel(): Model {
   return {
     groupName: '',
     businessId: '',
+    systemTaskType: '1',
     notifyStatus: '',
-    notifyType: '',
     notifyScene: '',
     notifyThreshold: 0,
-    notifyAttribute: '',
     description: ''
   };
 }
 
-type RuleKey = Extract<
-  keyof Model,
-  'groupName' | 'businessId' | 'notifyStatus' | 'notifyType' | 'notifyScene' | 'notifyThreshold' | 'description'
->;
+type RuleKey = Extract<keyof Model, 'groupName' | 'businessId' | 'notifyStatus' | 'notifyScene'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   groupName: defaultRequiredRule,
   businessId: defaultRequiredRule,
   notifyStatus: defaultRequiredRule,
-  notifyType: defaultRequiredRule,
-  notifyScene: defaultRequiredRule,
-  notifyThreshold: defaultRequiredRule,
-  description: defaultRequiredRule
+  notifyScene: defaultRequiredRule
 };
 
 function handleUpdateModelWhenEdit() {
@@ -104,9 +98,8 @@ async function handleSubmit() {
     const {
       groupName,
       businessId,
+      systemTaskType,
       notifyStatus,
-      notifyType,
-      notifyAttribute,
       notifyScene,
       notifyThreshold,
       description
@@ -114,9 +107,8 @@ async function handleSubmit() {
     const { error } = await fetchAddNotify({
       groupName,
       businessId,
+      systemTaskType,
       notifyStatus,
-      notifyType,
-      notifyAttribute,
       notifyScene,
       notifyThreshold,
       description
@@ -130,8 +122,7 @@ async function handleSubmit() {
       groupName,
       businessId,
       notifyStatus,
-      notifyType,
-      notifyAttribute,
+      systemTaskType,
       notifyScene,
       notifyThreshold,
       description
@@ -140,9 +131,8 @@ async function handleSubmit() {
       id,
       groupName,
       businessId,
+      systemTaskType,
       notifyStatus,
-      notifyType,
-      notifyAttribute,
       notifyScene,
       notifyThreshold,
       description
@@ -165,18 +155,41 @@ watch(visible, () => {
 <template>
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
-      <NGrid x-gap="12" :cols="6" item-responsive responsive="screen">
-        <NGi span="m:6 l:4">
-          <NFormItem :label="$t('page.notifyConfig.notifyScene')" path="name">
-            <NSelect
-              v-model:value="model.notifyScene"
-              :placeholder="$t('page.notifyConfig.page.notifyScene')"
-              clearable
+      <NFormItem :label="$t('page.notifyConfig.groupName')" path="name">
+        <NSelect v-model:value="model.groupName" :placeholder="$t('page.notifyConfig.form.groupName')" clearable />
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus">
+        <NRadioGroup v-model:value="model.notifyStatus" name="notifyStatus">
+          <NSpace>
+            <NRadio
+              v-for="item in enableStatus01Options"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
             />
-          </NFormItem>
-        </NGi>
+          </NSpace>
+        </NRadioGroup>
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.systemTaskType')" path="systemTaskType">
+        <NSelect
+          v-model:value="model.systemTaskType"
+          :placeholder="$t('page.notifyConfig.form.systemTaskType')"
+          :options="translateOptions(systemTaskTypeOptions)"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.notifyScene')" path="notifyScene">
+        <NSelect
+          v-model:value="model.notifyScene"
+          :placeholder="$t('page.notifyConfig.form.notifyScene')"
+          :options="translateOptions(retryNotifySceneOptions)"
+          clearable
+        />
+      </NFormItem>
+      <NGrid x-gap="12" :cols="6" item-responsive responsive="screen">
+        <NGi span="m:6 l:6"></NGi>
         <NGi span="m:6 l:2">
-          <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="name">
+          <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
             <NInputNumber
               v-model:value="model.notifyThreshold"
               :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
@@ -184,44 +197,12 @@ watch(visible, () => {
           </NFormItem>
         </NGi>
       </NGrid>
-      <NGrid x-gap="12" :cols="6" item-responsive responsive="screen">
-        <NGi span="m:6 l:4">
-          <NFormItem :label="$t('page.notifyConfig.groupName')" path="name">
-            <NSelect v-model:value="model.groupName" :placeholder="$t('page.notifyConfig.form.groupName')" clearable />
-          </NFormItem>
-        </NGi>
-        <NGi span="m:6 l:2">
-          <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="name">
-            <NSelect
-              v-model:value="model.notifyStatus"
-              :placeholder="$t('page.notifyConfig.form.notifyStatus')"
-              clearable
-            />
-          </NFormItem>
-        </NGi>
-      </NGrid>
-      <NGrid x-gap="12" :cols="6" item-responsive responsive="screen">
-        <NGi span="m:6 l:4">
-          <NFormItem :label="$t('page.notifyConfig.notifyType')" path="name">
-            <NSelect
-              v-model:value="model.notifyType"
-              :placeholder="$t('page.notifyConfig.form.notifyType')"
-              clearable
-            />
-          </NFormItem>
-        </NGi>
-        <NGi span="m:6 l:2">
-          <NFormItem :label="$t('page.notifyConfig.notifyAttribute')" path="name">
-            <NSelect
-              v-model:value="model.notifyAttribute"
-              :placeholder="$t('page.notifyConfig.form.notifyAttribute')"
-              clearable
-            />
-          </NFormItem>
-        </NGi>
-      </NGrid>
       <NFormItem :label="$t('page.notifyConfig.description')" path="description">
-        <NInput v-model:value="model.description" :placeholder="$t('page.notifyConfig.form.description')" />
+        <NInput
+          v-model:value="model.description"
+          type="textarea"
+          :placeholder="$t('page.notifyConfig.form.description')"
+        />
       </NFormItem>
     </NForm>
     <template #footer>

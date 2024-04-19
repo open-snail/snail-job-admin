@@ -293,6 +293,12 @@ declare namespace App {
           yes: string;
           no: string;
         };
+        systemTaskType: {
+          retry: string;
+          callback: string;
+          job: string;
+          workflow: string;
+        };
       };
       request: {
         logout: string;
@@ -714,9 +720,22 @@ declare namespace App {
             groupName: string;
             notifyThreshold: string;
             notifyStatus: string;
+            systemTaskType: string;
           };
           addNotifyConfig: string;
           editNotifyConfig: string;
+          systemTaskType: string;
+          retryNotifyScene: {
+            maxRetry: string;
+            maxRetryError: string;
+            clientReportError: string;
+            clientComponentError: string;
+            retryTaskReachThreshold: string;
+            retryTaskEnterDeadLetter: string;
+          };
+          jobNotifyScene: {
+            jobTaskError: string;
+          };
         };
         notifyRecipient: {
           title: string;

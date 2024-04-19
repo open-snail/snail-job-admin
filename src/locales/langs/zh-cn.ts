@@ -46,6 +46,12 @@ const local: App.I18n.Schema = {
     yesOrNo: {
       yes: '是',
       no: '否'
+    },
+    systemTaskType: {
+      retry: '重试任务',
+      callback: '回调任务',
+      job: '定时任务',
+      workflow: '工作流'
     }
   },
   request: {
@@ -538,10 +544,23 @@ const local: App.I18n.Schema = {
         notifyScene: '请选择通知场景',
         groupName: '请选择组名称',
         notifyThreshold: '请输入通知阈值',
-        notifyStatus: '请选择状态'
+        notifyStatus: '请选择状态',
+        systemTaskType: '请选择任务类型'
       },
       addNotifyConfig: '新增告警通知',
-      editNotifyConfig: '编辑告警通知'
+      editNotifyConfig: '编辑告警通知',
+      systemTaskType: '任务类型',
+      retryNotifyScene: {
+        maxRetry: '场景重试数量超过阈值',
+        maxRetryError: '场景重试失败数量超过阈值',
+        clientReportError: '客户端上报失败',
+        clientComponentError: '客户端组件异常',
+        retryTaskReachThreshold: '任务重试失败数量超过阈值',
+        retryTaskEnterDeadLetter: '任务重试失败进入死信队列'
+      },
+      jobNotifyScene: {
+        jobTaskError: '任务执行失败'
+      }
     },
     notifyRecipient: {
       title: '通知人列表',
