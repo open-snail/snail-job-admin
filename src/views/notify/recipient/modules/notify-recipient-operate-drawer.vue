@@ -13,8 +13,6 @@ defineOptions({
   name: 'NotifyRecipientOperateDrawer'
 });
 
-const CommonRef = ref();
-
 interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
@@ -34,11 +32,11 @@ const visible = defineModel<boolean>('visible', {
   default: false
 });
 
-const defaultTabPane = defineModel<string>('defaultTabPane', {
-  default: '1'
+const notifyTabPane = defineModel<Api.NotifyRecipient.AlarmType>('notifyTabPane', {
+  default: 1
 });
 
-const { restoreValidation } = useNaiveForm();
+const { formRef, validate, restoreValidation } = useNaiveForm();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -48,42 +46,51 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
+type Model = Pick<
+  Api.NotifyRecipient.NotifyRecipient,
+  'id' | 'recipientName' | 'notifyType' | 'notifyAttribute' | 'description'
+>;
+const model = ref<Model>(createDefaultModel());
+
+function createDefaultModel(): Model {
+  return {
+    recipientName: '',
+    notifyType: notifyTabPane.value!,
+    notifyAttribute: '{}',
+    description: ''
+  };
+}
+
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
-    CommonRef.value?.createDefaultModel();
+    model.value = createDefaultModel();
     return;
   }
 
   if (props.operateType === 'edit' && props.rowData) {
-    defaultTabPane.value = props.rowData.notifyType.toString();
-    CommonRef.value?.showData(props.rowData);
+    model.value = props.rowData;
   }
 }
 
 async function handleSubmit() {
+  await validate();
   // request
   if (props.operateType === 'add') {
-    CommonRef.value?.save();
+    const { recipientName, notifyAttribute, notifyType, description } = model.value;
+    const { error } = await fetchAddNotifyRecipient({ recipientName, notifyAttribute, notifyType, description });
+    if (error) return;
+    window.$message?.success($t('common.addSuccess'));
   }
 
   if (props.operateType === 'edit') {
-    CommonRef.value?.update();
+    const { id, recipientName, notifyAttribute, notifyType, description } = model.value;
+    const { error } = await fetchEditNotifyRecipient({ id, recipientName, notifyAttribute, notifyType, description });
+    if (error) return;
+    window.$message?.success($t('common.updateSuccess'));
   }
-
+  closeDrawer();
   emit('submitted');
 }
-
-const commonFetchAdd = (dingDingModel: Api.NotifyRecipient.NotifyRecipient) => {
-  const { recipientName, notifyAttribute, notifyType, description } = dingDingModel;
-  fetchAddNotifyRecipient({ recipientName, notifyAttribute, notifyType, description });
-  window.$message?.success($t('common.addSuccess'));
-};
-
-const commonFetchUpdate = (dingDingModel: Api.NotifyRecipient.NotifyRecipient) => {
-  const { id, recipientName, notifyAttribute, notifyType, description } = dingDingModel;
-  fetchEditNotifyRecipient({ id, recipientName, notifyAttribute, notifyType, description });
-  window.$message?.success($t('common.updateSuccess'));
-};
 
 function closeDrawer() {
   visible.value = false;
@@ -98,19 +105,19 @@ watch(visible, () => {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
-    <NTabs v-model:value="defaultTabPane" type="segment" animated>
-      <NTabPane name="1" :tab="$t('page.notifyRecipient.dingDing')">
-        <DingDingForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
+  <OperateDrawer v-model="visible" :title="title">
+    <NTabs v-model:value="notifyTabPane" type="segment" animated>
+      <NTabPane :name="1" tab="钉钉">
+        <DingDingForm ref="formRef" v-model:value="model" />
       </NTabPane>
-      <NTabPane name="2" :tab="$t('page.notifyRecipient.email')">
-        <EmailForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
+      <NTabPane :name="2" tab="邮箱">
+        <EmailForm ref="formRef" v-model:value="model" />
       </NTabPane>
-      <NTabPane name="3" :tab="$t('page.notifyRecipient.weCom')">
-        <WeComForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
+      <NTabPane :name="3" tab="企业微信">
+        <WeComForm ref="formRef" v-model:value="model" />
       </NTabPane>
-      <NTabPane name="4" :tab="$t('page.notifyRecipient.lark')">
-        <LarkForm ref="CommonRef" @fetch-add="commonFetchAdd" @fetch-update="commonFetchUpdate" />
+      <NTabPane :name="4" tab="飞书">
+        <LarkForm ref="formRef" v-model:value="model" />
       </NTabPane>
     </NTabs>
     <template #footer>

@@ -111,7 +111,7 @@ async function handleSubmit() {
       notifyThreshold,
       description
     } = model;
-    fetchAddNotify({
+    const { error } = await fetchAddNotify({
       groupName,
       businessId,
       notifyStatus,
@@ -121,6 +121,7 @@ async function handleSubmit() {
       notifyThreshold,
       description
     });
+    if (error) return;
   }
 
   if (props.operateType === 'edit') {
@@ -135,7 +136,7 @@ async function handleSubmit() {
       notifyThreshold,
       description
     } = model;
-    fetchEditNotify({
+    const { error } = await fetchEditNotify({
       id,
       groupName,
       businessId,
@@ -146,6 +147,7 @@ async function handleSubmit() {
       notifyThreshold,
       description
     });
+    if (error) return;
   }
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();

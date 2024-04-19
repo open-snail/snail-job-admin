@@ -75,15 +75,19 @@ async function handleSubmit() {
   // request
   if (props.operateType === 'add') {
     const { name, uniqueId } = model;
-    fetchAddNamespace({ name, uniqueId });
+    const { error } = await fetchAddNamespace({ name, uniqueId });
+    if (error) return;
+    window.$message?.success($t('common.addSuccess'));
   }
 
   if (props.operateType === 'edit') {
     const { id, name, uniqueId } = model;
-    fetchEditNamespace({ id, name, uniqueId });
+    const { error } = await fetchEditNamespace({ id, name, uniqueId });
+    if (error) return;
+    window.$message?.success($t('common.updateSuccess'));
   }
-  window.$message?.success($t('common.updateSuccess'));
-  visible.value = false;
+
+  closeDrawer();
   emit('submitted');
 }
 

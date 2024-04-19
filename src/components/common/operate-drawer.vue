@@ -14,7 +14,6 @@ interface Props {
 const props = defineProps<Props>();
 
 interface Emits {
-  (e: 'submitted'): void;
   (e: 'update:modelValue', modelValue: boolean): void;
 }
 
@@ -64,7 +63,7 @@ const onUpdateShow = (value: boolean) => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="show" :width="drawerWidth" @update:show="onUpdateShow">
+  <NDrawer v-model:show="visible" display-directive="if" :width="drawerWidth" @update:show="onUpdateShow">
     <NDrawerContent :title="props.title" :native-scrollbar="false" closable header-class="operate-dawer-header">
       <template #header>
         {{ props.title }}

@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 
 defineOptions({
-  name: 'LarkForm'
+  name: 'EmailForm'
 });
 
+interface Props {
+  value: Api.NotifyRecipient.NotifyRecipient;
+}
+
+defineProps<Props>();
+
 interface Emits {
-  (e: 'fetchAdd', model: Api.NotifyRecipient.NotifyRecipient): void;
-  (e: 'fetchUpdate', model: Api.NotifyRecipient.NotifyRecipient): void;
+  (e: 'update:value', value: Api.NotifyRecipient.NotifyRecipient): void;
 }
 
 const emit = defineEmits<Emits>();
 
-const { formRef, validate } = useNaiveForm();
+const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 
 type Model = Pick<Api.NotifyRecipient.EmailNotify, 'id' | 'recipientName' | 'notifyType' | 'tos' | 'description'>;
@@ -24,7 +29,7 @@ function createDefaultModel(): Model {
   return {
     id: '',
     recipientName: '',
-    notifyType: '2',
+    notifyType: 2,
     tos: [],
     description: ''
   };
@@ -42,33 +47,19 @@ const buildNotifyAttribute = (tos: string[]) => {
   return JSON.stringify({ tos });
 };
 
-async function save() {
-  await validate();
-  const { id, recipientName, notifyType, tos, description } = model;
-  const notifyAttribute = buildNotifyAttribute(tos);
-  emit('fetchAdd', { id, recipientName, notifyType, notifyAttribute, description });
-}
-
-const showData = (rowData: Api.NotifyRecipient.NotifyRecipient) => {
-  if (rowData.notifyAttribute) {
-    const notifyAttribute = JSON.parse(rowData.notifyAttribute);
-    Object.assign(model, rowData);
-    Object.assign(model, notifyAttribute);
-  }
-};
-
-async function update() {
-  await validate();
-  const { id, recipientName, notifyType, tos, description } = model;
-  const notifyAttribute = buildNotifyAttribute(tos);
-  emit('fetchUpdate', { id, recipientName, notifyType, notifyAttribute, description });
-}
+watch(
+  () => model,
+  () => {
+    const { id, recipientName, notifyType, tos, description } = model;
+    const notifyAttribute = buildNotifyAttribute(tos);
+    emit('update:value', { id, recipientName, notifyType, notifyAttribute, description });
+  },
+  { immediate: true, deep: true }
+);
 
 defineExpose({
-  save,
-  showData,
-  createDefaultModel,
-  update
+  validate,
+  restoreValidation
 });
 </script>
 

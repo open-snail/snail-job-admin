@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 
@@ -7,29 +7,35 @@ defineOptions({
   name: 'DingDingForm'
 });
 
+interface Props {
+  value: Api.NotifyRecipient.NotifyRecipient;
+}
+
+const props = defineProps<Props>();
+
 interface Emits {
-  (e: 'fetchAdd', model: Api.NotifyRecipient.NotifyRecipient): void;
-  (e: 'fetchUpdate', model: Api.NotifyRecipient.NotifyRecipient): void;
+  (e: 'update:value', value: Api.NotifyRecipient.NotifyRecipient): void;
 }
 
 const emit = defineEmits<Emits>();
 
-const { formRef, validate } = useNaiveForm();
+const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 
 type Model = Pick<
   Api.NotifyRecipient.DingDingNotify,
-  'id' | 'recipientName' | 'notifyType' | 'webhookUrl' | 'ats' | 'description'
+  'id' | 'recipientName' | 'notifyType' | 'webhookUrl' | 'ats' | 'description' | 'notifyAttribute'
 >;
 const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
+  const { webhookUrl, ats } = JSON.parse(props.value.notifyAttribute!) as { webhookUrl: string; ats: string[] };
   return {
-    id: '',
-    recipientName: '',
-    notifyType: '1',
-    webhookUrl: '',
-    ats: [],
+    id: props.value.id,
+    recipientName: props.value.recipientName,
+    notifyType: 1,
+    webhookUrl,
+    ats,
     description: ''
   };
 }
@@ -47,33 +53,19 @@ const buildNotifyAttribute = (webhookUrl: string, ats: string[]) => {
   return JSON.stringify({ webhookUrl, ats });
 };
 
-async function save() {
-  await validate();
-  const { recipientName, notifyType, webhookUrl, ats, description } = model;
-  const notifyAttribute = buildNotifyAttribute(webhookUrl, ats);
-  emit('fetchAdd', { recipientName, notifyType, notifyAttribute, description });
-}
-
-async function update() {
-  await validate();
-  const { id, recipientName, notifyType, webhookUrl, ats, description } = model;
-  const notifyAttribute = buildNotifyAttribute(webhookUrl, ats);
-  emit('fetchUpdate', { id, recipientName, notifyType, notifyAttribute, description });
-}
-
-const showData = (rowData: Api.NotifyRecipient.NotifyRecipient) => {
-  if (rowData.notifyAttribute) {
-    const notifyAttribute = JSON.parse(rowData.notifyAttribute);
-    Object.assign(model, rowData);
-    Object.assign(model, notifyAttribute);
-  }
-};
+watch(
+  () => model,
+  () => {
+    const { id, recipientName, notifyType, webhookUrl, ats, description } = model;
+    const notifyAttribute = buildNotifyAttribute(webhookUrl, ats);
+    emit('update:value', { id, recipientName, notifyType, notifyAttribute, description });
+  },
+  { deep: true }
+);
 
 defineExpose({
-  save,
-  createDefaultModel,
-  showData,
-  update
+  validate,
+  restoreValidation
 });
 </script>
 
@@ -96,7 +88,7 @@ defineExpose({
             <template #trigger>
               {{ $t('page.notifyRecipient.ats') }}
             </template>
-            {{ $t('page.notifyRecipient.form.dingdingAts') }}
+            {{ $t('page.notifyRecipient.form.dingDingAts') }}
           </NTooltip>
         </a>
       </template>
