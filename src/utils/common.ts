@@ -30,11 +30,13 @@ export function transformRecordToOption<T extends Record<string, string>>(record
  *
  * @param record
  */
-export function transformRecordToNumberOption<T extends Record<number, string>>(record: T) {
-  return Object.entries(record).map(([value, label]) => ({
+export function transformRecordToNumberOption<T extends Record<number, string>>(record: T, reverse: boolean = false) {
+  const options = Object.entries(record).map(([value, label]) => ({
     value: Number(value),
     label
   })) as CommonType.Option<keyof T>[];
+
+  return reverse ? options.sort((a: any, b: any) => b.value - a.value) : options;
 }
 
 /**

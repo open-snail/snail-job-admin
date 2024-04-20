@@ -80,7 +80,7 @@ export const groupConfigStatusRecord: Record<Api.GroupConfig.GroupStatusType, Ap
   0: 'page.manage.common.status.disable',
   1: 'page.manage.common.status.enable'
 };
-export const groupConfigStatusOptions = transformRecordToNumberOption(groupConfigStatusRecord);
+export const groupConfigStatusOptions = transformRecordToNumberOption(groupConfigStatusRecord, true);
 
 export const groupConfigIdModeRecord: Record<Api.GroupConfig.IdGeneratorModeType, App.I18n.I18nKey> = {
   1: 'page.groupConfig.idMode.segment',
@@ -92,4 +92,4 @@ export const groupConfigYesOrNoRecord: Record<Api.GroupConfig.YesOrNoType, App.I
   0: 'common.yesOrNo.no',
   1: 'common.yesOrNo.yes'
 };
-export const groupConfigYesOrNoOptions = transformRecordToNumberOption(groupConfigYesOrNoRecord);
+export const groupConfigYesOrNoOptions = transformRecordToNumberOption(groupConfigYesOrNoRecord, true);
