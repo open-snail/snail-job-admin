@@ -169,6 +169,8 @@ const local: App.I18n.Schema = {
     notify: 'notify',
     notify_recipient: 'Notify recipient',
     notify_scene: 'Notify scene',
+    retry: 'Retry task',
+    retry_scene: 'Retry scene',
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
@@ -602,6 +604,35 @@ const local: App.I18n.Schema = {
       email: 'Email',
       weCom: 'WeCom',
       lark: 'Lark'
+    },
+    retryScene: {
+      title: 'Scene List',
+      groupName: 'Group name',
+      sceneName: 'Scene name',
+      sceneStatus: 'State',
+      backOff: 'Backoff strategy',
+      maxRetryCount: 'Maximum number of retries',
+      triggerInterval: 'Intervals',
+      deadlineRequest: 'Call chain timeout',
+      executorTimeout: 'Overtime time',
+      createDt: 'Creation time',
+      updateDt: 'Update time',
+      description: 'Describe',
+      routeKey: 'Routing strategy',
+      form: {
+        maxRetryCount: 'Please enter Maximum number of retries',
+        triggerInterval: 'Please enter Intervals',
+        groupName: 'Please enter Group name',
+        description: 'Please enter Describe',
+        executorTimeout: 'Please enter Overtime time',
+        sceneName: 'Please enter Scene name',
+        sceneStatus: 'Please enter State',
+        deadlineRequest: 'Please enter Call chain timeout',
+        routeKey: 'Please enter Routing strategy',
+        backOff: 'Please enter Backoff strategy'
+      },
+      addScene: 'Add Scenes',
+      editScene: 'Add Scenes'
     }
   },
   form: {

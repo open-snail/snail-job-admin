@@ -41,10 +41,10 @@ declare namespace Api {
     /**
      * enable status
      *
-     * - "0": enabled
-     * - "1": disabled
+     * - 0: enabled
+     * - 1: disabled
      */
-    type EnableStatus01 = 0 | 1;
+    type EnableStatusNumber = 0 | 1;
 
     /**
      * yes/no status
@@ -527,13 +527,13 @@ declare namespace Api {
       /** 业务名称 */
       businessName?: string;
       /** 状态 */
-      notifyStatus: string;
+      notifyStatus: Api.Common.EnableStatusNumber;
       /** 通知场景 */
       notifyScene: string;
       /** 通知阈值 */
       notifyThreshold: number;
       /** 限流开关 */
-      rateLimiterStatus: number;
+      rateLimiterStatus: Api.Common.EnableStatusNumber;
       /** 每秒限流阈值 */
       rateLimiterThreshold: number;
       /** 描述 */
@@ -553,13 +553,13 @@ declare namespace Api {
     type NotifyConfigList = Common.PaginatingQueryRecord<NotifyConfig>;
 
     /** 任务类型 1、重试任务 2、回调任务、 3、JOB任务 4、WORKFLOW任务 */
-    type SystemTaskType = '1' | '3' | '4';
+    type SystemTaskType = 1 | 3 | 4;
 
     /** 1、场景重试数量超过阈值 2、场景重试失败数量超过阈值 3、客户端上报失败 4、客户端组件异常 5、任务重试失败数量超过阈值 6、任务重试失败进入死信队列 */
-    type RetryNotifyScene = '1' | '2' | '3' | '4' | '5' | '6';
+    type RetryNotifyScene = 1 | 2 | 3 | 4 | 5 | 6;
 
     /** 1、任务执行失败 */
-    type JobNotifyScene = '1';
+    type JobNotifyScene = 1;
   }
 
   /**
@@ -609,5 +609,60 @@ declare namespace Api {
 
     /** 1: 钉钉通知 2: 邮件通知 3: 企业通知 4: 飞书 */
     type AlarmType = 1 | 2 | 3 | 4;
+  }
+
+  /**
+   * namespace Scene
+   *
+   * backend api module: "scene"
+   */
+  namespace RetryScene {
+    import EnableStatusNumber = Api.Common.EnableStatusNumber;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** scene */
+    type Scene = Common.CommonRecord<{
+      /** 组名 */
+      groupName: string;
+      /** 场景名 */
+      sceneName: string;
+      /** 状态 */
+      sceneStatus: EnableStatusNumber;
+      /** 退避策略 */
+      backOff: number;
+      /** 最大重试次数 */
+      maxRetryCount: number;
+      /** 间隔时间 */
+      triggerInterval: string;
+      /** 调用链超时时间 */
+      deadlineRequest: number;
+      /** 超时时间 */
+      executorTimeout: number;
+      /** 描述 */
+      description: string;
+      /** 路由策略 */
+      routeKey: number;
+    }>;
+
+    /** scene search params */
+    type SceneSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.RetryScene.Scene,
+        | 'groupName'
+        | 'sceneName'
+        | 'sceneStatus'
+        | 'backOff'
+        | 'maxRetryCount'
+        | 'triggerInterval'
+        | 'deadlineRequest'
+        | 'executorTimeout'
+        | 'description'
+        | 'routeKey'
+      > &
+        CommonSearchParams
+    >;
+
+    /** scene list */
+    type SceneList = Common.PaginatingQueryRecord<Scene>;
   }
 }

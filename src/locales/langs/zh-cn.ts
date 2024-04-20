@@ -170,6 +170,8 @@ const local: App.I18n.Schema = {
     notify: '告警通知',
     notify_recipient: '通知人',
     notify_scene: '通知场景',
+    retry: '重试任务',
+    retry_scene: '重试场景',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
@@ -598,6 +600,35 @@ const local: App.I18n.Schema = {
       email: '邮箱',
       weCom: '企业微信',
       lark: '飞书'
+    },
+    retryScene: {
+      title: 'Scene 列表',
+      groupName: '组名',
+      sceneName: '场景名',
+      sceneStatus: '状态',
+      backOff: '退避策略',
+      maxRetryCount: '最大重试次数',
+      triggerInterval: '间隔时间',
+      deadlineRequest: '调用链超时时间',
+      executorTimeout: '超时时间',
+      createDt: '创建时间',
+      updateDt: '更新时间',
+      description: '描述',
+      routeKey: '路由策略',
+      form: {
+        maxRetryCount: '请输入最大重试次数',
+        triggerInterval: '请输入间隔时间',
+        groupName: '请输入组名',
+        description: '请输入描述',
+        executorTimeout: '请输入超时时间',
+        sceneName: '请输入场景名',
+        sceneStatus: '请输入状态',
+        deadlineRequest: '请输入调用链超时时间',
+        routeKey: '请输入路由策略',
+        backOff: '请输入退避策略'
+      },
+      addScene: '新增场景',
+      editScene: '编辑场景'
     }
   },
   form: {

@@ -29,6 +29,7 @@ export function transformRecordToOption<T extends Record<string, string>>(record
  * Transform record to option with keys of number
  *
  * @param record
+ * @param reverse
  */
 export function transformRecordToNumberOption<T extends Record<number, string>>(record: T, reverse: boolean = false) {
   const options = Object.entries(record).map(([value, label]) => ({

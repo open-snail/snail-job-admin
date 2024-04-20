@@ -40,5 +40,6 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   notify_recipient: () => import("@/views/notify/recipient/index.vue"),
   notify_scene: () => import("@/views/notify/scene/index.vue"),
   pods: () => import("@/views/pods/index.vue"),
+  retry_scene: () => import("@/views/retry/scene/index.vue"),
   "user-center": () => import("@/views/user-center/index.vue"),
 };
