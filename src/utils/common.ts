@@ -26,6 +26,18 @@ export function transformRecordToOption<T extends Record<string, string>>(record
 }
 
 /**
+ * Transform record to option with keys of number
+ *
+ * @param record
+ */
+export function transformRecordToNumberOption<T extends Record<number, string>>(record: T) {
+  return Object.entries(record).map(([value, label]) => ({
+    value: Number(value),
+    label
+  })) as CommonType.Option<keyof T>[];
+}
+
+/**
  * Translate options
  *
  * @param options

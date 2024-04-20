@@ -1,4 +1,4 @@
-import { transformRecordToOption } from '@/utils/common';
+import { transformRecordToNumberOption, transformRecordToOption } from '@/utils/common';
 
 export const yesOrNoRecord: Record<Api.Common.YesOrNo, App.I18n.I18nKey> = {
   '0': 'common.yesOrNo.no',
@@ -17,7 +17,7 @@ export const enableStatus01Record: Record<Api.Common.EnableStatus01, App.I18n.I1
   1: 'page.manage.common.status.disable'
 };
 
-export const enableStatus01Options = transformRecordToOption(enableStatus01Record);
+export const enableStatus01Options = transformRecordToNumberOption(enableStatus01Record);
 
 export const userGenderRecord: Record<Api.SystemManage.UserGender, App.I18n.I18nKey> = {
   '1': 'page.manage.user.gender.male',
@@ -43,11 +43,6 @@ export const menuIconTypeOptions = transformRecordToOption(menuIconTypeRecord);
 export const podsType: Record<Api.Dashboard.DashboardPodsType, App.I18n.I18nKey> = {
   1: 'page.pods.type.client',
   2: 'page.pods.type.server'
-};
-
-export const idGeneratorModeRecord: Record<Api.GroupConfig.IdGeneratorModeType, App.I18n.I18nKey> = {
-  '1': 'page.groupConfig.idMode.segment',
-  '2': 'page.groupConfig.idMode.idWorker'
 };
 
 export const alarmTypeRecord: Record<Api.NotifyRecipient.AlarmType, App.I18n.I18nKey> = {
@@ -80,3 +75,21 @@ export const jobNotifyScene: Record<Api.NotifyConfig.JobNotifyScene, App.I18n.I1
   '1': 'page.notifyConfig.jobNotifyScene.jobTaskError'
 };
 export const jobNotifySceneOptions = transformRecordToOption(jobNotifyScene);
+
+export const groupConfigStatusRecord: Record<Api.GroupConfig.GroupStatusType, App.I18n.I18nKey> = {
+  0: 'page.manage.common.status.disable',
+  1: 'page.manage.common.status.enable'
+};
+export const groupConfigStatusOptions = transformRecordToNumberOption(groupConfigStatusRecord);
+
+export const groupConfigIdModeRecord: Record<Api.GroupConfig.IdGeneratorModeType, App.I18n.I18nKey> = {
+  1: 'page.groupConfig.idMode.segment',
+  2: 'page.groupConfig.idMode.idWorker'
+};
+export const groupConfigIdModeOptions = transformRecordToNumberOption(groupConfigIdModeRecord);
+
+export const groupConfigYesOrNoRecord: Record<Api.GroupConfig.YesOrNoType, App.I18n.I18nKey> = {
+  0: 'common.yesOrNo.no',
+  1: 'common.yesOrNo.yes'
+};
+export const groupConfigYesOrNoOptions = transformRecordToNumberOption(groupConfigYesOrNoRecord);
