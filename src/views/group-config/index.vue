@@ -4,7 +4,7 @@ import { fetchGetGroupConfigList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { enableStatusRecord, idGeneratorModeRecord, yesOrNoRecord } from '@/constants/business';
+import { groupConfigIdModeRecord, groupConfigStatusRecord, yesOrNoRecord } from '@/constants/business';
 import GroupConfigOperateDrawer from './modules/groupConfig-operate-drawer.vue';
 import GroupConfigSearch from './modules/groupConfig-search.vue';
 
@@ -46,12 +46,12 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           return null;
         }
 
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+        const tagMap: Record<Api.GroupConfig.GroupStatusType, NaiveUI.ThemeColor> = {
           1: 'success',
-          2: 'warning'
+          0: 'warning'
         };
 
-        const label = $t(enableStatusRecord[row.groupStatus!]);
+        const label = $t(groupConfigStatusRecord[row.groupStatus!]);
 
         return <NTag type={tagMap[row.groupStatus!]}>{label}</NTag>;
       }
@@ -66,7 +66,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           return null;
         }
 
-        const label = $t(idGeneratorModeRecord[row.idGeneratorMode!]);
+        const label = $t(groupConfigIdModeRecord[row.idGeneratorMode!]);
 
         return <NTag type="primary">{label}</NTag>;
       }

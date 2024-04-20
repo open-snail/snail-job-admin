@@ -353,6 +353,7 @@ const local: App.I18n.Schema = {
       title: 'Group Config List',
       namespaceId: 'Namespace ID',
       groupName: 'Name',
+      token: 'Token',
       groupStatus: 'Status',
       idGeneratorMode: 'ID Generator Mode',
       version: 'Version',
@@ -362,8 +363,13 @@ const local: App.I18n.Schema = {
       updateDt: 'Update Time',
       description: 'Description',
       form: {
-        namespaceId: 'Please enter namespace ID',
-        groupName: 'Please enter group name'
+        groupName: 'Please enter group name',
+        token: 'Please enter Token',
+        groupStatus: 'Group status',
+        description: 'Please enter description',
+        idGeneratorMode: 'Please select ID generator mode',
+        groupPartition: 'Please select Group partition',
+        initScene: 'Initialized scene'
       },
       idMode: {
         idWorker: 'Id Workder',

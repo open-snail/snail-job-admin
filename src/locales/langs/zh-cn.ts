@@ -349,6 +349,7 @@ const local: App.I18n.Schema = {
       title: '组管理',
       namespaceId: '命名空间ID',
       groupName: '组名称',
+      token: 'Token',
       groupStatus: '状态',
       idGeneratorMode: 'ID生成模式',
       version: '版本',
@@ -358,8 +359,13 @@ const local: App.I18n.Schema = {
       updateDt: '更新时间',
       description: '描述',
       form: {
-        namespaceId: '请选择命名空间ID',
-        groupName: '请输入组名称'
+        groupName: '请输入组名称',
+        token: 'Token',
+        groupStatus: '状态',
+        description: '描述',
+        idGeneratorMode: 'ID生成模式',
+        groupPartition: '分区',
+        initScene: '初始化场景'
       },
       idMode: {
         idWorker: '雪花算法',

@@ -315,12 +315,16 @@ declare namespace Api {
   namespace GroupConfig {
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
 
-    type IdGeneratorModeType = '1' | '2';
+    type IdGeneratorModeType = 1 | 2;
+
+    type GroupStatusType = 0 | 1;
+
+    type YesOrNoType = 0 | 1;
 
     /** groupConfig */
     type GroupConfig = Common.CommonRecord<{
       /** 命名空间id */
-      namespaceId: string;
+      namespaceId?: string;
       /** 组名 */
       groupName: string;
       /** 组描述 */
@@ -328,17 +332,17 @@ declare namespace Api {
       /** token */
       token: string;
       /** 组状态 0、未启用 1、启用 */
-      groupStatus: Api.Common.EnableStatus;
+      groupStatus: GroupStatusType;
       /** 版本号 */
-      version: number;
+      version?: number;
       /** 分区 */
       groupPartition: number;
       /** 唯一id生成模式 默认号段模式 */
       idGeneratorMode: IdGeneratorModeType;
       /** 是否初始化场景 0:否 1:是 */
-      initScene: Api.Common.YesOrNo;
+      initScene: YesOrNoType;
       /** bucket */
-      bucketIndex: number;
+      bucketIndex?: number;
     }>;
 
     /** groupConfig search params */

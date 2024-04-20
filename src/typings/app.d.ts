@@ -524,7 +524,7 @@ declare namespace App {
           namespaceId: string;
           groupName: string;
           description: string;
-          // token: string;
+          token: string;
           groupStatus: string;
           version: string;
           groupPartition: string;
@@ -533,8 +533,14 @@ declare namespace App {
           bucketIndex: string;
           updateDt: string;
           form: {
-            namespaceId: string;
             groupName: string;
+            token: string;
+            groupStatus: string;
+            description: string;
+            groupPartition: string;
+            idGeneratorMode: string;
+            initScene: string;
+            // bucketIndex: string;
           };
           idMode: {
             idWorker: string;

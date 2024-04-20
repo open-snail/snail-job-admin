@@ -26,11 +26,19 @@ export function fetchAddGroupConfig(data: Api.GroupConfig.GroupConfig) {
   });
 }
 
-/** edit namespace */
+/** edit groupConfig */
 export function fetchEditGroupConfig(data: Api.GroupConfig.GroupConfig) {
   return request<boolean>({
     url: '/group',
     method: 'put',
     data
+  });
+}
+
+/** get partition table list */
+export function fetchGetPartitionTableList() {
+  return request<number[]>({
+    url: '/group/partition-table/list',
+    method: 'get'
   });
 }
