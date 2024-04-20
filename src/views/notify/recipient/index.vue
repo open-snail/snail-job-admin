@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetNotifyRecipientList } from '@/service/api';
+import { fetchGetNotifyRecipientPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -11,7 +11,7 @@ import NotifyRecipientSearch from './modules/notify-recipient-search.vue';
 const appStore = useAppStore();
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: fetchGetNotifyRecipientList,
+  apiFn: fetchGetNotifyRecipientPageList,
   apiParams: {
     page: 1,
     size: 10,

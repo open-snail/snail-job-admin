@@ -44,7 +44,7 @@ declare namespace Api {
      * - "0": enabled
      * - "1": disabled
      */
-    type EnableStatus01 = '0' | '1';
+    type EnableStatus01 = 0 | 1;
 
     /**
      * yes/no status
@@ -516,6 +516,8 @@ declare namespace Api {
       groupName: string;
       /** 业务ID */
       businessId: string;
+      /** 通知人id */
+      notifyRecipientIds: number;
       /** 任务类型 1、重试任务 2、回调任务、3、JOB任务 4、WORKFLOW任务 */
       systemTaskType: SystemTaskType;
       /** 业务名称 */
@@ -526,6 +528,10 @@ declare namespace Api {
       notifyScene: string;
       /** 通知阈值 */
       notifyThreshold: number;
+      /** 限流开关 */
+      rateLimiterStatus: number;
+      /** 每秒限流阈值 */
+      rateLimiterThreshold: number;
       /** 描述 */
       description: string;
     }>;

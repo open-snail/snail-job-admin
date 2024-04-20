@@ -28,11 +28,19 @@ export function fetchEditNotify(data: Api.NotifyConfig.NotifyConfig) {
 }
 
 /** get notify recipient list */
-export function fetchGetNotifyRecipientList(params?: Api.NotifyRecipient.NotifyRecipientParams) {
+export function fetchGetNotifyRecipientPageList(params?: Api.NotifyRecipient.NotifyRecipientParams) {
   return request<Api.NotifyRecipient.NotifyRecipientList>({
     url: '/notify-recipient/page/list',
     method: 'get',
     params
+  });
+}
+
+/** get notify recipient list */
+export function fetchGetNotifyRecipientList() {
+  return request<CommonType.Option<number>[]>({
+    url: '/notify-recipient/list',
+    method: 'get'
   });
 }
 

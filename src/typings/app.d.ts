@@ -721,6 +721,8 @@ declare namespace App {
             notifyThreshold: string;
             notifyStatus: string;
             systemTaskType: string;
+            notifyRecipient: string;
+            rateLimiterThreshold: string;
           };
           addNotifyConfig: string;
           editNotifyConfig: string;
@@ -736,6 +738,9 @@ declare namespace App {
           jobNotifyScene: {
             jobTaskError: string;
           };
+          notifyRecipient: string;
+          rateLimiterStatus: string;
+          rateLimiterThreshold: string;
         };
         notifyRecipient: {
           title: string;

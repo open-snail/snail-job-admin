@@ -3,7 +3,7 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import { fetchAddNotify, fetchEditNotify, fetchGetAllGroupNameList } from '@/service/api';
+import { fetchAddNotify, fetchEditNotify, fetchGetAllGroupNameList, fetchGetNotifyRecipientList } from '@/service/api';
 import {
   enableStatus01Options,
   jobNotifySceneOptions,
@@ -24,7 +24,9 @@ interface Props {
 }
 
 const groupNameList = ref<string[]>([]);
+const notifyRecipientList = ref<CommonType.Option<number>[]>([]);
 const props = defineProps<Props>();
+const defaultChecked = ref<number>(0);
 
 interface Emits {
   (e: 'submitted'): void;
@@ -56,23 +58,31 @@ type Model = Pick<
   | 'id'
   | 'groupName'
   | 'businessId'
+  | 'notifyRecipientIds'
   | 'systemTaskType'
   | 'notifyStatus'
   | 'notifyScene'
   | 'notifyThreshold'
+  | 'rateLimiterStatus'
+  | 'rateLimiterThreshold'
   | 'description'
 >;
 
 onMounted(() => {
   nextTick(() => {
     getGroupNameList();
+    getNotifyRecipientList();
   });
 });
 
 async function getGroupNameList() {
   const res = await fetchGetAllGroupNameList();
-  console.log(res.data);
   groupNameList.value = res.data as string[];
+}
+
+async function getNotifyRecipientList() {
+  const res = await fetchGetNotifyRecipientList();
+  notifyRecipientList.value = res.data as CommonType.Option<number>[];
 }
 
 const model: Model = reactive(createDefaultModel());
@@ -81,21 +91,36 @@ function createDefaultModel(): Model {
   return {
     groupName: '',
     businessId: '',
+    notifyRecipientIds: 0,
     systemTaskType: '1',
     notifyStatus: '',
     notifyScene: '',
     notifyThreshold: 0,
+    rateLimiterStatus: 0,
+    rateLimiterThreshold: 0,
     description: ''
   };
 }
 
-type RuleKey = Extract<keyof Model, 'groupName' | 'businessId' | 'notifyStatus' | 'notifyScene'>;
+type RuleKey = Extract<
+  keyof Model,
+  | 'groupName'
+  | 'businessId'
+  | 'notifyRecipientIds'
+  | 'notifyStatus'
+  | 'notifyScene'
+  | 'rateLimiterStatus'
+  | 'notifyThreshold'
+>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   groupName: defaultRequiredRule,
   businessId: defaultRequiredRule,
   notifyStatus: defaultRequiredRule,
-  notifyScene: defaultRequiredRule
+  notifyScene: defaultRequiredRule,
+  notifyRecipientIds: defaultRequiredRule,
+  rateLimiterStatus: defaultRequiredRule,
+  notifyThreshold: defaultRequiredRule
 };
 
 function handleUpdateModelWhenEdit() {
@@ -117,30 +142,58 @@ async function handleSubmit() {
   await validate();
   // request
   if (props.operateType === 'add') {
-    const { groupName, businessId, systemTaskType, notifyStatus, notifyScene, notifyThreshold, description } = model;
-    const { error } = await fetchAddNotify({
+    const {
       groupName,
       businessId,
+      notifyRecipientIds,
       systemTaskType,
       notifyStatus,
       notifyScene,
       notifyThreshold,
+      rateLimiterStatus,
+      rateLimiterThreshold,
+      description
+    } = model;
+    const { error } = await fetchAddNotify({
+      groupName,
+      businessId,
+      notifyRecipientIds,
+      systemTaskType,
+      notifyStatus,
+      notifyScene,
+      notifyThreshold,
+      rateLimiterStatus,
+      rateLimiterThreshold,
       description
     });
     if (error) return;
   }
 
   if (props.operateType === 'edit') {
-    const { id, groupName, businessId, notifyStatus, systemTaskType, notifyScene, notifyThreshold, description } =
-      model;
+    const {
+      id,
+      groupName,
+      businessId,
+      notifyRecipientIds,
+      notifyStatus,
+      systemTaskType,
+      notifyScene,
+      notifyThreshold,
+      rateLimiterStatus,
+      rateLimiterThreshold,
+      description
+    } = model;
     const { error } = await fetchEditNotify({
       id,
       groupName,
       businessId,
+      notifyRecipientIds,
       systemTaskType,
       notifyStatus,
       notifyScene,
       notifyThreshold,
+      rateLimiterStatus,
+      rateLimiterThreshold,
       description
     });
     if (error) return;
@@ -208,17 +261,39 @@ watch(visible, () => {
           clearable
         />
       </NFormItem>
-      <NGrid x-gap="12" :cols="6" item-responsive responsive="screen">
-        <NGi span="m:6 l:6"></NGi>
-        <NGi span="m:6 l:2">
-          <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
-            <NInputNumber
-              v-model:value="model.notifyThreshold"
-              :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
+      <NFormItem :label="$t('page.notifyConfig.notifyRecipient')" path="notifyRecipientIds">
+        <NSelect
+          v-model:value="model.notifyRecipientIds"
+          :placeholder="$t('page.notifyConfig.form.notifyRecipient')"
+          :options="notifyRecipientList"
+          clearable
+          multiple
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.rateLimiterStatus')" path="rateLimiterStatus">
+        <NRadioGroup v-model:value="model.rateLimiterStatus" :default-value="defaultChecked" name="rateLimiterStatus">
+          <NSpace>
+            <NRadio
+              v-for="item in enableStatus01Options"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
             />
-          </NFormItem>
-        </NGi>
-      </NGrid>
+          </NSpace>
+        </NRadioGroup>
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.rateLimiterThreshold')" path="rateLimiterThreshold">
+        <NInputNumber
+          v-model:value="model.rateLimiterThreshold"
+          :placeholder="$t('page.notifyConfig.form.rateLimiterThreshold')"
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
+        <NInputNumber
+          v-model:value="model.notifyThreshold"
+          :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
+        />
+      </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.description')" path="description">
         <NInput
           v-model:value="model.description"

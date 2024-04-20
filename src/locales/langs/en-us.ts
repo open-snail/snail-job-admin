@@ -549,7 +549,9 @@ const local: App.I18n.Schema = {
         groupName: 'Please select Group name',
         notifyThreshold: 'Please enter Notification threshold',
         notifyStatus: 'Please select State',
-        systemTaskType: '请选择任务类型'
+        systemTaskType: '请选择任务类型',
+        notifyRecipient: '请选择通知人',
+        rateLimiterThreshold: '请选择阈值'
       },
       addNotifyConfig: 'Add Alarm notification',
       editNotifyConfig: 'Add Alarm notification',
@@ -564,7 +566,10 @@ const local: App.I18n.Schema = {
       },
       jobNotifyScene: {
         jobTaskError: '任务执行失败'
-      }
+      },
+      notifyRecipient: '通知人信息',
+      rateLimiterStatus: '限流开关',
+      rateLimiterThreshold: '每秒限流阈值'
     },
     notifyRecipient: {
       title: 'Notify Recipient List',
