@@ -176,7 +176,8 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.group-config',
     meta: {
       title: 'group-config',
-      i18nKey: 'route.group-config'
+      i18nKey: 'route.group-config',
+      order: 40
     }
   },
   {
@@ -338,7 +339,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'namepase',
       i18nKey: 'route.namepase',
       icon: 'oui:app-spaces',
-      order: 2
+      order: 20
     }
   },
   {
@@ -347,7 +348,8 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base',
     meta: {
       title: 'notify',
-      i18nKey: 'route.notify'
+      i18nKey: 'route.notify',
+      order: 100
     },
     children: [
       {
@@ -378,8 +380,29 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'pods',
       i18nKey: 'route.pods',
       icon: 'ant-design:database-outlined',
-      order: 1
+      order: 10
     }
+  },
+  {
+    name: 'retry',
+    path: '/retry',
+    component: 'layout.base',
+    meta: {
+      title: 'retry',
+      i18nKey: 'route.retry',
+      order: 50
+    },
+    children: [
+      {
+        name: 'retry_scene',
+        path: '/retry/scene',
+        component: 'view.retry_scene',
+        meta: {
+          title: 'retry_scene',
+          i18nKey: 'route.retry_scene'
+        }
+      }
+    ]
   },
   {
     name: 'user-center',

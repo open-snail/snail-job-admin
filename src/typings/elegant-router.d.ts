@@ -54,6 +54,8 @@ declare module "@elegant-router/types" {
     "notify_recipient": "/notify/recipient";
     "notify_scene": "/notify/scene";
     "pods": "/pods";
+    "retry": "/retry";
+    "retry_scene": "/retry/scene";
     "user-center": "/user-center";
   };
 
@@ -103,6 +105,7 @@ declare module "@elegant-router/types" {
     | "namepase"
     | "notify"
     | "pods"
+    | "retry"
     | "user-center"
   >;
 
@@ -146,6 +149,7 @@ declare module "@elegant-router/types" {
     | "notify_recipient"
     | "notify_scene"
     | "pods"
+    | "retry_scene"
     | "user-center"
   >;
 

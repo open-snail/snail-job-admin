@@ -774,6 +774,35 @@ declare namespace App {
           weCom: string;
           lark: string;
         };
+        retryScene: {
+          title: string;
+          groupName: string;
+          sceneName: string;
+          sceneStatus: string;
+          backOff: string;
+          maxRetryCount: string;
+          triggerInterval: string;
+          deadlineRequest: string;
+          executorTimeout: string;
+          createDt: string;
+          updateDt: string;
+          description: string;
+          routeKey: string;
+          form: {
+            maxRetryCount: string;
+            triggerInterval: string;
+            groupName: string;
+            description: string;
+            executorTimeout: string;
+            sceneName: string;
+            sceneStatus: string;
+            deadlineRequest: string;
+            routeKey: string;
+            backOff: string;
+          };
+          addScene: string;
+          editScene: string;
+        };
       };
       form: {
         required: string;

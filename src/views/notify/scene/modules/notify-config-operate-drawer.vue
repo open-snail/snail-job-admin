@@ -26,7 +26,6 @@ interface Props {
 const groupNameList = ref<string[]>([]);
 const notifyRecipientList = ref<CommonType.Option<number>[]>([]);
 const props = defineProps<Props>();
-const defaultChecked = ref<number>(0);
 
 interface Emits {
   (e: 'submitted'): void;
@@ -92,8 +91,8 @@ function createDefaultModel(): Model {
     groupName: '',
     businessId: '',
     notifyRecipientIds: 0,
-    systemTaskType: '1',
-    notifyStatus: '',
+    systemTaskType: 1,
+    notifyStatus: 1,
     notifyScene: '',
     notifyThreshold: 0,
     rateLimiterStatus: 0,
@@ -271,7 +270,7 @@ watch(visible, () => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.rateLimiterStatus')" path="rateLimiterStatus">
-        <NRadioGroup v-model:value="model.rateLimiterStatus" :default-value="defaultChecked" name="rateLimiterStatus">
+        <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus">
           <NSpace>
             <NRadio
               v-for="item in enableStatus01Options"

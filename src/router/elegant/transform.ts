@@ -180,6 +180,8 @@ const routeMap: RouteMap = {
   "notify_recipient": "/notify/recipient",
   "notify_scene": "/notify/scene",
   "pods": "/pods",
+  "retry": "/retry",
+  "retry_scene": "/retry/scene",
   "user-center": "/user-center"
 };
 
