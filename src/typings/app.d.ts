@@ -808,6 +808,12 @@ declare namespace App {
             cron: string;
             random: string;
           };
+          routeKeyItem: {
+            consistentHash: string;
+            random: string;
+            lru: string;
+            round: string;
+          };
         };
       };
       form: {

@@ -5,7 +5,7 @@ import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddNotify, fetchEditNotify, fetchGetAllGroupNameList, fetchGetNotifyRecipientList } from '@/service/api';
 import {
-  enableStatus01Options,
+  enableStatusNumberOptions,
   jobNotifySceneOptions,
   retryNotifySceneOptions,
   systemTaskTypeOptions
@@ -235,7 +235,7 @@ watch(visible, () => {
         <NRadioGroup v-model:value="model.notifyStatus" name="notifyStatus">
           <NSpace>
             <NRadio
-              v-for="item in enableStatus01Options"
+              v-for="item in enableStatusNumberOptions"
               :key="item.value"
               :value="item.value"
               :label="$t(item.label)"
@@ -273,7 +273,7 @@ watch(visible, () => {
         <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus">
           <NSpace>
             <NRadio
-              v-for="item in enableStatus01Options"
+              v-for="item in enableStatusNumberOptions"
               :key="item.value"
               :value="item.value"
               :label="$t(item.label)"

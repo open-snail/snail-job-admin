@@ -638,6 +638,12 @@ const local: App.I18n.Schema = {
         fixed: '固定时间',
         cron: 'CRON表达式',
         random: '随机等待'
+      },
+      routeKeyItem: {
+        consistentHash: '一致性哈希',
+        random: '随机',
+        lru: 'LRU',
+        round: '轮询'
       }
     }
   },

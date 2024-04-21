@@ -602,7 +602,7 @@ const local: App.I18n.Schema = {
       lark: '飞书'
     },
     retryScene: {
-      title: 'Scene 列表',
+      title: '场景列表',
       groupName: '组名',
       sceneName: '场景名',
       sceneStatus: '状态',
@@ -634,6 +634,12 @@ const local: App.I18n.Schema = {
         fixed: '固定时间',
         cron: 'CRON表达式',
         random: '随机等待'
+      },
+      routeKeyItem: {
+        consistentHash: '一致性哈希',
+        random: '随机',
+        lru: 'LRU',
+        round: '轮询'
       }
     }
   },

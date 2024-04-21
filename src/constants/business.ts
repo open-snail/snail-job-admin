@@ -12,12 +12,12 @@ export const enableStatusRecord: Record<Api.Common.EnableStatus, App.I18n.I18nKe
 
 export const enableStatusOptions = transformRecordToOption(enableStatusRecord);
 
-export const enableStatus01Record: Record<Api.Common.EnableStatusNumber, App.I18n.I18nKey> = {
+export const enableStatusNumberRecord: Record<Api.Common.EnableStatusNumber, App.I18n.I18nKey> = {
   0: 'page.manage.common.status.disable',
   1: 'page.manage.common.status.enable'
 };
 
-export const enableStatus01Options = transformRecordToNumberOption(enableStatus01Record, true);
+export const enableStatusNumberOptions = transformRecordToNumberOption(enableStatusNumberRecord, true);
 
 export const userGenderRecord: Record<Api.SystemManage.UserGender, App.I18n.I18nKey> = {
   '1': 'page.manage.user.gender.male',
@@ -101,3 +101,11 @@ export const backOffRecord: Record<Api.RetryScene.BackOff, App.I18n.I18nKey> = {
   4: 'page.retryScene.backOffItem.random'
 };
 export const backOffRecordOptions = transformRecordToNumberOption(backOffRecord, true);
+
+export const routeKeyRecord: Record<Api.RetryScene.RouteKey, App.I18n.I18nKey> = {
+  1: 'page.retryScene.routeKeyItem.consistentHash',
+  2: 'page.retryScene.routeKeyItem.random',
+  3: 'page.retryScene.routeKeyItem.lru',
+  4: 'page.retryScene.routeKeyItem.round'
+};
+export const routeKeyRecordOptions = transformRecordToNumberOption(routeKeyRecord, true);

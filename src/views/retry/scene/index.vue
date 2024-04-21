@@ -1,9 +1,10 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchGetRetryScenePageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { backOffRecord, enableStatusNumberRecord, routeKeyRecord } from '@/constants/business';
 import SceneOperateDrawer from './modules/scene-operate-drawer.vue';
 import SceneSearch from './modules/scene-search.vue';
 
@@ -48,13 +49,31 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'sceneStatus',
       title: $t('page.retryScene.sceneStatus'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        const label = $t(enableStatusNumberRecord[row.sceneStatus!]);
+        return <NTag type="primary">{label}</NTag>;
+      }
     },
     {
       key: 'backOff',
       title: $t('page.retryScene.backOff'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        const label = $t(backOffRecord[row.backOff!]);
+        return <NTag type="primary">{label}</NTag>;
+      }
+    },
+    {
+      key: 'routeKey',
+      title: $t('page.retryScene.routeKey'),
+      align: 'left',
+      minWidth: 120,
+      render: row => {
+        const label = $t(routeKeyRecord[row.routeKey!]);
+        return <NTag type="primary">{label}</NTag>;
+      }
     },
     {
       key: 'maxRetryCount',
@@ -95,12 +114,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'description',
       title: $t('page.retryScene.description'),
-      align: 'left',
-      minWidth: 120
-    },
-    {
-      key: 'routeKey',
-      title: $t('page.retryScene.routeKey'),
       align: 'left',
       minWidth: 120
     },

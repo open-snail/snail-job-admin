@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
+import CronInput from '@sa/cron-input';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddRetryScene, fetchEditRetryScene, fetchGetAllGroupNameList } from '@/service/api';
-import { backOffRecordOptions, enableStatus01Options } from '@/constants/business';
+import { backOffRecordOptions, enableStatusNumberOptions, routeKeyRecordOptions } from '@/constants/business';
 import { translateOptions, translateOptions2 } from '@/utils/common';
+import { useAppStore } from '@/store/modules/app';
 
 defineOptions({
   name: 'SceneOperateDrawer'
@@ -18,6 +20,7 @@ interface Props {
   rowData?: Api.RetryScene.Scene | null;
 }
 
+const app = useAppStore();
 const groupNameList = ref<string[]>([]);
 
 const props = defineProps<Props>();
@@ -65,13 +68,13 @@ function createDefaultModel(): Model {
     groupName: '',
     sceneName: '',
     sceneStatus: 1,
-    backOff: 1,
-    maxRetryCount: 0,
-    triggerInterval: '',
-    deadlineRequest: 0,
-    executorTimeout: 0,
+    backOff: 2,
+    maxRetryCount: 1,
+    triggerInterval: '60',
+    deadlineRequest: 60000,
+    executorTimeout: 60,
     description: '',
-    routeKey: 1
+    routeKey: 4
   };
 }
 
@@ -207,7 +210,7 @@ watch(visible, () => {
         <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
           <NSpace>
             <NRadio
-              v-for="item in enableStatus01Options"
+              v-for="item in enableStatusNumberOptions"
               :key="item.value"
               :value="item.value"
               :label="$t(item.label)"
@@ -223,12 +226,60 @@ watch(visible, () => {
           clearable
         />
       </NFormItem>
-      <NFormItem :label="$t('page.retryScene.backOff')" path="systemTaskType">
+      <NFormItem :label="$t('page.retryScene.routeKey')" path="routeKey">
+        <NSelect
+          v-model:value="model.routeKey"
+          :placeholder="$t('page.retryScene.form.routeKey')"
+          :options="translateOptions(routeKeyRecordOptions)"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.backOff')" path="backOff">
         <NSelect
           v-model:value="model.backOff"
           :placeholder="$t('page.retryScene.form.backOff')"
           :options="translateOptions(backOffRecordOptions)"
           clearable
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.triggerInterval')" path="triggerInterval">
+        <NInputNumber
+          v-if="model.backOff === 2 || model.backOff === 4"
+          v-model:value="model.triggerInterval as any"
+          :placeholder="$t('page.retryScene.form.triggerInterval')"
+        />
+
+        <CronInput v-if="model.backOff === 3" v-model:value="model.triggerInterval as any" :lang="app.locale" />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.maxRetryCount')" path="maxRetryCount">
+        <NInputNumber
+          v-model:value="model.maxRetryCount"
+          :min="1"
+          :max="model.backOff === 1 ? 26 : 9999999"
+          :placeholder="$t('page.retryScene.form.maxRetryCount')"
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.executorTimeout')" path="executorTimeout">
+        <NInputNumber
+          v-model:value="model.executorTimeout"
+          :min="1"
+          :max="3600"
+          :placeholder="$t('page.retryScene.form.executorTimeout')"
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.deadlineRequest')" path="deadlineRequest">
+        <NInputNumber
+          v-model:value="model.deadlineRequest"
+          :min="100"
+          :max="60000"
+          :placeholder="$t('page.retryScene.form.deadlineRequest')"
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.description')" path="description">
+        <NInput
+          v-model:value="model.description"
+          type="textarea"
+          :placeholder="$t('page.retryScene.form.description')"
         />
       </NFormItem>
     </NForm>
