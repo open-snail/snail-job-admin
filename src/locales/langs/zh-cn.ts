@@ -664,7 +664,8 @@ const local: App.I18n.Schema = {
         sceneStatus: '请输入状态',
         deadlineRequest: '请输入调用链超时时间',
         routeKey: '请输入路由策略',
-        backOff: '请输入退避策略'
+        backOff: '请输入退避策略',
+        sceneName2: '场景名称: 仅支持长度为:1~64位字符.格式为:数字、字母、下划线。'
       },
       addScene: '新增场景',
       editScene: '编辑场景',

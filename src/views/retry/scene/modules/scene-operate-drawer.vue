@@ -102,17 +102,25 @@ type RuleKey = Extract<
   | 'routeKey'
 >;
 
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  groupName: defaultRequiredRule,
-  sceneName: defaultRequiredRule,
-  sceneStatus: defaultRequiredRule,
-  backOff: defaultRequiredRule,
-  maxRetryCount: defaultRequiredRule,
-  triggerInterval: defaultRequiredRule,
-  deadlineRequest: defaultRequiredRule,
-  executorTimeout: defaultRequiredRule,
-  routeKey: defaultRequiredRule
-};
+const rules = {
+  groupName: [defaultRequiredRule],
+  sceneName: [
+    defaultRequiredRule,
+    {
+      required: true,
+      pattern: /^[A-Za-z0-9_]{1,64}$/,
+      trigger: 'change',
+      message: $t('page.retryScene.form.sceneName2')
+    }
+  ],
+  sceneStatus: [defaultRequiredRule],
+  backOff: [defaultRequiredRule],
+  maxRetryCount: [defaultRequiredRule],
+  triggerInterval: [defaultRequiredRule],
+  deadlineRequest: [defaultRequiredRule],
+  executorTimeout: [defaultRequiredRule],
+  routeKey: [defaultRequiredRule]
+} satisfies Record<RuleKey, App.Global.FormRule[]>;
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
@@ -204,7 +212,13 @@ watch(visible, () => {
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.retryScene.sceneName')" path="sceneName">
-        <NInput v-model:value="model.sceneName" :placeholder="$t('page.retryScene.form.sceneName')" />
+        <NInput
+          v-model:value="model.sceneName"
+          :disabled="props.operateType === 'edit'"
+          :maxlength="64"
+          show-count
+          :placeholder="$t('page.retryScene.form.sceneName')"
+        />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
         <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
@@ -221,6 +235,7 @@ watch(visible, () => {
       <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
         <NSelect
           v-model:value="model.groupName"
+          :disabled="props.operateType === 'edit'"
           :placeholder="$t('page.retryScene.form.groupName')"
           :options="translateOptions2(groupNameList)"
           clearable
@@ -247,6 +262,7 @@ watch(visible, () => {
           v-if="model.backOff === 2 || model.backOff === 4"
           v-model:value="model.triggerInterval as any"
           :placeholder="$t('page.retryScene.form.triggerInterval')"
+          clearable
         />
 
         <CronInput v-if="model.backOff === 3" v-model:value="model.triggerInterval as any" :lang="app.locale" />
@@ -257,6 +273,7 @@ watch(visible, () => {
           :min="1"
           :max="model.backOff === 1 ? 26 : 9999999"
           :placeholder="$t('page.retryScene.form.maxRetryCount')"
+          clearable
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.executorTimeout')" path="executorTimeout">
@@ -265,6 +282,7 @@ watch(visible, () => {
           :min="1"
           :max="3600"
           :placeholder="$t('page.retryScene.form.executorTimeout')"
+          clearable
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.deadlineRequest')" path="deadlineRequest">
@@ -273,13 +291,17 @@ watch(visible, () => {
           :min="100"
           :max="60000"
           :placeholder="$t('page.retryScene.form.deadlineRequest')"
+          clearable
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.description')" path="description">
         <NInput
           v-model:value="model.description"
           type="textarea"
+          :maxlength="256"
           :placeholder="$t('page.retryScene.form.description')"
+          show-count
+          clearable
         />
       </NFormItem>
     </NForm>

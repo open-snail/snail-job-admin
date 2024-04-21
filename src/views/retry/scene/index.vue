@@ -150,17 +150,9 @@ const {
   handleAdd,
   handleEdit,
   checkedRowKeys,
-  onBatchDeleted,
   onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
-
-async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
-}
 
 function handleDelete(id: string) {
   // request
@@ -189,8 +181,8 @@ function edit(id: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="false"
           @add="handleAdd"
-          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>

@@ -668,7 +668,8 @@ const local: App.I18n.Schema = {
         sceneStatus: 'Please enter State',
         deadlineRequest: 'Please enter Call chain timeout',
         routeKey: 'Please enter Routing strategy',
-        backOff: 'Please enter Backoff strategy'
+        backOff: 'Please enter Backoff strategy',
+        sceneName2: '场景名称: 仅支持长度为:1~64位字符.格式为:数字、字母、下划线。'
       },
       addScene: 'Add Scenes',
       editScene: 'Add Scenes',

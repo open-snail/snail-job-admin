@@ -837,6 +837,7 @@ declare namespace App {
             deadlineRequest: string;
             routeKey: string;
             backOff: string;
+            sceneName2: string;
           };
           addScene: string;
           editScene: string;
