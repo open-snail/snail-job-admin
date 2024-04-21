@@ -223,7 +223,7 @@ watch(visible, () => {
 <template>
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
-      <NFormItem :label="$t('page.notifyConfig.groupName')" path="name">
+      <NFormItem :label="$t('page.notifyConfig.groupName')" path="groupName">
         <NSelect
           v-model:value="model.groupName"
           :placeholder="$t('page.notifyConfig.form.groupName')"

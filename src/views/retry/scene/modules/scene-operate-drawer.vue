@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import { fetchAddRetryScene, fetchEditRetryScene } from '@/service/api';
-import { enableStatus01Options } from '@/constants/business';
+import { fetchAddRetryScene, fetchEditRetryScene, fetchGetAllGroupNameList } from '@/service/api';
+import { backOffRecordOptions, enableStatus01Options } from '@/constants/business';
+import { translateOptions, translateOptions2 } from '@/utils/common';
 
 defineOptions({
   name: 'SceneOperateDrawer'
@@ -16,6 +17,8 @@ interface Props {
   /** the edit row data */
   rowData?: Api.RetryScene.Scene | null;
 }
+
+const groupNameList = ref<string[]>([]);
 
 const props = defineProps<Props>();
 
@@ -62,14 +65,25 @@ function createDefaultModel(): Model {
     groupName: '',
     sceneName: '',
     sceneStatus: 1,
-    backOff: 0,
+    backOff: 1,
     maxRetryCount: 0,
     triggerInterval: '',
     deadlineRequest: 0,
     executorTimeout: 0,
     description: '',
-    routeKey: 0
+    routeKey: 1
   };
+}
+
+onMounted(() => {
+  nextTick(() => {
+    getGroupNameList();
+  });
+});
+
+async function getGroupNameList() {
+  const res = await fetchGetAllGroupNameList();
+  groupNameList.value = res.data as string[];
 }
 
 type RuleKey = Extract<
@@ -186,9 +200,6 @@ watch(visible, () => {
 <template>
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
-      <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
-        <NInput v-model:value="model.groupName" :placeholder="$t('page.retryScene.form.groupName')" />
-      </NFormItem>
       <NFormItem :label="$t('page.retryScene.sceneName')" path="sceneName">
         <NInput v-model:value="model.sceneName" :placeholder="$t('page.retryScene.form.sceneName')" />
       </NFormItem>
@@ -203,6 +214,22 @@ watch(visible, () => {
             />
           </NSpace>
         </NRadioGroup>
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
+        <NSelect
+          v-model:value="model.groupName"
+          :placeholder="$t('page.retryScene.form.groupName')"
+          :options="translateOptions2(groupNameList)"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.backOff')" path="systemTaskType">
+        <NSelect
+          v-model:value="model.backOff"
+          :placeholder="$t('page.retryScene.form.backOff')"
+          :options="translateOptions(backOffRecordOptions)"
+          clearable
+        />
       </NFormItem>
     </NForm>
     <template #footer>

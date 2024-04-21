@@ -628,7 +628,13 @@ const local: App.I18n.Schema = {
         backOff: '请输入退避策略'
       },
       addScene: '新增场景',
-      editScene: '编辑场景'
+      editScene: '编辑场景',
+      backOffItem: {
+        delayLevel: '延迟等级',
+        fixed: '固定时间',
+        cron: 'CRON表达式',
+        random: '随机等待'
+      }
     }
   },
   form: {

@@ -629,7 +629,9 @@ declare namespace Api {
       /** 状态 */
       sceneStatus: EnableStatusNumber;
       /** 退避策略 */
-      backOff: number;
+      backOff: BackOff;
+      /** 路由策略 */
+      routeKey: RouteKey;
       /** 最大重试次数 */
       maxRetryCount: number;
       /** 间隔时间 */
@@ -640,8 +642,6 @@ declare namespace Api {
       executorTimeout: number;
       /** 描述 */
       description: string;
-      /** 路由策略 */
-      routeKey: number;
     }>;
 
     /** scene search params */
@@ -664,5 +664,11 @@ declare namespace Api {
 
     /** scene list */
     type SceneList = Common.PaginatingQueryRecord<Scene>;
+
+    /** 1: 延迟等级 2: 固定时间 3: CRON表达式 4: 随机等待 */
+    type BackOff = 1 | 2 | 3 | 4;
+
+    /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
+    type RouteKey = 1 | 2 | 3 | 4;
   }
 }

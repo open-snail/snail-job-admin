@@ -93,3 +93,11 @@ export const groupConfigYesOrNoRecord: Record<Api.GroupConfig.YesOrNoType, App.I
   1: 'common.yesOrNo.yes'
 };
 export const groupConfigYesOrNoOptions = transformRecordToNumberOption(groupConfigYesOrNoRecord, true);
+
+export const backOffRecord: Record<Api.RetryScene.BackOff, App.I18n.I18nKey> = {
+  1: 'page.retryScene.backOffItem.delayLevel',
+  2: 'page.retryScene.backOffItem.fixed',
+  3: 'page.retryScene.backOffItem.cron',
+  4: 'page.retryScene.backOffItem.random'
+};
+export const backOffRecordOptions = transformRecordToNumberOption(backOffRecord, true);

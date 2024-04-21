@@ -632,7 +632,13 @@ const local: App.I18n.Schema = {
         backOff: 'Please enter Backoff strategy'
       },
       addScene: 'Add Scenes',
-      editScene: 'Add Scenes'
+      editScene: 'Add Scenes',
+      backOffItem: {
+        delayLevel: '延迟等级',
+        fixed: '固定时间',
+        cron: 'CRON表达式',
+        random: '随机等待'
+      }
     }
   },
   form: {

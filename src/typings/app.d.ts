@@ -802,6 +802,12 @@ declare namespace App {
           };
           addScene: string;
           editScene: string;
+          backOffItem: {
+            delayLevel: string;
+            fixed: string;
+            cron: string;
+            random: string;
+          };
         };
       };
       form: {
