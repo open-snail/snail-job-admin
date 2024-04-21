@@ -252,6 +252,7 @@ declare namespace App {
       common: {
         action: string;
         add: string;
+        batchAdd: string;
         addSuccess: string;
         backToHome: string;
         batchDelete: string;
@@ -284,11 +285,13 @@ declare namespace App {
         trigger: string;
         update: string;
         updateSuccess: string;
+        updateFailed: string;
         userCenter: string;
         success: string;
         fail: string;
         stop: string;
         running: string;
+        confirmStop: string;
         yesOrNo: {
           yes: string;
           no: string;
@@ -797,6 +800,7 @@ declare namespace App {
             executorName: string;
             taskType: string;
             idempotentId: string;
+            logStr: string;
           };
           retryStatusType: {
             retrying: string;
@@ -811,6 +815,7 @@ declare namespace App {
           generateIdempotentId: string;
           addRetryTask: string;
           editRetryTask: string;
+          batchAddRetryTask: string;
         };
         retryScene: {
           title: string;

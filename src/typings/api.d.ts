@@ -651,6 +651,24 @@ declare namespace Api {
       taskType?: TaskType;
     }>;
 
+    type RetryTaskBatchAdd = {
+      /** 组名称 */
+      groupName: string;
+      /** 重试状态 0、重试中 1、重试完成 2、最大次数 3、暂停 */
+      retryStatus: RetryStatusType;
+      /** 日志 */
+      logStr: string;
+    };
+
+    type RetryTaskUpdateStatusRequest = {
+      /** id */
+      id: number;
+      /** 组名称 */
+      groupName: string;
+      /** 重试状态 0、重试中 1、重试完成 2、最大次数 3、暂停 */
+      retryStatus: RetryStatusType;
+    };
+
     /** RetryTask search params */
     type RetryTaskSearchParams = CommonType.RecordNullable<
       Pick<Api.RetryTask.RetryTask, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'retryStatus'> &

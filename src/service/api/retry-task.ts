@@ -18,10 +18,28 @@ export function fetchAddRetryTask(data: Api.RetryTask.RetryTask) {
   });
 }
 
+/** batch add retryTask */
+export function fetchBatchAddRetryTask(data: Api.RetryTask.RetryTaskBatchAdd) {
+  return request<boolean>({
+    url: '/retry-task/batch',
+    method: 'post',
+    data
+  });
+}
+
 /** edit retryTask */
 export function fetchEditRetryTask(data: Api.RetryTask.RetryTask) {
   return request<boolean>({
     url: '/retry-task',
+    method: 'put',
+    data
+  });
+}
+
+/** update retryTask status */
+export function fetchUpdateRetryTaskStatus(data: Api.RetryTask.RetryTaskUpdateStatusRequest) {
+  return request<boolean>({
+    url: '/retry-task/status',
     method: 'put',
     data
   });

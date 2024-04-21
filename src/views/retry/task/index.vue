@@ -1,11 +1,14 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetRetryTaskList } from '@/service/api';
+import { useBoolean } from '@sa/hooks';
+import { fetchGetRetryTaskList, fetchUpdateRetryTaskStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
+import CustomerTableHeaderOperation from './modules/customer-table-header-operation.vue';
 import RetryTaskOperateDrawer from './modules/retry-task-operate-drawer.vue';
+import RetryTaskBatchAddDrawer from './modules/retry-task-batch-add-drawer.vue';
 import RetryTaskSearch from './modules/retry-task-search.vue';
 
 const appStore = useAppStore();
@@ -134,6 +137,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               )
             }}
           </NPopconfirm>
+          <NPopconfirm onPositiveClick={() => handleStop(Number(row.id!), row.groupName!)}>
+            {{
+              default: () => $t('common.confirmStop'),
+              trigger: () => (
+                <NButton type="error" ghost size="small">
+                  {$t('common.stop')}
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
         </div>
       )
     }
@@ -151,6 +164,8 @@ const {
   // closeDrawer
 } = useTableOperate(data, getData);
 
+const { bool: batchAddDrawerVisible, setTrue: openBatchAddDrawer } = useBoolean();
+
 function handleDelete(id: string) {
   // request
   console.log(id);
@@ -160,6 +175,19 @@ function handleDelete(id: string) {
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+function handleBatchAdd() {
+  openBatchAddDrawer();
+}
+
+async function handleStop(id: number, groupName: string) {
+  const { error } = await fetchUpdateRetryTaskStatus({ id, groupName, retryStatus: 3 });
+  if (error) {
+    window.$message?.error($t('common.updateFailed'));
+    return;
+  }
+  window.$message?.success($t('common.updateSuccess'));
 }
 </script>
 
@@ -174,11 +202,12 @@ function edit(id: string) {
       header-class="view-card-header"
     >
       <template #header-extra>
-        <TableHeaderOperation
+        <CustomerTableHeaderOperation
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           @add="handleAdd"
+          @batch-add="handleBatchAdd"
           @refresh="getData"
         />
       </template>
@@ -200,6 +229,7 @@ function edit(id: string) {
         :row-data="editingData"
         @submitted="getData"
       />
+      <RetryTaskBatchAddDrawer v-model:visible="batchAddDrawerVisible" :row-data="editingData" @submitted="getData" />
     </NCard>
   </div>
 </template>

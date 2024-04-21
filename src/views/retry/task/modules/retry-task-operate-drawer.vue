@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
@@ -100,7 +100,16 @@ async function handleSubmit() {
 
   if (props.operateType === 'add') {
     const { groupName, sceneName, idempotentId, bizNo, executorName, argsStr, retryStatus } = model;
-    fetchAddRetryTask({ groupName, sceneName, idempotentId, bizNo, executorName, argsStr, retryStatus });
+    const { error } = await fetchAddRetryTask({
+      groupName,
+      sceneName,
+      idempotentId,
+      bizNo,
+      executorName,
+      argsStr,
+      retryStatus
+    });
+    if (error) return;
     window.$message?.success($t('common.addSuccess'));
   }
 
@@ -141,9 +150,7 @@ function setIdempotentId() {
 }
 
 onMounted(() => {
-  nextTick(() => {
-    getGroupNameList();
-  });
+  getGroupNameList();
 });
 </script>
 
@@ -155,6 +162,7 @@ onMounted(() => {
           v-model:value="model.groupName"
           :placeholder="$t('page.retryTask.form.groupName')"
           :options="translateOptions2(groupNameList)"
+          :disabled="props.operateType === 'edit'"
           @update-value="handleGroupNameUpdate"
         />
       </NFormItem>
@@ -163,21 +171,34 @@ onMounted(() => {
           v-model:value="model.sceneName"
           :placeholder="$t('page.retryTask.form.sceneName')"
           :options="translateOptions2(sceneNameList)"
+          :disabled="props.operateType === 'edit'"
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.idempotentId')" path="idempotentId">
         <NInputGroup>
-          <NInput v-model:value="model.idempotentId" :placeholder="$t('page.retryTask.form.idempotentId')" />
+          <NInput
+            v-model:value="model.idempotentId"
+            :placeholder="$t('page.retryTask.form.idempotentId')"
+            :disabled="props.operateType === 'edit'"
+          />
           <NButton type="primary" ghost :disabled="props.operateType === 'edit'" @click="setIdempotentId">
             {{ $t('page.retryTask.generateIdempotentId') }}
           </NButton>
         </NInputGroup>
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.bizNo')" path="bizNo">
-        <NInput v-model:value="model.bizNo" :placeholder="$t('page.retryTask.form.bizNo')" />
+        <NInput
+          v-model:value="model.bizNo"
+          :placeholder="$t('page.retryTask.form.bizNo')"
+          :disabled="props.operateType === 'edit'"
+        />
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.executorName')" path="executorName">
-        <NInput v-model:value="model.executorName" :placeholder="$t('page.retryTask.form.executorName')" />
+        <NInput
+          v-model:value="model.executorName"
+          :placeholder="$t('page.retryTask.form.executorName')"
+          :disabled="props.operateType === 'edit'"
+        />
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.argsStr')" path="argsStr">
         <NInput v-model:value="model.argsStr" type="textarea" :placeholder="$t('page.retryTask.form.argsStr')" />

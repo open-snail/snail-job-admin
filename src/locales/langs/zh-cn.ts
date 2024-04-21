@@ -6,6 +6,7 @@ const local: App.I18n.Schema = {
   common: {
     action: '操作',
     add: '新增',
+    batchAdd: '批量添加',
     addSuccess: '添加成功',
     backToHome: '返回首页',
     batchDelete: '批量删除',
@@ -38,11 +39,13 @@ const local: App.I18n.Schema = {
     trigger: '触发',
     update: '更新',
     updateSuccess: '更新成功',
+    updateFailed: '更新失败',
     userCenter: '个人中心',
     success: '成功',
     fail: '失败',
     stop: '停止',
     running: '运行中',
+    confirmStop: '确认停止吗？',
     yesOrNo: {
       yes: '是',
       no: '否'
@@ -624,7 +627,8 @@ const local: App.I18n.Schema = {
         sceneName: '请输入场景名称',
         executorName: '请输入执行器名称',
         taskType: '请输入任务类型',
-        idempotentId: '请输入幂等id'
+        idempotentId: '请输入幂等ID',
+        logStr: '日志信息'
       },
       retryStatusType: {
         retrying: '处理中',
@@ -638,7 +642,8 @@ const local: App.I18n.Schema = {
       },
       generateIdempotentId: '通过客户端生成',
       addRetryTask: '新增重试任务',
-      editRetryTask: '编辑重试任务'
+      editRetryTask: '编辑重试任务',
+      batchAddRetryTask: '批量新增重试任务'
     },
     retryScene: {
       title: '场景列表',

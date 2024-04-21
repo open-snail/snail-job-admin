@@ -9,6 +9,7 @@ const local: App.I18n.Schema = {
     addSuccess: 'Add Success',
     backToHome: 'Back to home',
     batchDelete: 'Batch Delete',
+    batchAdd: 'Batch Add',
     cancel: 'Cancel',
     close: 'Close',
     check: 'Check',
@@ -38,11 +39,13 @@ const local: App.I18n.Schema = {
     trigger: 'Trigger',
     update: 'Update',
     updateSuccess: 'Update Success',
+    updateFailed: 'Update Failed',
     userCenter: 'User Center',
     success: 'Success',
     fail: 'Fail',
     stop: 'Stop',
     running: 'Running',
+    confirmStop: 'Are you sure you want to stop?',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
@@ -628,7 +631,8 @@ const local: App.I18n.Schema = {
         sceneName: 'Please enter Scene name',
         executorName: 'Please enter Actuator name',
         taskType: 'Please enter Task type',
-        idempotentId: 'Please enter Idempotent ID'
+        idempotentId: 'Please enter Idempotent ID',
+        logStr: 'Please enter log info'
       },
       retryStatusType: {
         retrying: 'Retrying',
@@ -642,7 +646,8 @@ const local: App.I18n.Schema = {
       },
       generateIdempotentId: 'Generate by client',
       addRetryTask: 'Add Retry task',
-      editRetryTask: 'Add Retry task'
+      editRetryTask: 'Add Retry task',
+      batchAddRetryTask: 'Batch add retry task'
     },
     retryScene: {
       title: 'Scene List',
