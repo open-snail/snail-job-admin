@@ -44,3 +44,21 @@ export function fetchUpdateRetryTaskStatus(data: Api.RetryTask.RetryTaskUpdateSt
     data
   });
 }
+
+/** manual execute retryTask */
+export function fetchExecuteRetryTask(data: Api.RetryTask.ManualTriggerTaskRequestVO) {
+  return request<boolean>({
+    url: '/retry-task/manual/trigger/retry/task',
+    method: 'post',
+    data
+  });
+}
+
+/** batch delete retryTask */
+export function fetchBatchDeleteRetryTask(data: Api.RetryTask.BatchDeleteRetryTaskVO) {
+  return request<number>({
+    url: '/retry-task/batch',
+    method: 'delete',
+    data
+  });
+}

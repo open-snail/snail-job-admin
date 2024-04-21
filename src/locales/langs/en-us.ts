@@ -44,17 +44,24 @@ const local: App.I18n.Schema = {
     success: 'Success',
     fail: 'Fail',
     stop: 'Stop',
+    execute: 'Execute',
+    resume: 'Resume',
+    pause: 'Pause',
+    finish: 'Finish',
     running: 'Running',
-    confirmStop: 'Are you sure you want to stop?',
+    confirmExecute: 'Are you sure you want to execute?',
+    confirmResume: 'Are you sure you want to resume?',
+    confirmPause: 'Are you sure you want to pause?',
+    confirmFinish: 'Are you sure you want to finishe?',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
     },
     systemTaskType: {
-      retry: '重试任务',
-      callback: '回调任务',
-      job: '定时任务',
-      workflow: '工作流'
+      retry: 'Retry task',
+      callback: 'Callback task',
+      job: 'Job task',
+      workflow: 'Workflow'
     }
   },
   request: {

@@ -1,7 +1,12 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetRetryTaskList, fetchUpdateRetryTaskStatus } from '@/service/api';
+import {
+  fetchBatchDeleteRetryTask,
+  fetchExecuteRetryTask,
+  fetchGetRetryTaskList,
+  fetchUpdateRetryTaskStatus
+} from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -121,13 +126,13 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 260,
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+          <NPopconfirm onPositiveClick={() => handleDelete(row.groupName!, row.id!)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
@@ -137,16 +142,66 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               )
             }}
           </NPopconfirm>
-          <NPopconfirm onPositiveClick={() => handleStop(Number(row.id!), row.groupName!)}>
-            {{
-              default: () => $t('common.confirmStop'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.stop')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
+          {/* 非[完成,最大次数], 显示[执行]按钮 */}
+          {row.retryStatus !== 1 && row.retryStatus !== 2 ? (
+            <NPopconfirm onPositiveClick={() => handleExecute(row.groupName!, row.uniqueId!)}>
+              {{
+                default: () => $t('common.confirmExecute'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.execute')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
+          {/* 非[完成,最大次数], 显示[完成]按钮 */}
+          {row.retryStatus !== 1 && row.retryStatus !== 2 ? (
+            <NPopconfirm onPositiveClick={() => handleFinish(Number(row.id!), row.groupName!)}>
+              {{
+                default: () => $t('common.confirmFinish'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.finish')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
+          {/* 重试中, 显示[停止]按钮 */}
+          {row.retryStatus === 0 ? (
+            <NPopconfirm onPositiveClick={() => handlePause(Number(row.id!), row.groupName!)}>
+              {{
+                default: () => $t('common.confirmPause'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.pause')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
+          {/* 暂停, 显示[开始]按钮 */}
+          {row.retryStatus === 3 ? (
+            <NPopconfirm onPositiveClick={() => handleResume(Number(row.id!), row.groupName!)}>
+              {{
+                default: () => $t('common.confirmResume'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.resume')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
         </div>
       )
     }
@@ -160,17 +215,28 @@ const {
   handleAdd,
   handleEdit,
   checkedRowKeys,
+  onBatchDeleted,
   onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
 const { bool: batchAddDrawerVisible, setTrue: openBatchAddDrawer } = useBoolean();
 
-function handleDelete(id: string) {
-  // request
-  console.log(id);
+async function handleDelete(groupName: string, id: string) {
+  const { error } = await fetchBatchDeleteRetryTask({ groupName, ids: [id] });
+  if (error) return;
 
   onDeleted();
+}
+
+async function handleBatchDelete() {
+  const ids: string[] = checkedRowKeys.value as string[];
+  if (ids.length === 0) return;
+  const groupName = data.value[0].groupName;
+  const { error } = await fetchBatchDeleteRetryTask({ groupName, ids });
+  if (error) return;
+
+  onBatchDeleted();
 }
 
 function edit(id: string) {
@@ -181,13 +247,27 @@ function handleBatchAdd() {
   openBatchAddDrawer();
 }
 
-async function handleStop(id: number, groupName: string) {
-  const { error } = await fetchUpdateRetryTaskStatus({ id, groupName, retryStatus: 3 });
-  if (error) {
-    window.$message?.error($t('common.updateFailed'));
-    return;
-  }
+function handleExecute(groupName: string, uniqueId: string) {
+  fetchExecuteRetryTask({ groupName, uniqueIds: [uniqueId] });
+}
+
+function handleResume(id: number, groupName: string) {
+  updateRetryTaskStatus(id, groupName, 0);
+}
+
+function handlePause(id: number, groupName: string) {
+  updateRetryTaskStatus(id, groupName, 3);
+}
+
+function handleFinish(id: number, groupName: string) {
+  updateRetryTaskStatus(id, groupName, 1);
+}
+
+async function updateRetryTaskStatus(id: number, groupName: string, retryStatus: Api.RetryTask.RetryStatusType) {
+  const { error } = await fetchUpdateRetryTaskStatus({ id, groupName, retryStatus });
+  if (error) return;
   window.$message?.success($t('common.updateSuccess'));
+  getData();
 }
 </script>
 
@@ -208,6 +288,7 @@ async function handleStop(id: number, groupName: string) {
           :loading="loading"
           @add="handleAdd"
           @batch-add="handleBatchAdd"
+          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>

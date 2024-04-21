@@ -75,7 +75,7 @@ function createDefaultModel(): Model {
     sceneStatus: 1,
     backOff: 2,
     maxRetryCount: 1,
-    triggerInterval: '60',
+    triggerInterval: 60,
     deadlineRequest: 60000,
     executorTimeout: 60,
     description: '',

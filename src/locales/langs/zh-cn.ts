@@ -44,8 +44,15 @@ const local: App.I18n.Schema = {
     success: '成功',
     fail: '失败',
     stop: '停止',
+    execute: '执行',
+    resume: '恢复',
+    pause: '暂停',
+    finish: '完成',
     running: '运行中',
-    confirmStop: '确认停止吗？',
+    confirmExecute: '确认执行吗？',
+    confirmResume: '确认恢复吗？',
+    confirmPause: '确认暂停吗？',
+    confirmFinish: '确认完成吗？',
     yesOrNo: {
       yes: '是',
       no: '否'

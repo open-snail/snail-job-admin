@@ -669,6 +669,16 @@ declare namespace Api {
       retryStatus: RetryStatusType;
     };
 
+    type ManualTriggerTaskRequestVO = {
+      groupName: string;
+      uniqueIds: string[];
+    };
+
+    type BatchDeleteRetryTaskVO = {
+      groupName: string;
+      ids: string[];
+    };
+
     /** RetryTask search params */
     type RetryTaskSearchParams = CommonType.RecordNullable<
       Pick<Api.RetryTask.RetryTask, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'retryStatus'> &
@@ -703,7 +713,7 @@ declare namespace Api {
       /** 最大重试次数 */
       maxRetryCount: number;
       /** 间隔时间 */
-      triggerInterval: string;
+      triggerInterval: number;
       /** 调用链超时时间 */
       deadlineRequest: number;
       /** 超时时间 */

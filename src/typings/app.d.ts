@@ -290,8 +290,15 @@ declare namespace App {
         success: string;
         fail: string;
         stop: string;
+        execute: string;
+        resume: string;
+        pause: string;
+        finish: string;
         running: string;
-        confirmStop: string;
+        confirmExecute: string;
+        confirmResume: string;
+        confirmPause: string;
+        confirmFinish: string;
         yesOrNo: {
           yes: string;
           no: string;
