@@ -94,6 +94,20 @@ export const groupConfigYesOrNoRecord: Record<Api.GroupConfig.YesOrNoType, App.I
 };
 export const groupConfigYesOrNoOptions = transformRecordToNumberOption(groupConfigYesOrNoRecord, true);
 
+export const retryTaskStatusTypeRecord: Record<Api.RetryTask.RetryStatusType, App.I18n.I18nKey> = {
+  0: 'page.retryTask.retryStatusType.retrying',
+  1: 'page.retryTask.retryStatusType.finished',
+  2: 'page.retryTask.retryStatusType.maxRetry',
+  3: 'page.retryTask.retryStatusType.paused'
+};
+export const retryTaskStatusTypeOptions = transformRecordToNumberOption(retryTaskStatusTypeRecord);
+
+export const retryTaskTypeRecord: Record<Api.RetryTask.TaskType, App.I18n.I18nKey> = {
+  1: 'page.retryTask.taskTypeDict.retry',
+  2: 'page.retryTask.taskTypeDict.callback'
+};
+export const retryTaskTypeOptions = transformRecordToNumberOption(retryTaskTypeRecord);
+
 export const backOffRecord: Record<Api.RetryScene.BackOff, App.I18n.I18nKey> = {
   1: 'page.retryScene.backOffItem.delayLevel',
   2: 'page.retryScene.backOffItem.fixed',

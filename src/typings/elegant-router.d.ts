@@ -56,6 +56,7 @@ declare module "@elegant-router/types" {
     "pods": "/pods";
     "retry": "/retry";
     "retry_scene": "/retry/scene";
+    "retry_task": "/retry/task";
     "user-center": "/user-center";
   };
 
@@ -150,6 +151,7 @@ declare module "@elegant-router/types" {
     | "notify_scene"
     | "pods"
     | "retry_scene"
+    | "retry_task"
     | "user-center"
   >;
 

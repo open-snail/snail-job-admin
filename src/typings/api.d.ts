@@ -612,6 +612,56 @@ declare namespace Api {
   }
 
   /**
+   * namespace RetryTask
+   *
+   * backend api module: "retryTask"
+   */
+  namespace RetryTask {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    type RetryStatusType = 0 | 1 | 2 | 3;
+
+    type TaskType = 1 | 2;
+
+    /** RetryTask */
+    type RetryTask = Common.CommonRecord<{
+      /** UniqueId */
+      uniqueId?: string;
+      /** 组名称 */
+      groupName: string;
+      /** 场景名称 */
+      sceneName: string;
+      /** 幂等id */
+      idempotentId: string;
+      /** 业务编号 */
+      bizNo: string;
+      /** 执行器名称 */
+      executorName: string;
+      /** 执行方法参数 */
+      argsStr: string;
+      /** 扩展字段 */
+      extAttrs?: string;
+      /** 下次触发时间 */
+      nextTriggerAt?: string;
+      /** 重试次数 */
+      retryCount?: number;
+      /** 重试状态 0、重试中 1、重试完成 2、最大次数 3、暂停 */
+      retryStatus: RetryStatusType;
+      /** 任务类型 1、重试数据 2、回调数据 */
+      taskType?: TaskType;
+    }>;
+
+    /** RetryTask search params */
+    type RetryTaskSearchParams = CommonType.RecordNullable<
+      Pick<Api.RetryTask.RetryTask, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'retryStatus'> &
+        CommonSearchParams
+    >;
+
+    /** RetryTask list */
+    type RetryTaskList = Common.PaginatingQueryRecord<RetryTask>;
+  }
+
+  /**
    * namespace Scene
    *
    * backend api module: "scene"

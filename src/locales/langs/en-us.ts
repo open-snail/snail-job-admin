@@ -170,6 +170,7 @@ const local: App.I18n.Schema = {
     notify_recipient: 'Notify recipient',
     notify_scene: 'Notify scene',
     retry: 'Retry task',
+    retry_task: 'Retry task',
     retry_scene: 'Retry scene',
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
@@ -604,6 +605,44 @@ const local: App.I18n.Schema = {
       email: 'Email',
       weCom: 'WeCom',
       lark: 'Lark'
+    },
+    retryTask: {
+      title: 'RetryTask List',
+      uniqueId: 'UniqueId',
+      groupName: 'Group name',
+      sceneName: 'Scene name',
+      idempotentId: 'Idempotent ID',
+      bizNo: 'Business Number',
+      executorName: 'Actuator name',
+      argsStr: 'Actuator arguments',
+      nextTriggerAt: 'Next trigger time',
+      retryCount: 'Number of retries',
+      retryStatus: 'Retry status',
+      taskType: 'Task type',
+      form: {
+        retryStatus: 'Please enter Retry status',
+        bizNo: 'Please enter Business Number',
+        uniqueId: 'Please enter UniqueId',
+        groupName: 'Please enter Group name',
+        argsStr: 'Please enter Execution method parameters',
+        sceneName: 'Please enter Scene name',
+        executorName: 'Please enter Actuator name',
+        taskType: 'Please enter Task type',
+        idempotentId: 'Please enter Idempotent ID'
+      },
+      retryStatusType: {
+        retrying: 'Retrying',
+        finished: 'Finished',
+        maxRetry: 'Maximum retry count reached',
+        paused: 'Paused'
+      },
+      taskTypeDict: {
+        retry: 'Retry data',
+        callback: 'Callback data'
+      },
+      generateIdempotentId: 'Generate by client',
+      addRetryTask: 'Add Retry task',
+      editRetryTask: 'Add Retry task'
     },
     retryScene: {
       title: 'Scene List',

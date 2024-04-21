@@ -398,6 +398,15 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'retry_scene',
           i18nKey: 'route.retry_scene'
         }
+      },
+      {
+        name: 'retry_task',
+        path: '/retry/task',
+        component: 'view.retry_task',
+        meta: {
+          title: 'retry_task',
+          i18nKey: 'route.retry_task'
+        }
       }
     ]
   },

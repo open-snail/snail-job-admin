@@ -11,7 +11,7 @@ export function fetchGetRetryScenePageList(params?: Api.RetryScene.SceneSearchPa
 
 /** get retry scene list */
 export function fetchGetRetrySceneList(params?: Api.RetryScene.SceneSearchParams) {
-  return request<Api.RetryScene.SceneList>({
+  return request<Api.RetryScene.Scene[]>({
     url: '/scene-config/list',
     method: 'get',
     params

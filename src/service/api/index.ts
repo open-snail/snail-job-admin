@@ -6,4 +6,5 @@ export * from './namespace';
 export * from './system-manage';
 export * from './notify';
 export * from './group-config';
+export * from './retry-task';
 export * from './retry';

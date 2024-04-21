@@ -171,6 +171,7 @@ const local: App.I18n.Schema = {
     notify_recipient: '通知人',
     notify_scene: '通知场景',
     retry: '重试任务',
+    retry_task: '重试任务',
     retry_scene: '重试场景',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
@@ -600,6 +601,44 @@ const local: App.I18n.Schema = {
       email: '邮箱',
       weCom: '企业微信',
       lark: '飞书'
+    },
+    retryTask: {
+      title: '重试任务列表',
+      uniqueId: 'UniqueId',
+      groupName: '组名称',
+      sceneName: '场景名称',
+      idempotentId: '幂等ID',
+      bizNo: '业务编号',
+      executorName: '执行器名称',
+      argsStr: '方法参数',
+      nextTriggerAt: '下次触发时间',
+      retryCount: '重试次数',
+      retryStatus: '重试状态',
+      taskType: '任务类型',
+      form: {
+        retryStatus: '请输入重试状态',
+        bizNo: '请输入业务编号',
+        uniqueId: '请输入UniqueId',
+        groupName: '请输入组名称',
+        argsStr: '请输入执行方法参数',
+        sceneName: '请输入场景名称',
+        executorName: '请输入执行器名称',
+        taskType: '请输入任务类型',
+        idempotentId: '请输入幂等id'
+      },
+      retryStatusType: {
+        retrying: '处理中',
+        finished: '完成',
+        maxRetry: '最大重试次数',
+        paused: '暂停'
+      },
+      taskTypeDict: {
+        retry: '重试数据',
+        callback: '回调数据'
+      },
+      generateIdempotentId: '通过客户端生成',
+      addRetryTask: '新增重试任务',
+      editRetryTask: '编辑重试任务'
     },
     retryScene: {
       title: '场景列表',

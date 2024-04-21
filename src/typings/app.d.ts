@@ -774,6 +774,44 @@ declare namespace App {
           weCom: string;
           lark: string;
         };
+        retryTask: {
+          title: string;
+          uniqueId: string;
+          groupName: string;
+          sceneName: string;
+          idempotentId: string;
+          bizNo: string;
+          executorName: string;
+          argsStr: string;
+          nextTriggerAt: string;
+          retryCount: string;
+          retryStatus: string;
+          taskType: string;
+          form: {
+            retryStatus: string;
+            bizNo: string;
+            uniqueId: string;
+            groupName: string;
+            argsStr: string;
+            sceneName: string;
+            executorName: string;
+            taskType: string;
+            idempotentId: string;
+          };
+          retryStatusType: {
+            retrying: string;
+            finished: string;
+            maxRetry: string;
+            paused: string;
+          };
+          taskTypeDict: {
+            retry: string;
+            callback: string;
+          };
+          generateIdempotentId: string;
+          addRetryTask: string;
+          editRetryTask: string;
+        };
         retryScene: {
           title: string;
           groupName: string;
