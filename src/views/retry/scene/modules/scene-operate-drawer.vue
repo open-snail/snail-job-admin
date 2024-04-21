@@ -5,7 +5,12 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddRetryScene, fetchEditRetryScene, fetchGetAllGroupNameList } from '@/service/api';
-import { backOffRecordOptions, enableStatusNumberOptions, routeKeyRecordOptions } from '@/constants/business';
+import {
+  DelayLevel,
+  backOffRecordOptions,
+  enableStatusNumberOptions,
+  routeKeyRecordOptions
+} from '@/constants/business';
 import { translateOptions, translateOptions2 } from '@/utils/common';
 import { useAppStore } from '@/store/modules/app';
 
@@ -258,14 +263,22 @@ watch(visible, () => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.triggerInterval')" path="triggerInterval">
+        <CronInput v-if="model.backOff === 3" v-model:value="model.triggerInterval as any" :lang="app.locale" />
         <NInputNumber
-          v-if="model.backOff === 2 || model.backOff === 4"
+          v-else-if="model.backOff === 2 || model.backOff === 4"
           v-model:value="model.triggerInterval as any"
           :placeholder="$t('page.retryScene.form.triggerInterval')"
           clearable
         />
-
-        <CronInput v-if="model.backOff === 3" v-model:value="model.triggerInterval as any" :lang="app.locale" />
+        <div v-else>
+          <NCollapse>
+            <NCollapseItem title="间隔时间详情" name="1">
+              <p v-for="(item, index) in model.maxRetryCount" :key="index">
+                第{{ item }}次: {{ DelayLevel[item as keyof typeof DelayLevel] }}
+              </p>
+            </NCollapseItem>
+          </NCollapse>
+        </div>
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.maxRetryCount')" path="maxRetryCount">
         <NInputNumber

@@ -123,3 +123,33 @@ export const routeKeyRecord: Record<Api.RetryScene.RouteKey, App.I18n.I18nKey> =
   4: 'page.retryScene.routeKeyItem.round'
 };
 export const routeKeyRecordOptions = transformRecordToNumberOption(routeKeyRecord, true);
+
+/** 延迟等级 */
+export const DelayLevel: Record<number, string> = {
+  1: '10s',
+  2: '15s',
+  3: '30s',
+  4: '35s',
+  5: '40s',
+  6: '50s',
+  7: '1m',
+  8: '2m',
+  9: '4m',
+  10: '6m',
+  11: '8m',
+  12: '10m',
+  13: '20m',
+  14: '40m',
+  15: '1h',
+  16: '2h',
+  17: '3h',
+  18: '4h',
+  19: '5h',
+  20: '6h',
+  21: '7h',
+  22: '8h',
+  23: '9h',
+  24: '10h',
+  25: '11h',
+  26: '12h'
+};
