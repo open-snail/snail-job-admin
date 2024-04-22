@@ -37,6 +37,8 @@ declare module "@elegant-router/types" {
     "function_toggle-auth": "/function/toggle-auth";
     "group": "/group";
     "home": "/home";
+    "job": "/job";
+    "job_task": "/job/task";
     "login": "/login/:module(pwd-login)?";
     "manage": "/manage";
     "manage_menu": "/manage/menu";
@@ -101,6 +103,7 @@ declare module "@elegant-router/types" {
     | "function"
     | "group"
     | "home"
+    | "job"
     | "login"
     | "manage"
     | "multi-menu"
@@ -142,6 +145,7 @@ declare module "@elegant-router/types" {
     | "function_toggle-auth"
     | "group"
     | "home"
+    | "job_task"
     | "manage_menu"
     | "manage_role"
     | "manage_user-detail"

@@ -796,4 +796,82 @@ declare namespace Api {
     /** workflow list */
     type WorkflowList = Common.PaginatingQueryRecord<Workflow>;
   }
+
+  /**
+   * namespace JobTask
+   *
+   * backend api module: "jobTask"
+   */
+  namespace JobTask {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** JobTask */
+    type JobTask = Common.CommonRecord<{
+      /** 组名称 */
+      groupName: string;
+      /** 任务名称 */
+      jobName: string;
+      /** 方法参数 */
+      argsStr: string;
+      /** 参数类型 */
+      argsType: string;
+      /** 扩展字段 */
+      extAttrs: string;
+      /** 下次触发时间 */
+      nextTriggerAt: string;
+      /** 状态 */
+      jobStatus: string;
+      /** 路由策略 */
+      routeKey: string;
+      /** 执行器类型 */
+      executorType: string;
+      /** 触发类型 */
+      triggerType: string;
+      /** 间隔时长 */
+      triggerInterval: number;
+      /** 阻塞策略 */
+      blockStrategy: number;
+      /** 超时时间 */
+      executorTimeout: number;
+      /** 最大重试次数 */
+      maxRetryTimes: number;
+      /** 重试间隔 */
+      retryInterval: number;
+      /** 任务类型 */
+      taskType: number;
+      /** 并行数 */
+      parallelNum: number;
+      /** Bucket */
+      bucketIndex: number;
+      /** 描述 */
+      description: string;
+    }>;
+
+    /** JobTask search params */
+    type JobTaskSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.JobTask.JobTask,
+        | 'groupName'
+        | 'jobName'
+        | 'argsStr'
+        | 'argsType'
+        | 'jobStatus'
+        | 'routeKey'
+        | 'executorType'
+        | 'triggerType'
+        | 'triggerInterval'
+        | 'blockStrategy'
+        | 'executorTimeout'
+        | 'maxRetryTimes'
+        | 'retryInterval'
+        | 'taskType'
+        | 'parallelNum'
+        | 'description'
+      > &
+        CommonSearchParams
+    >;
+
+    /** JobTask list */
+    type JobTaskList = Common.PaginatingQueryRecord<JobTask>;
+  }
 }

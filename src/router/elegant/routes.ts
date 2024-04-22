@@ -188,6 +188,26 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'job',
+    path: '/job',
+    component: 'layout.base',
+    meta: {
+      title: 'job',
+      i18nKey: 'route.job'
+    },
+    children: [
+      {
+        name: 'job_task',
+        path: '/job/task',
+        component: 'view.job_task',
+        meta: {
+          title: 'job_task',
+          i18nKey: 'route.job_task'
+        }
+      }
+    ]
+  },
+  {
     name: 'login',
     path: '/login/:module(pwd-login)?',
     component: 'layout.blank$view.login',
