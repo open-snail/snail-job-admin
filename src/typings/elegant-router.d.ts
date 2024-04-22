@@ -35,7 +35,7 @@ declare module "@elegant-router/types" {
     "function_super-page": "/function/super-page";
     "function_tab": "/function/tab";
     "function_toggle-auth": "/function/toggle-auth";
-    "group-config": "/group-config";
+    "group": "/group";
     "home": "/home";
     "login": "/login/:module(pwd-login)?";
     "manage": "/manage";
@@ -99,7 +99,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "about"
     | "function"
-    | "group-config"
+    | "group"
     | "home"
     | "login"
     | "manage"
@@ -140,7 +140,7 @@ declare module "@elegant-router/types" {
     | "function_super-page"
     | "function_tab"
     | "function_toggle-auth"
-    | "group-config"
+    | "group"
     | "home"
     | "manage_menu"
     | "manage_role"

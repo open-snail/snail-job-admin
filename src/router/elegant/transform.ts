@@ -114,14 +114,14 @@ function transformElegantRouteToVueRoute(
     }
 
   }
-  
+
   // add redirect to child
   if (children?.length && !vueRoute.redirect) {
     vueRoute.redirect = {
       name: children[0].name
     };
   }
-  
+
   if (children?.length) {
     const childRoutes = children.flatMap(child => transformElegantRouteToVueRoute(child, layouts, views));
 
@@ -161,7 +161,7 @@ const routeMap: RouteMap = {
   "function_super-page": "/function/super-page",
   "function_tab": "/function/tab",
   "function_toggle-auth": "/function/toggle-auth",
-  "group-config": "/group-config",
+  "group": "/group",
   "home": "/home",
   "login": "/login/:module(pwd-login)?",
   "manage": "/manage",

@@ -7,7 +7,7 @@ import { groupConfigIdModeOptions, groupConfigStatusOptions, groupConfigYesOrNoO
 import { fetchAddGroupConfig, fetchEditGroupConfig, fetchGetPartitionTableList } from '@/service/api/group-config';
 
 defineOptions({
-  name: 'GroupConfigOperateDrawer'
+  name: 'GroupOperateDrawer'
 });
 
 interface Props {

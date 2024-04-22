@@ -174,7 +174,7 @@ const local: App.I18n.Schema = {
     'function_super-page': '超级管理员可见',
     pods: '在线机器',
     namepase: '命名空间',
-    'group-config': '组管理',
+    group: '组管理',
     manage: '系统管理',
     manage_user: '用户管理',
     notify: '告警通知',

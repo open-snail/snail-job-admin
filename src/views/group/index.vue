@@ -5,8 +5,8 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { groupConfigIdModeRecord, groupConfigStatusRecord, yesOrNoRecord } from '@/constants/business';
-import GroupConfigOperateDrawer from './modules/groupConfig-operate-drawer.vue';
-import GroupConfigSearch from './modules/groupConfig-search.vue';
+import GroupOperateDrawer from './modules/group-operate-drawer.vue';
+import GroupSearch from './modules/group-search.vue';
 
 const appStore = useAppStore();
 
@@ -148,7 +148,7 @@ function edit(id: string) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <GroupConfigSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <GroupSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
     <NCard
       :title="$t('page.groupConfig.title')"
       :bordered="false"
@@ -178,7 +178,7 @@ function edit(id: string) {
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <GroupConfigOperateDrawer
+      <GroupOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"

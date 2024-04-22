@@ -43,7 +43,7 @@ async function search() {
     <NForm ref="formRef" :model="model" label-placement="left" :label-width="80" :show-feedback="appStore.isMobile">
       <NGrid responsive="screen" item-responsive>
         <slot></slot>
-        <NFormItemGi span="24 m:12 m:6" class="pr-24px lg:p-t-0 md:p-t-16px">
+        <NFormItemGi :y-gap="8" span="24 m:12 m:6" class="pr-24px lg:p-t-0 md:p-t-16px">
           <NSpace class="min-w-172px w-full" justify="end">
             <NButton @click="reset">
               <template #icon>
