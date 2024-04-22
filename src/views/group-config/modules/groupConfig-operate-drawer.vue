@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { translateOptions, translateOptions2 } from '@/utils/common';
@@ -149,13 +149,10 @@ const getAllPartitions = async () => {
 
 watch(visible, () => {
   if (visible.value) {
+    getAllPartitions(); // 因为drawer会keepalive，onMounted不能报账每次打开drawer会调用刷新
     handleUpdateModelWhenEdit();
     restoreValidation();
   }
-});
-
-onMounted(async () => {
-  await getAllPartitions();
 });
 </script>
 
