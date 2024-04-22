@@ -183,6 +183,7 @@ const local: App.I18n.Schema = {
     retry: '重试任务',
     retry_task: '重试任务',
     retry_scene: '重试场景',
+    workflow: '工作流',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
@@ -693,6 +694,24 @@ const local: App.I18n.Schema = {
         lru: 'LRU',
         round: '轮询'
       }
+    },
+    workflow: {
+      title: '工作流列表',
+      workflowName: '工作流名称',
+      groupName: '组名称',
+      nextTriggerAt: '触发时间',
+      workflowStatus: '状态',
+      triggerType: '触发类型',
+      triggerInterval: '间隔时长',
+      executorTimeout: '超时时间',
+      updateDt: '更新时间',
+      form: {
+        workflowName: '请输入工作流名称',
+        groupName: '请输入组名称',
+        workflowStatus: '请输入状态'
+      },
+      addWorkflow: '新增工作流',
+      editWorkflow: '编辑工作流'
     }
   },
   form: {

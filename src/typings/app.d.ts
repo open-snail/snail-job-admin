@@ -866,6 +866,24 @@ declare namespace App {
             round: string;
           };
         };
+        workflow: {
+          title: string;
+          workflowName: string;
+          groupName: string;
+          nextTriggerAt: string;
+          workflowStatus: string;
+          triggerType: string;
+          triggerInterval: string;
+          executorTimeout: string;
+          updateDt: string;
+          form: {
+            workflowName: string;
+            groupName: string;
+            workflowStatus: string;
+          };
+          addWorkflow: string;
+          editWorkflow: string;
+        };
       };
       form: {
         required: string;

@@ -96,6 +96,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('../components/common/search-form.vue')['default']
     SearchForm: typeof import('./../components/common/search-form.vue')['default']
+    SelectGroup: typeof import('./../components/common/select-group.vue')['default']
     SoybeanAvatar: typeof import('./../components/custom/soybean-avatar.vue')['default']
     SvgIcon: typeof import('./../components/custom/svg-icon.vue')['default']
     SystemLogo: typeof import('./../components/common/system-logo.vue')['default']

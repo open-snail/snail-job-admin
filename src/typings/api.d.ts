@@ -749,4 +749,40 @@ declare namespace Api {
     /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
     type RouteKey = 1 | 2 | 3 | 4;
   }
+
+  /**
+   * namespace Workflow
+   *
+   * backend api module: "workflow"
+   */
+  namespace Workflow {
+    import EnableStatusNumber = Api.Common.EnableStatusNumber;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** workflow */
+    type Workflow = Common.CommonRecord<{
+      /** 工作流名称 */
+      workflowName: string;
+      /** 组名称 */
+      groupName: string;
+      /** 触发时间 */
+      nextTriggerAt: string;
+      /** 状态 */
+      workflowStatus: EnableStatusNumber;
+      /** 触发类型 */
+      triggerType: number;
+      /** 间隔时长 */
+      triggerInterval: string;
+      /** 超时时间 */
+      executorTimeout: number;
+    }>;
+
+    /** workflow search params */
+    type WorkflowSearchParams = CommonType.RecordNullable<
+      Pick<Api.Workflow.Workflow, 'workflowName' | 'groupName' | 'workflowStatus'> & CommonSearchParams
+    >;
+
+    /** workflow list */
+    type WorkflowList = Common.PaginatingQueryRecord<Workflow>;
+  }
 }

@@ -419,5 +419,14 @@ export const generatedRoutes: GeneratedRoute[] = [
       i18nKey: 'route.user-center',
       hideInMenu: true
     }
+  },
+  {
+    name: 'workflow',
+    path: '/workflow',
+    component: 'layout.base$view.workflow',
+    meta: {
+      title: 'workflow',
+      i18nKey: 'route.workflow'
+    }
   }
 ];

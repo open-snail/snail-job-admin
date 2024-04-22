@@ -43,4 +43,5 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   retry_scene: () => import("@/views/retry/scene/index.vue"),
   retry_task: () => import("@/views/retry/task/index.vue"),
   "user-center": () => import("@/views/user-center/index.vue"),
+  workflow: () => import("@/views/workflow/index.vue"),
 };

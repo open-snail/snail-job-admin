@@ -183,7 +183,8 @@ const routeMap: RouteMap = {
   "retry": "/retry",
   "retry_scene": "/retry/scene",
   "retry_task": "/retry/task",
-  "user-center": "/user-center"
+  "user-center": "/user-center",
+  "workflow": "/workflow"
 };
 
 /**

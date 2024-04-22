@@ -182,6 +182,7 @@ const local: App.I18n.Schema = {
     retry: 'Retry task',
     retry_task: 'Retry task',
     retry_scene: 'Retry scene',
+    workflow: 'Workflow',
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
@@ -697,6 +698,24 @@ const local: App.I18n.Schema = {
         lru: 'LRU',
         round: '轮询'
       }
+    },
+    workflow: {
+      title: 'Workflow List',
+      workflowName: 'Workflow name',
+      groupName: 'Group name',
+      nextTriggerAt: 'Trigger time',
+      workflowStatus: 'State',
+      triggerType: 'Trigger type',
+      triggerInterval: 'Interval duration',
+      executorTimeout: 'Overtime time',
+      updateDt: 'Update time',
+      form: {
+        workflowName: 'Please enter Workflow name',
+        groupName: 'Please enter Group name',
+        workflowStatus: 'Please enter State'
+      },
+      addWorkflow: 'Add Workflow',
+      editWorkflow: 'Add Workflow'
     }
   },
   form: {
