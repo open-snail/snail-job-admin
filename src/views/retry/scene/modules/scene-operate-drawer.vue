@@ -27,6 +27,7 @@ interface Props {
 
 const app = useAppStore();
 const groupNameList = ref<string[]>([]);
+const delayLevelDesc = ref<string>('10s');
 
 const props = defineProps<Props>();
 
@@ -205,12 +206,30 @@ async function handleSubmit() {
   emit('submitted');
 }
 
+function maxRetryCountUpdate(maxRetryCount: number) {
+  if (model.backOff !== 1) {
+    return;
+  }
+  let desc = '';
+  for (let i = 1; i <= maxRetryCount; i += 1) {
+    desc += `,${DelayLevel[i as keyof typeof DelayLevel]}`;
+  }
+  delayLevelDesc.value = desc.substring(1, desc.length);
+}
+
 watch(visible, () => {
   if (visible.value) {
     handleUpdateModelWhenEdit();
     restoreValidation();
   }
 });
+
+watch(
+  () => model.maxRetryCount,
+  () => {
+    maxRetryCountUpdate(model.maxRetryCount);
+  }
+);
 </script>
 
 <template>
@@ -270,15 +289,8 @@ watch(visible, () => {
           :placeholder="$t('page.retryScene.form.triggerInterval')"
           clearable
         />
-        <div v-else>
-          <NCollapse>
-            <NCollapseItem title="间隔时间详情" name="1">
-              <p v-for="(item, index) in model.maxRetryCount" :key="index">
-                第{{ item }}次: {{ DelayLevel[item as keyof typeof DelayLevel] }}
-              </p>
-            </NCollapseItem>
-          </NCollapse>
-        </div>
+
+        <NInput v-else v-model:value="delayLevelDesc" disabled />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.maxRetryCount')" path="maxRetryCount">
         <NInputNumber
@@ -293,7 +305,7 @@ watch(visible, () => {
         <NInputNumber
           v-model:value="model.executorTimeout"
           :min="1"
-          :max="3600"
+          :max="60"
           :placeholder="$t('page.retryScene.form.executorTimeout')"
           clearable
         />
