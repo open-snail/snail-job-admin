@@ -129,9 +129,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 260,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
-            {$t('common.edit')}
-          </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.groupName!, row.id!)}>
             {{
               default: () => $t('common.confirmDelete'),
@@ -211,9 +208,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 const {
   drawerVisible,
   operateType,
-  editingData,
   handleAdd,
-  handleEdit,
   checkedRowKeys,
   onBatchDeleted,
   onDeleted
@@ -237,10 +232,6 @@ async function handleBatchDelete() {
   if (error) return;
 
   onBatchDeleted();
-}
-
-function edit(id: string) {
-  handleEdit(id);
 }
 
 function handleBatchAdd() {
@@ -304,13 +295,8 @@ async function updateRetryTaskStatus(id: number, groupName: string, retryStatus:
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <RetryTaskOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getData"
-      />
-      <RetryTaskBatchAddDrawer v-model:visible="batchAddDrawerVisible" :row-data="editingData" @submitted="getData" />
+      <RetryTaskOperateDrawer v-model:visible="drawerVisible" :operate-type="operateType" @submitted="getData" />
+      <RetryTaskBatchAddDrawer v-model:visible="batchAddDrawerVisible" @submitted="getData" />
     </NCard>
   </div>
 </template>

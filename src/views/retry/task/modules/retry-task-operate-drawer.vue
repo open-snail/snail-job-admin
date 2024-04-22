@@ -3,7 +3,12 @@ import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import { fetchAddRetryTask, fetchGetAllGroupNameList, fetchGetRetrySceneList } from '@/service/api';
+import {
+  fetchAddRetryTask,
+  fetchGetAllGroupNameList,
+  fetchGetRetrySceneList,
+  fetchIdempotentIdGenerate
+} from '@/service/api';
 import { translateOptions, translateOptions2 } from '@/utils/common';
 import { retryTaskStatusTypeOptions } from '@/constants/business';
 
@@ -113,12 +118,6 @@ async function handleSubmit() {
     window.$message?.success($t('common.addSuccess'));
   }
 
-  // if (props.operateType === 'edit') {
-  //   const { ... } = model;
-  //   fetchEditRetryTask({ ... });
-  //   window.$message?.success($t('common.updateSuccess'));
-  // }
-
   closeDrawer();
   emit('submitted');
 }
@@ -145,8 +144,20 @@ async function handleGroupNameUpdate(groupName: string) {
   }
 }
 
-function setIdempotentId() {
-  model.idempotentId = 'test';
+async function setIdempotentId() {
+  const groupName = model.groupName;
+  const sceneName = model.sceneName;
+  const executorName = model.executorName;
+  const argsStr = model.argsStr;
+  const { data: idempotentId, error } = await fetchIdempotentIdGenerate({
+    groupName,
+    sceneName,
+    executorName,
+    argsStr
+  });
+  if (!error) {
+    model.idempotentId = idempotentId;
+  }
 }
 
 onMounted(() => {

@@ -62,3 +62,12 @@ export function fetchBatchDeleteRetryTask(data: Api.RetryTask.BatchDeleteRetryTa
     data
   });
 }
+
+/** generate retryTask idempotent id */
+export function fetchIdempotentIdGenerate(data: Api.RetryTask.GenerateRetryIdempotentIdVO) {
+  return request<string>({
+    url: '/retry-task/generate/idempotent-id',
+    method: 'post',
+    data
+  });
+}

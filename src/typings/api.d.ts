@@ -679,6 +679,17 @@ declare namespace Api {
       ids: string[];
     };
 
+    type GenerateRetryIdempotentIdVO = {
+      /** 组名称 */
+      groupName: string;
+      /** 场景名称 */
+      sceneName: string;
+      /** 执行参数 */
+      argsStr: string;
+      /** 执行器名称 */
+      executorName: string;
+    };
+
     /** RetryTask search params */
     type RetryTaskSearchParams = CommonType.RecordNullable<
       Pick<Api.RetryTask.RetryTask, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'retryStatus'> &

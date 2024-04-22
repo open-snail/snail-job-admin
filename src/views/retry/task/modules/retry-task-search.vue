@@ -61,8 +61,8 @@ onMounted(() => {
         v-model:value="model.groupName"
         :placeholder="$t('page.retryTask.form.groupName')"
         :options="translateOptions2(groupNameList)"
-        filterable
         clearable
+        filterable
         @update:value="handleGroupNameUpdate"
       />
     </NFormItemGi>
