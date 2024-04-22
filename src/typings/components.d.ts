@@ -97,6 +97,7 @@ declare module 'vue' {
     Search: typeof import('../components/common/search-form.vue')['default']
     SearchForm: typeof import('./../components/common/search-form.vue')['default']
     SelectGroup: typeof import('./../components/common/select-group.vue')['default']
+    SelectScene: typeof import('./../components/common/select-scene.vue')['default']
     SoybeanAvatar: typeof import('./../components/custom/soybean-avatar.vue')['default']
     SvgIcon: typeof import('./../components/custom/svg-icon.vue')['default']
     SystemLogo: typeof import('./../components/common/system-logo.vue')['default']

@@ -20,10 +20,6 @@ async function getGroupNameList() {
   groupNameList.value = res.data as string[];
 }
 
-// function handleGroupNameUpdate(groupName: string) {
-//   emit('update:value', groupName);
-// }
-
 onMounted(() => {
   getGroupNameList();
 });
