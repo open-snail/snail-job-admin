@@ -40,7 +40,7 @@ defineExpose({
 </script>
 
 <template>
-  <NPopover trigger="click">
+  <NPopover trigger="click" placement="bottom-start">
     <template #trigger>
       <NInput v-bind="attrs" v-model:value="cron" />
     </template>
