@@ -884,6 +884,22 @@ declare namespace App {
           addWorkflow: string;
           editWorkflow: string;
         };
+        workflowBatch: {
+          title: string;
+          workflowName: string;
+          groupName: string;
+          executionAt: string;
+          taskBatchStatus: string;
+          operationReason: string;
+          createDt: string;
+          form: {
+            workflowName: string;
+            taskBatchStatus: string;
+            groupName: string;
+          };
+          addWorkflowBatch: string;
+          editWorkflowBatch: string;
+        };
         jobTask: {
           title: string;
           groupName: string;
@@ -951,7 +967,7 @@ declare namespace App {
         expand: string;
         pin: string;
         unpin: string;
-        namepase: string;
+        namespace: string;
       };
     };
 

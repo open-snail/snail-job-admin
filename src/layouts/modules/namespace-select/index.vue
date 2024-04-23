@@ -30,7 +30,7 @@ const onChange = (value: string) => {
 <template>
   <NDropdown v-if="appStore.isMobile" :value="namespaceId" :options="dropOptions" trigger="hover" @select="onChange">
     <div>
-      <ButtonIcon :tooltip-content="$t('icon.namepase')" tooltip-placement="left">
+      <ButtonIcon :tooltip-content="$t('icon.namespace')" tooltip-placement="left">
         <SvgIcon icon="oui:app-spaces" />
       </ButtonIcon>
     </div>

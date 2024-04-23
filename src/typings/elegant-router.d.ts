@@ -51,7 +51,7 @@ declare module "@elegant-router/types" {
     "multi-menu_second": "/multi-menu/second";
     "multi-menu_second_child": "/multi-menu/second/child";
     "multi-menu_second_child_home": "/multi-menu/second/child/home";
-    "namepase": "/namepase";
+    "namespace": "/namespace";
     "notify": "/notify";
     "notify_recipient": "/notify/recipient";
     "notify_scene": "/notify/scene";
@@ -61,6 +61,8 @@ declare module "@elegant-router/types" {
     "retry_task": "/retry/task";
     "user-center": "/user-center";
     "workflow": "/workflow";
+    "workflow_batch": "/workflow/batch";
+    "workflow_task": "/workflow/task";
   };
 
   /**
@@ -107,7 +109,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "manage"
     | "multi-menu"
-    | "namepase"
+    | "namespace"
     | "notify"
     | "pods"
     | "retry"
@@ -152,14 +154,15 @@ declare module "@elegant-router/types" {
     | "manage_user"
     | "multi-menu_first_child"
     | "multi-menu_second_child_home"
-    | "namepase"
+    | "namespace"
     | "notify_recipient"
     | "notify_scene"
     | "pods"
     | "retry_scene"
     | "retry_task"
     | "user-center"
-    | "workflow"
+    | "workflow_batch"
+    | "workflow_task"
   >;
 
   /**

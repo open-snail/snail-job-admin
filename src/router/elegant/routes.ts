@@ -45,7 +45,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.about',
     meta: {
       title: 'about',
-      i18nKey: 'route.about'
+      i18nKey: 'route.about',
+      order: 1000,
+      icon: 'material-symbols:help-outline-rounded'
     }
   },
   {
@@ -173,7 +175,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.group',
     meta: {
       title: 'group',
-      i18nKey: 'route.group'
+      i18nKey: 'route.group',
+      order: 30,
+      icon: 'material-symbols:group-work-outline'
     }
   },
   {
@@ -193,7 +197,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base',
     meta: {
       title: 'job',
-      i18nKey: 'route.job'
+      i18nKey: 'route.job',
+      order: 50,
+      icon:'eos-icons:cronjob'
     },
     children: [
       {
@@ -348,12 +354,12 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
-    name: 'namepase',
-    path: '/namepase',
-    component: 'layout.base$view.namepase',
+    name: 'namespace',
+    path: '/namespace',
+    component: 'layout.base$view.namespace',
     meta: {
-      title: 'namepase',
-      i18nKey: 'route.namepase',
+      title: 'namespace',
+      i18nKey: 'route.namespace',
       icon: 'oui:app-spaces',
       order: 20
     }
@@ -365,7 +371,8 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'notify',
       i18nKey: 'route.notify',
-      order: 100
+      order: 100,
+      icon: 'material-symbols:notifications-active-outline-rounded'
     },
     children: [
       {
@@ -406,7 +413,8 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'retry',
       i18nKey: 'route.retry',
-      order: 50
+      order: 70,
+      icon: 'carbon:retry-failed'
     },
     children: [
       {
@@ -442,10 +450,32 @@ export const generatedRoutes: GeneratedRoute[] = [
   {
     name: 'workflow',
     path: '/workflow',
-    component: 'layout.base$view.workflow',
+    component: 'layout.base',
     meta: {
       title: 'workflow',
-      i18nKey: 'route.workflow'
-    }
+      i18nKey: 'route.workflow',
+      order: 60,
+      icon: 'lucide:workflow'
+    },
+    children: [
+      {
+        name: 'workflow_batch',
+        path: '/workflow/batch',
+        component: 'view.workflow_batch',
+        meta: {
+          title: 'workflow_batch',
+          i18nKey: 'route.workflow_batch'
+        }
+      },
+      {
+        name: 'workflow_task',
+        path: '/workflow/task',
+        component: 'view.workflow_task',
+        meta: {
+          title: 'workflow_task',
+          i18nKey: 'route.workflow_task'
+        }
+      }
+    ]
   }
 ];

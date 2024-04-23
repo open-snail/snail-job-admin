@@ -173,7 +173,7 @@ const local: App.I18n.Schema = {
     'function_toggle-auth': 'Toggle Auth',
     'function_super-page': 'Super Admin Visible',
     pods: 'Online Machine',
-    namepase: 'Namepase',
+    namespace: 'namespace',
     manage: 'System Manage',
     manage_user: 'User Manage',
     notify: 'notify',
@@ -183,6 +183,8 @@ const local: App.I18n.Schema = {
     retry_task: 'Retry task',
     retry_scene: 'Retry scene',
     workflow: 'Workflow',
+    workflow_task: 'Workflow Task',
+    workflow_batch: 'Workflow Batch',
     job: 'Schedule Task Management',
     job_task: 'Schedule Task List',
     'manage_user-detail': 'User Detail',
@@ -701,6 +703,22 @@ const local: App.I18n.Schema = {
         round: '轮询'
       }
     },
+    workflowBatch: {
+      title: 'Workflow Batch List',
+      workflowName: 'Workflow name',
+      groupName: 'Group name',
+      executionAt: 'Execution time',
+      taskBatchStatus: 'State',
+      operationReason: 'Reason for operation',
+      createDt: 'Creation time',
+      form: {
+        workflowName: 'Please enter Workflow name',
+        taskBatchStatus: 'Please enter State',
+        groupName: 'Please enter Group name'
+      },
+      addWorkflowBatch: 'Add Workflow batch',
+      editWorkflowBatch: 'Add Workflow batch'
+    },
     workflow: {
       title: 'Workflow List',
       workflowName: 'Workflow name',
@@ -810,7 +828,7 @@ const local: App.I18n.Schema = {
     expand: 'Expand Menu',
     pin: 'Pin',
     unpin: 'Unpin',
-    namepase: 'Switch Namepase'
+    namespace: 'Switch namespace'
   }
 };
 

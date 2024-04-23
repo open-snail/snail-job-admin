@@ -173,7 +173,7 @@ const local: App.I18n.Schema = {
     'function_toggle-auth': '切换权限',
     'function_super-page': '超级管理员可见',
     pods: '在线机器',
-    namepase: '命名空间',
+    namespace: '命名空间',
     group: '组管理',
     manage: '系统管理',
     manage_user: '用户管理',
@@ -184,8 +184,10 @@ const local: App.I18n.Schema = {
     retry_task: '重试任务',
     retry_scene: '重试场景',
     workflow: '工作流',
-    job: '定时任务管理',
-    job_task: '定时任务信息',
+    workflow_task: '任务管理',
+    workflow_batch: '执行批次',
+    job: '定时任务',
+    job_task: '任务管理',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
@@ -715,6 +717,22 @@ const local: App.I18n.Schema = {
       addWorkflow: '新增工作流',
       editWorkflow: '编辑工作流'
     },
+    workflowBatch: {
+      title: '工作流批次列表',
+      workflowName: '工作流名称',
+      groupName: '组名称',
+      executionAt: '执行时间',
+      taskBatchStatus: '状态',
+      operationReason: '操作原因',
+      createDt: '创建时间',
+      form: {
+        workflowName: '请输入工作流名称',
+        taskBatchStatus: '请输入状态',
+        groupName: '请输入组名称'
+      },
+      addWorkflowBatch: '新增工作流批次',
+      editWorkflowBatch: '编辑工作流批次'
+    },
     jobTask: {
       title: '定时任务列表',
       groupName: '组名称',
@@ -806,7 +824,7 @@ const local: App.I18n.Schema = {
     expand: '展开菜单',
     pin: '固定',
     unpin: '取消固定',
-    namepase: '切换空间'
+    namespace: '切换空间'
   }
 };
 
