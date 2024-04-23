@@ -61,7 +61,7 @@ function search() {
       <!--        @update:value="handleGroupNameUpdate"-->
       <!--      />-->
 
-      <SelectGroup v-model:value="model.groupName" />
+      <SelectGroup v-model="model.groupName" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryScene.sceneName')" path="userName" class="pr-24px">
       <!--      <NSelect-->

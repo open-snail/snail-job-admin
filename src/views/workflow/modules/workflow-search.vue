@@ -29,7 +29,7 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflow.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" />
+      <SelectGroup v-model="model.groupName" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflow.workflowName')" path="workflowName" class="pr-24px">
       <NInput v-model:value="model.workflowName" :placeholder="$t('page.workflow.form.workflowName')" />
