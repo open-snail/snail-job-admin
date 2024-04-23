@@ -18,7 +18,7 @@ export function fetchGetAllGroupNameList(params?: Api.GroupConfig.GroupConfigSea
 }
 
 /** add groupConfig */
-export function fetchAddGroupConfig(data: Api.GroupConfig.GroupConfig) {
+export function fetchAddGroupConfig(data: Api.GroupConfig.GroupConfigRequestVO) {
   return request<boolean>({
     url: '/group',
     method: 'post',
@@ -27,9 +27,17 @@ export function fetchAddGroupConfig(data: Api.GroupConfig.GroupConfig) {
 }
 
 /** edit groupConfig */
-export function fetchEditGroupConfig(data: Api.GroupConfig.GroupConfig) {
+export function fetchEditGroupConfig(data: Api.GroupConfig.GroupConfigRequestVO) {
   return request<boolean>({
     url: '/group',
+    method: 'put',
+    data
+  });
+}
+
+export function fetchUpdateGroupStatus(data: Api.GroupConfig.GroupConfigRequestVO) {
+  return request<boolean>({
+    url: '/group/status',
     method: 'put',
     data
   });

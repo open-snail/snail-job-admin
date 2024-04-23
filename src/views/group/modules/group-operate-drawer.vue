@@ -4,7 +4,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { translateOptions, translateOptions2 } from '@/utils/common';
 import { groupConfigIdModeOptions, groupConfigStatusOptions, groupConfigYesOrNoOptions } from '@/constants/business';
-import { fetchAddGroupConfig, fetchEditGroupConfig, fetchGetPartitionTableList } from '@/service/api/group-config';
+import { fetchAddGroupConfig, fetchEditGroupConfig, fetchGetPartitionTableList } from '@/service/api/group';
 
 defineOptions({
   name: 'GroupOperateDrawer'
@@ -107,9 +107,8 @@ async function handleSubmit() {
     if (error) return;
     window.$message?.success($t('common.addSuccess'));
   } else {
-    const { id, groupName, token, groupStatus, description, idGeneratorMode, initScene, groupPartition } = model;
+    const { groupName, token, groupStatus, description, idGeneratorMode, initScene, groupPartition } = model;
     const { error } = await fetchEditGroupConfig({
-      id,
       groupName,
       token,
       groupStatus,
@@ -162,6 +161,8 @@ watch(visible, () => {
       <NFormItem :label="$t('page.groupConfig.groupName')" path="groupName">
         <NInput
           v-model:value="model.groupName"
+          :maxlength="64"
+          show-count
           :placeholder="$t('page.groupConfig.form.groupName')"
           :disabled="props.operateType === 'edit'"
         />
@@ -182,6 +183,7 @@ watch(visible, () => {
         <NInputGroup>
           <NInput
             v-model:value="model.token"
+            :maxlength="64"
             :placeholder="$t('page.groupConfig.form.token')"
             :disabled="props.operateType === 'edit'"
           />
@@ -194,6 +196,8 @@ watch(visible, () => {
         <NInput
           v-model:value="model.description"
           type="textarea"
+          :maxlength="256"
+          show-count
           :placeholder="$t('page.groupConfig.form.description')"
           clearable
           round

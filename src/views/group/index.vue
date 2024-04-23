@@ -1,14 +1,18 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
-import { fetchGetGroupConfigList } from '@/service/api';
+import { NButton, NSwitch, NTag } from 'naive-ui';
+import { ref } from 'vue';
+import { fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { groupConfigIdModeRecord, groupConfigStatusRecord, yesOrNoRecord } from '@/constants/business';
+import { groupConfigIdModeRecord, yesOrNoRecord } from '@/constants/business';
 import GroupOperateDrawer from './modules/group-operate-drawer.vue';
 import GroupSearch from './modules/group-search.vue';
 
 const appStore = useAppStore();
+
+/** 组状态 Switch 的 loading 状态 */
+const statusSwithLoading = ref(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetGroupConfigList,
@@ -42,18 +46,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'center',
       width: 80,
       render: row => {
-        if (row.groupStatus === null) {
-          return null;
-        }
-
-        const tagMap: Record<Api.GroupConfig.GroupStatusType, NaiveUI.ThemeColor> = {
-          1: 'success',
-          0: 'warning'
-        };
-
-        const label = $t(groupConfigStatusRecord[row.groupStatus!]);
-
-        return <NTag type={tagMap[row.groupStatus!]}>{label}</NTag>;
+        return (
+          <NSwitch
+            v-model:value={row.groupStatus}
+            v-model:loading={statusSwithLoading.value}
+            checkedValue={1}
+            uncheckedValue={0}
+            onUpdateValue={() => handleUpdateValue(row)}
+          ></NSwitch>
+        );
       }
     },
     {
@@ -143,6 +144,16 @@ const {
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleUpdateValue(group: Api.GroupConfig.GroupConfig) {
+  statusSwithLoading.value = true;
+  try {
+    await fetchUpdateGroupStatus({ groupName: group.groupName, groupStatus: group.groupStatus });
+  } finally {
+    await getData();
+    statusSwithLoading.value = false;
+  }
 }
 </script>
 

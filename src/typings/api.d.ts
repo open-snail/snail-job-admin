@@ -350,6 +350,16 @@ declare namespace Api {
       Pick<Api.GroupConfig.GroupConfig, 'groupName'> & CommonSearchParams
     >;
 
+    type GroupConfigRequestVO = {
+      groupName: string;
+      groupStatus: GroupStatusType;
+      token?: string;
+      description?: string;
+      groupPartition?: number;
+      idGeneratorMode?: IdGeneratorModeType;
+      initScene?: YesOrNoType;
+    };
+
     /** groupConfig list */
     type GroupConfigList = Common.PaginatingQueryRecord<GroupConfig>;
   }
