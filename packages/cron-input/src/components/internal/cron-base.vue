@@ -106,7 +106,7 @@ const value = computed(() => {
       return props.field.value === DATE ? type.value : `${lastDayOfWeek.value}${type.value}`;
     case TYPE.SPECIFY: {
       const specifyValue = specify.value;
-      return specifyValue.length ? specifyValue.sort((a, b) => a - b).join(type.value) : `${specifyValue[0]}`;
+      return specifyValue.length ? specifyValue.sort((a, b) => a - b).join(type.value) : `${specifyValue[0] || 0}`;
     }
     default:
       return '';
@@ -141,7 +141,8 @@ watch(
       lastDayOfWeek.value = Number.parseInt(data, 10);
     } else {
       type.value = TYPE.SPECIFY;
-      specify.value = data.split(TYPE.SPECIFY).map(i => Number.parseInt(i, 10));
+      specify.value =
+        data !== 'undefined' && data !== 'NaN' ? data.split(TYPE.SPECIFY).map(i => Number.parseInt(i, 10)) : [];
     }
   }
 );
@@ -161,10 +162,10 @@ const onRangeStartChange = (val: number) => {
   }
 };
 
-const onCheckboxGroupChange = (val: string[]) => {
+const onCheckboxGroupChange = () => {
   let checkType = TYPE.SPECIFY;
 
-  if (val.length === 0) {
+  if (specify.value.length === 0) {
     checkType = props.field.value === YEAR ? TYPE.EMPTY : TYPE.EVERY;
   }
 
@@ -223,16 +224,18 @@ const onCheckboxGroupChange = (val: string[]) => {
     <div class="cron-radio flex flex-wrap items-center justify-start gap-5px">
       <NRadio class="cron-radio" :value="TYPE.SPECIFY">{{ label.specify }}</NRadio>
       <NCheckboxGroup
-        v-model:checked="specify"
+        v-if="type === TYPE.SPECIFY"
+        v-model:value="specify"
         class="p-l-22px"
         :class="{ 'checkbox-group-en-week': isEnWeek }"
-        @update:checked="onCheckboxGroupChange"
+        @update:value="onCheckboxGroupChange"
       >
         <NCheckbox
           v-for="option in specifies"
           :key="option.value"
           :label="option.label"
           :value="option.value"
+          size="small"
           class="min-w-50px"
         />
       </NCheckboxGroup>

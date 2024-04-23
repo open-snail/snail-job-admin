@@ -1,3 +1,3 @@
-import Cron from './components/cron.vue';
+import CronInput from './components/cron-input.vue';
 
-export default Cron;
+export default CronInput;
