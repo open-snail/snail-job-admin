@@ -187,7 +187,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'home',
       i18nKey: 'route.home',
-      icon: 'mdi:monitor-dashboard',
+      icon: 'material-symbols:dashboard-outline-rounded',
       order: 1
     }
   },
@@ -199,7 +199,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'job',
       i18nKey: 'route.job',
       order: 50,
-      icon:'eos-icons:cronjob'
+      icon: 'eos-icons:cronjob'
     },
     children: [
       {
@@ -208,7 +208,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.job_task',
         meta: {
           title: 'job_task',
-          i18nKey: 'route.job_task'
+          i18nKey: 'route.job_task',
+          icon: 'octicon:tasklist'
         }
       }
     ]
@@ -360,7 +361,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'namespace',
       i18nKey: 'route.namespace',
-      icon: 'oui:app-spaces',
+      icon: 'eos-icons:namespace',
       order: 20
     }
   },
@@ -381,7 +382,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.notify_recipient',
         meta: {
           title: 'notify_recipient',
-          i18nKey: 'route.notify_recipient'
+          i18nKey: 'route.notify_recipient',
+          icon: 'fluent:people-call-20-filled'
         }
       },
       {
@@ -390,7 +392,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.notify_scene',
         meta: {
           title: 'notify_scene',
-          i18nKey: 'route.notify_scene'
+          i18nKey: 'route.notify_scene',
+          icon: 'cbi:scene-dynamic'
         }
       }
     ]
@@ -423,7 +426,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.retry_scene',
         meta: {
           title: 'retry_scene',
-          i18nKey: 'route.retry_scene'
+          i18nKey: 'route.retry_scene',
+          icon: 'cbi:scene-dynamic'
         }
       },
       {
@@ -432,7 +436,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.retry_task',
         meta: {
           title: 'retry_task',
-          i18nKey: 'route.retry_task'
+          i18nKey: 'route.retry_task',
+          icon: 'octicon:tasklist'
         }
       }
     ]
@@ -464,7 +469,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.workflow_batch',
         meta: {
           title: 'workflow_batch',
-          i18nKey: 'route.workflow_batch'
+          i18nKey: 'route.workflow_batch',
+          icon: 'carbon:batch-job'
         }
       },
       {
@@ -473,7 +479,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.workflow_task',
         meta: {
           title: 'workflow_task',
-          i18nKey: 'route.workflow_task'
+          i18nKey: 'route.workflow_task',
+          icon: 'octicon:tasklist'
         }
       }
     ]
