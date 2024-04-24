@@ -35,3 +35,11 @@ export function fetchEditRetryScene(data: Api.RetryScene.Scene) {
     data
   });
 }
+
+/** update retry scene status */
+export function fetchUpdateSceneStatus(id: number, status: number) {
+  return request<boolean>({
+    url: `/scene-config/${id}/status/${status}`,
+    method: 'put'
+  });
+}

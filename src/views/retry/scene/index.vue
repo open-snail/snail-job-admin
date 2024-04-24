@@ -1,14 +1,17 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetRetryScenePageList } from '@/service/api';
+import { NButton, NPopconfirm, NSwitch, NTag } from 'naive-ui';
+import { ref } from 'vue';
+import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { backOffRecord, enableStatusNumberRecord, routeKeyRecord } from '@/constants/business';
+import { backOffRecord, routeKeyRecord } from '@/constants/business';
 import SceneOperateDrawer from './modules/scene-operate-drawer.vue';
 import SceneSearch from './modules/scene-search.vue';
 
 const appStore = useAppStore();
+/** 组状态 Switch 的 loading 状态 */
+const statusSwitchLoading = ref(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetRetryScenePageList,
@@ -28,12 +31,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 48
     },
     {
-      key: 'index',
-      title: $t('common.index'),
-      align: 'center',
-      width: 64
-    },
-    {
       key: 'groupName',
       title: $t('page.retryScene.groupName'),
       align: 'left',
@@ -51,8 +48,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'left',
       minWidth: 120,
       render: row => {
-        const label = $t(enableStatusNumberRecord[row.sceneStatus!]);
-        return <NTag type="primary">{label}</NTag>;
+        return (
+          <NSwitch
+            v-model:value={row.sceneStatus}
+            v-model:loading={statusSwitchLoading.value}
+            checkedValue={1}
+            uncheckedValue={0}
+            onUpdateValue={() => handleUpdateValue(row)}
+          ></NSwitch>
+        );
       }
     },
     {
@@ -163,6 +167,16 @@ function handleDelete(id: string) {
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleUpdateValue(scene: Api.RetryScene.Scene) {
+  statusSwitchLoading.value = true;
+  try {
+    await fetchUpdateSceneStatus(scene.id as any, scene.sceneStatus);
+  } finally {
+    await getData();
+    statusSwitchLoading.value = false;
+  }
 }
 </script>
 
