@@ -1,16 +1,19 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
-import { fetchGetJobTaskPage } from '@/service/api';
+import { ref } from 'vue';
+import { NButton, NPopconfirm, NSwitch, NTag } from 'naive-ui';
+import { fetchGetJobPage, fetchUpdateJobStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { blockStrategyRecord, taskTypeRecord, triggerTypeRecord } from '@/constants/business';
 import JobTaskOperateDrawer from './modules/job-task-operate-drawer.vue';
 import JobTaskSearch from './modules/job-task-search.vue';
 
 const appStore = useAppStore();
+const statusSwithLoading = ref(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: fetchGetJobTaskPage,
+  apiFn: fetchGetJobPage,
   apiParams: {
     page: 1,
     size: 10,
@@ -52,19 +55,56 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'jobStatus',
       title: $t('page.jobTask.jobStatus'),
       align: 'center',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        return (
+          <NSwitch
+            v-model:value={row.jobStatus}
+            v-model:loading={statusSwithLoading.value}
+            checkedValue={1}
+            uncheckedValue={0}
+            onUpdateValue={() => handleUpdateValue(row)}
+          ></NSwitch>
+        );
+      }
     },
     {
       key: 'taskType',
       title: $t('page.jobTask.taskType'),
       align: 'center',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.taskType === null) {
+          return null;
+        }
+        const tagMap: Record<Api.Common.TaskType, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'success',
+          3: 'error'
+        };
+        const label = $t(taskTypeRecord[row.taskType!]);
+
+        return <NTag type={tagMap[row.taskType!]}>{label}</NTag>;
+      }
     },
     {
       key: 'triggerType',
       title: $t('page.jobTask.triggerType'),
       align: 'center',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.triggerType === null) {
+          return null;
+        }
+        const tagMap: Record<Api.Job.TriggerType, NaiveUI.ThemeColor> = {
+          2: 'info',
+          3: 'success',
+          99: 'error'
+        };
+        const label = $t(triggerTypeRecord[row.triggerType!]);
+
+        return <NTag type={tagMap[row.triggerType!]}>{label}</NTag>;
+      }
     },
     {
       key: 'triggerInterval',
@@ -76,7 +116,20 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'blockStrategy',
       title: $t('page.jobTask.blockStrategy'),
       align: 'center',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.blockStrategy === null) {
+          return null;
+        }
+        const tagMap: Record<Api.Common.BlockStrategy, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'success',
+          3: 'error'
+        };
+        const label = $t(blockStrategyRecord[row.blockStrategy!]);
+
+        return <NTag type={tagMap[row.blockStrategy!]}>{label}</NTag>;
+      }
     },
     {
       key: 'executorTimeout',
@@ -144,6 +197,16 @@ function handleDelete(id: string) {
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleUpdateValue(job: Api.Job.Job) {
+  statusSwithLoading.value = true;
+  try {
+    await fetchUpdateJobStatus({ id: job.id!, jobStatus: job.jobStatus });
+  } finally {
+    await getData();
+    statusSwithLoading.value = false;
+  }
 }
 </script>
 

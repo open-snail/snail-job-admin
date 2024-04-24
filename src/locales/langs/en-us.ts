@@ -64,46 +64,80 @@ const local: App.I18n.Schema = {
       workflow: 'Workflow'
     },
     routeKey: {
-      routeLabel: '路由策略',
-      routeForm: '请输入路由策略',
+      routeLabel: 'Route key',
+      routeForm: 'Please enter route key',
       items: {
-        consistentHash: '一致性哈希',
-        random: '随机',
+        consistentHash: 'Consistent hash',
+        random: 'Random',
         lru: 'LRU',
-        round: '轮询'
+        round: 'Round robin'
+      }
+    },
+    blockStrategy: {
+      label: 'Block strategy',
+      form: 'Please enter block strategy',
+      items: {
+        discard: 'Discard',
+        overwrite: 'Overwrite',
+        parallel: 'Parallel'
+      }
+    },
+    executorType: {
+      label: 'Executor type',
+      form: 'Please enter executor type',
+      items: {
+        java: 'Java'
+      }
+    },
+    taskType: {
+      label: 'Task type',
+      form: 'Please enter task type',
+      items: {
+        cluster: 'Cluster',
+        broadcast: 'Broadcast',
+        slice: 'Slice'
+      }
+    },
+    triggerType: {
+      label: 'Trigger type',
+      form: 'Please enter trigger type',
+      items: {
+        cron: 'CRON',
+        fixed: 'Fixed time',
+        workflow: 'Workflow'
       }
     },
     taskBatchStatus: {
-      label: '执行状态',
-      form: '请选择执行状态',
+      label: 'Task batch status',
+      form: 'Please enter task batch status',
       items: {
-        waiting: '待处理',
-        running: '运行中',
-        success: '处理成功',
-        fail: '处理失败',
-        stop: '任务停止',
-        cancel: '取消'
+        waiting: 'Waiting',
+        running: 'Running',
+        success: 'Success',
+        fail: 'Fail',
+        stop: 'Stop',
+        cancel: 'Cancel'
       }
     },
     jobOperationReason: {
-      label: '操作原因',
-      form: '请选择执行状态',
+      label: 'Job operation reason',
+      form: 'Please enter job operation reason',
       items: {
         none: '',
-        taskExecutionTimeout: '任务执行超时',
-        notClient: '无客户端节点',
-        closed: '任务已关闭',
-        discard: '任务丢弃',
-        overlay: '任务被覆盖',
-        notExecutionTask: '无可执行任务项',
-        taskExecutionError: '任务执行期间发生非预期异常',
-        mannerStop: '手动停止',
-        workflowConditionNodeExecutionError: '条件节点执行异常',
-        jobTaskInterrupted: '任务中断',
-        workflowCallbackNodeExecutionError: '回调节点执行异常',
-        workflowNodeNoRequired: '无需处理',
-        workflowNodeClosedSkipExecution: '节点关闭跳过执行',
-        workflowDecisionFailed: '判定未通过'
+        taskExecutionTimeout: 'Task execution timeout',
+        notClient: 'No client',
+        closed: 'Job closed',
+        discard: 'Job discard',
+        overlay: 'Job overlapped',
+        notExecutionTask: 'No execution task',
+        taskExecutionError: 'Execution error',
+        mannerStop: 'Manual stop',
+        workflowConditionNodeExecutionError: 'Condition node execution error',
+        jobTaskInterrupted: 'Job interrupted',
+        workflowCallbackNodeExecutionError: 'Callback node execution error',
+        workflowNodeNoRequired: 'No process required',
+        workflowNodeClosedSkipExecution: 'Node closed, skip execution',
+        workflowDecisionFailed: 'Workflow decision failed'
       }
     }
   },
@@ -225,6 +259,7 @@ const local: App.I18n.Schema = {
     retry: 'Retry task',
     retry_task: 'Retry task',
     retry_scene: 'Retry scene',
+    retry_log: 'Retry log',
     workflow: 'Workflow',
     workflow_task: 'Workflow Task',
     workflow_batch: 'Workflow Batch',
@@ -803,7 +838,8 @@ const local: App.I18n.Schema = {
       nextTriggerAt: 'Next trigger time',
       jobStatus: 'State',
       routeKey: 'Routing strategy',
-      executorType: 'Actuator type',
+      executorType: 'Executor type',
+      executorInfo: 'Executor name',
       triggerType: 'Trigger type',
       triggerInterval: 'Interval duration',
       blockStrategy: 'Blocking strategy',
@@ -823,10 +859,12 @@ const local: App.I18n.Schema = {
         jobName: 'Please enter Mission name',
         executorTimeout: 'Please enter executor timeout',
         triggerInterval: 'Please enter interval duration',
+        triggerInterval_CRON: 'Please enter cron expression',
         taskType: 'Please enter Task type',
         parallelNum: 'Please enter Parallel number',
         bucketIndex: 'Please enter Bucket',
-        executorType: 'Please enter Actuator type',
+        executorType: 'Please enter executor type',
+        executorInfo: 'Please enter executor name',
         routeKey: 'Please enter Routing strategy',
         blockStrategy: 'Please enter Blocking strategy',
         argsType: 'Please enter Parameter Type',

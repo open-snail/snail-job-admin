@@ -124,6 +124,28 @@ export const routeKeyRecord: Record<Api.Common.RouteKey, App.I18n.I18nKey> = {
 };
 export const routeKeyRecordOptions = transformRecordToNumberOption(routeKeyRecord, true);
 
+/** 阻塞策略 */
+export const blockStrategyRecord: Record<Api.Common.BlockStrategy, App.I18n.I18nKey> = {
+  1: 'common.blockStrategy.items.discard',
+  2: 'common.blockStrategy.items.overwrite',
+  3: 'common.blockStrategy.items.parallel'
+};
+export const blockStrategyRecordOptions = transformRecordToNumberOption(blockStrategyRecord);
+
+/** 执行器类型 */
+export const executorTypeRecord: Record<Api.Common.ExecutorType, App.I18n.I18nKey> = {
+  1: 'common.executorType.items.java'
+};
+export const executorTypeRecordOptions = transformRecordToNumberOption(executorTypeRecord);
+
+/** 任务类型 */
+export const taskTypeRecord: Record<Api.Common.TaskType, App.I18n.I18nKey> = {
+  1: 'common.taskType.items.cluster',
+  2: 'common.taskType.items.broadcast',
+  3: 'common.taskType.items.slice'
+};
+export const taskTypeRecordRecordOptions = transformRecordToNumberOption(taskTypeRecord);
+
 /** 延迟等级 */
 export const DelayLevel: Record<number, string> = {
   1: '10s',
@@ -160,7 +182,7 @@ export const triggerTypeRecord: Record<Api.Job.TriggerType, App.I18n.I18nKey> = 
   // 只会在定时任务中使用
   99: 'page.jobTask.triggerTypeItem.workflow'
 };
-export const triggerTypeOptions = transformRecordToNumberOption(triggerTypeRecord, true);
+export const triggerTypeOptions = transformRecordToNumberOption(triggerTypeRecord);
 
 export const taskBatchStatusRecord: Record<Api.Common.TaskBatchStatus, App.I18n.I18nKey> = {
   1: 'common.taskBatchStatus.items.waiting',
@@ -170,7 +192,7 @@ export const taskBatchStatusRecord: Record<Api.Common.TaskBatchStatus, App.I18n.
   5: 'common.taskBatchStatus.items.stop',
   6: 'common.taskBatchStatus.items.cancel'
 };
-export const taskBatchStatusRecordOptions = transformRecordToNumberOption(taskBatchStatusRecord, true);
+export const taskBatchStatusRecordOptions = transformRecordToNumberOption(taskBatchStatusRecord);
 
 export const operationReasonRecord: Record<Api.Common.OperationReason, App.I18n.I18nKey> = {
   0: 'common.jobOperationReason.items.none',
@@ -189,4 +211,4 @@ export const operationReasonRecord: Record<Api.Common.OperationReason, App.I18n.
   13: 'common.jobOperationReason.items.workflowNodeClosedSkipExecution',
   14: 'common.jobOperationReason.items.workflowDecisionFailed'
 };
-export const operationReasonOptions = transformRecordToNumberOption(operationReasonRecord, true);
+export const operationReasonOptions = transformRecordToNumberOption(operationReasonRecord);

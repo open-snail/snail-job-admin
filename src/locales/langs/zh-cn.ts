@@ -65,12 +65,46 @@ const local: App.I18n.Schema = {
     },
     routeKey: {
       routeLabel: '路由策略',
-      routeForm: '请输入路由策略',
+      routeForm: '请选择路由策略',
       items: {
         consistentHash: '一致性哈希',
         random: '随机',
         lru: 'LRU',
         round: '轮询'
+      }
+    },
+    blockStrategy: {
+      label: '阻塞策略',
+      form: '请选择阻塞策略',
+      items: {
+        discard: '丢弃',
+        overwrite: '覆盖',
+        parallel: '并行'
+      }
+    },
+    executorType: {
+      label: '执行器类型',
+      form: '请选择执行器类型',
+      items: {
+        java: 'Java'
+      }
+    },
+    taskType: {
+      label: '任务类型',
+      form: '请选择任务类型',
+      items: {
+        cluster: '集群',
+        broadcast: '广播',
+        slice: '切片'
+      }
+    },
+    triggerType: {
+      label: '触发类型',
+      form: '请选择触发类型',
+      items: {
+        cron: 'CRON表达式',
+        fixed: '固定时间',
+        workflow: '工作流'
       }
     },
     taskBatchStatus: {
@@ -226,6 +260,7 @@ const local: App.I18n.Schema = {
     retry: '重试任务',
     retry_task: '重试任务',
     retry_scene: '重试场景',
+    retry_log: '重试日志',
     workflow: '工作流',
     workflow_task: '任务管理',
     workflow_batch: '执行批次',
@@ -800,6 +835,7 @@ const local: App.I18n.Schema = {
       jobStatus: '状态',
       routeKey: '路由策略',
       executorType: '执行器类型',
+      executorInfo: '执行器名称',
       triggerType: '触发类型',
       triggerInterval: '间隔时长',
       blockStrategy: '阻塞策略',
@@ -818,11 +854,13 @@ const local: App.I18n.Schema = {
         triggerType: '请输入触发类型',
         jobName: '请输入任务名称',
         executorTimeout: '请输入超时时间',
-        triggerInterval: '请输入间隔时长',
+        triggerInterval: '请输入间隔时长(秒)',
+        triggerInterval_CRON: '请输入间隔时长',
         taskType: '请输入任务类型',
         parallelNum: '请输入并行数',
         bucketIndex: '请输入Bucket',
         executorType: '请输入执行器类型',
+        executorInfo: '请输入执行器名称',
         routeKey: '请输入路由策略',
         blockStrategy: '请输入阻塞策略',
         argsType: '请输入参数类型',

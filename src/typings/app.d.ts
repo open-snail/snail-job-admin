@@ -319,6 +319,40 @@ declare namespace App {
             round: string;
           };
         };
+        blockStrategy: {
+          label: string;
+          form: string;
+          items: {
+            discard: string;
+            overwrite: string;
+            parallel: string;
+          };
+        };
+        executorType: {
+          label: string;
+          form: string;
+          items: {
+            java: string;
+          };
+        };
+        taskType: {
+          label: string;
+          form: string;
+          items: {
+            cluster: string;
+            broadcast: string;
+            slice: string;
+          };
+        };
+        triggerType: {
+          label: string;
+          form: string;
+          items: {
+            cron: string;
+            fixed: string;
+            workflow: string;
+          };
+        };
         taskBatchStatus: {
           label: string;
           form: string;
@@ -967,6 +1001,7 @@ declare namespace App {
           jobStatus: string;
           routeKey: string;
           executorType: string;
+          executorInfo: string;
           triggerType: string;
           triggerInterval: string;
           blockStrategy: string;
@@ -986,10 +1021,12 @@ declare namespace App {
             triggerType: string;
             executorTimeout: string;
             triggerInterval: string;
+            triggerInterval_CRON: string;
             taskType: string;
             parallelNum: string;
             bucketIndex: string;
             executorType: string;
+            executorInfo: string;
             routeKey: string;
             blockStrategy: string;
             argsType: string;

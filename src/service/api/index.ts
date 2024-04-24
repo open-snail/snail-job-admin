@@ -9,4 +9,4 @@ export * from './group';
 export * from './retry-task';
 export * from './retry';
 export * from './workflow';
-export * from './job-task';
+export * from './job';

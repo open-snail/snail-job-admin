@@ -73,6 +73,18 @@ declare namespace Api {
     /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
     type RouteKey = 1 | 2 | 3 | 4;
 
+    /** 阻塞策略 1:丢弃 2:覆盖 3:并行 */
+    type BlockStrategy = 1 | 2 | 3;
+
+    /** 执行器类型 1:Java */
+    type ExecutorType = 1;
+
+    /** 触发类型 2:固定时间 3:CRON 表达式 99:工作流 */
+    type TriggerType = 2 | 3 | 99;
+
+    /** 任务类型 1:集群 2:广播 3:切片 */
+    type TaskType = 1 | 2 | 3;
+
     /** 1、待处理 2、运行中 3、成功 4、失败 5、停止 6、取消 */
     type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -817,12 +829,11 @@ declare namespace Api {
   }
 
   /**
-   * namespace JobTask
+   * namespace Job
    *
-   * backend api module: "jobTask"
+   * backend api module: "job"
    */
   namespace Job {
-    import EnableStatusNumber = Api.Common.EnableStatusNumber;
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
 
     /** Job */
@@ -834,23 +845,25 @@ declare namespace Api {
       /** 方法参数 */
       argsStr: string;
       /** 参数类型 */
-      argsType: string;
+      argsType: number;
       /** 扩展字段 */
-      extAttrs: string;
+      extAttrs?: string;
       /** 下次触发时间 */
-      nextTriggerAt: string;
+      nextTriggerAt?: string;
       /** 状态 */
-      jobStatus: EnableStatusNumber;
+      jobStatus: Common.EnableStatusNumber;
       /** 路由策略 */
-      routeKey: string;
+      routeKey: Common.RouteKey;
       /** 执行器类型 */
-      executorType: string;
+      executorType: Common.ExecutorType;
+      /** 执行器名称 */
+      executorInfo: string;
       /** 触发类型 */
-      triggerType: string;
+      triggerType: Common.TriggerType;
       /** 间隔时长 */
-      triggerInterval: number;
+      triggerInterval: string;
       /** 阻塞策略 */
-      blockStrategy: number;
+      blockStrategy: Common.BlockStrategy;
       /** 超时时间 */
       executorTimeout: number;
       /** 最大重试次数 */
@@ -858,13 +871,13 @@ declare namespace Api {
       /** 重试间隔 */
       retryInterval: number;
       /** 任务类型 */
-      taskType: number;
+      taskType: Common.TaskType;
       /** 并行数 */
       parallelNum: number;
       /** Bucket */
-      bucketIndex: number;
+      bucketIndex?: number;
       /** 描述 */
-      description: string;
+      description?: string;
     }>;
 
     /** JobTask search params */
@@ -890,6 +903,11 @@ declare namespace Api {
       > &
         CommonSearchParams
     >;
+
+    type JobUpdateJobStatusRequestVO = {
+      id: string;
+      jobStatus: Common.EnableStatusNumber;
+    };
 
     /** JobTask list */
     type JobList = Common.PaginatingQueryRecord<Job>;
