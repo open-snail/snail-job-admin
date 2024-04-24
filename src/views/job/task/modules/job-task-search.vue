@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
+import { translateOptions } from '@/utils/common';
+import { enableStatusNumberOptions } from '@/constants/business';
 import SelectGroup from '@/components/common/select-group.vue';
 
 defineOptions({
@@ -33,7 +35,11 @@ function search() {
       <NInput v-model:value="model.jobName" :placeholder="$t('page.jobTask.form.jobName')" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobTask.jobStatus')" path="jobStatus" class="pr-24px">
-      <!--      <NInput v-model:value="model.jobStatus" :placeholder="$t('page.jobTask.form.jobStatus')" />-->
+      <NSelect
+        v-model:value="model.jobStatus"
+        :placeholder="$t('page.jobTask.form.jobStatus')"
+        :options="translateOptions(enableStatusNumberOptions)"
+      />
     </NFormItemGi>
   </SearchForm>
 </template>
