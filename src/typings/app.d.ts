@@ -309,6 +309,49 @@ declare namespace App {
           job: string;
           workflow: string;
         };
+        routeKey: {
+          routeLabel: string;
+          routeForm: string;
+          items: {
+            consistentHash: string;
+            random: string;
+            lru: string;
+            round: string;
+          };
+        };
+        taskBatchStatus: {
+          label: string;
+          form: string;
+          items: {
+            waiting: string;
+            running: string;
+            success: string;
+            fail: string;
+            stop: string;
+            cancel: string;
+          };
+        };
+        jobOperationReason: {
+          label: string;
+          form: string;
+          items: {
+            none: string;
+            taskExecutionTimeout: string;
+            notClient: string;
+            closed: string;
+            discard: string;
+            overlay: string;
+            notExecutionTask: string;
+            taskExecutionError: string;
+            mannerStop: string;
+            workflowConditionNodeExecutionError: string;
+            jobTaskInterrupted: string;
+            workflowCallbackNodeExecutionError: string;
+            workflowNodeNoRequired: string;
+            workflowNodeClosedSkipExecution: string;
+            workflowDecisionFailed: string;
+          };
+        };
       };
       request: {
         logout: string;
@@ -859,12 +902,6 @@ declare namespace App {
             cron: string;
             random: string;
           };
-          routeKeyItem: {
-            consistentHash: string;
-            random: string;
-            lru: string;
-            round: string;
-          };
         };
         workflow: {
           title: string;
@@ -942,6 +979,11 @@ declare namespace App {
           };
           addJobTask: string;
           editJobTask: string;
+          triggerTypeItem: {
+            fixed: string;
+            cron: string;
+            workflow: string;
+          };
         };
       };
       form: {

@@ -12,7 +12,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const model = defineModel<Api.JobTask.JobTaskSearchParams>('model', { required: true });
+const model = defineModel<Api.Job.JobSearchParams>('model', { required: true });
 
 function reset() {
   emit('reset');

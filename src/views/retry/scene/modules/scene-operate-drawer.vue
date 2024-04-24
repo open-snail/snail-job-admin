@@ -3,14 +3,10 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import CronInput from '@sa/cron-input';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
+import RouteKey from '@/components/common/route-key.vue';
 import { $t } from '@/locales';
 import { fetchAddRetryScene, fetchEditRetryScene, fetchGetAllGroupNameList } from '@/service/api';
-import {
-  DelayLevel,
-  backOffRecordOptions,
-  enableStatusNumberOptions,
-  routeKeyRecordOptions
-} from '@/constants/business';
+import { DelayLevel, backOffRecordOptions, enableStatusNumberOptions } from '@/constants/business';
 import { translateOptions, translateOptions2 } from '@/utils/common';
 import { useAppStore } from '@/store/modules/app';
 
@@ -265,13 +261,8 @@ watch(
           clearable
         />
       </NFormItem>
-      <NFormItem :label="$t('page.retryScene.routeKey')" path="routeKey">
-        <NSelect
-          v-model:value="model.routeKey"
-          :placeholder="$t('page.retryScene.form.routeKey')"
-          :options="translateOptions(routeKeyRecordOptions)"
-          clearable
-        />
+      <NFormItem :label="$t('common.routeKey.routeLabel')" path="routeKey">
+        <RouteKey v-model:value="model.routeKey" />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.backOff')" path="backOff">
         <NSelect

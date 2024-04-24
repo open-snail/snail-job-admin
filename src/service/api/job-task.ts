@@ -1,8 +1,8 @@
 import { request } from '../request';
 
 /** get JobTask page */
-export function fetchGetJobTaskPage(params?: Api.JobTask.JobTaskSearchParams) {
-  return request<Api.JobTask.JobTaskList>({
+export function fetchGetJobTaskPage(params?: Api.Job.JobSearchParams) {
+  return request<Api.Job.JobList>({
     url: '/job/page/list',
     method: 'get',
     params
@@ -10,7 +10,7 @@ export function fetchGetJobTaskPage(params?: Api.JobTask.JobTaskSearchParams) {
 }
 
 /** add JobTask */
-export function fetchAddJobTask(params?: Api.JobTask.JobTask) {
+export function fetchAddJobTask(params?: Api.Job.Job) {
   return request<boolean>({
     url: '/job/page/list',
     method: 'post',
@@ -19,7 +19,7 @@ export function fetchAddJobTask(params?: Api.JobTask.JobTask) {
 }
 
 /** edit JobTask */
-export function fetchEditJobTask(params?: Api.JobTask.JobTask) {
+export function fetchEditJobTask(params?: Api.Job.Job) {
   return request<boolean>({
     url: '/job/page/list',
     method: 'put',

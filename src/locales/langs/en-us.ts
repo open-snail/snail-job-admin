@@ -62,6 +62,49 @@ const local: App.I18n.Schema = {
       callback: 'Callback task',
       job: 'Job task',
       workflow: 'Workflow'
+    },
+    routeKey: {
+      routeLabel: '路由策略',
+      routeForm: '请输入路由策略',
+      items: {
+        consistentHash: '一致性哈希',
+        random: '随机',
+        lru: 'LRU',
+        round: '轮询'
+      }
+    },
+    taskBatchStatus: {
+      label: '执行状态',
+      form: '请选择执行状态',
+      items: {
+        waiting: '待处理',
+        running: '运行中',
+        success: '处理成功',
+        fail: '处理失败',
+        stop: '任务停止',
+        cancel: '取消'
+      }
+    },
+    jobOperationReason: {
+      label: '操作原因',
+      form: '请选择执行状态',
+      items: {
+        none: '',
+        taskExecutionTimeout: '任务执行超时',
+        notClient: '无客户端节点',
+        closed: '任务已关闭',
+        discard: '任务丢弃',
+        overlay: '任务被覆盖',
+        notExecutionTask: '无可执行任务项',
+        taskExecutionError: '任务执行期间发生非预期异常',
+        mannerStop: '手动停止',
+        workflowConditionNodeExecutionError: '条件节点执行异常',
+        jobTaskInterrupted: '任务中断',
+        workflowCallbackNodeExecutionError: '回调节点执行异常',
+        workflowNodeNoRequired: '无需处理',
+        workflowNodeClosedSkipExecution: '节点关闭跳过执行',
+        workflowDecisionFailed: '判定未通过'
+      }
     }
   },
   request: {
@@ -695,12 +738,6 @@ const local: App.I18n.Schema = {
         fixed: '固定时间',
         cron: 'CRON表达式',
         random: '随机等待'
-      },
-      routeKeyItem: {
-        consistentHash: '一致性哈希',
-        random: '随机',
-        lru: 'LRU',
-        round: '轮询'
       }
     },
     workflowBatch: {
@@ -778,7 +815,12 @@ const local: App.I18n.Schema = {
         retryInterval: 'Please enter retry interval'
       },
       addJobTask: 'Add job task',
-      editJobTask: 'Edit job task'
+      editJobTask: 'Edit job task',
+      triggerTypeItem: {
+        fixed: '固定时间',
+        cron: 'CRON表达式',
+        workflow: '工作流'
+      }
     }
   },
   form: {

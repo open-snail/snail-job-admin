@@ -69,6 +69,18 @@ declare namespace Api {
       /** record status */
       status?: EnableStatus | null;
     } & T;
+
+    /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
+    type RouteKey = 1 | 2 | 3 | 4;
+
+    /** 1、待处理 2、运行中 3、成功 4、失败 5、停止 6、取消 */
+    type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6;
+
+    /**
+     * 1、任务执行超时 2、无客户端节点 3、JOB已关闭 4、任务丢弃 5、任务被覆盖 6、无可执行任务项 7、任务执行期间发生非预期异常 8、手动停止 9、条件节点执行异常 10、任务中断 11、回调节点执行异常 12、无需处理
+     * 13、节点关闭跳过执行 14、判定未通过
+     */
+    type OperationReason = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
   }
 
   /**
@@ -730,7 +742,7 @@ declare namespace Api {
       /** 退避策略 */
       backOff: BackOff;
       /** 路由策略 */
-      routeKey: RouteKey;
+      routeKey: Common.RouteKey;
       /** 最大重试次数 */
       maxRetryCount: number;
       /** 间隔时间 */
@@ -766,9 +778,6 @@ declare namespace Api {
 
     /** 1: 延迟等级 2: 固定时间 3: CRON表达式 4: 随机等待 */
     type BackOff = 1 | 2 | 3 | 4;
-
-    /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
-    type RouteKey = 1 | 2 | 3 | 4;
   }
 
   /**
@@ -791,7 +800,7 @@ declare namespace Api {
       /** 状态 */
       workflowStatus: EnableStatusNumber;
       /** 触发类型 */
-      triggerType: number;
+      triggerType: Job.TriggerType;
       /** 间隔时长 */
       triggerInterval: string;
       /** 超时时间 */
@@ -812,11 +821,11 @@ declare namespace Api {
    *
    * backend api module: "jobTask"
    */
-  namespace JobTask {
+  namespace Job {
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
 
-    /** JobTask */
-    type JobTask = Common.CommonRecord<{
+    /** Job */
+    type Job = Common.CommonRecord<{
       /** 组名称 */
       groupName: string;
       /** 任务名称 */
@@ -858,9 +867,9 @@ declare namespace Api {
     }>;
 
     /** JobTask search params */
-    type JobTaskSearchParams = CommonType.RecordNullable<
+    type JobSearchParams = CommonType.RecordNullable<
       Pick<
-        Api.JobTask.JobTask,
+        Api.Job.Job,
         | 'groupName'
         | 'jobName'
         | 'argsStr'
@@ -882,7 +891,10 @@ declare namespace Api {
     >;
 
     /** JobTask list */
-    type JobTaskList = Common.PaginatingQueryRecord<JobTask>;
+    type JobList = Common.PaginatingQueryRecord<Job>;
+
+    /** 2、固定时间 3、CRON表达式 99、工作流 */
+    type TriggerType = 2 | 3 | 99;
   }
 
   /**

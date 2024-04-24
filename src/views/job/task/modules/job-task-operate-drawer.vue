@@ -13,7 +13,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.JobTask.JobTask | null;
+  rowData?: Api.Job.Job | null;
 }
 
 const props = defineProps<Props>();
@@ -40,7 +40,7 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.JobTask.JobTask,
+  Api.Job.Job,
   | 'groupName'
   | 'jobName'
   | 'argsStr'

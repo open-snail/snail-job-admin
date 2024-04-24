@@ -1,9 +1,10 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchGetWorkflowPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { enableStatusNumberRecord, triggerTypeRecord } from '@/constants/business';
 import WorkflowSearch from './modules/workflow-search.vue';
 
 const appStore = useAppStore();
@@ -53,13 +54,29 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'workflowStatus',
       title: $t('page.workflow.workflowStatus'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (!row.workflowStatus) {
+          return null;
+        }
+
+        const label = $t(enableStatusNumberRecord[row.workflowStatus!]);
+        return <NTag type="primary">{label}</NTag>;
+      }
     },
     {
       key: 'triggerType',
       title: $t('page.workflow.triggerType'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (!row.triggerType) {
+          return null;
+        }
+
+        const label = $t(triggerTypeRecord[row.triggerType!]);
+        return <NTag type="primary">{label}</NTag>;
+      }
     },
     {
       key: 'triggerInterval',

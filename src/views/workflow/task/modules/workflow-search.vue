@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
 import { translateOptions } from '@/utils/common';
-import { retryTaskStatusTypeOptions } from '@/constants/business';
+import { enableStatusNumberOptions } from '@/constants/business';
 import SelectGroup from '@/components/common/select-group.vue';
 
 defineOptions({
@@ -38,7 +38,7 @@ function search() {
       <NSelect
         v-model:value="model.workflowStatus"
         :placeholder="$t('page.workflow.form.workflowStatus')"
-        :options="translateOptions(retryTaskStatusTypeOptions)"
+        :options="translateOptions(enableStatusNumberOptions)"
       />
     </NFormItemGi>
   </SearchForm>

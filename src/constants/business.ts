@@ -116,11 +116,11 @@ export const backOffRecord: Record<Api.RetryScene.BackOff, App.I18n.I18nKey> = {
 };
 export const backOffRecordOptions = transformRecordToNumberOption(backOffRecord, true);
 
-export const routeKeyRecord: Record<Api.RetryScene.RouteKey, App.I18n.I18nKey> = {
-  1: 'page.retryScene.routeKeyItem.consistentHash',
-  2: 'page.retryScene.routeKeyItem.random',
-  3: 'page.retryScene.routeKeyItem.lru',
-  4: 'page.retryScene.routeKeyItem.round'
+export const routeKeyRecord: Record<Api.Common.RouteKey, App.I18n.I18nKey> = {
+  1: 'common.routeKey.items.consistentHash',
+  2: 'common.routeKey.items.random',
+  3: 'common.routeKey.items.lru',
+  4: 'common.routeKey.items.round'
 };
 export const routeKeyRecordOptions = transformRecordToNumberOption(routeKeyRecord, true);
 
@@ -153,3 +153,40 @@ export const DelayLevel: Record<number, string> = {
   25: '11h',
   26: '12h'
 };
+
+export const triggerTypeRecord: Record<Api.Job.TriggerType, App.I18n.I18nKey> = {
+  2: 'page.jobTask.triggerTypeItem.fixed',
+  3: 'page.jobTask.triggerTypeItem.cron',
+  // 只会在定时任务中使用
+  99: 'page.jobTask.triggerTypeItem.workflow'
+};
+export const triggerTypeOptions = transformRecordToNumberOption(triggerTypeRecord, true);
+
+export const taskBatchStatusRecord: Record<Api.Common.TaskBatchStatus, App.I18n.I18nKey> = {
+  1: 'common.taskBatchStatus.items.waiting',
+  2: 'common.taskBatchStatus.items.running',
+  3: 'common.taskBatchStatus.items.success',
+  4: 'common.taskBatchStatus.items.fail',
+  5: 'common.taskBatchStatus.items.stop',
+  6: 'common.taskBatchStatus.items.cancel'
+};
+export const taskBatchStatusRecordOptions = transformRecordToNumberOption(taskBatchStatusRecord, true);
+
+export const operationReasonRecord: Record<Api.Common.OperationReason, App.I18n.I18nKey> = {
+  0: 'common.jobOperationReason.items.none',
+  1: 'common.jobOperationReason.items.taskExecutionTimeout',
+  2: 'common.jobOperationReason.items.notClient',
+  3: 'common.jobOperationReason.items.closed',
+  4: 'common.jobOperationReason.items.discard',
+  5: 'common.jobOperationReason.items.overlay',
+  6: 'common.jobOperationReason.items.notExecutionTask',
+  7: 'common.jobOperationReason.items.taskExecutionError',
+  8: 'common.jobOperationReason.items.mannerStop',
+  9: 'common.jobOperationReason.items.workflowConditionNodeExecutionError',
+  10: 'common.jobOperationReason.items.jobTaskInterrupted',
+  11: 'common.jobOperationReason.items.workflowCallbackNodeExecutionError',
+  12: 'common.jobOperationReason.items.workflowNodeNoRequired',
+  13: 'common.jobOperationReason.items.workflowNodeClosedSkipExecution',
+  14: 'common.jobOperationReason.items.workflowDecisionFailed'
+};
+export const operationReasonOptions = transformRecordToNumberOption(operationReasonRecord, true);
