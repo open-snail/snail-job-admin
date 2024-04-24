@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { $t } from '@/locales';
 import SelectGroup from '@/components/common/select-group.vue';
-import TaskBatchStatus from '@/components/common/task-batch-status.vue';
 
 import { fetchGetWorkflowNameList } from '@/service/api';
 
@@ -51,8 +50,13 @@ async function groupNameUpdate(groupName: string) {
         filterable
       />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('common.taskBatchStatus.label')" path="taskBatchStatus" class="pr-24px">
-      <TaskBatchStatus v-model:value="model.taskBatchStatus" />
+    <NFormItemGi
+      span="24 s:12 m:6"
+      :label="$t('page.workflowBatch.taskBatchStatus')"
+      path="taskBatchStatus"
+      class="pr-24px"
+    >
+      <NInput v-model:value="model.taskBatchStatus" :placeholder="$t('page.workflowBatch.form.taskBatchStatus')" />
     </NFormItemGi>
   </SearchForm>
 </template>

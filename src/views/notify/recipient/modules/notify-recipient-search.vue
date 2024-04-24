@@ -32,12 +32,12 @@ function search() {
       span="24 s:12 m:6"
       :label-width="100"
       :label="$t('page.notifyRecipient.recipientName')"
-      path="userName"
+      path="recipientName"
       class="pr-24px"
     >
       <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyRecipient.notifyType')" path="userName" class="pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyRecipient.notifyType')" path="notifyType" class="pr-24px">
       <NSelect
         v-model:value="model.notifyType"
         :options="translateOptions(alarmTypeRecordOptions)"

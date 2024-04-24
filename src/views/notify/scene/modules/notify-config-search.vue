@@ -25,13 +25,13 @@ function search() {
 
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.groupName')" path="userName" class="pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.groupName')" path="groupName" class="pr-24px">
       <NSelect v-model:value="model.groupName" :placeholder="$t('page.notifyConfig.groupName')" clearable />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.notifyStatus')" path="userName" class="pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus" class="pr-24px">
       <NSelect v-model:value="model.notifyStatus" :placeholder="$t('page.notifyConfig.notifyStatus')" clearable />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.notifyScene')" path="userName" class="pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.notifyScene')" path="notifyScene" class="pr-24px">
       <NSelect v-model:value="model.notifyScene" :placeholder="$t('page.notifyConfig.notifyScene')" clearable />
     </NFormItemGi>
   </SearchForm>
