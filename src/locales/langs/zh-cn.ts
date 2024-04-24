@@ -736,6 +736,26 @@ const local: App.I18n.Schema = {
         random: '随机等待'
       }
     },
+    retryLog: {
+      title: 'RetryLog 列表',
+      UniqueId: 'UniqueId',
+      groupName: '组名称',
+      sceneName: '场景名称',
+      retryStatus: '重试状态',
+      taskType: '任务类型',
+      idempotentId: '幂等id',
+      bizNo: '业务编号',
+      createDt: '创建时间',
+      form: {
+        groupName: '请输入组名称',
+        idempotentId: '请输入幂等id',
+        sceneName: '请输入场景名称',
+        bizNo: '请输入业务编号',
+        UniqueId: '请输入UniqueId'
+      },
+      addRetryLog: '新增重试日志',
+      editRetryLog: '编辑重试日志'
+    },
     workflow: {
       title: '工作流列表',
       workflowName: '工作流名称',

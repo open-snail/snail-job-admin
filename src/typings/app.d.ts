@@ -903,6 +903,26 @@ declare namespace App {
             random: string;
           };
         };
+        retryLog: {
+          title: string;
+          UniqueId: string;
+          groupName: string;
+          sceneName: string;
+          retryStatus: string;
+          taskType: string;
+          idempotentId: string;
+          bizNo: string;
+          createDt: string;
+          form: {
+            groupName: string;
+            idempotentId: string;
+            sceneName: string;
+            bizNo: string;
+            UniqueId: string;
+          };
+          addRetryLog: string;
+          editRetryLog: string;
+        };
         workflow: {
           title: string;
           workflowName: string;

@@ -740,6 +740,26 @@ const local: App.I18n.Schema = {
         random: '随机等待'
       }
     },
+    retryLog: {
+      title: 'RetryLog List',
+      UniqueId: 'UniqueId',
+      groupName: 'Group name',
+      sceneName: 'Scene name',
+      retryStatus: 'Retry status',
+      taskType: 'Task type',
+      idempotentId: 'Idempotent ID',
+      bizNo: 'Business Number',
+      createDt: 'Creation time',
+      form: {
+        groupName: 'Please enter Group name',
+        idempotentId: 'Please enter Idempotent ID',
+        sceneName: 'Please enter Scene name',
+        bizNo: 'Please enter Business Number',
+        UniqueId: 'Please enter UniqueId'
+      },
+      addRetryLog: 'Add Retry log',
+      editRetryLog: 'Add Retry log'
+    },
     workflowBatch: {
       title: 'Workflow Batch List',
       workflowName: 'Workflow name',

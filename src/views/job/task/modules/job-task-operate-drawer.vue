@@ -3,6 +3,8 @@ import { computed, reactive, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
+import { translateOptions } from '@/utils/common';
+import { enableStatusNumberOptions } from '@/constants/business';
 // import { fetchAddJobTask, fetchEditJobTask } from '@/service/api';
 
 defineOptions({
@@ -67,7 +69,7 @@ function createDefaultModel(): Model {
     jobName: '',
     argsStr: '',
     argsType: '',
-    jobStatus: '',
+    jobStatus: 0,
     routeKey: '',
     executorType: '',
     triggerType: '',
@@ -171,7 +173,11 @@ watch(visible, () => {
         <NInput v-model:value="model.jobName" :placeholder="$t('page.jobTask.form.jobName')" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.jobStatus')" path="jobStatus">
-        <NInput v-model:value="model.jobStatus" :placeholder="$t('page.jobTask.form.jobStatus')" />
+        <NSelect
+          v-model:value="model.jobStatus"
+          :placeholder="$t('page.jobTask.form.jobStatus')"
+          :options="translateOptions(enableStatusNumberOptions)"
+        />
       </NFormItem>
     </NForm>
     <template #footer>

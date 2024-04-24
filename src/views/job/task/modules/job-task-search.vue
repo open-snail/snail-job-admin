@@ -33,7 +33,7 @@ function search() {
       <NInput v-model:value="model.jobName" :placeholder="$t('page.jobTask.form.jobName')" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobTask.jobStatus')" path="jobStatus" class="pr-24px">
-      <NInput v-model:value="model.jobStatus" :placeholder="$t('page.jobTask.form.jobStatus')" />
+      <!--      <NInput v-model:value="model.jobStatus" :placeholder="$t('page.jobTask.form.jobStatus')" />-->
     </NFormItemGi>
   </SearchForm>
 </template>

@@ -822,6 +822,7 @@ declare namespace Api {
    * backend api module: "jobTask"
    */
   namespace Job {
+    import EnableStatusNumber = Api.Common.EnableStatusNumber;
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
 
     /** Job */
@@ -839,7 +840,7 @@ declare namespace Api {
       /** 下次触发时间 */
       nextTriggerAt: string;
       /** 状态 */
-      jobStatus: string;
+      jobStatus: EnableStatusNumber;
       /** 路由策略 */
       routeKey: string;
       /** 执行器类型 */
@@ -916,19 +917,60 @@ declare namespace Api {
       /** 执行时间 */
       executionAt: string;
       /** 状态 */
-      taskBatchStatus: string;
+      taskBatchStatus: Common.TaskBatchStatus;
       /** 操作原因 */
-      operationReason: string;
+      operationReason: Common.OperationReason;
       /** 创建时间 */
       createDt: string;
     }>;
 
     /** workflowBatch search params */
     type WorkflowBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus'> & CommonSearchParams
+      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus' | 'operationReason'> &
+        CommonSearchParams
     >;
 
     /** workflowBatch list */
     type WorkflowBatchList = Common.PaginatingQueryRecord<WorkflowBatch>;
+  }
+
+  /**
+   * namespace RetryLog
+   *
+   * backend api module: "retryLog"
+   */
+  namespace RetryLog {
+    import RetryStatusType = Api.RetryTask.RetryStatusType;
+    import TaskType = Api.RetryTask.TaskType;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** retryLog */
+    type RetryLog = Common.CommonRecord<{
+      /** UniqueId */
+      UniqueId: string;
+      /** 组名称 */
+      groupName: string;
+      /** 场景名称 */
+      sceneName: string;
+      /** 重试状态 */
+      retryStatus: RetryStatusType;
+      /** 任务类型 */
+      taskType: TaskType;
+      /** 幂等id */
+      idempotentId: string;
+      /** 业务编号 */
+      bizNo: string;
+      /** 创建时间 */
+      createDt: string;
+    }>;
+
+    /** retryLog search params */
+    type RetryLogSearchParams = CommonType.RecordNullable<
+      Pick<Api.RetryLog.RetryLog, 'UniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo'> &
+        CommonSearchParams
+    >;
+
+    /** retryLog list */
+    type RetryLogList = Common.PaginatingQueryRecord<RetryLog>;
   }
 }

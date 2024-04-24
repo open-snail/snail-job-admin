@@ -43,3 +43,12 @@ export function fetchUpdateSceneStatus(id: number, status: number) {
     method: 'put'
   });
 }
+
+/** update retry log list */
+export function fetchRetryLogPageList(params?: Api.RetryLog.RetryLogSearchParams) {
+  return request<Api.RetryLog.RetryLogList>({
+    url: '/retry-task-log/list',
+    method: 'put',
+    params
+  });
+}
