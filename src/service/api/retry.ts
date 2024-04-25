@@ -48,7 +48,24 @@ export function fetchUpdateSceneStatus(id: number, status: number) {
 export function fetchRetryLogPageList(params?: Api.RetryLog.RetryLogSearchParams) {
   return request<Api.RetryLog.RetryLogList>({
     url: '/retry-task-log/list',
-    method: 'put',
+    method: 'get',
     params
+  });
+}
+
+/** delete retry log */
+export function fetchDeleteRetryLog(id: number) {
+  return request<boolean>({
+    url: `/retry-task-log/${id}`,
+    method: 'delete'
+  });
+}
+
+/** delete retry log */
+export function fetchBatchDeleteRetryLog(ids: number[]) {
+  return request<boolean>({
+    url: `/retry-task-log/ids`,
+    method: 'delete',
+    data: ids
   });
 }

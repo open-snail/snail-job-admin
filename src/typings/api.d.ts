@@ -965,7 +965,7 @@ declare namespace Api {
     /** retryLog */
     type RetryLog = Common.CommonRecord<{
       /** UniqueId */
-      UniqueId: string;
+      uniqueId: string;
       /** 组名称 */
       groupName: string;
       /** 场景名称 */
@@ -984,7 +984,7 @@ declare namespace Api {
 
     /** retryLog search params */
     type RetryLogSearchParams = CommonType.RecordNullable<
-      Pick<Api.RetryLog.RetryLog, 'UniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo'> &
+      Pick<Api.RetryLog.RetryLog, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo'> &
         CommonSearchParams
     >;
 

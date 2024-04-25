@@ -426,7 +426,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.retry_log',
         meta: {
           title: 'retry_log',
-          i18nKey: 'route.retry_log'
+          i18nKey: 'route.retry_log',
+          icon: 'tabler:logs'
         }
       },
       {

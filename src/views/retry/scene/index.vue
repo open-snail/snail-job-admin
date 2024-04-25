@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NSwitch, NTag } from 'naive-ui';
+import { NButton, NSwitch, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
 import { $t } from '@/locales';
@@ -131,39 +131,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
         </div>
       )
     }
   ]
 });
 
-const {
-  drawerVisible,
-  operateType,
-  editingData,
-  handleAdd,
-  handleEdit,
-  checkedRowKeys,
-  onDeleted
-  // closeDrawer
-} = useTableOperate(data, getData);
-
-function handleDelete(id: string) {
-  // request
-  console.log(id);
-
-  onDeleted();
-}
+const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys } = useTableOperate(
+  data,
+  getData
+);
 
 function edit(id: string) {
   handleEdit(id);

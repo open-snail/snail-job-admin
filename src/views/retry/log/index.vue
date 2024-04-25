@@ -1,9 +1,10 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
-import { fetchRetryLogPageList } from '@/service/api';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { fetchBatchDeleteRetryLog, fetchDeleteRetryLog, fetchRetryLogPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
 import RetryLogSearch from './modules/retry-log-search.vue';
 
 const appStore = useAppStore();
@@ -15,7 +16,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    UniqueId: null,
+    uniqueId: null,
     groupName: null,
     sceneName: null,
     idempotentId: null,
@@ -34,7 +35,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 64
     },
     {
-      key: 'UniqueId',
+      key: 'uniqueId',
       title: $t('page.retryLog.UniqueId'),
       align: 'left',
       minWidth: 120
@@ -55,13 +56,39 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'retryStatus',
       title: $t('page.retryLog.retryStatus'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.retryStatus === null) {
+          return null;
+        }
+        const tagMap: Record<Api.RetryTask.RetryStatusType, NaiveUI.ThemeColor> = {
+          0: 'info',
+          1: 'success',
+          2: 'error',
+          3: 'warning'
+        };
+        const label = $t(retryTaskStatusTypeRecord[row.retryStatus!]);
+
+        return <NTag type={tagMap[row.retryStatus!]}>{label}</NTag>;
+      }
     },
     {
       key: 'taskType',
       title: $t('page.retryLog.taskType'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.taskType === null) {
+          return null;
+        }
+        const tagMap: Record<Api.RetryTask.TaskType, NaiveUI.ThemeColor> = {
+          1: 'warning',
+          2: 'error'
+        };
+        const label = $t(retryTaskTypeRecord[row.taskType!]);
+
+        return <NTag type={tagMap[row.taskType!]}>{label}</NTag>;
+      }
     },
     {
       key: 'idempotentId',
@@ -89,45 +116,42 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
-            {$t('common.edit')}
+            {$t('common.detail')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
+          {row.retryStatus === 1 ? (
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
         </div>
       )
     }
   ]
 });
 
-const {
-  handleAdd,
-  handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
-  // closeDrawer
-} = useTableOperate(data, getData);
+const { handleAdd, handleEdit, checkedRowKeys } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await fetchBatchDeleteRetryLog(checkedRowKeys.value as any[]);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    getData();
+  }
 }
 
-function handleDelete(id: any) {
-  // request
-  console.log(id);
-
-  onDeleted();
+async function handleDelete(id: any) {
+  await fetchDeleteRetryLog(id);
+  window.$message?.success($t('common.deleteSuccess'));
+  getData();
 }
 
 function edit(id: any) {

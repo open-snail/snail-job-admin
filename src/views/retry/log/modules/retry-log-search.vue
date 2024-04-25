@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
+import SelectGroup from '@/components/common/select-group.vue';
+import SelectScene from '@/components/common/select-scene.vue';
 
 defineOptions({
   name: 'RetryLogSearch'
@@ -26,13 +28,13 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.groupName')" path="groupName" class="pr-24px">
-      <NInput v-model:value="model.groupName" :placeholder="$t('page.retryLog.form.groupName')" />
+      <SelectGroup v-model="model.groupName" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.sceneName')" path="sceneName" class="pr-24px">
-      <NInput v-model:value="model.sceneName" :placeholder="$t('page.retryLog.form.sceneName')" />
+      <SelectScene v-model:value="model.sceneName" :group-name="model.groupName as string" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.UniqueId')" path="UniqueId" class="pr-24px">
-      <NInput v-model:value="model.UniqueId" :placeholder="$t('page.retryLog.form.UniqueId')" />
+      <NInput v-model:value="model.uniqueId" :placeholder="$t('page.retryLog.form.UniqueId')" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.idempotentId')" path="idempotentId" class="pr-24px">
       <NInput v-model:value="model.idempotentId" :placeholder="$t('page.retryLog.form.idempotentId')" />
