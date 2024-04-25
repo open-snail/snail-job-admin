@@ -228,7 +228,7 @@ watch(
 .retry-table-number {
   padding: 3px 7px;
   background-color: #f4f4f4;
-  color: #d6d6d6;
+  color: #555;
   text-shadow: none !important;
   font-weight: 400;
   border-radius: 4px;
