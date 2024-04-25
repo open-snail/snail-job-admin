@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetJobPage, fetchUpdateJobStatus } from '@/service/api';
+import { fetchDeleteJob, fetchGetJobPage, fetchTriggerJob, fetchUpdateJobStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -11,7 +11,7 @@ import JobTaskSearch from './modules/job-task-search.vue';
 
 const appStore = useAppStore();
 
-const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
+const { columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobPage,
   apiParams: {
     page: 1,
@@ -21,11 +21,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     jobStatus: null
   },
   columns: () => [
-    {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
     {
       key: 'index',
       title: $t('common.index'),
@@ -65,11 +60,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           callback();
         };
 
-        return (
-          <>
-            <StatusSwitch v-model:value={row.jobStatus} onFetch={fetchFn} />
-          </>
-        );
+        return <StatusSwitch v-model:value={row.jobStatus} onFetch={fetchFn} />;
       }
     },
     {
@@ -167,6 +158,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               )
             }}
           </NPopconfirm>
+          <NPopconfirm onPositiveClick={() => handleTriggerJob(row.id!)}>
+            {{
+              default: () => $t('common.confirmExecute'),
+              trigger: () => (
+                <NButton type="error" ghost size="small">
+                  {$t('common.execute')}
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
         </div>
       )
     }
@@ -180,27 +181,27 @@ const {
   handleAdd,
   handleEdit,
   checkedRowKeys,
-  onBatchDeleted,
   onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
-async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
-}
-
-function handleDelete(id: string) {
-  // request
-  console.log(id);
-
+async function handleDelete(id: string) {
+  const { error } = await fetchDeleteJob(id);
+  if (error) return;
   onDeleted();
 }
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleTriggerJob(id: string) {
+  const { error } = await fetchTriggerJob(id);
+  if (error) {
+    window.$message?.success($t('common.executeSuccess'));
+  } else {
+    window.$message?.error($t('common.executeFailed'));
+  }
 }
 </script>
 
@@ -215,14 +216,7 @@ function edit(id: string) {
       header-class="view-card-header"
     >
       <template #header-extra>
-        <TableHeaderOperation
-          v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
-          :loading="loading"
-          @add="handleAdd"
-          @delete="handleBatchDelete"
-          @refresh="getData"
-        />
+        <TableHeaderOperation :loading="loading" :show-delete="false" @add="handleAdd" @refresh="getData" />
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

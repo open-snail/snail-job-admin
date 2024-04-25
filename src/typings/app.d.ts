@@ -296,6 +296,8 @@ declare namespace App {
         pause: string;
         finish: string;
         running: string;
+        executeSuccess: string;
+        executeFailed: string;
         confirmExecute: string;
         confirmResume: string;
         confirmPause: string;

@@ -27,11 +27,27 @@ export function fetchEditJob(data: Api.Job.Job) {
   });
 }
 
-/** edit Job */
+/** edit Job status */
 export function fetchUpdateJobStatus(data: Api.Job.JobUpdateJobStatusRequestVO) {
   return request<boolean>({
     url: '/job/status',
     method: 'put',
     data
+  });
+}
+
+/** delete Job by id */
+export function fetchDeleteJob(id: string) {
+  return request<boolean>({
+    url: `/job/${id}`,
+    method: 'delete'
+  });
+}
+
+/** trigger Job by id */
+export function fetchTriggerJob(jobId: string) {
+  return request<boolean>({
+    url: `/job/trigger/${jobId}`,
+    method: 'post'
   });
 }

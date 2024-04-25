@@ -50,6 +50,8 @@ const local: App.I18n.Schema = {
     pause: '暂停',
     finish: '完成',
     running: '运行中',
+    executeSuccess: '执行成功',
+    executeFailed: '执行失败',
     confirmExecute: '确认执行吗？',
     confirmResume: '确认恢复吗？',
     confirmPause: '确认暂停吗？',
