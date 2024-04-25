@@ -41,7 +41,7 @@ async function search() {
 <template>
   <NCard :title="title" :bordered="false" size="small" class="card-wrapper">
     <NForm ref="formRef" :model="model" label-placement="left" :label-width="80" :show-feedback="appStore.isMobile">
-      <NGrid responsive="screen" item-responsive>
+      <NGrid responsive="screen" item-responsive :y-gap="5">
         <slot></slot>
         <NFormItemGi :y-gap="8" span="24 m:12 m:6" class="pr-24px lg:p-t-0 md:p-t-16px">
           <NSpace class="min-w-172px w-full" justify="end">

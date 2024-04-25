@@ -53,10 +53,10 @@ onMounted(() => {
 
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.uniqueId')" path="uniqueId" class="py-1 pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.uniqueId')" path="uniqueId" class="pr-24px">
       <NInput v-model:value="model.uniqueId" :placeholder="$t('page.retryTask.form.uniqueId')" />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.groupName')" path="groupName" class="py-1 pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.groupName')" path="groupName" class="pr-24px">
       <NSelect
         v-model:value="model.groupName"
         :placeholder="$t('page.retryTask.form.groupName')"
@@ -66,7 +66,7 @@ onMounted(() => {
         @update:value="handleGroupNameUpdate"
       />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.sceneName')" path="sceneName" class="py-1 pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.sceneName')" path="sceneName" class="pr-24px">
       <NSelect
         v-model:value="model.sceneName"
         :placeholder="$t('page.retryTask.form.sceneName')"
@@ -74,13 +74,13 @@ onMounted(() => {
         clearable
       />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.idempotentId')" path="idempotentId" class="py-1 pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.idempotentId')" path="idempotentId" class="pr-24px">
       <NInput v-model:value="model.idempotentId" :placeholder="$t('page.retryTask.form.idempotentId')" />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.bizNo')" path="bizNo" class="py-1 pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.bizNo')" path="bizNo" class="pr-24px">
       <NInput v-model:value="model.bizNo" :placeholder="$t('page.retryTask.form.bizNo')" />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.retryStatus')" path="retryStatus" class="py-1 pr-24px">
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.retryStatus')" path="retryStatus" class="pr-24px">
       <NSelect
         v-model:value="model.retryStatus"
         :placeholder="$t('page.retryTask.form.retryStatus')"
