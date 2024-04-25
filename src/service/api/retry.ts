@@ -37,7 +37,7 @@ export function fetchEditRetryScene(data: Api.RetryScene.Scene) {
 }
 
 /** update retry scene status */
-export function fetchUpdateSceneStatus(id: number, status: number) {
+export function fetchUpdateSceneStatus(id: string, status: Api.Common.EnableStatusNumber) {
   return request<boolean>({
     url: `/scene-config/${id}/status/${status}`,
     method: 'put'

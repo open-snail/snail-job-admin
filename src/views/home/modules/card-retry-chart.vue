@@ -26,6 +26,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     containLabel: true
   },
   xAxis: {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error 忽略EChart
     axisLine: false,
     type: 'category',
@@ -36,6 +37,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
   },
   yAxis: {
     type: 'value',
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error 忽略EChart
     axisLine: false,
     scale: true,
@@ -62,8 +64,10 @@ const getData = async () => {
   }
 
   updateOptions(opts => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error 忽略EChart
     opts.xAxis.data = props.modelValue!.map(item => item.x);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error 忽略EChart
     opts.series[0].data = props.modelValue!.map(item => item.taskTotal);
     return opts;

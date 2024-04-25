@@ -89,6 +89,7 @@ interface CardData {
   bottom: { label: string; value: number }[];
 }
 
+// eslint-disable-next-line complexity
 const cardData = computed<CardData[]>(() => [
   {
     key: 'retryTask',
