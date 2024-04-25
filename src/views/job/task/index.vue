@@ -56,12 +56,13 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'center',
       minWidth: 120,
       render: row => {
-        const fetchFn = async (jobStatus: Api.Common.EnableStatusNumber) => {
+        const fetchFn = async (jobStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
           const { error } = await fetchUpdateJobStatus({ id: row.id!, jobStatus });
           if (!error) {
             row.jobStatus = jobStatus;
             window.$message?.success($t('common.updateSuccess'));
           }
+          callback();
         };
 
         return (

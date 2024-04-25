@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 interface Emits {
-  (e: 'fetch', value: Api.Common.EnableStatusNumber): void;
+  (e: 'fetch', value: Api.Common.EnableStatusNumber, callback: () => void): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -31,8 +31,9 @@ watch(
 
 const handleUpdateValue = (value: Api.Common.EnableStatusNumber) => {
   loading.value = true;
-  emit('fetch', value);
-  loading.value = false;
+  emit('fetch', value, () => {
+    loading.value = false;
+  });
 };
 </script>
 
@@ -40,6 +41,7 @@ const handleUpdateValue = (value: Api.Common.EnableStatusNumber) => {
   <NSwitch
     :value="active"
     :loading="loading"
+    :rubber-band="false"
     :checked-value="1"
     :unchecked-value="0"
     @update:value="handleUpdateValue"
