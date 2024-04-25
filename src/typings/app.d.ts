@@ -529,6 +529,7 @@ declare namespace App {
           retryTask: string;
           retryTaskTip: string;
           jobTask: string;
+          jobBatch: string;
           jobTaskTip: string;
           onlineServiceCount: string;
           onlineServiceTip: string;
@@ -1043,6 +1044,19 @@ declare namespace App {
             fixed: string;
             cron: string;
             workflow: string;
+          };
+        };
+        jobBatch: {
+          title: string;
+          groupName: string;
+          jobName: string;
+          executionAt: string;
+          taskBatchStatus: string;
+          operationReason: string;
+          form: {
+            groupName: string;
+            jobName: string;
+            taskBatchStatus: string;
           };
         };
       };

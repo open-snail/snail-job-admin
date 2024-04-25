@@ -268,6 +268,7 @@ const local: App.I18n.Schema = {
     workflow_batch: 'Workflow Batch',
     job: 'Schedule Task Management',
     job_task: 'Schedule Task List',
+    job_batch: 'Schedule Task Batch List',
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
@@ -367,6 +368,7 @@ const local: App.I18n.Schema = {
       retryTask: 'Retry Task',
       retryTaskTip: 'Total task volume: retry/callback task volume',
       jobTask: 'Job Task',
+      jobBatch: 'Job Batch',
       jobTaskTip: 'Success rate: total completion/total dispatch amount',
       onlineServiceCount: 'Online Machine',
       onlineServiceTip: 'Always online machines: the sum of clients and servers registered to the system',
@@ -881,6 +883,19 @@ const local: App.I18n.Schema = {
         fixed: '固定时间',
         cron: 'CRON表达式',
         workflow: '工作流'
+      }
+    },
+    jobBatch: {
+      title: 'Job Batch List',
+      groupName: 'Group name',
+      jobName: 'Job name',
+      executionAt: 'Start execution time',
+      taskBatchStatus: 'Task Batch Status',
+      operationReason: 'Reason for operation',
+      form: {
+        groupName: 'Please enter group name',
+        jobName: 'Please enter job name',
+        taskBatchStatus: 'Please enter state'
       }
     }
   },

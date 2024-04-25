@@ -269,6 +269,7 @@ const local: App.I18n.Schema = {
     workflow_batch: '执行批次',
     job: '定时任务',
     job_task: '任务管理',
+    job_batch: '执行批次',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
@@ -364,6 +365,7 @@ const local: App.I18n.Schema = {
       retryTask: '重试任务',
       retryTaskTip: '总任务量: 重试/回调任务量',
       jobTask: '定时任务',
+      jobBatch: '任务批次',
       jobTaskTip: '成功率:总完成/总调度量',
       onlineServiceCount: '总在线机器',
       onlineServiceTip: '总在线机器:注册到系统的客户端和服务端之和',
@@ -877,6 +879,19 @@ const local: App.I18n.Schema = {
         fixed: '固定时间',
         cron: 'CRON表达式',
         workflow: '工作流'
+      }
+    },
+    jobBatch: {
+      title: '任务批次列表',
+      groupName: '组名称',
+      jobName: '任务名称',
+      executionAt: '开始执行时间',
+      taskBatchStatus: '状态',
+      operationReason: '操作原因',
+      form: {
+        groupName: '请输入组名称',
+        jobName: '请输入任务名称',
+        taskBatchStatus: '请输入状态'
       }
     }
   },

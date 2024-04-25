@@ -10,3 +10,4 @@ export * from './retry-task';
 export * from './retry';
 export * from './workflow';
 export * from './job';
+export * from './job-batch';

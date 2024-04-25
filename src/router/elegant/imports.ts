@@ -31,6 +31,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   group: () => import("@/views/group/index.vue"),
   home: () => import("@/views/home/index.vue"),
   job_task: () => import("@/views/job/task/index.vue"),
+  job_batch: () => import("@/views/job/batch/index.vue"),
   manage_menu: () => import("@/views/manage/menu/index.vue"),
   manage_role: () => import("@/views/manage/role/index.vue"),
   "manage_user-detail": () => import("@/views/manage/user-detail/[id].vue"),

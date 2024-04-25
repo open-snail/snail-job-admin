@@ -917,6 +917,53 @@ declare namespace Api {
   }
 
   /**
+   * namespace JobBatch
+   *
+   * backend api module: "jobBatch"
+   */
+  namespace JobBatch {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** JobBatch */
+    type JobBatch = Common.CommonRecord<{
+      /** 组名称 */
+      groupName: string;
+      /** 任务名称 */
+      jobName: string;
+      /** 工作流节点名称 */
+      nodeName: string;
+      /** 任务信息id */
+      jobId: string;
+      /** 状态 */
+      taskBatchStatus: Common.TaskBatchStatus;
+      /** 开始执行时间 */
+      executionAt: string;
+      /** 操作原因 */
+      operationReason: Common.OperationReason;
+      /** 执行器类型 */
+      executorType: Common.ExecutorType;
+      /** 执行器名称 */
+      executorInfo: string;
+      /** 工作流的回调节点信息 */
+      callback: object;
+      /** 名称 */
+      decision: object;
+      /** 工作流批次id */
+      workflowTaskBatchId: string;
+      /** 工作流节点id */
+      workflowNodeId: string;
+    }>;
+
+    /** JobBatch search params */
+    type JobBatchSearchParams = CommonType.RecordNullable<
+      Pick<Api.JobBatch.JobBatch, 'groupName' | 'jobName' | 'taskBatchStatus'> & CommonSearchParams
+    >;
+
+    /** JobBatch list */
+    type JobBatchList = Common.PaginatingQueryRecord<JobBatch>;
+  }
+
+  /**
    * namespace WorkflowBatch
    *
    * backend api module: "workflowBatch"
