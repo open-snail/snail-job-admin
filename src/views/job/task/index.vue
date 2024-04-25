@@ -1,16 +1,16 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
-import { NButton, NPopconfirm, NSwitch, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchGetJobPage, fetchUpdateJobStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { blockStrategyRecord, taskTypeRecord, triggerTypeRecord } from '@/constants/business';
+import StatusSwitch from '@/components/common/status-switch.vue';
 import JobTaskOperateDrawer from './modules/job-task-operate-drawer.vue';
 import JobTaskSearch from './modules/job-task-search.vue';
 
 const appStore = useAppStore();
-const statusSwithLoading = ref(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobPage,
@@ -57,14 +57,29 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'center',
       minWidth: 120,
       render: row => {
+        const switchRef = ref<InstanceType<typeof StatusSwitch>>();
+
+        const handleUpdateValue = async (id: string, jobStatus: Api.Common.EnableStatusNumber) => {
+          switchRef.value?.setLoading(true);
+          try {
+            await fetchUpdateJobStatus({ id, jobStatus });
+            window.$message?.success($t('common.updateSuccess'));
+          } catch {
+            window.$message?.error($t('common.updateFailed'));
+          } finally {
+            switchRef.value?.setLoading(false);
+            await getData();
+          }
+        };
+
         return (
-          <NSwitch
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          /* @ts-expect-error */
+          <StatusSwitch
             v-model:value={row.jobStatus}
-            v-model:loading={statusSwithLoading.value}
-            checkedValue={1}
-            uncheckedValue={0}
-            onUpdateValue={() => handleUpdateValue(row)}
-          ></NSwitch>
+            ref={switchRef}
+            on-update:value={(status: Api.Common.EnableStatusNumber) => handleUpdateValue(row.id!, status)}
+          ></StatusSwitch>
         );
       }
     },
@@ -197,16 +212,6 @@ function handleDelete(id: string) {
 
 function edit(id: string) {
   handleEdit(id);
-}
-
-async function handleUpdateValue(job: Api.Job.Job) {
-  statusSwithLoading.value = true;
-  try {
-    await fetchUpdateJobStatus({ id: job.id!, jobStatus: job.jobStatus });
-  } finally {
-    await getData();
-    statusSwithLoading.value = false;
-  }
 }
 </script>
 
