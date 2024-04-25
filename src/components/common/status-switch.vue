@@ -1,39 +1,49 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 defineOptions({
   name: 'StatusSwitch'
 });
 
+interface Props {
+  value: Api.Common.EnableStatusNumber;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  value: 0
+});
+
 interface Emits {
-  (e: 'update:value', value: Api.Common.EnableStatusNumber): void;
+  (e: 'fetch', value: Api.Common.EnableStatusNumber): void;
 }
 
 const emit = defineEmits<Emits>();
 
-const value = defineModel<Api.Common.EnableStatusNumber>('value', {
-  required: true
-});
-
+const active = ref(props.value);
 const loading = ref(false);
 
-const setLoading = (val: boolean) => {
-  loading.value = val;
-};
+watch(
+  () => props.value,
+  value => {
+    active.value = value;
+  }
+);
 
-defineExpose({
-  setLoading
-});
+const handleUpdateValue = (value: Api.Common.EnableStatusNumber) => {
+  loading.value = true;
+  emit('fetch', value);
+  loading.value = false;
+};
 </script>
 
 <template>
   <NSwitch
-    v-model:value="value"
+    :value="active"
     :loading="loading"
     :checked-value="1"
     :unchecked-value="0"
-    @update:value="emit('update:value', value)"
-  ></NSwitch>
+    @update:value="handleUpdateValue"
+  />
 </template>
 
 <style scoped></style>

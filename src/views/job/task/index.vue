@@ -1,5 +1,4 @@
 <script setup lang="tsx">
-import { ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchGetJobPage, fetchUpdateJobStatus } from '@/service/api';
 import { $t } from '@/locales';
@@ -57,29 +56,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'center',
       minWidth: 120,
       render: row => {
-        const switchRef = ref<InstanceType<typeof StatusSwitch>>();
-
-        const handleUpdateValue = async (id: string, jobStatus: Api.Common.EnableStatusNumber) => {
-          switchRef.value?.setLoading(true);
-          try {
-            await fetchUpdateJobStatus({ id, jobStatus });
+        const fetchFn = async (jobStatus: Api.Common.EnableStatusNumber) => {
+          const { error } = await fetchUpdateJobStatus({ id: row.id!, jobStatus });
+          if (!error) {
+            row.jobStatus = jobStatus;
             window.$message?.success($t('common.updateSuccess'));
-          } catch {
-            window.$message?.error($t('common.updateFailed'));
-          } finally {
-            switchRef.value?.setLoading(false);
-            await getData();
           }
         };
 
         return (
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          /* @ts-expect-error */
-          <StatusSwitch
-            v-model:value={row.jobStatus}
-            ref={switchRef}
-            on-update:value={(status: Api.Common.EnableStatusNumber) => handleUpdateValue(row.id!, status)}
-          ></StatusSwitch>
+          <>
+            <StatusSwitch v-model:value={row.jobStatus} onFetch={fetchFn} />
+          </>
         );
       }
     },
