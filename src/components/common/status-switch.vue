@@ -6,7 +6,7 @@ defineOptions({
 });
 
 interface Props {
-  value: Api.Common.EnableStatusNumber;
+  value?: Api.Common.EnableStatusNumber;
 }
 
 const props = withDefaults(defineProps<Props>(), {

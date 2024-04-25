@@ -1,17 +1,15 @@
 <script setup lang="tsx">
-import { NButton, NSwitch, NTag } from 'naive-ui';
-import { ref } from 'vue';
+import { NButton, NTag } from 'naive-ui';
 import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { backOffRecord, routeKeyRecord } from '@/constants/business';
+import StatusSwitch from '@/components/common/status-switch.vue';
 import SceneOperateDrawer from './modules/scene-operate-drawer.vue';
 import SceneSearch from './modules/scene-search.vue';
 
 const appStore = useAppStore();
-/** 组状态 Switch 的 loading 状态 */
-const statusSwitchLoading = ref(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetRetryScenePageList,
@@ -48,15 +46,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'left',
       minWidth: 120,
       render: row => {
-        return (
-          <NSwitch
-            v-model:value={row.sceneStatus}
-            v-model:loading={statusSwitchLoading.value}
-            checkedValue={1}
-            uncheckedValue={0}
-            onUpdateValue={() => handleUpdateValue(row)}
-          ></NSwitch>
-        );
+        const fetchFn = async (sceneStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
+          const { error } = await fetchUpdateSceneStatus(row.id!, sceneStatus);
+          if (!error) {
+            row.sceneStatus = sceneStatus;
+            window.$message?.success($t('common.updateSuccess'));
+          }
+          callback();
+        };
+
+        return <StatusSwitch v-model:value={row.sceneStatus} onFetch={fetchFn} />;
       }
     },
     {
@@ -144,16 +143,6 @@ const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedR
 
 function edit(id: string) {
   handleEdit(id);
-}
-
-async function handleUpdateValue(scene: Api.RetryScene.Scene) {
-  statusSwitchLoading.value = true;
-  try {
-    await fetchUpdateSceneStatus(scene.id as any, scene.sceneStatus);
-  } finally {
-    await getData();
-    statusSwitchLoading.value = false;
-  }
 }
 </script>
 
