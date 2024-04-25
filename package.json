@@ -2,7 +2,7 @@
   "name": "snail-job",
   "type": "module",
   "version": "1.0.5",
-  "packageManager": "pnpm@8.15.5",
+  "packageManager": "pnpm@9.0.5",
   "description": "A flexible, reliable, and fast platform for distributed task retry and distributed task scheduling.",
   "license": "Apache",
   "homepage": "https://gitee.com/aizuda/snail-job",
@@ -24,6 +24,10 @@
     "ant-design-vue v4",
     "UnoCSS"
   ],
+  "engines": {
+    "node": ">= 18.19.0",
+    "pnpm": ">= 8.15.0"
+  },
   "scripts": {
     "build": "vite build --mode prod",
     "build:test": "vite build --mode test",
