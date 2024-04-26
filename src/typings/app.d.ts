@@ -390,6 +390,8 @@ declare namespace App {
             workflowDecisionFailed: string;
           };
         };
+        updateDt: string;
+        createDt: string;
       };
       request: {
         logout: string;
@@ -1100,6 +1102,10 @@ declare namespace App {
           };
           addUser: string;
           editUser: string;
+          roleItem: {
+            user: string;
+            admin: string;
+          };
         };
       };
       form: {

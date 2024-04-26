@@ -143,7 +143,9 @@ const local: App.I18n.Schema = {
         workflowNodeClosedSkipExecution: '节点关闭跳过执行',
         workflowDecisionFailed: '判定未通过'
       }
-    }
+    },
+    updateDt: '更新时间',
+    createDt: '创建时间'
   },
   request: {
     logout: '请求失败后登出用户',
@@ -926,7 +928,7 @@ const local: App.I18n.Schema = {
       title: '用户列表',
       username: '用户名',
       role: '角色',
-      permissions: '组',
+      permissions: '权限',
       checkPassword: '确认密码',
       password: '密码',
       form: {
@@ -937,8 +939,12 @@ const local: App.I18n.Schema = {
         permissions: '请选择组',
         namespaceIds: '请选择命名空间'
       },
-      addUser: '新增用户中心',
-      editUser: '编辑用户中心'
+      addUser: '新增用户',
+      editUser: '编辑用户',
+      roleItem: {
+        user: '普通用户',
+        admin: '管理员'
+      }
     }
   },
   form: {

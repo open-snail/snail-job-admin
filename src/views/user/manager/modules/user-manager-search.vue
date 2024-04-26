@@ -28,9 +28,6 @@ function search() {
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.userManager.username')" path="username" class="pr-24px">
       <NInput v-model:value="model.username" :placeholder="$t('page.userManager.form.username')" />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.userManager.role')" path="role" class="pr-24px">
-      <NInput v-model:value="model.role" :placeholder="$t('page.userManager.form.role')" />
-    </NFormItemGi>
   </SearchForm>
 </template>
 

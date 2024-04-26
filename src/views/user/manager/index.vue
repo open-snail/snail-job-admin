@@ -1,9 +1,10 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchGetUserPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { roleRecord } from '@/constants/business';
 import UserCenterOperateDrawer from './modules/user-manager-operate-drawer.vue';
 import UserCenterSearch from './modules/user-manager-search.vue';
 
@@ -21,17 +22,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   },
   columns: () => [
     {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
-    {
-      key: 'index',
-      title: $t('common.index'),
-      align: 'center',
-      width: 64
-    },
-    {
       key: 'username',
       title: $t('page.userManager.username'),
       align: 'left',
@@ -41,7 +31,40 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'role',
       title: $t('page.userManager.role'),
       align: 'left',
-      minWidth: 120
+      minWidth: 50,
+      render: row => {
+        if (row.role === null) {
+          return null;
+        }
+        const tagMap: Record<Api.UserManager.Role, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'warning'
+        };
+        const label = $t(roleRecord[row.role]);
+
+        return <NTag type={tagMap[row.role!]}>{label}</NTag>;
+      }
+    },
+    {
+      key: 'permissions',
+      title: $t('page.userManager.permissions'),
+      align: 'left',
+      type: 'expand',
+      minWidth: 200,
+      renderExpand: row => {
+        if (!row.permissions) {
+          return <NTag type="info">ALL</NTag>;
+        }
+        return (
+          <NTag type="warning">{row.permissions?.map(option => `${option.groupName}(${option.namespaceName})`)}</NTag>
+        );
+      }
+    },
+    {
+      key: 'updateDt',
+      title: $t('common.updateDt'),
+      align: 'left',
+      minWidth: 50
     },
     {
       key: 'operate',

@@ -4,6 +4,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddUser, fetchEditUser, fetchGetAllGroupConfigList } from '@/service/api';
+import { roleRecordOptions } from '@/constants/business';
 
 defineOptions({
   name: 'UserCenterOperateDrawer'
@@ -53,8 +54,8 @@ function createDefaultModel(): Model {
     username: '',
     password: '',
     checkPassword: '',
-    role: '',
-    permissions: []
+    role: 1,
+    permissions: [{ groupName: '', namespaceName: '', namespaceId: '' }]
   };
 }
 
@@ -102,48 +103,21 @@ async function handleSubmit() {
   emit('submitted');
 }
 
+const valueRef = ref<Array<string | number>>();
+
 const getAllGroupConfigList = async () => {
   const res = await fetchGetAllGroupConfigList([]);
   groupConfigs.value = res.data?.map(option => ({
     value: {
       groupName: option.groupName,
-      namespaceId: option.groupName
+      namespaceId: option.namespaceId
     },
-    label: () => {
-      return (
-        <div>
-          <span>{option.groupName}</span>
-          <br />
-          <span>{option.namespaceId}</span>
-        </div>
-      );
-    }
+    label: `${option.groupName}(${option.namespaceName})`
   }));
 };
 
 // 加载组列表数据
 getAllGroupConfigList();
-
-const valueRef = ref<Array<string | number>>([]);
-
-// const renderSourceList: TransferRenderSourceList = function ({ onCheck, pattern }) {
-//   return h(NCheckbox, {
-//     style: 'margin: 0 4px;',
-//     keyField: 'value',
-//     checkable: true,
-//     selectable: false,
-//     blockLine: true,
-//     checkOnClick: true,
-//     data: groupConfigs.value,
-//     pattern,
-//     checkedKeys: valueRef.value,
-//     onUpdateCheckedKeys: (checkedKeys: Array<string | number>) => {
-//       // console.log(checkedKeys)
-//       model.permissions = checkedKeys as string[];
-//       onCheck(checkedKeys);
-//     }
-//   });
-// };
 
 watch(visible, () => {
   if (visible.value) {
@@ -152,10 +126,13 @@ watch(visible, () => {
   }
 });
 
-watch(valueRef.value, () => {
-  // console.log(valueRef.value)
-  model.permissions = valueRef.value as string[];
-});
+watch(
+  () => valueRef.value,
+  () => {
+    console.log('valueRef', valueRef.value);
+    model.permissions = valueRef.value as any;
+  }
+);
 </script>
 
 <template>
@@ -171,17 +148,20 @@ watch(valueRef.value, () => {
         <NInput v-model:value="model.checkPassword" :placeholder="$t('page.userManager.form.checkPassword')" />
       </NFormItem>
       <NFormItem :label="$t('page.userManager.role')" path="role">
-        <NInput v-model:value="model.role" :placeholder="$t('page.userManager.form.role')" />
+        <NRadioGroup v-model:value="model.role" name="role">
+          <NSpace>
+            <NRadio v-for="item in roleRecordOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
+          </NSpace>
+        </NRadioGroup>
       </NFormItem>
       <NFormItem :label="$t('page.userManager.permissions')" path="permissions">
-        <!--        <NTransfer-->
-        <!--          v-model:value="model.permissions"-->
-        <!--          :render-source-list="renderSourceList"-->
-        <!--          virtual-scroll-->
-        <!--          :options="groupConfigs"-->
-        <!--          target-filterable-->
-        <!--          source-filterable-->
-        <!--        />-->
+        <NTransfer
+          v-model:value="valueRef"
+          virtual-scroll
+          :options="groupConfigs"
+          target-filterable
+          source-filterable
+        />
       </NFormItem>
     </NForm>
     <template #footer>

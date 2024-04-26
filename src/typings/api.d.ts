@@ -349,6 +349,8 @@ declare namespace Api {
     type GroupConfig = Common.CommonRecord<{
       /** 命名空间id */
       namespaceId?: string;
+      /** 命名空间名称 */
+      namespaceName?: string;
       /** 组名 */
       groupName: string;
       /** 组描述 */
@@ -1093,23 +1095,27 @@ declare namespace Api {
       /** 确认密码 */
       checkPassword: string;
       /** 角色 */
-      role: string;
-      /** 命名空间 */
-      namespaceIds?: string;
+      role: Role;
       /** 组 */
-      permissions: string[];
+      permissions: Permission[];
+    }>;
+
+    type Permission = Common.CommonRecord<{
+      groupName: string;
+      namespaceId: string;
+      namespaceName: string;
     }>;
 
     /** userManager search params */
     type UserManagerSearchParams = CommonType.RecordNullable<
-      Pick<
-        Api.UserManager.UserManager,
-        'username' | 'password' | 'checkPassword' | 'role' | 'namespaceIds' | 'permissions'
-      > &
+      Pick<Api.UserManager.UserManager, 'username' | 'password' | 'checkPassword' | 'role' | 'permissions'> &
         CommonSearchParams
     >;
 
     /** userCenter list */
     type UserManagerList = Common.PaginatingQueryRecord<UserManager>;
+
+    /** 1、user 2、admin */
+    type Role = 1 | 2;
   }
 }

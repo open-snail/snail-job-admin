@@ -143,7 +143,9 @@ const local: App.I18n.Schema = {
         workflowNodeClosedSkipExecution: 'Node closed, skip execution',
         workflowDecisionFailed: 'Workflow decision failed'
       }
-    }
+    },
+    updateDt: 'updated time',
+    createDt: 'created time'
   },
   request: {
     logout: 'Logout user after request failed',
@@ -930,7 +932,7 @@ const local: App.I18n.Schema = {
       title: 'UserCenter List',
       username: 'Username',
       role: 'Role',
-      permissions: 'group',
+      permissions: 'Permission',
       checkPassword: 'Confirm Password',
       password: 'Password',
       form: {
@@ -941,8 +943,12 @@ const local: App.I18n.Schema = {
         permissions: 'Please select Group',
         namespaceIds: 'Please select Namespaces'
       },
-      addUser: 'Add User Center',
-      editUser: 'Add User Center'
+      addUser: 'Add User',
+      editUser: 'Add User',
+      roleItem: {
+        user: 'User',
+        admin: 'Admin'
+      }
     }
   },
   form: {

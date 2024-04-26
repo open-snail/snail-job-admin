@@ -212,3 +212,9 @@ export const operationReasonRecord: Record<Api.Common.OperationReason, App.I18n.
   14: 'common.jobOperationReason.items.workflowDecisionFailed'
 };
 export const operationReasonOptions = transformRecordToNumberOption(operationReasonRecord);
+
+export const roleRecord: Record<Api.UserManager.Role, App.I18n.I18nKey> = {
+  1: 'page.userManager.roleItem.user',
+  2: 'page.userManager.roleItem.admin'
+};
+export const roleRecordOptions = transformRecordToNumberOption(roleRecord);
