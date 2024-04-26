@@ -641,6 +641,7 @@ declare namespace App {
           };
           addGroupConfig: string;
           editGroupConfig: string;
+          generateToken: string;
         };
         function: {
           tab: {

@@ -482,7 +482,8 @@ const local: App.I18n.Schema = {
         segment: 'Segment'
       },
       addGroupConfig: 'Add Group Config',
-      editGroupConfig: 'Edit Group Config'
+      editGroupConfig: 'Edit Group Config',
+      generateToken: 'Generate Randomly'
     },
     function: {
       tab: {

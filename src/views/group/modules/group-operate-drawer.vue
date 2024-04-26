@@ -187,9 +187,14 @@ watch(visible, () => {
             :placeholder="$t('page.groupConfig.form.token')"
             :disabled="props.operateType === 'edit'"
           />
-          <NButton type="primary" ghost :disabled="props.operateType === 'edit'" @click="setToken">
-            <icon-ic-round-refresh class="text-icon" />
-          </NButton>
+          <NTooltip trigger="hover">
+            <template #trigger>
+              <NButton type="default" ghost :disabled="props.operateType === 'edit'" @click="setToken">
+                <icon-ic-round-refresh class="text-icon" />
+              </NButton>
+            </template>
+            {{ $t('page.groupConfig.generateToken') }}
+          </NTooltip>
         </NInputGroup>
       </NFormItem>
       <NFormItem :label="$t('page.groupConfig.description')" path="description">

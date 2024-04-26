@@ -192,9 +192,14 @@ onMounted(() => {
             :placeholder="$t('page.retryTask.form.idempotentId')"
             :disabled="props.operateType === 'edit'"
           />
-          <NButton type="primary" ghost :disabled="props.operateType === 'edit'" @click="setIdempotentId">
+          <NTooltip trigger="hover">
+            <template #trigger>
+              <NButton type="default" ghost :disabled="props.operateType === 'edit'" @click="setIdempotentId">
+                <icon-material-symbols:cloud-sync-outline class="text-icon" />
+              </NButton>
+            </template>
             {{ $t('page.retryTask.generateIdempotentId') }}
-          </NButton>
+          </NTooltip>
         </NInputGroup>
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.bizNo')" path="bizNo">

@@ -478,7 +478,8 @@ const local: App.I18n.Schema = {
         segment: '号段模式'
       },
       addGroupConfig: '新增组管理',
-      editGroupConfig: '编辑组管理'
+      editGroupConfig: '编辑组管理',
+      generateToken: '随机生成'
     },
     function: {
       tab: {
