@@ -264,6 +264,7 @@ declare namespace App {
         confirm: string;
         save: string;
         delete: string;
+        rollback: string;
         deleteSuccess: string;
         confirmDelete: string;
         edit: string;
@@ -527,6 +528,7 @@ declare namespace App {
           jobTaskCount: string;
           userCount: string;
           retryTask: string;
+          retryDeadLetter: string;
           retryTaskTip: string;
           jobTask: string;
           jobBatch: string;
@@ -864,6 +866,26 @@ declare namespace App {
           email: string;
           weCom: string;
           lark: string;
+        };
+        retryDeadLetter: {
+          title: string;
+          uniqueId: string;
+          groupName: string;
+          sceneName: string;
+          idempotentId: string;
+          bizNo: string;
+          taskType: string;
+          createDt: string;
+          form: {
+            title: string;
+            uniqueId: string;
+            groupName: string;
+            sceneName: string;
+            idempotentId: string;
+            bizNo: string;
+            taskType: string;
+            createDt: string;
+          };
         };
         retryTask: {
           title: string;
