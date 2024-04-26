@@ -188,6 +188,8 @@ const routeMap: RouteMap = {
   "retry_log": "/retry/log",
   "retry_scene": "/retry/scene",
   "retry_task": "/retry/task",
+  "user": "/user",
+  "user_manager": "/user/manager",
   "user-center": "/user-center",
   "workflow": "/workflow",
   "workflow_batch": "/workflow/batch",

@@ -1076,4 +1076,40 @@ declare namespace Api {
     /** retryLog list */
     type RetryLogList = Common.PaginatingQueryRecord<RetryLog>;
   }
+  /**
+   * namespace UserManager
+   *
+   * backend api module: "UserManager"
+   */
+  namespace UserManager {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    /** userCenter */
+    type UserManager = Common.CommonRecord<{
+      /** 用户名 */
+      username: string;
+      /** 密码 */
+      password: string;
+      /** 确认密码 */
+      checkPassword: string;
+      /** 角色 */
+      role: string;
+      /** 命名空间 */
+      namespaceIds?: string;
+      /** 组 */
+      permissions: string[];
+    }>;
+
+    /** userManager search params */
+    type UserManagerSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.UserManager.UserManager,
+        'username' | 'password' | 'checkPassword' | 'role' | 'namespaceIds' | 'permissions'
+      > &
+        CommonSearchParams
+    >;
+
+    /** userCenter list */
+    type UserManagerList = Common.PaginatingQueryRecord<UserManager>;
+  }
 }

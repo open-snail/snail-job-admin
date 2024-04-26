@@ -472,6 +472,28 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'user',
+    path: '/user',
+    component: 'layout.base',
+    meta: {
+      title: 'user',
+      i18nKey: 'route.user'
+    },
+    children: [
+      {
+        name: 'user_manager',
+        path: '/user/manager',
+        component: 'view.user_manager',
+        meta: {
+          title: 'user_manager',
+          i18nKey: 'route.user_manager',
+          icon: 'streamline:interface-user-multiple-close-geometric-human-multiple-person-up-user',
+          order: 900
+        }
+      }
+    ]
+  },
+  {
     name: 'user-center',
     path: '/user-center',
     component: 'layout.base$view.user-center',

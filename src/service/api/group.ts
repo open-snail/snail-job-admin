@@ -50,3 +50,12 @@ export function fetchGetPartitionTableList() {
     method: 'get'
   });
 }
+
+/** get all group config list */
+export function fetchGetAllGroupConfigList(data: string[]) {
+  return request<Api.GroupConfig.GroupConfig[]>({
+    url: '/group/all/group-config/list',
+    method: 'post',
+    data
+  });
+}

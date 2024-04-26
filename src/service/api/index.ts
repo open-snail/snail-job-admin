@@ -12,3 +12,4 @@ export * from './retry-dead-letter';
 export * from './workflow';
 export * from './job';
 export * from './job-batch';
+export * from './user';

@@ -265,6 +265,9 @@ const local: App.I18n.Schema = {
     retry_scene: 'Retry scene',
     retry_log: 'Retry Log',
     'retry_dead-letter': 'Retry Dead Letter',
+    user: 'User',
+    user_manager: 'User Info',
+    retry_log: 'Retry log',
     workflow: 'Workflow',
     workflow_task: 'Workflow Task',
     workflow_batch: 'Workflow Batch',
@@ -920,6 +923,24 @@ const local: App.I18n.Schema = {
         jobName: 'Please enter job name',
         taskBatchStatus: 'Please enter state'
       }
+    },
+    userManager: {
+      title: 'UserCenter List',
+      username: 'Username',
+      role: 'Role',
+      permissions: 'group',
+      checkPassword: 'Confirm Password',
+      password: 'Password',
+      form: {
+        role: 'Please enter Role',
+        password: 'Please enter Password',
+        username: 'Please enter Username',
+        checkPassword: 'Please enter Confirm Password',
+        permissions: 'Please select Group',
+        namespaceIds: 'Please select Namespaces'
+      },
+      addUser: 'Add User Center',
+      editUser: 'Add User Center'
     }
   },
   form: {

@@ -264,6 +264,8 @@ const local: App.I18n.Schema = {
     retry: '重试任务',
     retry_task: '重试任务',
     'retry_dead-letter': '死信任务',
+    user: '用户管理',
+    user_manager: '用户信息',
     retry_scene: '重试场景',
     retry_log: '重试日志',
     workflow: '工作流',
@@ -916,6 +918,24 @@ const local: App.I18n.Schema = {
         jobName: '请输入任务名称',
         taskBatchStatus: '请输入状态'
       }
+    },
+    userManager: {
+      title: '用户列表',
+      username: '用户名',
+      role: '角色',
+      permissions: '组',
+      checkPassword: '确认密码',
+      password: '密码',
+      form: {
+        role: '请输入角色',
+        password: '请输入密码',
+        username: '请输入用户名',
+        checkPassword: '请输入确认密码',
+        permissions: '请选择组',
+        namespaceIds: '请选择命名空间'
+      },
+      addUser: '新增用户中心',
+      editUser: '编辑用户中心'
     }
   },
   form: {

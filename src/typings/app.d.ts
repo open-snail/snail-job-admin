@@ -1081,6 +1081,24 @@ declare namespace App {
             taskBatchStatus: string;
           };
         };
+        userManager: {
+          title: string;
+          username: string;
+          role: string;
+          checkPassword: string;
+          password: string;
+          permissions: string;
+          form: {
+            role: string;
+            password: string;
+            username: string;
+            checkPassword: string;
+            permissions: string;
+            namespaceIds: string;
+          };
+          addUser: string;
+          editUser: string;
+        };
       };
       form: {
         required: string;
