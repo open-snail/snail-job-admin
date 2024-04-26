@@ -471,7 +471,9 @@ const local: App.I18n.Schema = {
         description: '描述',
         idGeneratorMode: 'ID生成模式',
         groupPartition: '分区',
-        initScene: '初始化场景'
+        initScene: '初始化场景',
+        collapseCommon: '通用配置',
+        collapseRetry: '重试配置'
       },
       idMode: {
         idWorker: '雪花算法',

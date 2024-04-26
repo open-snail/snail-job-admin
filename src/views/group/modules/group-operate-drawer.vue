@@ -158,83 +158,88 @@ watch(visible, () => {
 <template>
   <OperateDrawer v-model="visible" :title="title" @submitted="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
-      <NFormItem :label="$t('page.groupConfig.groupName')" path="groupName">
-        <NInput
-          v-model:value="model.groupName"
-          :maxlength="64"
-          show-count
-          :placeholder="$t('page.groupConfig.form.groupName')"
-          :disabled="props.operateType === 'edit'"
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.groupConfig.groupStatus')" path="groupStatus">
-        <NRadioGroup v-model:value="model.groupStatus" name="groupStatus">
-          <NSpace>
-            <NRadio
-              v-for="item in groupConfigStatusOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
+      <NCollapse :default-expanded-names="['1', '2']">
+        <NCollapseItem title="通用配置" name="1">
+          <NFormItem :label="$t('page.groupConfig.groupName')" path="groupName">
+            <NInput
+              v-model:value="model.groupName"
+              :maxlength="64"
+              show-count
+              :placeholder="$t('page.groupConfig.form.groupName')"
+              :disabled="props.operateType === 'edit'"
             />
-          </NSpace>
-        </NRadioGroup>
-      </NFormItem>
-      <NFormItem :label="$t('page.groupConfig.token')" path="token">
-        <NInputGroup>
-          <NInput
-            v-model:value="model.token"
-            :maxlength="64"
-            :placeholder="$t('page.groupConfig.form.token')"
-            :disabled="props.operateType === 'edit'"
-          />
-          <NTooltip trigger="hover">
-            <template #trigger>
-              <NButton type="default" ghost :disabled="props.operateType === 'edit'" @click="setToken">
-                <icon-ic-round-refresh class="text-icon" />
-              </NButton>
-            </template>
-            {{ $t('page.groupConfig.generateToken') }}
-          </NTooltip>
-        </NInputGroup>
-      </NFormItem>
-      <NFormItem :label="$t('page.groupConfig.description')" path="description">
-        <NInput
-          v-model:value="model.description"
-          type="textarea"
-          :maxlength="256"
-          show-count
-          :placeholder="$t('page.groupConfig.form.description')"
-          clearable
-          round
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.groupConfig.idGeneratorMode')" path="idGeneratorMode">
-        <NSelect
-          v-model:value="model.idGeneratorMode"
-          :placeholder="$t('page.groupConfig.form.idGeneratorMode')"
-          :options="translateOptions(groupConfigIdModeOptions)"
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.groupConfig.initScene')" path="initScene">
-        <NRadioGroup v-model:value="model.initScene" name="initScene">
-          <NSpace>
-            <NRadio
-              v-for="item in groupConfigYesOrNoOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
+          </NFormItem>
+          <NFormItem :label="$t('page.groupConfig.groupStatus')" path="groupStatus">
+            <NRadioGroup v-model:value="model.groupStatus" name="groupStatus">
+              <NSpace>
+                <NRadio
+                  v-for="item in groupConfigStatusOptions"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="$t(item.label)"
+                />
+              </NSpace>
+            </NRadioGroup>
+          </NFormItem>
+          <NFormItem :label="$t('page.groupConfig.token')" path="token">
+            <NInputGroup>
+              <NInput
+                v-model:value="model.token"
+                :maxlength="64"
+                :placeholder="$t('page.groupConfig.form.token')"
+                :disabled="props.operateType === 'edit'"
+              />
+              <NTooltip trigger="hover">
+                <template #trigger>
+                  <NButton type="default" ghost :disabled="props.operateType === 'edit'" @click="setToken">
+                    <icon-ic-round-refresh class="text-icon" />
+                  </NButton>
+                </template>
+                {{ $t('page.groupConfig.generateToken') }}
+              </NTooltip>
+            </NInputGroup>
+          </NFormItem>
+          <NFormItem :label="$t('page.groupConfig.description')" path="description">
+            <NInput
+              v-model:value="model.description"
+              type="textarea"
+              :maxlength="256"
+              show-count
+              :placeholder="$t('page.groupConfig.form.description')"
+              clearable
+              round
             />
-          </NSpace>
-        </NRadioGroup>
-      </NFormItem>
-
-      <NFormItem :label="$t('page.groupConfig.groupPartition')" path="groupPartition">
-        <NSelect
-          v-model:value="model.groupPartition"
-          :placeholder="$t('page.groupConfig.form.groupPartition')"
-          :options="translateOptions2(partitionList)"
-        />
-      </NFormItem>
+          </NFormItem>
+        </NCollapseItem>
+        <NCollapseItem title="重试配置" name="2">
+          <NFormItem :label="$t('page.groupConfig.idGeneratorMode')" path="idGeneratorMode">
+            <NSelect
+              v-model:value="model.idGeneratorMode"
+              :placeholder="$t('page.groupConfig.form.idGeneratorMode')"
+              :options="translateOptions(groupConfigIdModeOptions)"
+            />
+          </NFormItem>
+          <NFormItem :label="$t('page.groupConfig.initScene')" path="initScene">
+            <NRadioGroup v-model:value="model.initScene" name="initScene">
+              <NSpace>
+                <NRadio
+                  v-for="item in groupConfigYesOrNoOptions"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="$t(item.label)"
+                />
+              </NSpace>
+            </NRadioGroup>
+          </NFormItem>
+          <NFormItem :label="$t('page.groupConfig.groupPartition')" path="groupPartition">
+            <NSelect
+              v-model:value="model.groupPartition"
+              :placeholder="$t('page.groupConfig.form.groupPartition')"
+              :options="translateOptions2(partitionList)"
+            />
+          </NFormItem>
+        </NCollapseItem>
+      </NCollapse>
     </NForm>
     <template #footer>
       <NSpace :size="16">

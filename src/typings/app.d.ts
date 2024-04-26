@@ -633,7 +633,8 @@ declare namespace App {
             groupPartition: string;
             idGeneratorMode: string;
             initScene: string;
-            // bucketIndex: string;
+            collapseCommon: string;
+            collapseRetry: string;
           };
           idMode: {
             idWorker: string;

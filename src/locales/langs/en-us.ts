@@ -475,7 +475,9 @@ const local: App.I18n.Schema = {
         description: 'Please enter description',
         idGeneratorMode: 'Please select ID generator mode',
         groupPartition: 'Please select Group partition',
-        initScene: 'Initialized scene'
+        initScene: 'Initialized scene',
+        collapseCommon: 'Common config',
+        collapseRetry: 'Retry config'
       },
       idMode: {
         idWorker: 'Id Workder',
