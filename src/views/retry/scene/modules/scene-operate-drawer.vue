@@ -240,18 +240,6 @@ watch(
           :placeholder="$t('page.retryScene.form.sceneName')"
         />
       </NFormItem>
-      <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
-        <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
-          <NSpace>
-            <NRadio
-              v-for="item in enableStatusNumberOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
-            />
-          </NSpace>
-        </NRadioGroup>
-      </NFormItem>
       <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
         <NSelect
           v-model:value="model.groupName"
@@ -263,25 +251,6 @@ watch(
       </NFormItem>
       <NFormItem :label="$t('common.routeKey.routeLabel')" path="routeKey">
         <RouteKey v-model:value="model.routeKey" />
-      </NFormItem>
-      <NFormItem :label="$t('page.retryScene.backOff')" path="backOff">
-        <NSelect
-          v-model:value="model.backOff"
-          :placeholder="$t('page.retryScene.form.backOff')"
-          :options="translateOptions(backOffRecordOptions)"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.retryScene.triggerInterval')" path="triggerInterval">
-        <CronInput v-if="model.backOff === 3" v-model:value="model.triggerInterval as any" :lang="app.locale" />
-        <NInputNumber
-          v-else-if="model.backOff === 2 || model.backOff === 4"
-          v-model:value="model.triggerInterval as any"
-          :placeholder="$t('page.retryScene.form.triggerInterval')"
-          clearable
-        />
-
-        <NInput v-else v-model:value="delayLevelDesc" disabled />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.maxRetryCount')" path="maxRetryCount">
         <NInputNumber
@@ -309,6 +278,49 @@ watch(
           :placeholder="$t('page.retryScene.form.deadlineRequest')"
           clearable
         />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.backOff')" path="backOff">
+        <NSelect
+          v-model:value="model.backOff"
+          :placeholder="$t('page.retryScene.form.backOff')"
+          :options="translateOptions(backOffRecordOptions)"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem path="triggerInterval">
+        <CronInput v-if="model.backOff === 3" v-model:value="model.triggerInterval as any" :lang="app.locale" />
+        <NInputNumber
+          v-else-if="model.backOff === 2 || model.backOff === 4"
+          v-model:value="model.triggerInterval as any"
+          :placeholder="$t('page.retryScene.form.triggerInterval')"
+          clearable
+        />
+        <NInput v-else v-model:value="delayLevelDesc" type="textarea" :autosize="{ minRows: 1, maxRows: 3 }" readonly />
+        <template #label>
+          <div class="flex-center">
+            {{ $t('page.retryScene.triggerInterval') }}
+            <NTooltip v-if="model.backOff === 1" trigger="hover">
+              <template #trigger>
+                <NButton text class="ml-6px">
+                  <SvgIcon icon="ant-design:info-circle-outlined" class="mb-1px text-16px" />
+                </NButton>
+              </template>
+              xxxxxxxxx
+            </NTooltip>
+          </div>
+        </template>
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
+        <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
+          <NSpace>
+            <NRadio
+              v-for="item in enableStatusNumberOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
+            />
+          </NSpace>
+        </NRadioGroup>
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.description')" path="description">
         <NInput

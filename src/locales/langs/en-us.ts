@@ -267,7 +267,6 @@ const local: App.I18n.Schema = {
     'retry_dead-letter': 'Retry Dead Letter',
     user: 'User',
     user_manager: 'User Info',
-    retry_log: 'Retry log',
     workflow: 'Workflow',
     workflow_task: 'Workflow Task',
     workflow_batch: 'Workflow Batch',
