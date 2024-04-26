@@ -203,16 +203,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
-        name: 'job_task',
-        path: '/job/task',
-        component: 'view.job_task',
-        meta: {
-          title: 'job_task',
-          i18nKey: 'route.job_task',
-          icon: 'octicon:tasklist'
-        }
-      },
-      {
         name: 'job_batch',
         path: '/job/batch',
         component: 'view.job_batch',
@@ -220,6 +210,16 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'job_batch',
           i18nKey: 'route.job_batch',
           icon: 'carbon:batch-job'
+        }
+      },
+      {
+        name: 'job_task',
+        path: '/job/task',
+        component: 'view.job_task',
+        meta: {
+          title: 'job_task',
+          i18nKey: 'route.job_task',
+          icon: 'octicon:tasklist'
         }
       }
     ]
