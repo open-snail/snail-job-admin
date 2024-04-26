@@ -184,6 +184,7 @@ const routeMap: RouteMap = {
   "notify_scene": "/notify/scene",
   "pods": "/pods",
   "retry": "/retry",
+  "retry_dead-letter": "/retry/dead-letter",
   "retry_log": "/retry/log",
   "retry_scene": "/retry/scene",
   "retry_task": "/retry/task",

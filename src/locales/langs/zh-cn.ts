@@ -18,6 +18,7 @@ const local: App.I18n.Schema = {
     confirm: '确认',
     save: '保存',
     delete: '删除',
+    rollback: '回滚',
     deleteSuccess: '删除成功',
     confirmDelete: '确认删除吗？',
     edit: '编辑',
@@ -262,6 +263,7 @@ const local: App.I18n.Schema = {
     notify_scene: '通知场景',
     retry: '重试任务',
     retry_task: '重试任务',
+    'retry_dead-letter': '死信任务',
     retry_scene: '重试场景',
     retry_log: '重试日志',
     workflow: '工作流',
@@ -363,6 +365,7 @@ const local: App.I18n.Schema = {
       jobTaskCount: '定时任务',
       userCount: '用户',
       retryTask: '重试任务',
+      retryDeadLetter: '死信任务',
       retryTaskTip: '总任务量: 重试/回调任务量',
       jobTask: '定时任务',
       jobBatch: '任务批次',
@@ -699,6 +702,26 @@ const local: App.I18n.Schema = {
       email: '邮箱',
       weCom: '企业微信',
       lark: '飞书'
+    },
+    retryDeadLetter: {
+      title: '死信任务列表',
+      uniqueId: 'UniqueId',
+      groupName: '组名',
+      sceneName: '场景名称',
+      idempotentId: '幂等ID',
+      bizNo: '业务编号',
+      taskType: '任务类型',
+      createDt: '创建时间',
+      form: {
+        title: '请输入死信任务列表',
+        uniqueId: '请输入UniqueId',
+        groupName: '请输入组名',
+        sceneName: '请输入场景名称',
+        idempotentId: '请输入幂等ID',
+        bizNo: '请输入业务编号',
+        taskType: '请输入任务类型',
+        createDt: '请输入创建时间'
+      }
     },
     retryTask: {
       title: '重试任务列表',

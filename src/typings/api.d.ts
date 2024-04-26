@@ -645,6 +645,44 @@ declare namespace Api {
     type AlarmType = 1 | 2 | 3 | 4;
   }
 
+  namespace RetryDeadLetter {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
+
+    type TaskType = 1 | 2;
+
+    /** deadLetter */
+    type DeadLetter = Common.CommonRecord<{
+      /** id */
+      id?: string;
+      /** UniqueId */
+      uniqueId?: string;
+      /** 组名称 */
+      groupName?: string;
+      /** 场景名称 * */
+      sceneName?: string;
+      /** 幂等ID */
+      idempotentId?: string;
+      /** 业务编号 * */
+      bizNo?: string;
+      /** 任务类型 * */
+      taskType?: TaskType;
+      /** 创建时间 * */
+      createDt?: string;
+    }>;
+
+    /** deadLetter search params */
+    type RetryDeadLetterSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.RetryDeadLetter.DeadLetter,
+        'id' | 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'taskType' | 'createDt'
+      > &
+        CommonSearchParams
+    >;
+
+    /** DeadLetter list */
+    type RetryDeadLetterList = Common.PaginatingQueryRecord<DeadLetter>;
+  }
+
   /**
    * namespace RetryTask
    *

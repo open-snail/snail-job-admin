@@ -431,6 +431,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'retry_dead-letter',
+        path: '/retry/dead-letter',
+        component: 'view.retry_dead-letter',
+        meta: {
+          title: 'retry_dead-letter',
+          i18nKey: 'route.retry_dead-letter'
+        }
+      },
+      {
         name: 'retry_log',
         path: '/retry/log',
         component: 'view.retry_log',

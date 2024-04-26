@@ -18,6 +18,7 @@ const local: App.I18n.Schema = {
     confirm: 'Confirm',
     save: 'Save',
     delete: 'Delete',
+    rollback: 'RollBACK',
     deleteSuccess: 'Delete Success',
     confirmDelete: 'Are you sure you want to delete?',
     edit: 'Edit',
@@ -262,7 +263,8 @@ const local: App.I18n.Schema = {
     retry: 'Retry task',
     retry_task: 'Retry task',
     retry_scene: 'Retry scene',
-    retry_log: 'Retry log',
+    retry_log: 'Retry Log',
+    'retry_dead-letter': 'Retry Dead Letter',
     workflow: 'Workflow',
     workflow_task: 'Workflow Task',
     workflow_batch: 'Workflow Batch',
@@ -366,6 +368,7 @@ const local: App.I18n.Schema = {
       jobTaskCount: 'Job Task',
       userCount: 'User',
       retryTask: 'Retry Task',
+      retryDeadLetter: 'Retry DeadLetter',
       retryTaskTip: 'Total task volume: retry/callback task volume',
       jobTask: 'Job Task',
       jobBatch: 'Job Batch',
@@ -703,6 +706,26 @@ const local: App.I18n.Schema = {
       email: 'Email',
       weCom: 'WeCom',
       lark: 'Lark'
+    },
+    retryDeadLetter: {
+      title: 'RetryDeadLetter List',
+      uniqueId: 'UniqueId',
+      groupName: 'Group name',
+      sceneName: 'Scene name',
+      idempotentId: 'Idempotent ID',
+      bizNo: 'bizNo',
+      taskType: 'taskType',
+      createDt: 'createDt',
+      form: {
+        title: 'Please enter RetryDeadLetter List',
+        uniqueId: 'Please enter UniqueId',
+        groupName: 'Please enter Group name',
+        sceneName: 'Please enter Scene name',
+        idempotentId: 'Please enter Idempotent ID',
+        bizNo: 'Please enter bizNo',
+        taskType: 'Please enter taskType',
+        createDt: 'Please enter createDt'
+      }
     },
     retryTask: {
       title: 'RetryTask List',
