@@ -436,7 +436,9 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.retry_dead-letter',
         meta: {
           title: 'retry_dead-letter',
-          i18nKey: 'route.retry_dead-letter'
+          i18nKey: 'route.retry_dead-letter',
+          icon: 'streamline:interface-arrows-synchronize-warning-arrow-fail-notification-sync-warning-failure-synchronize-error',
+          order: 30
         }
       },
       {
@@ -446,7 +448,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'retry_log',
           i18nKey: 'route.retry_log',
-          icon: 'tabler:logs'
+          icon: 'tabler:logs',
+          order: 20
         }
       },
       {
@@ -456,7 +459,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'retry_scene',
           i18nKey: 'route.retry_scene',
-          icon: 'cbi:scene-dynamic'
+          icon: 'cbi:scene-dynamic',
+          order: 40
         }
       },
       {
@@ -466,7 +470,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'retry_task',
           i18nKey: 'route.retry_task',
-          icon: 'octicon:tasklist'
+          icon: 'octicon:tasklist',
+          order: 10
         }
       }
     ]
@@ -477,7 +482,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base',
     meta: {
       title: 'user',
-      i18nKey: 'route.user'
+      i18nKey: 'route.user',
+      order: 900,
+      icon: 'material-symbols:manage-accounts'
     },
     children: [
       {

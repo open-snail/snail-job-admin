@@ -1092,6 +1092,8 @@ declare namespace App {
           checkPassword: string;
           password: string;
           permissions: string;
+          updatePassword: string;
+          permissionList: string;
           form: {
             role: string;
             password: string;

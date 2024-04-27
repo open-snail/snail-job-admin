@@ -1,12 +1,12 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetUserPageList } from '@/service/api';
+import { fetchDelUser, fetchGetUserPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { roleRecord } from '@/constants/business';
-import UserCenterOperateDrawer from './modules/user-manager-operate-drawer.vue';
-import UserCenterSearch from './modules/user-manager-search.vue';
+import UserManagerOperateDrawer from './modules/user-manager-operate-drawer.vue';
+import UserManagerSearch from './modules/user-manager-search.vue';
 
 const appStore = useAppStore();
 
@@ -21,6 +21,35 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     role: null
   },
   columns: () => [
+    {
+      key: 'permissions',
+      // title: $t('page.userManager.permissions'),
+      align: 'left',
+      type: 'expand',
+      minWidth: 10,
+      renderExpand: row => {
+        if (!row.permissions) {
+          return <NTag type="info">ALL</NTag>;
+        }
+        return (
+          <div>
+            {
+              <n-h5 prefix="bar" type="warning">
+                <n-text type="warning">{$t('page.userManager.permissionList')}:</n-text>
+              </n-h5>
+            }
+            {row.permissions?.map(option => (
+              <span>
+                <NTag type="info">
+                  <span style="font-weight: bolder;">{option.groupName}</span>({option.namespaceName})
+                </NTag>
+                {<n-divider vertical />}
+              </span>
+            ))}
+          </div>
+        );
+      }
+    },
     {
       key: 'username',
       title: $t('page.userManager.username'),
@@ -46,21 +75,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       }
     },
     {
-      key: 'permissions',
-      title: $t('page.userManager.permissions'),
-      align: 'left',
-      type: 'expand',
-      minWidth: 200,
-      renderExpand: row => {
-        if (!row.permissions) {
-          return <NTag type="info">ALL</NTag>;
-        }
-        return (
-          <NTag type="warning">{row.permissions?.map(option => `${option.groupName}(${option.namespaceName})`)}</NTag>
-        );
-      }
-    },
-    {
       key: 'updateDt',
       title: $t('common.updateDt'),
       align: 'left',
@@ -76,7 +90,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete()}>
+          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
@@ -92,26 +106,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-const {
-  drawerVisible,
-  operateType,
-  editingData,
-  handleAdd,
-  handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
-  // closeDrawer
-} = useTableOperate(data, getData);
+const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys } = useTableOperate(
+  data,
+  getData
+);
 
-async function handleBatchDelete() {
-  // request
-  onBatchDeleted();
-}
-
-function handleDelete() {
-  // request
-  onDeleted();
+async function handleDelete(id: string) {
+  const { error } = await fetchDelUser(id as any);
+  if (error) return;
+  getData();
+  window.$message?.success($t('common.deleteSuccess'));
 }
 
 function edit(id: string) {
@@ -121,7 +125,7 @@ function edit(id: string) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <UserCenterSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <UserManagerSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
     <NCard
       :title="$t('page.userManager.title')"
       :bordered="false"
@@ -134,8 +138,8 @@ function edit(id: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="false"
           @add="handleAdd"
-          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>
@@ -151,7 +155,7 @@ function edit(id: string) {
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <UserCenterOperateDrawer
+      <UserManagerOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"

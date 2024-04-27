@@ -1103,7 +1103,7 @@ declare namespace Api {
     type Permission = Common.CommonRecord<{
       groupName: string;
       namespaceId: string;
-      namespaceName: string;
+      namespaceName?: string;
     }>;
 
     /** userManager search params */

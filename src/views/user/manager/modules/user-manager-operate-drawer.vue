@@ -1,13 +1,14 @@
-<script setup lang="tsx">
-import { computed, reactive, ref, watch } from 'vue';
+<script setup lang="ts">
+import { computed, onMounted, reactive, ref, watch } from 'vue';
+import type { OptionValue } from 'naive-ui/es/transfer/src/interface';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddUser, fetchEditUser, fetchGetAllGroupConfigList } from '@/service/api';
-import { roleRecordOptions } from '@/constants/business';
+import { groupConfigYesOrNoOptions, roleRecordOptions } from '@/constants/business';
 
 defineOptions({
-  name: 'UserCenterOperateDrawer'
+  name: 'UserManagerOperateDrawer'
 });
 
 interface Props {
@@ -17,7 +18,9 @@ interface Props {
   rowData?: Api.UserManager.UserManager | null;
 }
 
+const valueRef = ref();
 const groupConfigs = ref();
+const updatePass = ref<number>(0);
 
 const props = defineProps<Props>();
 
@@ -55,27 +58,35 @@ function createDefaultModel(): Model {
     password: '',
     checkPassword: '',
     role: 1,
-    permissions: [{ groupName: '', namespaceName: '', namespaceId: '' }]
+    permissions: []
   };
 }
 
-type RuleKey = Extract<keyof Model, 'username' | 'password' | 'checkPassword' | 'role' | 'permissions'>;
+type RuleRecord = Partial<Record<keyof Model, App.Global.FormRule[]>>;
 
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  username: defaultRequiredRule,
-  password: defaultRequiredRule,
-  checkPassword: defaultRequiredRule,
-  role: defaultRequiredRule,
-  permissions: defaultRequiredRule
-};
+const rules = computed<RuleRecord>(() => {
+  const { formRules, createConfirmPwdRule } = useFormRules();
+
+  return {
+    username: [defaultRequiredRule],
+    password: formRules.pwd,
+    checkPassword: createConfirmPwdRule(model.password),
+    role: [defaultRequiredRule],
+    permissions: [defaultRequiredRule]
+  };
+});
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
+    valueRef.value = [];
+    updatePass.value = 1;
     Object.assign(model, createDefaultModel());
     return;
   }
 
   if (props.operateType === 'edit' && props.rowData) {
+    updatePass.value = 0;
+    valueRef.value = props.rowData.permissions?.map(v => `${v.groupName}@${v.namespaceId}`);
     Object.assign(model, props.rowData);
   }
 }
@@ -91,33 +102,31 @@ async function handleSubmit() {
     const { username, password, checkPassword, role, permissions } = model;
     const { error } = await fetchAddUser({ username, password, checkPassword, role, permissions });
     if (error) return;
+    window.$message?.success($t('common.addSuccess'));
   }
 
   if (props.operateType === 'edit') {
     const { id, username, password, checkPassword, role, permissions } = model;
     const { error } = await fetchEditUser({ id, username, password, checkPassword, role, permissions });
     if (error) return;
+    window.$message?.success($t('common.updateSuccess'));
   }
-  window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
 }
 
-const valueRef = ref<Array<string | number>>();
-
 const getAllGroupConfigList = async () => {
   const res = await fetchGetAllGroupConfigList([]);
   groupConfigs.value = res.data?.map(option => ({
-    value: {
-      groupName: option.groupName,
-      namespaceId: option.namespaceId
-    },
+    value: `${option.groupName}@${option.namespaceId}`,
     label: `${option.groupName}(${option.namespaceName})`
   }));
 };
 
-// 加载组列表数据
-getAllGroupConfigList();
+onMounted(() => {
+  // 加载组列表数据
+  getAllGroupConfigList();
+});
 
 watch(visible, () => {
   if (visible.value) {
@@ -126,13 +135,16 @@ watch(visible, () => {
   }
 });
 
-watch(
-  () => valueRef.value,
-  () => {
-    console.log('valueRef', valueRef.value);
-    model.permissions = valueRef.value as any;
-  }
-);
+function updatePermissions(p: OptionValue[]) {
+  // ['snail_job_demo_group@764d604ec6fc45f68cd92514c40e9e1a']
+  model.permissions = p?.map(value => {
+    const [groupName, namespaceId] = (value as string).split('@'); // 将字符串分割成数组
+    return {
+      groupName,
+      namespaceId
+    };
+  });
+}
 </script>
 
 <template>
@@ -141,11 +153,33 @@ watch(
       <NFormItem :label="$t('page.userManager.username')" path="username">
         <NInput v-model:value="model.username" :placeholder="$t('page.userManager.form.username')" />
       </NFormItem>
-      <NFormItem :label="$t('page.userManager.password')" path="password">
-        <NInput v-model:value="model.password" :placeholder="$t('page.userManager.form.password')" />
+      <NFormItem v-if="props.operateType === 'edit'" :label="$t('page.userManager.updatePassword')">
+        <NRadioGroup v-model:value="updatePass">
+          <NSpace>
+            <NRadio
+              v-for="item in groupConfigYesOrNoOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
+            />
+          </NSpace>
+        </NRadioGroup>
       </NFormItem>
-      <NFormItem :label="$t('page.userManager.checkPassword')" path="checkPassword">
-        <NInput v-model:value="model.checkPassword" :placeholder="$t('page.userManager.form.checkPassword')" />
+      <NFormItem v-if="updatePass === 1" :label="$t('page.userManager.password')" path="password">
+        <NInput
+          v-model:value="model.password"
+          type="password"
+          show-password-on="click"
+          :placeholder="$t('page.userManager.form.password')"
+        />
+      </NFormItem>
+      <NFormItem v-if="updatePass === 1" :label="$t('page.userManager.checkPassword')" path="checkPassword">
+        <NInput
+          v-model:value="model.checkPassword"
+          type="password"
+          show-password-on="click"
+          :placeholder="$t('page.userManager.form.checkPassword')"
+        />
       </NFormItem>
       <NFormItem :label="$t('page.userManager.role')" path="role">
         <NRadioGroup v-model:value="model.role" name="role">
@@ -154,13 +188,15 @@ watch(
           </NSpace>
         </NRadioGroup>
       </NFormItem>
-      <NFormItem :label="$t('page.userManager.permissions')" path="permissions">
+      <NFormItem v-if="model.role === 1" :label="$t('page.userManager.permissions')" path="permissions">
         <NTransfer
+          ref="transfer"
           v-model:value="valueRef"
           virtual-scroll
           :options="groupConfigs"
           target-filterable
           source-filterable
+          @update-value="updatePermissions"
         />
       </NFormItem>
     </NForm>

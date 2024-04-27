@@ -935,6 +935,8 @@ const local: App.I18n.Schema = {
       permissions: 'Permission',
       checkPassword: 'Confirm Password',
       password: 'Password',
+      updatePassword: 'Update Password',
+      permissionList: 'Permission List',
       form: {
         role: 'Please enter Role',
         password: 'Please enter Password',
