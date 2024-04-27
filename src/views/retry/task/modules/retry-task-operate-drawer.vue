@@ -195,7 +195,7 @@ onMounted(() => {
           <NTooltip trigger="hover">
             <template #trigger>
               <NButton type="default" ghost :disabled="props.operateType === 'edit'" @click="setIdempotentId">
-                <icon-material-symbols:cloud-sync-outline class="text-icon" />
+                <icon-clarity:thin-client-solid class="text-icon" />
               </NButton>
             </template>
             {{ $t('page.retryTask.generateIdempotentId') }}
