@@ -159,7 +159,7 @@ watch(visible, () => {
   <OperateDrawer v-model="visible" :title="title" @submitted="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NCollapse :default-expanded-names="['1', '2']">
-        <NCollapseItem title="通用配置" name="1">
+        <NCollapseItem :title="$t('page.groupConfig.commonConfig')" name="1">
           <NFormItem :label="$t('page.groupConfig.groupName')" path="groupName">
             <NInput
               v-model:value="model.groupName"
@@ -211,7 +211,7 @@ watch(visible, () => {
             />
           </NFormItem>
         </NCollapseItem>
-        <NCollapseItem title="重试配置" name="2">
+        <NCollapseItem :title="$t('page.groupConfig.retryConfig')" name="2">
           <NFormItem :label="$t('page.groupConfig.idGeneratorMode')" path="idGeneratorMode">
             <NSelect
               v-model:value="model.idGeneratorMode"

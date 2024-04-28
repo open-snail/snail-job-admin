@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { watch } from 'vue';
+import { groupConfigIdModeRecord, groupConfigStatusRecord, yesOrNoRecord } from '@/constants/business';
+import { $t } from '@/locales';
+import { tagColor } from '@/utils/common';
 
 defineOptions({
   name: 'GroupDetailDrawer'
@@ -26,9 +29,37 @@ watch(
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" title="组详情">
+  <OperateDrawer v-model="visible" :title="$t('page.groupConfig.detail')">
     <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem label="组名称">{{ rowData?.groupName }}</NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.groupConfig.groupName')">{{ rowData?.groupName }}</NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.groupConfig.groupStatus')">
+        <NTag :type="tagColor(rowData?.groupStatus!, 2)">{{ $t(groupConfigStatusRecord[rowData?.groupStatus!]) }}</NTag>
+      </NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.groupConfig.token')">{{ rowData?.token }}</NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.groupConfig.idGeneratorMode')">
+        <NTag :type="tagColor(rowData?.idGeneratorMode!, 2)">
+          {{ $t(groupConfigIdModeRecord[rowData?.idGeneratorMode!]) }}
+        </NTag>
+      </NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.groupConfig.groupPartition')">
+        {{ rowData?.groupPartition }}
+      </NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.groupConfig.initScene')">
+        <NTag :type="tagColor(rowData?.initScene!, 2)">{{ $t(yesOrNoRecord[rowData?.initScene!]) }}</NTag>
+      </NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.groupConfig.description')">{{ rowData?.description }}</NDescriptionsItem>
     </NDescriptions>
   </OperateDrawer>
 </template>

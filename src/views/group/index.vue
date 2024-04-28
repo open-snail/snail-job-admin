@@ -6,6 +6,7 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { groupConfigIdModeRecord, yesOrNoRecord } from '@/constants/business';
+import { tagColor } from '@/utils/common';
 import GroupOperateDrawer from './modules/group-operate-drawer.vue';
 import GroupDetailDrawer from './modules/group-detail-drawer.vue';
 import GroupSearch from './modules/group-search.vue';
@@ -50,12 +51,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           </n-button>
         );
       }
-    },
-    {
-      key: 'namespaceId',
-      title: $t('page.groupConfig.namespaceId'),
-      align: 'left',
-      minWidth: 260
     },
     {
       key: 'groupStatus',
@@ -111,14 +106,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           return null;
         }
 
-        const tagMap: Record<Api.Common.YesOrNo, NaiveUI.ThemeColor> = {
-          '1': 'success',
-          '0': 'warning'
-        };
-
         const label = $t(yesOrNoRecord[row.initScene!]);
 
-        return <NTag type={tagMap[row.initScene!]}>{label}</NTag>;
+        return <NTag type={tagColor(row.initScene!, 2)}>{label}</NTag>;
       }
     },
     {

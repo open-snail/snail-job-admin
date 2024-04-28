@@ -63,3 +63,21 @@ export function translateOptions2(options: string[]) {
     label: option
   }));
 }
+
+/**
+ * tag Color
+ *
+ * @param index
+ * @param total
+ */
+export function tagColor(index: number, total: number = 5) {
+  const tagMap: Record<number, NaiveUI.ThemeColor> = {
+    0: 'error',
+    1: 'info',
+    2: 'success',
+    3: 'warning',
+    4: 'default'
+  };
+
+  return tagMap[index % total];
+}

@@ -305,7 +305,7 @@ watch(
                   <SvgIcon icon="ant-design:info-circle-outlined" class="mb-1px text-16px" />
                 </NButton>
               </template>
-              xxxxxxxxx
+              10s,15s,30s,35s,40s,50s,1m,2m,4m,6m,8m,10m,20m,40m,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h
             </NTooltip>
           </div>
         </template>

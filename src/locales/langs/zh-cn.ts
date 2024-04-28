@@ -464,6 +464,7 @@ const local: App.I18n.Schema = {
     },
     groupConfig: {
       title: '组管理',
+      detail: '组详情',
       namespaceId: '命名空间ID',
       groupName: '组名称',
       token: 'Token',
@@ -475,6 +476,8 @@ const local: App.I18n.Schema = {
       bucketIndex: 'Bucket',
       updateDt: '更新时间',
       description: '描述',
+      commonConfig: '通用配置',
+      retryConfig: '重试配置',
       form: {
         groupName: '请输入组名称',
         token: 'Token',

@@ -616,6 +616,7 @@ declare namespace App {
         };
         groupConfig: {
           title: string;
+          detail: string;
           namespaceId: string;
           groupName: string;
           description: string;
@@ -627,6 +628,8 @@ declare namespace App {
           initScene: string;
           bucketIndex: string;
           updateDt: string;
+          commonConfig: string;
+          retryConfig: string;
           form: {
             groupName: string;
             token: string;
