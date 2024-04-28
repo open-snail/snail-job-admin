@@ -27,6 +27,14 @@ export function fetchEditNotify(data: Api.NotifyConfig.NotifyConfig) {
   });
 }
 
+/** edit notify status */
+export function fetchUpdateNotifyStatus(id: string, status: Api.Common.EnableStatusNumber) {
+  return request<boolean>({
+    url: `/notify-config/${id}/status/${status}`,
+    method: 'put'
+  });
+}
+
 /** get notify recipient list */
 export function fetchGetNotifyRecipientPageList(params?: Api.NotifyRecipient.NotifyRecipientParams) {
   return request<Api.NotifyRecipient.NotifyRecipientList>({

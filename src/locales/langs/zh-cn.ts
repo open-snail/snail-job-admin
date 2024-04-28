@@ -662,6 +662,9 @@ const local: App.I18n.Schema = {
       notifyThreshold: '通知阈值',
       description: '描述',
       notifyAttribute: '通知属性',
+      retryScene: '重试场景',
+      job: '定时任务',
+      workflow: '工作流',
       form: {
         businessId: '请选择业务ID',
         description: '请输入描述',

@@ -9,6 +9,15 @@ export function fetchGetJobPage(params?: Api.Job.JobSearchParams) {
   });
 }
 
+/** get Job list */
+export function fetchGetJobList(params?: Api.Job.JobSearchParams) {
+  return request<Api.Job.Job[]>({
+    url: '/job/list',
+    method: 'get',
+    params
+  });
+}
+
 /** add Job */
 export function fetchAddJob(data: Api.Job.Job) {
   return request<boolean>({

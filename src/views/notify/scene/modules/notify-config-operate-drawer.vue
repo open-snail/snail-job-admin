@@ -3,14 +3,21 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import { fetchAddNotify, fetchEditNotify, fetchGetAllGroupNameList, fetchGetNotifyRecipientList } from '@/service/api';
+import {
+  fetchAddNotify,
+  fetchEditNotify,
+  fetchGetJobList,
+  fetchGetNotifyRecipientList,
+  fetchGetRetrySceneList
+} from '@/service/api';
 import {
   enableStatusNumberOptions,
   jobNotifySceneOptions,
   retryNotifySceneOptions,
   systemTaskTypeOptions
 } from '@/constants/business';
-import { translateOptions, translateOptions2 } from '@/utils/common';
+import { translateOptions } from '@/utils/common';
+import SelectGroup from '@/components/common/select-group.vue';
 
 defineOptions({
   name: 'NotifyConfigOperateDrawer'
@@ -23,8 +30,10 @@ interface Props {
   rowData?: Api.NotifyConfig.NotifyConfig | null;
 }
 
-const groupNameList = ref<string[]>([]);
 const notifyRecipientList = ref<CommonType.Option<number>[]>([]);
+const retryScenes = ref<Api.RetryScene.Scene[]>([]);
+const jobs = ref<Api.Job.Job[]>([]);
+
 const props = defineProps<Props>();
 
 interface Emits {
@@ -69,15 +78,9 @@ type Model = Pick<
 
 onMounted(() => {
   nextTick(() => {
-    getGroupNameList();
     getNotifyRecipientList();
   });
 });
-
-async function getGroupNameList() {
-  const res = await fetchGetAllGroupNameList();
-  groupNameList.value = res.data as string[];
-}
 
 async function getNotifyRecipientList() {
   const res = await fetchGetNotifyRecipientList();
@@ -93,7 +96,7 @@ function createDefaultModel(): Model {
     notifyRecipientIds: 0,
     systemTaskType: 1,
     notifyStatus: 1,
-    notifyScene: '',
+    notifyScene: 1,
     notifyThreshold: 0,
     rateLimiterStatus: 0,
     rateLimiterThreshold: 0,
@@ -202,14 +205,25 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-function systemTaskTypeChange(value: string) {
-  if (value === '1') {
+async function systemTaskTypeChange(value: number) {
+  if (value === 1) {
+    const res = await fetchGetRetrySceneList({ groupName: model.groupName });
+    retryScenes.value = res.data as Api.RetryScene.Scene[];
     options.value = translateOptions(retryNotifySceneOptions);
-  } else if (value === '3') {
+  } else if (value === 3) {
+    const res = await fetchGetJobList({ groupName: model.groupName });
+    jobs.value = res.data as Api.Job.Job[];
     options.value = translateOptions(jobNotifySceneOptions);
   }
 
-  model.notifyScene = '';
+  model.businessId = '';
+  model.notifyScene = 1;
+}
+
+function groupNameUpdate(groupName: string) {
+  handleUpdateModelWhenEdit();
+  model.groupName = groupName;
+  systemTaskTypeChange(1);
 }
 
 watch(visible, () => {
@@ -224,12 +238,7 @@ watch(visible, () => {
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.notifyConfig.groupName')" path="groupName">
-        <NSelect
-          v-model:value="model.groupName"
-          :placeholder="$t('page.notifyConfig.form.groupName')"
-          :options="translateOptions2(groupNameList)"
-          clearable
-        />
+        <SelectGroup v-model:modelValue="model.groupName" @update:model-value="groupNameUpdate" />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus">
         <NRadioGroup v-model:value="model.notifyStatus" name="notifyStatus">
@@ -251,6 +260,29 @@ watch(visible, () => {
           clearable
           @update:value="systemTaskTypeChange"
         />
+      </NFormItem>
+      <NFormItem v-if="model.systemTaskType === 1" :label="$t('page.notifyConfig.retryScene')" path="businessId">
+        <NSelect
+          v-model:value="model.businessId"
+          :placeholder="$t('page.notifyConfig.form.groupName')"
+          :options="retryScenes"
+          label-field="sceneName"
+          value-field="sceneName"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem v-if="model.systemTaskType === 3" :label="$t('page.notifyConfig.job')" path="businessId">
+        <NSelect
+          v-model:value="model.businessId"
+          :placeholder="$t('page.notifyConfig.form.groupName')"
+          :options="jobs"
+          label-field="jobName"
+          value-field="id"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem v-if="model.systemTaskType === 4" :label="$t('page.notifyConfig.workflow')" path="businessId">
+        <NSelect v-model:value="model.businessId" :placeholder="$t('page.notifyConfig.form.groupName')" clearable />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyScene')" path="notifyScene">
         <NSelect

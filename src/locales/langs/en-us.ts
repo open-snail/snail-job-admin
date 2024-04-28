@@ -666,6 +666,9 @@ const local: App.I18n.Schema = {
       notifyThreshold: 'Notify threshold',
       description: 'Describe',
       notifyAttribute: 'Notify Attribute',
+      retryScene: 'Retry Scene',
+      job: 'Job',
+      workflow: 'Workflow',
       form: {
         businessId: 'Please select Business ID',
         description: 'Please enter Describe',

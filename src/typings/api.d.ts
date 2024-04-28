@@ -565,7 +565,7 @@ declare namespace Api {
       /** 状态 */
       notifyStatus: Api.Common.EnableStatusNumber;
       /** 通知场景 */
-      notifyScene: string;
+      notifyScene: number;
       /** 通知阈值 */
       notifyThreshold: number;
       /** 限流开关 */

@@ -814,6 +814,9 @@ declare namespace App {
           notifyThreshold: string;
           description: string;
           notifyAttribute: string;
+          retryScene: string;
+          job: string;
+          workflow: string;
           form: {
             businessId: string;
             description: string;

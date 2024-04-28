@@ -1,11 +1,13 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
-import { fetchGetNotifyConfigList } from '@/service/api';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { fetchGetNotifyConfigList, fetchUpdateNotifyStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import NotifyConfigOperateDrawer from '@/views/notify/scene/modules/notify-config-operate-drawer.vue';
 import NotifyConfigSearch from '@/views/notify/scene/modules/notify-config-search.vue';
+import StatusSwitch from '@/components/common/status-switch.vue';
+import { jobNotifyScene, retryNotifyScene } from '@/constants/business';
 
 const appStore = useAppStore();
 
@@ -48,13 +50,52 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'notifyStatus',
       title: $t('page.notifyConfig.notifyStatus'),
       align: 'left',
-      width: 120
+      width: 120,
+      render: row => {
+        const fetchFn = async (notifyStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
+          const { error } = await fetchUpdateNotifyStatus(row.id!, notifyStatus);
+          if (!error) {
+            row.notifyStatus = notifyStatus;
+            window.$message?.success($t('common.updateSuccess'));
+          }
+          callback();
+        };
+
+        return <StatusSwitch v-model:value={row.notifyStatus} onFetch={fetchFn} />;
+      }
     },
     {
       key: 'notifyScene',
       title: $t('page.notifyConfig.notifyScene'),
       align: 'left',
-      width: 120
+      width: 120,
+      render: row => {
+        if (row.notifyScene === null) {
+          return null;
+        }
+
+        const tagMap: Record<number, NaiveUI.ThemeColor> = {
+          1: 'warning',
+          2: 'info',
+          3: 'warning',
+          4: 'success'
+        };
+
+        const index = row.notifyScene! % 4;
+
+        if (row.systemTaskType === 1) {
+          const label = $t(retryNotifyScene[row.notifyScene! as Api.NotifyConfig.RetryNotifyScene]);
+          const type = tagMap[index as Api.NotifyConfig.RetryNotifyScene];
+          return <NTag type={type}>{label}</NTag>;
+        }
+
+        if (row.systemTaskType === 3) {
+          const label = $t(jobNotifyScene[row.notifyScene! as Api.NotifyConfig.JobNotifyScene]);
+          return <NTag type={tagMap[row.notifyScene!]}>{label}</NTag>;
+        }
+
+        return null;
+      }
     },
     {
       key: 'notifyThreshold',
@@ -107,9 +148,6 @@ const {
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
   onBatchDeleted();
 }
 

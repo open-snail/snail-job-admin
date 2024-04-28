@@ -6,6 +6,7 @@ import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddUser, fetchEditUser, fetchGetAllGroupConfigList } from '@/service/api';
 import { groupConfigYesOrNoOptions, roleRecordOptions } from '@/constants/business';
+import Permission = Api.UserManager.Permission;
 
 defineOptions({
   name: 'UserManagerOperateDrawer'
@@ -135,14 +136,24 @@ watch(visible, () => {
   }
 });
 
-function updatePermissions(p: OptionValue[]) {
-  // ['snail_job_demo_group@764d604ec6fc45f68cd92514c40e9e1a']
-  model.permissions = p?.map(value => {
-    const [groupName, namespaceId] = (value as string).split('@'); // 将字符串分割成数组
+type PermissionModel = Pick<Permission, 'groupName' | 'namespaceId'>;
+
+function getPermission(str: string): PermissionModel {
+  const permissionModelComputedRef = computed<PermissionModel>(() => {
+    const [groupName, namespaceId] = str.split('@'); // 将字符串分割成数组
     return {
       groupName,
       namespaceId
     };
+  });
+
+  return permissionModelComputedRef.value;
+}
+
+function updatePermissions(p: OptionValue[]) {
+  // ['snail_job_demo_group@764d604ec6fc45f68cd92514c40e9e1a']
+  model.permissions = p?.map(value => {
+    return getPermission(value as string);
   });
 }
 </script>
