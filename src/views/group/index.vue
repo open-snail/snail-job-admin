@@ -7,12 +7,17 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { groupConfigIdModeRecord, yesOrNoRecord } from '@/constants/business';
 import GroupOperateDrawer from './modules/group-operate-drawer.vue';
+import GroupDetailDrawer from './modules/group-detail-drawer.vue';
 import GroupSearch from './modules/group-search.vue';
 
 const appStore = useAppStore();
 
 /** 组状态 Switch 的 loading 状态 */
 const statusSwithLoading = ref(false);
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetGroupConfigList,
@@ -32,7 +37,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'groupName',
       title: $t('page.groupConfig.groupName'),
       align: 'left',
-      minWidth: 260
+      minWidth: 260,
+      render: row => {
+        function showDetailDrawer() {
+          detailData.value = row || null;
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.groupName}
+          </n-button>
+        );
+      }
     },
     {
       key: 'namespaceId',
@@ -195,6 +212,7 @@ async function handleUpdateValue(group: Api.GroupConfig.GroupConfig) {
         :row-data="editingData"
         @submitted="getData"
       />
+      <GroupDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
     </NCard>
   </div>
 </template>
