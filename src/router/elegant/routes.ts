@@ -192,6 +192,19 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'iframe-page',
+    path: '/iframe-page/:url',
+    component: 'layout.base$view.iframe-page',
+    props: true,
+    meta: {
+      title: 'iframe-page',
+      i18nKey: 'route.iframe-page',
+      constant: true,
+      hideInMenu: true,
+      keepAlive: true
+    }
+  },
+  {
     name: 'job',
     path: '/job',
     component: 'layout.base',
