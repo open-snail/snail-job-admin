@@ -1,13 +1,20 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchBatchDeleteRetryLog, fetchDeleteRetryLog, fetchRetryLogPageList } from '@/service/api';
+import { ref } from 'vue';
+import { fetchBatchDeleteRetryLog, fetchDeleteRetryLog, fetchRetryLogById, fetchRetryLogPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
+import { tagColor } from '@/utils/common';
 import RetryLogSearch from './modules/retry-log-search.vue';
+import RetryLogDetailDrawer from './modules/retry-log-detail-drawer.vue';
 
 const appStore = useAppStore();
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchRetryLogPageList,
@@ -39,7 +46,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'uniqueId',
       title: $t('page.retryLog.UniqueId'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        async function showDetailDrawer() {
+          await loadRetryInfo(row);
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.uniqueId}
+          </n-button>
+        );
+      }
     },
     {
       key: 'groupName',
@@ -62,15 +81,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         if (row.retryStatus === null) {
           return null;
         }
-        const tagMap: Record<Api.RetryTask.RetryStatusType, NaiveUI.ThemeColor> = {
-          0: 'info',
-          1: 'success',
-          2: 'error',
-          3: 'warning'
-        };
         const label = $t(retryTaskStatusTypeRecord[row.retryStatus!]);
 
-        return <NTag type={tagMap[row.retryStatus!]}>{label}</NTag>;
+        return <NTag type={tagColor(row.retryStatus!)}>{label}</NTag>;
       }
     },
     {
@@ -82,13 +95,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         if (row.taskType === null) {
           return null;
         }
-        const tagMap: Record<Api.RetryTask.TaskType, NaiveUI.ThemeColor> = {
-          1: 'warning',
-          2: 'error'
-        };
         const label = $t(retryTaskTypeRecord[row.taskType!]);
 
-        return <NTag type={tagMap[row.taskType!]}>{label}</NTag>;
+        return <NTag type={tagColor(row.taskType!)}>{label}</NTag>;
       }
     },
     {
@@ -155,6 +164,11 @@ async function handleDelete(id: any) {
   getData();
 }
 
+async function loadRetryInfo(row: Api.RetryLog.RetryLog) {
+  const res = await fetchRetryLogById(row.id!);
+  detailData.value = (res.data as Api.RetryLog.RetryLog) || null;
+}
+
 function edit(id: any) {
   handleEdit(id);
 }
@@ -193,6 +207,7 @@ function edit(id: any) {
         class="sm:h-full"
       />
     </NCard>
+    <RetryLogDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
   </div>
 </template>
 

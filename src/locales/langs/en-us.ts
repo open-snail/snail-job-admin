@@ -836,6 +836,7 @@ const local: App.I18n.Schema = {
       idempotentId: 'Idempotent ID',
       bizNo: 'Business Number',
       createDt: 'Creation time',
+
       form: {
         groupName: 'Please enter Group name',
         idempotentId: 'Please enter Idempotent ID',

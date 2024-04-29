@@ -78,5 +78,9 @@ export function tagColor(index: number) {
     4: 'default'
   };
 
+  if (index === null || index < 0) {
+    return tagMap[1];
+  }
+
   return tagMap[index % 5];
 }

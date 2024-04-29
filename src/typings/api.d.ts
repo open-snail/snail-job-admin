@@ -1067,6 +1067,16 @@ declare namespace Api {
       bizNo: string;
       /** 创建时间 */
       createDt: string;
+      /** 执行器名称 */
+      executorName: string;
+      /** 执行方法参数 */
+      argsStr: string;
+      /** 扩展字段 */
+      extAttrs?: string;
+      /** 下次触发时间 */
+      nextTriggerAt?: string;
+      /** 重试次数 */
+      retryCount?: number;
     }>;
 
     /** retryLog search params */

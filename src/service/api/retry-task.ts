@@ -9,6 +9,14 @@ export function fetchGetRetryTaskList(params?: Api.RetryTask.RetryTaskSearchPara
   });
 }
 
+/** get retryTask */
+export function fetchGetRetryTaskById(id: string, groupName: string) {
+  return request<Api.RetryTask.RetryTask>({
+    url: `/retry-task/${id}?groupName=${groupName}`,
+    method: 'get'
+  });
+}
+
 /** add retryTask */
 export function fetchAddRetryTask(data: Api.RetryTask.RetryTask) {
   return request<boolean>({
