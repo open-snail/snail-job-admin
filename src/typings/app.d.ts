@@ -976,6 +976,7 @@ declare namespace App {
         };
         retryLog: {
           title: string;
+          detail: string;
           UniqueId: string;
           groupName: string;
           sceneName: string;

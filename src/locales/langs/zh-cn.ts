@@ -824,6 +824,7 @@ const local: App.I18n.Schema = {
     },
     retryLog: {
       title: 'RetryLog 列表',
+      detail: '重试日志详情',
       UniqueId: 'UniqueId',
       groupName: '组名称',
       sceneName: '场景名称',

@@ -60,6 +60,15 @@ watch(
         {{ rowData?.idempotentId }}
       </NDescriptionsItem>
     </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.retryTask.executorName')">{{ rowData?.executorName }}</NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.retryTask.argsStr')">{{ rowData?.argsStr }}</NDescriptionsItem>
+    </NDescriptions>
+    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.retryLog.createDt')">{{ rowData?.createDt }}</NDescriptionsItem>
+    </NDescriptions>
   </OperateDrawer>
 </template>
 

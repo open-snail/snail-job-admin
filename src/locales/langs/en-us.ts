@@ -828,6 +828,7 @@ const local: App.I18n.Schema = {
     },
     retryLog: {
       title: 'RetryLog List',
+      detail: 'Retry Log Detail',
       UniqueId: 'UniqueId',
       groupName: 'Group name',
       sceneName: 'Scene name',
