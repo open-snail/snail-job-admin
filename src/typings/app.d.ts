@@ -899,6 +899,7 @@ declare namespace App {
         };
         retryTask: {
           title: string;
+          detail: string;
           uniqueId: string;
           groupName: string;
           sceneName: string;

@@ -751,6 +751,7 @@ const local: App.I18n.Schema = {
     },
     retryTask: {
       title: 'RetryTask List',
+      detail: 'RetryTask Detail',
       uniqueId: 'UniqueId',
       groupName: 'Group name',
       sceneName: 'Scene name',

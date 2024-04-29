@@ -747,6 +747,7 @@ const local: App.I18n.Schema = {
     },
     retryTask: {
       title: '重试任务列表',
+      detail: '重试任务详情',
       uniqueId: 'UniqueId',
       groupName: '组名称',
       sceneName: '场景名称',
@@ -823,7 +824,7 @@ const local: App.I18n.Schema = {
       }
     },
     retryLog: {
-      title: 'RetryLog 列表',
+      title: '重试日志列表',
       detail: '重试日志详情',
       UniqueId: 'UniqueId',
       groupName: '组名称',

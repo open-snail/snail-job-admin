@@ -1,9 +1,11 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
+import { ref } from 'vue';
 import {
   fetchBatchDeleteRetryTask,
   fetchExecuteRetryTask,
+  fetchGetRetryTaskById,
   fetchGetRetryTaskList,
   fetchUpdateRetryTaskStatus
 } from '@/service/api';
@@ -11,10 +13,16 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
+import { tagColor } from '@/utils/common';
 import CustomerTableHeaderOperation from './modules/customer-table-header-operation.vue';
 import RetryTaskOperateDrawer from './modules/retry-task-operate-drawer.vue';
 import RetryTaskBatchAddDrawer from './modules/retry-task-batch-add-drawer.vue';
 import RetryTaskSearch from './modules/retry-task-search.vue';
+import RetryTaskDetailDrawerVue from './modules/retry-task-detail-drawer.vue';
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const appStore = useAppStore();
 
@@ -37,16 +45,22 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 48
     },
     {
-      key: 'index',
-      title: $t('common.index'),
-      align: 'center',
-      width: 64
-    },
-    {
       key: 'uniqueId',
       title: $t('page.retryTask.uniqueId'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        async function showDetailDrawer() {
+          await loadRetryInfo(row);
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.uniqueId}
+          </n-button>
+        );
+      }
     },
     {
       key: 'groupName',
@@ -93,15 +107,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         if (row.retryStatus === null) {
           return null;
         }
-        const tagMap: Record<Api.RetryTask.RetryStatusType, NaiveUI.ThemeColor> = {
-          0: 'info',
-          1: 'success',
-          2: 'error',
-          3: 'warning'
-        };
         const label = $t(retryTaskStatusTypeRecord[row.retryStatus!]);
 
-        return <NTag type={tagMap[row.retryStatus!]}>{label}</NTag>;
+        return <NTag type={tagColor(row.retryStatus!)}>{label}</NTag>;
       }
     },
     {
@@ -129,23 +137,13 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 260,
       render: row => (
         <div class="flex-center gap-8px">
-          <NPopconfirm onPositiveClick={() => handleDelete(row.groupName!, row.id!)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
           {/* 非[完成,最大次数], 显示[执行]按钮 */}
           {row.retryStatus !== 1 && row.retryStatus !== 2 ? (
             <NPopconfirm onPositiveClick={() => handleExecute(row.groupName!, row.uniqueId!)}>
               {{
                 default: () => $t('common.confirmExecute'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="info" ghost size="small">
                     {$t('common.execute')}
                   </NButton>
                 )
@@ -160,7 +158,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmFinish'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="warning" ghost size="small">
                     {$t('common.finish')}
                   </NButton>
                 )
@@ -175,7 +173,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmPause'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="success" ghost size="small">
                     {$t('common.pause')}
                   </NButton>
                 )
@@ -190,7 +188,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmResume'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="info" ghost size="small">
                     {$t('common.resume')}
                   </NButton>
                 )
@@ -199,6 +197,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           ) : (
             ''
           )}
+          {
+            <NPopconfirm onPositiveClick={() => handleDelete(row.groupName!, row.id!)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          }
         </div>
       )
     }
@@ -222,6 +232,11 @@ async function handleDelete(groupName: string, id: string) {
   if (error) return;
 
   onDeleted();
+}
+
+async function loadRetryInfo(row: Api.RetryTask.RetryTask) {
+  const res = await fetchGetRetryTaskById(row.id!, row.groupName!);
+  detailData.value = (res.data as Api.RetryLog.RetryLog) || null;
 }
 
 async function handleBatchDelete() {
@@ -297,6 +312,7 @@ async function updateRetryTaskStatus(id: number, groupName: string, retryStatus:
       />
       <RetryTaskOperateDrawer v-model:visible="drawerVisible" :operate-type="operateType" @submitted="getData" />
       <RetryTaskBatchAddDrawer v-model:visible="batchAddDrawerVisible" @submitted="getData" />
+      <RetryTaskDetailDrawerVue v-model:visible="detailVisible" :row-data="detailData" />
     </NCard>
   </div>
 </template>

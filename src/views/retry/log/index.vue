@@ -125,9 +125,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
-            {$t('common.detail')}
-          </NButton>
           {row.retryStatus === 1 ? (
             <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
               {{
@@ -148,7 +145,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-const { handleAdd, handleEdit, checkedRowKeys } = useTableOperate(data, getData);
+const { checkedRowKeys } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
   const { error } = await fetchBatchDeleteRetryLog(checkedRowKeys.value as any[]);
@@ -168,10 +165,6 @@ async function loadRetryInfo(row: Api.RetryLog.RetryLog) {
   const res = await fetchRetryLogById(row.id!);
   detailData.value = (res.data as Api.RetryLog.RetryLog) || null;
 }
-
-function edit(id: any) {
-  handleEdit(id);
-}
 </script>
 
 <template>
@@ -189,7 +182,6 @@ function edit(id: any) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
         />

@@ -53,9 +53,6 @@ onMounted(() => {
 
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.uniqueId')" path="uniqueId" class="pr-24px">
-      <NInput v-model:value="model.uniqueId" :placeholder="$t('page.retryTask.form.uniqueId')" />
-    </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.groupName')" path="groupName" class="pr-24px">
       <NSelect
         v-model:value="model.groupName"
@@ -73,6 +70,9 @@ onMounted(() => {
         :options="translateOptions2(sceneNameList)"
         clearable
       />
+    </NFormItemGi>
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.uniqueId')" path="uniqueId" class="pr-24px">
+      <NInput v-model:value="model.uniqueId" :placeholder="$t('page.retryTask.form.uniqueId')" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryTask.idempotentId')" path="idempotentId" class="pr-24px">
       <NInput v-model:value="model.idempotentId" :placeholder="$t('page.retryTask.form.idempotentId')" />
