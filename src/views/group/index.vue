@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NSwitch, NTag } from 'naive-ui';
+import { NButton, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
 import { $t } from '@/locales';
@@ -7,6 +7,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { groupConfigIdModeRecord, yesOrNoRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
+import StatusSwitch from '@/components/common/status-switch.vue';
 import GroupOperateDrawer from './modules/group-operate-drawer.vue';
 import GroupDetailDrawer from './modules/group-detail-drawer.vue';
 import GroupSearch from './modules/group-search.vue';
@@ -14,7 +15,6 @@ import GroupSearch from './modules/group-search.vue';
 const appStore = useAppStore();
 
 /** 组状态 Switch 的 loading 状态 */
-const statusSwithLoading = ref(false);
 const detailData = ref();
 const detailVisible = defineModel<boolean>('detailVisible', {
   default: false
@@ -58,15 +58,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'center',
       width: 80,
       render: row => {
-        return (
-          <NSwitch
-            v-model:value={row.groupStatus}
-            v-model:loading={statusSwithLoading.value}
-            checkedValue={1}
-            uncheckedValue={0}
-            onUpdateValue={() => handleUpdateValue(row)}
-          ></NSwitch>
-        );
+        const fetchFn = async (groupStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
+          const { error } = await fetchUpdateGroupStatus({ groupName: row.groupName, groupStatus: row.groupStatus });
+          if (!error) {
+            row.groupStatus = groupStatus;
+            window.$message?.success($t('common.updateSuccess'));
+          }
+          callback();
+        };
+
+        return <StatusSwitch v-model:value={row.groupStatus} onFetch={fetchFn} />;
       }
     },
     {
@@ -108,7 +109,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 
         const label = $t(yesOrNoRecord[row.initScene!]);
 
-        return <NTag type={tagColor(row.initScene!, 2)}>{label}</NTag>;
+        return <NTag type={tagColor(row.initScene!)}>{label}</NTag>;
       }
     },
     {
@@ -151,16 +152,6 @@ const {
 
 function edit(id: string) {
   handleEdit(id);
-}
-
-async function handleUpdateValue(group: Api.GroupConfig.GroupConfig) {
-  statusSwithLoading.value = true;
-  try {
-    await fetchUpdateGroupStatus({ groupName: group.groupName, groupStatus: group.groupStatus });
-  } finally {
-    await getData();
-    statusSwithLoading.value = false;
-  }
 }
 </script>
 

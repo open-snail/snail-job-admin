@@ -35,7 +35,7 @@ watch(
     </NDescriptions>
     <NDescriptions label-placement="top" bordered :column="6">
       <NDescriptionsItem :label="$t('page.groupConfig.groupStatus')">
-        <NTag :type="tagColor(rowData?.groupStatus!, 2)">{{ $t(groupConfigStatusRecord[rowData?.groupStatus!]) }}</NTag>
+        <NTag :type="tagColor(rowData?.groupStatus!)">{{ $t(groupConfigStatusRecord[rowData?.groupStatus!]) }}</NTag>
       </NDescriptionsItem>
     </NDescriptions>
     <NDescriptions label-placement="top" bordered :column="6">
@@ -43,7 +43,7 @@ watch(
     </NDescriptions>
     <NDescriptions label-placement="top" bordered :column="6">
       <NDescriptionsItem :label="$t('page.groupConfig.idGeneratorMode')">
-        <NTag :type="tagColor(rowData?.idGeneratorMode!, 2)">
+        <NTag :type="tagColor(rowData?.idGeneratorMode!)">
           {{ $t(groupConfigIdModeRecord[rowData?.idGeneratorMode!]) }}
         </NTag>
       </NDescriptionsItem>
@@ -55,7 +55,7 @@ watch(
     </NDescriptions>
     <NDescriptions label-placement="top" bordered :column="6">
       <NDescriptionsItem :label="$t('page.groupConfig.initScene')">
-        <NTag :type="tagColor(rowData?.initScene!, 2)">{{ $t(yesOrNoRecord[rowData?.initScene!]) }}</NTag>
+        <NTag :type="tagColor(rowData?.initScene!)">{{ $t(yesOrNoRecord[rowData?.initScene!]) }}</NTag>
       </NDescriptionsItem>
     </NDescriptions>
     <NDescriptions label-placement="top" bordered :column="6">
