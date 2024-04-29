@@ -1,15 +1,21 @@
 <script setup lang="tsx">
 import { NButton, NTag } from 'naive-ui';
+import { ref } from 'vue';
 import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { backOffRecord, routeKeyRecord } from '@/constants/business';
+import { DelayLevel, backOffRecord, routeKeyRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import SceneOperateDrawer from './modules/scene-operate-drawer.vue';
 import SceneSearch from './modules/scene-search.vue';
+import SceneDetailDrawer from './modules/scene-detail-drawer.vue';
 
 const appStore = useAppStore();
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetRetryScenePageList,
@@ -24,19 +30,26 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   },
   columns: () => [
     {
-      type: 'selection',
-      align: 'center',
-      width: 48
+      key: 'sceneName',
+      title: $t('page.retryScene.sceneName'),
+      align: 'left',
+      minWidth: 120,
+      render: row => {
+        function showDetailDrawer() {
+          detailData.value = row || null;
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.sceneName}
+          </n-button>
+        );
+      }
     },
     {
       key: 'groupName',
       title: $t('page.retryScene.groupName'),
-      align: 'left',
-      minWidth: 120
-    },
-    {
-      key: 'sceneName',
-      title: $t('page.retryScene.sceneName'),
       align: 'left',
       minWidth: 120
     },
@@ -88,7 +101,14 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'triggerInterval',
       title: $t('page.retryScene.triggerInterval'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.backOff === 1) {
+          return triggerInterval(row.backOff!, row.maxRetryCount!);
+        }
+
+        return row.triggerInterval;
+      }
     },
     {
       key: 'deadlineRequest',
@@ -144,6 +164,18 @@ const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedR
 function edit(id: string) {
   handleEdit(id);
 }
+
+function triggerInterval(backOff: number, maxRetryCount: number) {
+  if (backOff !== 1) {
+    return '';
+  }
+
+  let desc = '';
+  for (let i = 1; i <= maxRetryCount; i += 1) {
+    desc += `,${DelayLevel[i as keyof typeof DelayLevel]}`;
+  }
+  return desc.substring(1, desc.length);
+}
 </script>
 
 <template>
@@ -184,6 +216,7 @@ function edit(id: string) {
         :row-data="editingData"
         @submitted="getData"
       />
+      <SceneDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
     </NCard>
   </div>
 </template>

@@ -791,6 +791,7 @@ const local: App.I18n.Schema = {
     },
     retryScene: {
       title: 'Scene List',
+      detail: 'Scene Detail',
       groupName: 'Group name',
       sceneName: 'Scene name',
       sceneStatus: 'State',

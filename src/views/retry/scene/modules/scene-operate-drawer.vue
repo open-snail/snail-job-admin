@@ -305,7 +305,16 @@ watch(
                   <SvgIcon icon="ant-design:info-circle-outlined" class="mb-1px text-16px" />
                 </NButton>
               </template>
-              10s,15s,30s,35s,40s,50s,1m,2m,4m,6m,8m,10m,20m,40m,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h
+              延迟等级是参考RocketMQ的messageDelayLevel设计实现，具体延迟时间如下:
+              【10s,15s,30s,35s,40s,50s,1m,2m,4m,6m,8m,10m,20m,40m,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h】
+              <br />
+              <NText strong>执行逻辑:</NText>
+              <NUl align-text>
+                <NLi>第一次执行间隔10s</NLi>
+                <NLi>第二次执行间隔15s</NLi>
+                <NLi>l第二次执行间隔30s</NLi>
+                <NLi>........... 依次类推</NLi>
+              </NUl>
             </NTooltip>
           </div>
         </template>

@@ -939,6 +939,7 @@ declare namespace App {
         };
         retryScene: {
           title: string;
+          detail: string;
           groupName: string;
           sceneName: string;
           sceneStatus: string;

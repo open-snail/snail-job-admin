@@ -787,6 +787,7 @@ const local: App.I18n.Schema = {
     },
     retryScene: {
       title: '场景列表',
+      detail: '场景详情',
       groupName: '组名',
       sceneName: '场景名',
       sceneStatus: '状态',
