@@ -69,7 +69,7 @@ const onUpdateShow = (value: boolean) => {
       <template #header>
         {{ props.title }}
         <div
-          v-if="!appStore.isMobile && state.width <= 1920"
+          v-if="!appStore.isMobile"
           quaternary
           class="fullscreen text-18px color-#6a6a6a"
           @click="isFullscreen = !isFullscreen"

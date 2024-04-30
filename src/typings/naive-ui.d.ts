@@ -44,4 +44,6 @@ declare namespace NaiveUI {
     import('@sa/hooks').TableConfig<A, GetTableData<A>, TableColumn<TableDataWithIndex<GetTableData<A>>>>,
     'apiFn' | 'apiParams' | 'columns' | 'immediate'
   >;
+
+  type CodeMirrorLang = 'js' | 'json';
 }

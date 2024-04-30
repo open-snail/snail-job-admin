@@ -11,6 +11,7 @@ import {
 } from '@/service/api';
 import { translateOptions, translateOptions2 } from '@/utils/common';
 import { retryTaskStatusTypeOptions } from '@/constants/business';
+import CodeMirror from '@/components/common/code-mirror.vue';
 
 defineOptions({
   name: 'RetryTaskOperateDrawer'
@@ -217,7 +218,7 @@ onMounted(() => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.argsStr')" path="argsStr">
-        <NInput v-model:value="model.argsStr" type="textarea" :placeholder="$t('page.retryTask.form.argsStr')" />
+        <CodeMirror v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.retryStatus')" path="retryStatus">
         <NSelect

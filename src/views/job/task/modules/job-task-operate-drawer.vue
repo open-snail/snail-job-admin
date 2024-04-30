@@ -9,6 +9,7 @@ import { fetchAddJob, fetchEditJob } from '@/service/api';
 import RouteKey from '@/components/common/route-key.vue';
 import ExecutorType from '@/components/common/executor-type.vue';
 import TaskType from '@/components/common/task-type.vue';
+import CodeMirror from '@/components/common/code-mirror.vue';
 
 defineOptions({
   name: 'JobTaskOperateDrawer'
@@ -284,7 +285,7 @@ watch(visible, () => {
         <NInput v-model:value="model.executorInfo" :placeholder="$t('page.jobTask.form.executorInfo')" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.argsStr')" path="argsStr">
-        <NInput v-model:value="model.argsStr" :placeholder="$t('page.jobTask.form.argsStr')" />
+        <CodeMirror v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.taskType')" path="taskType">
         <TaskType v-model:value="model.taskType" :placeholder="$t('page.jobTask.form.taskType')" />
