@@ -855,6 +855,7 @@ declare namespace App {
         };
         notifyRecipient: {
           title: string;
+          detail: string;
           recipientName: string;
           notifyType: string;
           notifyAttribute: string;
