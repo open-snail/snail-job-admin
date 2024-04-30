@@ -33,6 +33,10 @@ const emit = defineEmits<Emits>();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
+// const argsTags = ref<string[]>([]);
+const dynamicForm = reactive({
+  args: [{ arg: '' }]
+});
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
@@ -136,6 +140,13 @@ function handleUpdateModelWhenEdit() {
 
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
+    if (model.taskType === 3 && model.argsStr) {
+      Object.assign(dynamicForm, {
+        args: JSON.parse(model.argsStr).map((item: string) => {
+          return { arg: item };
+        })
+      });
+    }
   }
 }
 
@@ -150,7 +161,6 @@ async function handleSubmit() {
     const {
       groupName,
       jobName,
-      argsStr,
       argsType,
       jobStatus,
       routeKey,
@@ -169,7 +179,7 @@ async function handleSubmit() {
     const { error } = await fetchAddJob({
       groupName,
       jobName,
-      argsStr,
+      argsStr: parseArgsStr(),
       argsType,
       jobStatus,
       routeKey,
@@ -194,7 +204,6 @@ async function handleSubmit() {
       id,
       groupName,
       jobName,
-      argsStr,
       argsType,
       jobStatus,
       routeKey,
@@ -214,7 +223,7 @@ async function handleSubmit() {
       id,
       groupName,
       jobName,
-      argsStr,
+      argsStr: parseArgsStr(),
       argsType,
       jobStatus,
       routeKey,
@@ -237,6 +246,21 @@ async function handleSubmit() {
   closeDrawer();
   emit('submitted');
 }
+
+function parseArgsStr() {
+  if (model.taskType === 3 && dynamicForm.args) {
+    return JSON.stringify(dynamicForm.args.map(item => item.arg));
+  }
+  return model.argsStr;
+}
+
+const removeItem = (index: number) => {
+  dynamicForm.args.splice(index, 1);
+};
+
+const addItem = () => {
+  dynamicForm.args.push({ arg: '' });
+};
 
 watch(visible, () => {
   if (visible.value) {
@@ -284,11 +308,39 @@ watch(visible, () => {
       <NFormItem :label="$t('page.jobTask.executorInfo')" path="executorInfo">
         <NInput v-model:value="model.executorInfo" :placeholder="$t('page.jobTask.form.executorInfo')" />
       </NFormItem>
-      <NFormItem :label="$t('page.jobTask.argsStr')" path="argsStr">
-        <CodeMirror v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
-      </NFormItem>
       <NFormItem :label="$t('page.jobTask.taskType')" path="taskType">
         <TaskType v-model:value="model.taskType" :placeholder="$t('page.jobTask.form.taskType')" />
+      </NFormItem>
+      <NFormItem
+        :label="$t('page.jobTask.argsStr')"
+        path="argsStr"
+        :rule="model.taskType === 3 ? defaultRequiredRule : undefined"
+      >
+        <NCard v-if="model.taskType === 3" class="flex-col">
+          <NFormItem
+            v-for="(item, index) in dynamicForm.args"
+            :key="index"
+            :label="`分片参数 ${index + 1}`"
+            :path="`args[${index}].arg`"
+            :show-feedback="false"
+            class="m-b-12px"
+            :rule="{
+              required: true,
+              message: `${$t('page.jobTask.form.argsStr')} ${index + 1}`,
+              trigger: ['input', 'blur'],
+              validator() {
+                return !!item.arg;
+              }
+            }"
+          >
+            <CodeMirror v-model="item.arg" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
+            <NButton class="ml-12px" type="error" dashed @click="removeItem(index)">
+              <icon-ic-round-delete class="text-icon" />
+            </NButton>
+          </NFormItem>
+          <NButton block dashed attr-type="button" @click="addItem"><icon-ic-round-plus class="text-icon" /></NButton>
+        </NCard>
+        <CodeMirror v-else v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.triggerType')" path="triggerType">
         <TriggerType
