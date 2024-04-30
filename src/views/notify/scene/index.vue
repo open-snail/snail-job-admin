@@ -8,6 +8,7 @@ import NotifyConfigOperateDrawer from '@/views/notify/scene/modules/notify-confi
 import NotifyConfigSearch from '@/views/notify/scene/modules/notify-config-search.vue';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { jobNotifyScene, retryNotifyScene } from '@/constants/business';
+import { tagColor } from '@/utils/common';
 
 const appStore = useAppStore();
 
@@ -74,24 +75,14 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           return null;
         }
 
-        const tagMap: Record<number, NaiveUI.ThemeColor> = {
-          1: 'warning',
-          2: 'info',
-          3: 'warning',
-          4: 'success'
-        };
-
-        const index = row.notifyScene! % 4;
-
         if (row.systemTaskType === 1) {
           const label = $t(retryNotifyScene[row.notifyScene! as Api.NotifyConfig.RetryNotifyScene]);
-          const type = tagMap[index as Api.NotifyConfig.RetryNotifyScene];
-          return <NTag type={type}>{label}</NTag>;
+          return <NTag type={tagColor(row.notifyScene)}>{label}</NTag>;
         }
 
         if (row.systemTaskType === 3) {
           const label = $t(jobNotifyScene[row.notifyScene! as Api.NotifyConfig.JobNotifyScene]);
-          return <NTag type={tagMap[row.notifyScene!]}>{label}</NTag>;
+          return <NTag type={tagColor(row.notifyScene)}>{label}</NTag>;
         }
 
         return null;

@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { ref } from 'vue';
 import { fetchGetNotifyRecipientPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -7,8 +8,13 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { alarmTypeRecord } from '@/constants/business';
 import NotifyRecipientOperateDrawer from './modules/notify-recipient-operate-drawer.vue';
 import NotifyRecipientSearch from './modules/notify-recipient-search.vue';
+import NotifyRecipientDetailDrawer from './modules/notify-recipient-detail-drawer.vue';
 
 const appStore = useAppStore();
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetNotifyRecipientPageList,
@@ -36,7 +42,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'recipientName',
       title: $t('page.notifyRecipient.recipientName'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        function showDetailDrawer() {
+          detailData.value = row || null;
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.recipientName}
+          </n-button>
+        );
+      }
     },
     {
       key: 'notifyType',
@@ -150,6 +168,7 @@ function edit(id: string) {
         @submitted="getData"
       />
     </NCard>
+    <NotifyRecipientDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
   </div>
 </template>
 

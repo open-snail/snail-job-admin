@@ -711,6 +711,7 @@ const local: App.I18n.Schema = {
     },
     notifyRecipient: {
       title: 'Notify Recipient List',
+      detail: 'Notify Recipient Detail',
       recipientName: 'Recipient Name',
       notifyType: 'Notification Type',
       notifyAttribute: 'Attribute Information',

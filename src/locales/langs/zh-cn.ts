@@ -707,6 +707,7 @@ const local: App.I18n.Schema = {
     },
     notifyRecipient: {
       title: '通知人列表',
+      detail: '通知人详情',
       recipientName: '接收人名称',
       notifyType: '通知类型',
       notifyAttribute: '属性信息',
