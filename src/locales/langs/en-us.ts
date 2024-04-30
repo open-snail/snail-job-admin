@@ -18,7 +18,9 @@ const local: App.I18n.Schema = {
     confirm: 'Confirm',
     save: 'Save',
     delete: 'Delete',
-    rollback: 'RollBACK',
+    rollback: 'Rollback',
+    batchRollback: 'Batch Rollback',
+    rollbackSuccess: 'Rollback Success',
     deleteSuccess: 'Delete Success',
     confirmDelete: 'Are you sure you want to delete?',
     edit: 'Edit',
@@ -735,6 +737,7 @@ const local: App.I18n.Schema = {
     },
     retryDeadLetter: {
       title: 'RetryDeadLetter List',
+      detail: 'RetryDeadLetter Detail',
       uniqueId: 'UniqueId',
       groupName: 'Group name',
       sceneName: 'Scene name',

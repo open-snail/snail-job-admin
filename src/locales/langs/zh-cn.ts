@@ -19,6 +19,8 @@ const local: App.I18n.Schema = {
     save: '保存',
     delete: '删除',
     rollback: '回滚',
+    batchRollback: '批量回滚',
+    rollbackSuccess: '回滚成功',
     deleteSuccess: '删除成功',
     confirmDelete: '确认删除吗？',
     edit: '编辑',
@@ -731,6 +733,7 @@ const local: App.I18n.Schema = {
     },
     retryDeadLetter: {
       title: '死信任务列表',
+      detail: '死信任务详情',
       uniqueId: 'UniqueId',
       groupName: '组名',
       sceneName: '场景名称',
