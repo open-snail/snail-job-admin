@@ -26,7 +26,8 @@ watch(
   () => props.rowData,
   () => {
     console.log(props.rowData);
-    // notifyAttribute.value = JSON.parse(props?.rowData?.notifyAttribute!) || {};
+    const rowData = props.rowData?.notifyAttribute;
+    notifyAttribute.value = JSON.parse(rowData!) || {};
   },
   { immediate: true }
 );
