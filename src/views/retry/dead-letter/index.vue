@@ -1,13 +1,25 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
-import { fetchGetRetryDeadLetterPageList } from '@/service/api';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { ref } from 'vue';
+import {
+  fetchDeleteRetryDeadLetter,
+  fetchGetRetryDeadLetterById,
+  fetchGetRetryDeadLetterPageList,
+  fetchRollbackRetryDeadLetter
+} from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import RetryDeadLetterOperateDrawer from './modules/dead-letter-operate-drawer.vue';
+import { retryTaskTypeRecord } from '@/constants/business';
+import { tagColor } from '@/utils/common';
 import RetryDeadLetterSearch from './modules/dead-letter-search.vue';
+import RetryDeadLetterDetailDrawer from './modules/retry-letter-detail-drawer.vue';
 
 const appStore = useAppStore();
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetRetryDeadLetterPageList,
@@ -33,7 +45,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'uniqueId',
       title: $t('page.retryDeadLetter.uniqueId'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        async function showDetailDrawer() {
+          await loadRetryInfo(row);
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.uniqueId}
+          </n-button>
+        );
+      }
     },
     {
       key: 'groupName',
@@ -63,7 +87,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'taskType',
       title: $t('page.retryDeadLetter.taskType'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.taskType === null) {
+          return null;
+        }
+        const label = $t(retryTaskTypeRecord[row.taskType!]);
+
+        return <NTag type={tagColor(row.taskType!)}>{label}</NTag>;
+      }
     },
     {
       key: 'createDt',
@@ -78,10 +110,10 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => rollback(row.id!)}>
+          <NButton type="primary" ghost size="small" onClick={() => rollback(row)}>
             {$t('common.rollback')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+          <NPopconfirm onPositiveClick={() => handleDelete(row)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
@@ -97,34 +129,47 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-const {
-  drawerVisible,
-  operateType,
-  editingData,
-  handleAdd,
-  handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
-  // closeDrawer
-} = useTableOperate(data, getData);
+const { handleAdd, checkedRowKeys } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await fetchDeleteRetryDeadLetter({
+    ids: checkedRowKeys.value as any[],
+    groupName: searchParams.groupName!
+  });
+  if (error) return;
+  window.$message?.success($t('common.deleteSuccess'));
+  getData();
 }
 
-function handleDelete(id: string) {
+async function handleBatchRollback() {
   // request
-  console.log(id);
-
-  onDeleted();
+  const { error } = await fetchRollbackRetryDeadLetter({
+    ids: checkedRowKeys.value as any[],
+    groupName: searchParams.groupName!
+  });
+  if (error) return;
+  window.$message?.success($t('common.rollbackSuccess'));
+  getData();
 }
 
-function rollback(id: string) {
-  handleEdit(id);
+async function handleDelete(row: Api.RetryDeadLetter.DeadLetter) {
+  const { error } = await fetchDeleteRetryDeadLetter({ ids: [row.id!], groupName: row.groupName! });
+  if (error) return;
+  window.$message?.success($t('common.deleteSuccess'));
+  getData();
+}
+
+async function loadRetryInfo(row: Api.RetryDeadLetter.DeadLetter) {
+  const res = await fetchGetRetryDeadLetterById(row.id!, row.groupName!);
+  detailData.value = (res.data as Api.RetryDeadLetter.DeadLetter) || null;
+}
+
+async function rollback(row: Api.RetryDeadLetter.DeadLetter) {
+  const { error } = await fetchRollbackRetryDeadLetter({ ids: [row.id!], groupName: row.groupName! });
+  if (error) return;
+  window.$message?.success($t('common.rollbackSuccess'));
+  getData();
 }
 </script>
 
@@ -146,7 +191,16 @@ function rollback(id: string) {
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <NButton size="small" ghost type="primary" @click="handleBatchRollback">
+              <template #icon>
+                <IconTdesignRollback class="text-icon" />
+              </template>
+              {{ $t('common.batchRollback') }}
+            </NButton>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"
@@ -160,12 +214,7 @@ function rollback(id: string) {
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <RetryDeadLetterOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getData"
-      />
+      <RetryDeadLetterDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
     </NCard>
   </div>
 </template>

@@ -9,8 +9,15 @@ export function fetchGetRetryDeadLetterPageList(params?: Api.RetryDeadLetter.Ret
   });
 }
 
+export function fetchGetRetryDeadLetterById(id: string, groupName: string) {
+  return request({
+    url: `/retry-dead-letter/${id}?groupName=${groupName}`,
+    method: 'get'
+  });
+}
+
 /** add retry scene */
-export function fetchRollbackRetryDeadLetter(data: { id: string | undefined | null }) {
+export function fetchRollbackRetryDeadLetter(data: Api.RetryDeadLetter.BatchDeadLetter) {
   return request<boolean>({
     url: '/retry-dead-letter/batch/rollback',
     method: 'post',
@@ -19,7 +26,7 @@ export function fetchRollbackRetryDeadLetter(data: { id: string | undefined | nu
 }
 
 /** edit retry scene */
-export function fetchDeleteRetryDeadLetter(data: { id: string | undefined | null }) {
+export function fetchDeleteRetryDeadLetter(data: Api.RetryDeadLetter.BatchDeadLetter) {
   return request<boolean>({
     url: '/retry-dead-letter/batch',
     method: 'delete',

@@ -265,6 +265,8 @@ declare namespace App {
         save: string;
         delete: string;
         rollback: string;
+        batchRollback: string;
+        rollbackSuccess: string;
         deleteSuccess: string;
         confirmDelete: string;
         edit: string;
@@ -879,6 +881,7 @@ declare namespace App {
         };
         retryDeadLetter: {
           title: string;
+          detail: string;
           uniqueId: string;
           groupName: string;
           sceneName: string;

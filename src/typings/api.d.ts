@@ -655,7 +655,7 @@ declare namespace Api {
     /** deadLetter */
     type DeadLetter = Common.CommonRecord<{
       /** id */
-      id?: string;
+      id?: number;
       /** UniqueId */
       uniqueId?: string;
       /** 组名称 */
@@ -670,6 +670,10 @@ declare namespace Api {
       taskType?: TaskType;
       /** 创建时间 * */
       createDt?: string;
+      /** 执行器名称 */
+      executorName: string;
+      /** 执行方法参数 */
+      argsStr: string;
     }>;
 
     /** deadLetter search params */
@@ -683,6 +687,11 @@ declare namespace Api {
 
     /** DeadLetter list */
     type RetryDeadLetterList = Common.PaginatingQueryRecord<DeadLetter>;
+
+    type BatchDeadLetter = Common.CommonRecord<{
+      groupName?: string;
+      ids: number[];
+    }>;
   }
 
   /**
