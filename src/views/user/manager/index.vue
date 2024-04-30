@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { ref } from 'vue';
 import { fetchDelUser, fetchGetUserPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -7,8 +8,13 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { roleRecord } from '@/constants/business';
 import UserManagerOperateDrawer from './modules/user-manager-operate-drawer.vue';
 import UserManagerSearch from './modules/user-manager-search.vue';
+import UserManagerDetailDrawer from './modules/user-manager-detail-drawer.vue';
 
 const appStore = useAppStore();
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetUserPageList,
@@ -23,7 +29,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   columns: () => [
     {
       key: 'permissions',
-      // title: $t('page.userManager.permissions'),
       align: 'left',
       type: 'expand',
       minWidth: 10,
@@ -54,7 +59,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'username',
       title: $t('page.userManager.username'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        function showDetailDrawer() {
+          detailData.value = row || null;
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.username}
+          </n-button>
+        );
+      }
     },
     {
       key: 'role',
@@ -161,6 +178,7 @@ function edit(id: string) {
         :row-data="editingData"
         @submitted="getData"
       />
+      <UserManagerDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
     </NCard>
   </div>
 </template>

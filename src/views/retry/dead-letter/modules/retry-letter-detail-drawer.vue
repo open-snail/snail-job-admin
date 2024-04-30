@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from 'vue';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
 import { retryTaskTypeRecord } from '@/constants/business';
@@ -16,15 +15,7 @@ interface Props {
 const visible = defineModel<boolean>('visible', {
   default: false
 });
-const props = defineProps<Props>();
-
-watch(
-  () => props.rowData,
-  () => {
-    console.log(props.rowData);
-  },
-  { immediate: true }
-);
+defineProps<Props>();
 </script>
 
 <template>
