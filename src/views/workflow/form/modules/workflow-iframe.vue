@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onActivated, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { $t } from '@/locales';
 
 defineOptions({
   name: 'WorkFlowIframe'
@@ -23,18 +24,18 @@ const baseUrl = import.meta.env.BASE_URL;
 
 function save() {
   window.removeEventListener('message', handleMessage);
-  window.$message?.info('工作流新增成功');
-  router.push({ path: '/job/workflow/list' });
+  window.$message?.info($t('common.addSuccess'));
+  router.push({ path: '/workflow/task' });
 }
 
 function cancel() {
   window.removeEventListener('message', handleMessage);
-  router.push({ path: '/job/workflow/list' });
+  router.push({ path: '/workflow/task' });
 }
 
 function update() {
-  window.$message?.info('工作流修改成功');
-  router.push({ path: '/job/workflow/list' });
+  window.$message?.info($t('common.updateSuccess'));
+  router.push({ path: '/workflow/task' });
 }
 
 function handleMessage(e: MessageEvent) {

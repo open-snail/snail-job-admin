@@ -9,6 +9,14 @@ export function fetchGetWorkflowPageList(params?: Api.Workflow.WorkflowSearchPar
   });
 }
 
+/** trigger workflow */
+export function fetchTriggerWorkflow(id: string) {
+  return request({
+    url: `/workflow/trigger/${id}`,
+    method: 'post'
+  });
+}
+
 /** get namespace list */
 export function fetchGetWorkflowNameList(params?: Api.WorkflowBatch.WorkflowBatchSearchParams) {
   return request<Api.Workflow.Workflow[]>({

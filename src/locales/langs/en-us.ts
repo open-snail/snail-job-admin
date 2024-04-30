@@ -49,6 +49,8 @@ const local: App.I18n.Schema = {
     fail: 'Fail',
     stop: 'Stop',
     execute: 'Execute',
+    batchList: 'Batch',
+    copy: 'Copy',
     resume: 'Resume',
     pause: 'Pause',
     finish: 'Finish',

@@ -49,6 +49,8 @@ const local: App.I18n.Schema = {
     fail: '失败',
     stop: '停止',
     execute: '执行',
+    copy: '复制',
+    batchList: '批次',
     resume: '恢复',
     pause: '暂停',
     finish: '完成',

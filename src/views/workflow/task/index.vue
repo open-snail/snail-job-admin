@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useRouter } from 'vue-router';
-import { fetchGetWorkflowPageList } from '@/service/api';
+import { fetchGetWorkflowPageList, fetchTriggerWorkflow } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -38,7 +38,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'workflowName',
       title: $t('page.workflow.workflowName'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        function showDetailDrawer() {
+          detail(row.id!);
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.workflowName}
+          </n-button>
+        );
+      }
     },
     {
       key: 'groupName',
@@ -102,11 +113,21 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      fixed: 'right',
+      width: 300,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+          <NButton type="primary" ghost size="small" onClick={() => execute(row.id!)}>
+            {$t('common.execute')}
+          </NButton>
+          <NButton type="primary" ghost size="small" onClick={() => copy(row.id!)}>
+            {$t('common.copy')}
+          </NButton>
+          <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
+          </NButton>
+          <NButton type="success" ghost size="small" onClick={() => batch(row.id!)}>
+            {$t('common.batchList')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
             {{
@@ -125,7 +146,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 });
 
 const {
-  handleEdit,
   checkedRowKeys,
   onBatchDeleted,
   onDeleted
@@ -147,11 +167,31 @@ function handleDelete(id: string) {
 }
 
 function edit(id: string) {
-  handleEdit(id);
+  router.push({ path: '/workflow/form/edit', query: { id } });
 }
 
 function handleAdd() {
   router.push({ path: '/workflow/form/edit' });
+}
+
+function detail(id: string) {
+  router.push({ path: '/workflow/form/detail', query: { id } });
+}
+
+function copy(id: string) {
+  router.push({ path: '/workflow/form/copy', query: { id } });
+}
+
+function batch(id: string) {
+  router.push({ path: '/workflow/batch', query: { workflowId: id } });
+}
+
+async function execute(id: string) {
+  const { error } = await fetchTriggerWorkflow(id);
+  if (!error) {
+    window.$message?.success($t('common.executeSuccess'));
+    getData();
+  }
 }
 </script>
 
@@ -180,7 +220,7 @@ function handleAdd() {
         :columns="columns"
         :data="data"
         :flex-height="!appStore.isMobile"
-        :scroll-x="962"
+        :scroll-x="1300"
         :loading="loading"
         remote
         :row-key="row => row.id"

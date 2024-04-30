@@ -295,6 +295,8 @@ declare namespace App {
         fail: string;
         stop: string;
         execute: string;
+        batchList: string;
+        copy: string;
         resume: string;
         pause: string;
         finish: string;
