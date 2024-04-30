@@ -42,49 +42,35 @@ watch(
 
 <template>
   <OperateDrawer v-model="visible" :title="$t('page.retryScene.detail')">
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.sceneName')">{{ rowData?.sceneName }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.sceneStatus')">
+    <NDescriptions label-placement="top" bordered :column="2">
+      <NDescriptionsItem :label="$t('page.retryScene.sceneName')" :span="2">{{ rowData?.sceneName }}</NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryScene.groupName')" :span="2">{{ rowData?.groupName }}</NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryScene.sceneStatus')" :span="1">
         <NTag :type="tagColor(rowData?.sceneStatus!)">{{ $t(enableStatusNumberRecord[rowData?.sceneStatus!]) }}</NTag>
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.groupName')">{{ rowData?.groupName }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('common.routeKey.routeLabel')">
+      <NDescriptionsItem :label="$t('common.routeKey.routeLabel')" :span="1">
         <NTag :type="tagColor(rowData?.routeKey!)">{{ $t(routeKeyRecord[rowData?.routeKey!]) }}</NTag>
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.maxRetryCount')">{{ rowData?.maxRetryCount }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.executorTimeout')">
+      <NDescriptionsItem :label="$t('page.retryScene.maxRetryCount')" :span="1">
+        {{ rowData?.maxRetryCount }}
+      </NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryScene.executorTimeout')" :span="1">
         {{ rowData?.executorTimeout }}
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.deadlineRequest')">
+      <NDescriptionsItem :label="$t('page.retryScene.deadlineRequest')" :span="1">
         {{ rowData?.deadlineRequest }}
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.backOff')">
+      <NDescriptionsItem :label="$t('page.retryScene.backOff')" :span="1">
         <NTag :type="tagColor(rowData?.backOff!)">
           {{ $t(backOffRecord[rowData?.backOff!]) }}
         </NTag>
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.triggerInterval')">
+      <NDescriptionsItem :label="$t('page.retryScene.triggerInterval')" :span="2">
         {{ rowData?.backOff === 1 ? maxRetryCountUpdate(rowData?.maxRetryCount) : rowData?.triggerInterval }}
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryScene.description')">{{ rowData?.description }}</NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryScene.description')" :span="2">
+        {{ rowData?.description }}
+      </NDescriptionsItem>
     </NDescriptions>
   </OperateDrawer>
 </template>

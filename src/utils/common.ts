@@ -75,7 +75,7 @@ export function tagColor(index: number) {
     1: 'info',
     2: 'success',
     3: 'warning',
-    4: 'default'
+    4: 'primary'
   };
 
   if (index === null || index < 0) {

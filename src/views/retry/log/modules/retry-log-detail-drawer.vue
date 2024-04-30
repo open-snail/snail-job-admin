@@ -29,44 +29,28 @@ watch(
 
 <template>
   <OperateDrawer v-model="visible" :title="$t('page.retryLog.detail')">
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryLog.UniqueId')">
+    <NDescriptions label-placement="top" bordered :column="2">
+      <NDescriptionsItem :label="$t('page.retryLog.UniqueId')" :span="2">
         {{ rowData?.uniqueId }}
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryLog.groupName')">{{ rowData?.groupName }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryLog.sceneName')">{{ rowData?.sceneName }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryLog.retryStatus')">
+      <NDescriptionsItem :label="$t('page.retryLog.groupName')" :span="2">{{ rowData?.groupName }}</NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryLog.sceneName')" :span="2">{{ rowData?.sceneName }}</NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryLog.retryStatus')" :span="1">
         <NTag :type="tagColor(rowData?.retryStatus!)">
           {{ $t(retryTaskStatusTypeRecord[rowData?.retryStatus!]) }}
         </NTag>
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryLog.taskType')">
+      <NDescriptionsItem :label="$t('page.retryLog.taskType')" :span="1">
         <NTag :type="tagColor(rowData?.taskType!)">{{ $t(retryTaskTypeRecord[rowData?.taskType!]) }}</NTag>
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryLog.bizNo')">{{ rowData?.bizNo }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryLog.idempotentId')">
+      <NDescriptionsItem :label="$t('page.retryLog.bizNo')" :span="2">{{ rowData?.bizNo }}</NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryLog.idempotentId')" :span="2">
         {{ rowData?.idempotentId }}
       </NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryTask.executorName')">{{ rowData?.executorName }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
-      <NDescriptionsItem :label="$t('page.retryTask.argsStr')">{{ rowData?.argsStr }}</NDescriptionsItem>
-    </NDescriptions>
-    <NDescriptions label-placement="top" bordered :column="6">
+      <NDescriptionsItem :label="$t('page.retryTask.executorName')" :span="2">
+        {{ rowData?.executorName }}
+      </NDescriptionsItem>
+      <NDescriptionsItem :label="$t('page.retryTask.argsStr')" :span="2">{{ rowData?.argsStr }}</NDescriptionsItem>
       <NDescriptionsItem :label="$t('common.createDt')">{{ rowData?.createDt }}</NDescriptionsItem>
     </NDescriptions>
   </OperateDrawer>
