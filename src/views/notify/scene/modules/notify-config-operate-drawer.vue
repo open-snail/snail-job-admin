@@ -97,7 +97,7 @@ function createDefaultModel(): Model {
     systemTaskType: 1,
     notifyStatus: 1,
     notifyScene: 1,
-    notifyThreshold: 0,
+    notifyThreshold: 16,
     rateLimiterStatus: 0,
     rateLimiterThreshold: 0,
     description: ''
@@ -316,12 +316,14 @@ watch(visible, () => {
       <NFormItem :label="$t('page.notifyConfig.rateLimiterThreshold')" path="rateLimiterThreshold">
         <NInputNumber
           v-model:value="model.rateLimiterThreshold"
+          :min="1"
           :placeholder="$t('page.notifyConfig.form.rateLimiterThreshold')"
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
         <NInputNumber
           v-model:value="model.notifyThreshold"
+          :min="1"
           :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
         />
       </NFormItem>

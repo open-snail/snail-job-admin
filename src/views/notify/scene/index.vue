@@ -1,16 +1,22 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { ref } from 'vue';
 import { fetchGetNotifyConfigList, fetchUpdateNotifyStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import NotifyConfigOperateDrawer from '@/views/notify/scene/modules/notify-config-operate-drawer.vue';
 import NotifyConfigSearch from '@/views/notify/scene/modules/notify-config-search.vue';
+import NotifyConfigDetailDrawer from '@/views/notify/scene/modules/notify-config-detail-drawer.vue';
 import StatusSwitch from '@/components/common/status-switch.vue';
-import { jobNotifyScene, retryNotifyScene } from '@/constants/business';
+import { jobNotifyScene, retryNotifyScene, systemTaskType } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 
 const appStore = useAppStore();
+const detailData = ref();
+const detailVisible = defineModel<boolean>('detailVisible', {
+  default: false
+});
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetNotifyConfigList,
@@ -36,16 +42,43 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 64
     },
     {
+      key: 'businessName',
+      title: $t('page.notifyConfig.businessName'),
+      align: 'left',
+      width: 120,
+      render: row => {
+        function showDetailDrawer() {
+          detailData.value = row || null;
+          detailVisible.value = true;
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.businessName}
+          </n-button>
+        );
+      }
+    },
+    {
       key: 'groupName',
       title: $t('page.notifyConfig.groupName'),
       align: 'left',
       width: 120
     },
     {
-      key: 'businessName',
-      title: $t('page.notifyConfig.businessName'),
+      key: 'systemTaskType',
+      title: $t('page.notifyConfig.systemTaskType'),
       align: 'left',
-      width: 120
+      width: 120,
+      render: row => {
+        if (row.systemTaskType === null) {
+          return null;
+        }
+
+        const label = $t(systemTaskType[row.systemTaskType!]);
+
+        return <NTag type={tagColor(row.systemTaskType!)}>{label}</NTag>;
+      }
     },
     {
       key: 'notifyStatus',
@@ -91,6 +124,12 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'notifyThreshold',
       title: $t('page.notifyConfig.notifyThreshold'),
+      align: 'left',
+      width: 120
+    },
+    {
+      key: 'createDt',
+      title: $t('common.createDt'),
       align: 'left',
       width: 120
     },
@@ -192,6 +231,7 @@ function edit(id: string) {
         :row-data="editingData"
         @submitted="getData"
       />
+      <NotifyConfigDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
     </NCard>
   </div>
 </template>

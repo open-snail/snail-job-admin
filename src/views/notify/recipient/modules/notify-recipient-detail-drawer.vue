@@ -25,8 +25,7 @@ const visible = defineModel<boolean>('visible', {
 watch(
   () => props.rowData,
   () => {
-    console.log(props.rowData);
-    const rowData = props.rowData?.notifyAttribute;
+    const rowData = props.rowData?.notifyAttribute || null;
     notifyAttribute.value = JSON.parse(rowData!) || {};
   },
   { immediate: true }
