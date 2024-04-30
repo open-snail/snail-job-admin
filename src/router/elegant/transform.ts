@@ -114,14 +114,14 @@ function transformElegantRouteToVueRoute(
     }
 
   }
-  
+
   // add redirect to child
   if (children?.length && !vueRoute.redirect) {
     vueRoute.redirect = {
       name: children[0].name
     };
   }
-  
+
   if (children?.length) {
     const childRoutes = children.flatMap(child => transformElegantRouteToVueRoute(child, layouts, views));
 
@@ -202,6 +202,10 @@ const routeMap: RouteMap = {
   "user-center": "/user-center",
   "workflow": "/workflow",
   "workflow_batch": "/workflow/batch",
+  "workflow_form": "/workflow/form",
+  "workflow_form_copy": "/workflow/form/copy",
+  "workflow_form_detail": "/workflow/form/detail",
+  "workflow_form_edit": "/workflow/form/edit",
   "workflow_task": "/workflow/task"
 };
 

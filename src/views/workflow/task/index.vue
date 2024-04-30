@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { useRouter } from 'vue-router';
 import { fetchGetWorkflowPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -7,6 +8,7 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { enableStatusNumberRecord, triggerTypeRecord } from '@/constants/business';
 import WorkflowSearch from './modules/workflow-search.vue';
 
+const router = useRouter();
 const appStore = useAppStore();
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
@@ -123,7 +125,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 });
 
 const {
-  handleAdd,
   handleEdit,
   checkedRowKeys,
   onBatchDeleted,
@@ -147,6 +148,10 @@ function handleDelete(id: string) {
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+function handleAdd() {
+  router.push({ path: '/workflow/form/edit' });
 }
 </script>
 

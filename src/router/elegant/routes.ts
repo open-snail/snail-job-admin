@@ -545,6 +545,47 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'workflow_form',
+        path: '/workflow/form',
+        meta: {
+          title: 'workflow_form',
+          hideInMenu: true,
+          i18nKey: 'route.workflow_form'
+        },
+        children: [
+          {
+            name: 'workflow_form_copy',
+            path: '/workflow/form/copy',
+            component: 'view.workflow_form_copy',
+            meta: {
+              title: 'workflow_form_copy',
+              hideInMenu: true,
+              i18nKey: 'route.workflow_form_copy'
+            }
+          },
+          {
+            name: 'workflow_form_detail',
+            path: '/workflow/form/detail',
+            component: 'view.workflow_form_detail',
+            meta: {
+              title: 'workflow_form_detail',
+              hideInMenu: true,
+              i18nKey: 'route.workflow_form_detail'
+            }
+          },
+          {
+            name: 'workflow_form_edit',
+            path: '/workflow/form/edit',
+            component: 'view.workflow_form_edit',
+            meta: {
+              title: 'workflow_form_edit',
+              hideInMenu: true,
+              i18nKey: 'route.workflow_form_edit'
+            }
+          }
+        ]
+      },
+      {
         name: 'workflow_task',
         path: '/workflow/task',
         component: 'view.workflow_task',
