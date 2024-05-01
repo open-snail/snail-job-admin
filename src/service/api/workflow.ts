@@ -48,3 +48,10 @@ export function fetchDelWorkflow(id: string) {
     method: 'delete'
   });
 }
+
+export function fetchStopWorkflowBatch(id: string) {
+  return request({
+    url: `/workflow/batch/stop/${id}`,
+    method: 'post'
+  });
+}

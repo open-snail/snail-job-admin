@@ -554,6 +554,16 @@ export const generatedRoutes: GeneratedRoute[] = [
         },
         children: [
           {
+            name: 'workflow_form_batch',
+            path: '/workflow/form/batch',
+            component: 'view.workflow_form_batch',
+            meta: {
+              hideInMenu: true,
+              title: 'workflow_form_batch',
+              i18nKey: 'route.workflow_form_batch'
+            }
+          },
+          {
             name: 'workflow_form_copy',
             path: '/workflow/form/copy',
             component: 'view.workflow_form_copy',
