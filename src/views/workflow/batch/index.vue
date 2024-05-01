@@ -1,9 +1,10 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchGetWorkflowBatchList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
 import WorkflowBatchSearch from './modules/workflow-batch-search.vue';
 
 const appStore = useAppStore();
@@ -53,13 +54,38 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'taskBatchStatus',
       title: $t('page.workflowBatch.taskBatchStatus'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (!row.taskBatchStatus) {
+          return null;
+        }
+
+        const tagMap: Record<number, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'success',
+          3: 'warning',
+          4: 'error',
+          5: 'error',
+          6: 'warning'
+        };
+
+        const label = $t(taskBatchStatusRecord[row.taskBatchStatus!]);
+        return <NTag type={tagMap[row.taskBatchStatus]}>{label}</NTag>;
+      }
     },
     {
       key: 'operationReason',
       title: $t('page.workflowBatch.operationReason'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (!row.operationReason) {
+          return null;
+        }
+
+        const label = $t(operationReasonRecord[row.operationReason!]);
+        return <NTag type="warning">{label}</NTag>;
+      }
     },
     {
       key: 'createDt',
@@ -94,9 +120,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 });
 
 const {
-  drawerVisible,
-  operateType,
-  editingData,
   handleAdd,
   handleEdit,
   checkedRowKeys,
@@ -139,6 +162,7 @@ function edit(id: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="false"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
@@ -155,12 +179,6 @@ function edit(id: string) {
         :row-key="row => row.id"
         :pagination="mobilePagination"
         class="sm:h-full"
-      />
-      <WorkflowBatchOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getData"
       />
     </NCard>
   </div>

@@ -1,11 +1,18 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useRouter } from 'vue-router';
-import { fetchGetWorkflowPageList, fetchTriggerWorkflow } from '@/service/api';
+import {
+  fetchDelWorkflow,
+  fetchGetWorkflowPageList,
+  fetchTriggerWorkflow,
+  fetchUpdateWorkflowStatus
+} from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { enableStatusNumberRecord, triggerTypeRecord } from '@/constants/business';
+import { triggerTypeRecord } from '@/constants/business';
+import StatusSwitch from '@/components/common/status-switch.vue';
+import { tagColor } from '@/utils/common';
 import WorkflowSearch from './modules/workflow-search.vue';
 
 const router = useRouter();
@@ -23,11 +30,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     workflowStatus: null
   },
   columns: () => [
-    {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
+    // {
+    //   type: 'selection',
+    //   align: 'center',
+    //   width: 48
+    // },
     {
       key: 'index',
       title: $t('common.index'),
@@ -69,12 +76,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'left',
       minWidth: 120,
       render: row => {
-        if (!row.workflowStatus) {
-          return null;
-        }
+        const fetchFn = async (workflowStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
+          const { error } = await fetchUpdateWorkflowStatus(row.id!);
+          if (!error) {
+            row.workflowStatus = workflowStatus;
+            window.$message?.success($t('common.updateSuccess'));
+          }
+          callback();
+        };
 
-        const label = $t(enableStatusNumberRecord[row.workflowStatus!]);
-        return <NTag type="primary">{label}</NTag>;
+        return <StatusSwitch v-model:value={row.workflowStatus} onFetch={fetchFn} />;
       }
     },
     {
@@ -88,7 +99,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         }
 
         const label = $t(triggerTypeRecord[row.triggerType!]);
-        return <NTag type="primary">{label}</NTag>;
+        return <NTag type={tagColor(row.triggerType)}>{label}</NTag>;
       }
     },
     {
@@ -147,8 +158,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 
 const {
   checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
+  onBatchDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
@@ -159,11 +169,13 @@ async function handleBatchDelete() {
   onBatchDeleted();
 }
 
-function handleDelete(id: string) {
+async function handleDelete(id: string) {
   // request
-  console.log(id);
-
-  onDeleted();
+  const { error } = await fetchDelWorkflow(id!);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    getData();
+  }
 }
 
 function edit(id: string) {
@@ -210,6 +222,7 @@ async function execute(id: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="false"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

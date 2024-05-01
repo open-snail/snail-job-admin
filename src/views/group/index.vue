@@ -59,7 +59,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 80,
       render: row => {
         const fetchFn = async (groupStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
-          const { error } = await fetchUpdateGroupStatus({ groupName: row.groupName, groupStatus: row.groupStatus });
+          const status = row.groupStatus === 1 ? 0 : 1;
+          const { error } = await fetchUpdateGroupStatus({ groupName: row.groupName, groupStatus: status });
           if (!error) {
             row.groupStatus = groupStatus;
             window.$message?.success($t('common.updateSuccess'));

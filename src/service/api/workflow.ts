@@ -34,3 +34,17 @@ export function fetchGetWorkflowBatchList(params?: Api.WorkflowBatch.WorkflowBat
     params
   });
 }
+
+export function fetchUpdateWorkflowStatus(id: string) {
+  return request({
+    url: `/workflow/update/status/${id}`,
+    method: 'put'
+  });
+}
+
+export function fetchDelWorkflow(id: string) {
+  return request({
+    url: `/workflow/${id}`,
+    method: 'delete'
+  });
+}
