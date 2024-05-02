@@ -1040,8 +1040,7 @@ declare namespace Api {
 
     /** workflowBatch search params */
     type WorkflowBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus' | 'operationReason'> &
-        CommonSearchParams
+      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus'> & CommonSearchParams
     >;
 
     /** workflowBatch list */

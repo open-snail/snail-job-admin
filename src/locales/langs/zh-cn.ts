@@ -289,7 +289,7 @@ const local: App.I18n.Schema = {
     workflow_batch: '执行批次',
     workflow_form: '工作流',
     workflow_form_copy: '复制工作流',
-    workflow_form_batch: '工作流批次列表',
+    workflow_form_batch: '工作流批次详情',
     workflow_form_detail: '工作流详情',
     workflow_form_edit: '编辑工作流',
     job: '定时任务',

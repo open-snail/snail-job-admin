@@ -33,6 +33,8 @@ async function groupNameUpdate(groupName: string) {
   const res = await fetchGetWorkflowNameList({ groupName });
   workflowList.value = res.data as Api.Workflow.Workflow[];
 }
+
+groupNameUpdate('');
 </script>
 
 <template>
