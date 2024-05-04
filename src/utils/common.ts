@@ -69,7 +69,9 @@ export function translateOptions2(options: string[]) {
  *
  * @param index
  */
-export function tagColor(index: number) {
+export function tagColor(index: number | string) {
+  const indexNumber = Number(index);
+
   const tagMap: Record<number, NaiveUI.ThemeColor> = {
     0: 'error',
     1: 'info',
@@ -78,9 +80,9 @@ export function tagColor(index: number) {
     4: 'primary'
   };
 
-  if (index === null || index < 0) {
+  if (indexNumber === null || indexNumber < 0) {
     return tagMap[1];
   }
 
-  return tagMap[index % 5];
+  return tagMap[indexNumber % 5];
 }

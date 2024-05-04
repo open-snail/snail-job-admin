@@ -76,7 +76,7 @@ function createDefaultModel(): Model {
     deadlineRequest: 60000,
     executorTimeout: 60,
     description: '',
-    routeKey: 4
+    routeKey: '4'
   };
 }
 

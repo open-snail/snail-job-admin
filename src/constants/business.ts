@@ -117,12 +117,12 @@ export const backOffRecord: Record<Api.RetryScene.BackOff, App.I18n.I18nKey> = {
 export const backOffRecordOptions = transformRecordToNumberOption(backOffRecord, true);
 
 export const routeKeyRecord: Record<Api.Common.RouteKey, App.I18n.I18nKey> = {
-  1: 'common.routeKey.items.consistentHash',
-  2: 'common.routeKey.items.random',
-  3: 'common.routeKey.items.lru',
-  4: 'common.routeKey.items.round'
+  '1': 'common.routeKey.items.consistentHash',
+  '2': 'common.routeKey.items.random',
+  '3': 'common.routeKey.items.lru',
+  '4': 'common.routeKey.items.round'
 };
-export const routeKeyRecordOptions = transformRecordToNumberOption(routeKeyRecord, true);
+export const routeKeyRecordOptions = transformRecordToOption(routeKeyRecord);
 
 /** 阻塞策略 */
 export const blockStrategyRecord: Record<Api.Common.BlockStrategy, App.I18n.I18nKey> = {

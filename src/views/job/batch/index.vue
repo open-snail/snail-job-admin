@@ -53,26 +53,32 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
           return null;
         }
         const tagMap: Record<Api.Common.OperationReason, NaiveUI.ThemeColor> = {
-          0: 'default',
-          1: 'default',
-          2: 'error',
-          3: 'default',
-          4: 'default',
-          5: 'default',
-          6: 'default',
-          7: 'default',
-          8: 'default',
-          9: 'default',
-          10: 'default',
-          11: 'default',
-          12: 'default',
-          13: 'default',
-          14: 'default'
+          0: 'warning',
+          1: 'warning',
+          2: 'warning',
+          3: 'warning',
+          4: 'warning',
+          5: 'warning',
+          6: 'warning',
+          7: 'warning',
+          8: 'warning',
+          9: 'warning',
+          10: 'warning',
+          11: 'warning',
+          12: 'warning',
+          13: 'warning',
+          14: 'warning'
         };
         const label = $t(operationReasonRecord[row.operationReason!]);
 
         return <NTag type={tagMap[row.operationReason!]}>{label}</NTag>;
       }
+    },
+    {
+      key: 'createDt',
+      title: $t('common.createDt'),
+      align: 'center',
+      minWidth: 120
     },
     {
       key: 'operate',
@@ -84,6 +90,9 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
           <NButton type="primary" ghost size="small" onClick={() => detail(row.id!)}>
             {$t('common.detail')}
           </NButton>
+          <NButton type="primary" ghost size="small" onClick={() => handleExecute(row.id!)}>
+            {$t('common.execute')}
+          </NButton>
         </div>
       )
     }
@@ -91,6 +100,10 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
 });
 
 function detail(id: string) {
+  console.log(id);
+}
+
+function handleExecute(id: string) {
   console.log(id);
 }
 </script>
