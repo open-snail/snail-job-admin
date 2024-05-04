@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
+import { useBoolean } from '@sa/hooks';
 import { fetchBatchDeleteRetryLog, fetchDeleteRetryLog, fetchRetryLogById, fetchRetryLogPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -11,10 +12,11 @@ import RetryLogSearch from './modules/retry-log-search.vue';
 import RetryLogDetailDrawer from './modules/retry-log-detail-drawer.vue';
 
 const appStore = useAppStore();
-const detailData = ref();
-const detailVisible = defineModel<boolean>('detailVisible', {
-  default: false
-});
+
+/** 详情页属性数据 */
+const detailData = ref<Api.RetryLog.RetryLog | null>();
+/** 详情页可见状态 */
+const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchRetryLogPageList,
@@ -50,7 +52,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => {
         async function showDetailDrawer() {
           await loadRetryInfo(row);
-          detailVisible.value = true;
+          openDetail();
         }
 
         return (

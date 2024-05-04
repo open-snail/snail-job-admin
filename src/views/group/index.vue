@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NTag } from 'naive-ui';
 import { ref } from 'vue';
+import { useBoolean } from '@sa/hooks';
 import { fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -17,7 +18,7 @@ const appStore = useAppStore();
 /** 详情页属性数据 */
 const detailData = ref<Api.GroupConfig.GroupConfig | null>();
 /** 详情页可见状态 */
-const detailVisible = ref(false);
+const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetGroupConfigList,
@@ -41,7 +42,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => {
         function showDetailDrawer() {
           detailData.value = row || null;
-          detailVisible.value = true;
+          openDetail();
         }
 
         return (

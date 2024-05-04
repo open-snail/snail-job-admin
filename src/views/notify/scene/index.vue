@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
+import { useBoolean } from '@sa/hooks';
 import { fetchGetNotifyConfigList, fetchUpdateNotifyStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -13,10 +14,11 @@ import { jobNotifyScene, retryNotifyScene, systemTaskType } from '@/constants/bu
 import { tagColor } from '@/utils/common';
 
 const appStore = useAppStore();
-const detailData = ref();
-const detailVisible = defineModel<boolean>('detailVisible', {
-  default: false
-});
+
+/** 详情页属性数据 */
+const detailData = ref<Api.NotifyConfig.NotifyConfig | null>();
+/** 详情页可见状态 */
+const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetNotifyConfigList,
@@ -49,7 +51,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => {
         function showDetailDrawer() {
           detailData.value = row || null;
-          detailVisible.value = true;
+          openDetail();
         }
 
         return (

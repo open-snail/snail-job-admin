@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
+import { useBoolean } from '@sa/hooks';
 import { fetchDelUser, fetchGetUserPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -11,10 +12,11 @@ import UserManagerSearch from './modules/user-manager-search.vue';
 import UserManagerDetailDrawer from './modules/user-manager-detail-drawer.vue';
 
 const appStore = useAppStore();
-const detailData = ref();
-const detailVisible = defineModel<boolean>('detailVisible', {
-  default: false
-});
+
+/** 详情页属性数据 */
+const detailData = ref<Api.UserManager.UserManager | null>();
+/** 详情页可见状态 */
+const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetUserPageList,
@@ -63,7 +65,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => {
         function showDetailDrawer() {
           detailData.value = row || null;
-          detailVisible.value = true;
+          openDetail();
         }
 
         return (

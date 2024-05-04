@@ -19,10 +19,11 @@ import RetryTaskOperateDrawer from './modules/retry-task-operate-drawer.vue';
 import RetryTaskBatchAddDrawer from './modules/retry-task-batch-add-drawer.vue';
 import RetryTaskSearch from './modules/retry-task-search.vue';
 import RetryTaskDetailDrawerVue from './modules/retry-task-detail-drawer.vue';
-const detailData = ref();
-const detailVisible = defineModel<boolean>('detailVisible', {
-  default: false
-});
+
+/** 详情页属性数据 */
+const detailData = ref<Api.RetryTask.RetryTask | null>();
+/** 详情页可见状态 */
+const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
 const appStore = useAppStore();
 
@@ -52,7 +53,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => {
         async function showDetailDrawer() {
           await loadRetryInfo(row);
-          detailVisible.value = true;
+          openDetail();
         }
 
         return (
