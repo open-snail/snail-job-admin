@@ -18,7 +18,7 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>();
-const solts = defineSlots();
+const slots = defineSlots();
 const appStore = useAppStore();
 const state = reactive({ width: 0 });
 const visible = ref(props.modelValue);
@@ -79,7 +79,7 @@ const onUpdateShow = (value: boolean) => {
         </div>
       </template>
       <slot></slot>
-      <template v-if="solts.footer" #footer>
+      <template v-if="slots.footer" #footer>
         <slot name="footer"></slot>
       </template>
     </NDrawerContent>
