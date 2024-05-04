@@ -46,9 +46,7 @@ const visible = defineModel<boolean>('visible', {
   default: false
 });
 
-const options = defineModel<CommonType.Option<string | number>[]>('options', {
-  default: translateOptions(retryNotifySceneOptions)
-});
+const notifySceneOptions = ref<CommonType.Option<string | number>[]>(translateOptions(retryNotifySceneOptions));
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
@@ -209,11 +207,11 @@ async function systemTaskTypeChange(value: number) {
   if (value === 1) {
     const res = await fetchGetRetrySceneList({ groupName: model.groupName });
     retryScenes.value = res.data as Api.RetryScene.Scene[];
-    options.value = translateOptions(retryNotifySceneOptions);
+    notifySceneOptions.value = translateOptions(retryNotifySceneOptions);
   } else if (value === 3) {
     const res = await fetchGetJobList({ groupName: model.groupName });
     jobs.value = res.data as Api.Job.Job[];
-    options.value = translateOptions(jobNotifySceneOptions);
+    notifySceneOptions.value = translateOptions(jobNotifySceneOptions);
   }
 
   model.businessId = '';
@@ -288,7 +286,7 @@ watch(visible, () => {
         <NSelect
           v-model:value="model.notifyScene"
           :placeholder="$t('page.notifyConfig.form.notifyScene')"
-          :options="options"
+          :options="notifySceneOptions"
           clearable
         />
       </NFormItem>
