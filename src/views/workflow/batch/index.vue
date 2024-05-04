@@ -11,7 +11,8 @@ const router = useRouter();
 const route = useRoute();
 
 // 此处可能有问题
-const workflowId = Number.parseInt(route.query?.workflowId as string, 10);
+const workflowId =
+  route.query?.workflowId === undefined ? null : Number.parseInt(route.query?.workflowId as string, 10);
 
 const appStore = useAppStore();
 
