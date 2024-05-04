@@ -70,7 +70,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           callback();
         };
 
-        return <StatusSwitch v-model:value={row.sceneStatus} onFetch={fetchFn} />;
+        return <StatusSwitch v-model={row.sceneStatus} onFetch={fetchFn} />;
       }
     },
     {

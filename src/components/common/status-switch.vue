@@ -5,7 +5,7 @@ defineOptions({
   name: 'StatusSwitch'
 });
 
-const modelValue = defineModel<Api.Common.EnableStatusNumber>('value', { default: 0 });
+const model = defineModel<Api.Common.EnableStatusNumber>({ default: 0 });
 
 interface Emits {
   (e: 'fetch', value: Api.Common.EnableStatusNumber, callback: () => void): void;
@@ -26,7 +26,7 @@ const handleUpdateValue = (value: Api.Common.EnableStatusNumber) => {
 
 <template>
   <NSwitch
-    :value="modelValue"
+    :value="model"
     :loading="loading"
     :rubber-band="false"
     :checked-value="1"

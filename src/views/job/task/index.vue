@@ -60,7 +60,7 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
           callback();
         };
 
-        return <StatusSwitch v-model:value={row.jobStatus} onFetch={fetchFn} />;
+        return <StatusSwitch v-model={row.jobStatus} onFetch={fetchFn} />;
       }
     },
     {

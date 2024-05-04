@@ -97,7 +97,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           callback();
         };
 
-        return <StatusSwitch v-model:value={row.notifyStatus} onFetch={fetchFn} />;
+        return <StatusSwitch v-model={row.notifyStatus} onFetch={fetchFn} />;
       }
     },
     {
