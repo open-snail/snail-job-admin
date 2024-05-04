@@ -4,6 +4,10 @@ import { $t } from '@/locales';
 import { translateOptions2 } from '@/utils/common';
 import { fetchGetRetrySceneList } from '@/service/api';
 
+defineOptions({
+  name: 'SelectScene'
+});
+
 const emit = defineEmits<Emits>();
 
 interface Props {

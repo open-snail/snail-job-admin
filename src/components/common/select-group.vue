@@ -8,17 +8,11 @@ defineOptions({
   name: 'SelectGroup'
 });
 
-interface Props {
-  modelValue?: string | null;
-}
-
-const props = defineProps<Props>();
-
-const emit = defineEmits<Emits>();
-
+const model = defineModel<string | null>();
 interface Emits {
   (e: 'update:modelValue', value: string): void;
 }
+const emit = defineEmits<Emits>();
 
 /** 组列表 */
 const groupNameList = ref<string[]>([]);
@@ -35,9 +29,9 @@ async function getGroupNameList() {
 getGroupNameList();
 
 watch(
-  () => props.modelValue,
+  () => model,
   () => {
-    groupName.value = props.modelValue!;
+    groupName.value = model.value!;
   },
   { immediate: true }
 );

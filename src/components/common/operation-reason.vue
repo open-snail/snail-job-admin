@@ -4,16 +4,16 @@ import { $t } from '@/locales';
 import { translateOptions } from '@/utils/common';
 import { operationReasonOptions } from '@/constants/business';
 
-const operationReasonRef = ref<Api.Common.OperationReason>();
-const emit = defineEmits<Emits>();
-
 interface Emits {
   (e: 'update:value', value: Api.Common.OperationReason): void;
 }
+const emit = defineEmits<Emits>();
 
 const handleUpdate = (operationReason: Api.Common.OperationReason) => {
   emit('update:value', operationReason);
 };
+
+const operationReasonRef = ref<Api.Common.OperationReason>();
 </script>
 
 <template>

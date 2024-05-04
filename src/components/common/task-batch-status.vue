@@ -4,12 +4,12 @@ import { $t } from '@/locales';
 import { translateOptions } from '@/utils/common';
 import { taskBatchStatusRecordOptions } from '@/constants/business';
 
-const taskBatchStatusRef = ref<Api.Common.TaskBatchStatus>();
-const emit = defineEmits<Emits>();
-
 interface Emits {
   (e: 'update:value', value: Api.Common.TaskBatchStatus): void;
 }
+const emit = defineEmits<Emits>();
+
+const taskBatchStatusRef = ref<Api.Common.TaskBatchStatus>();
 
 const handleUpdate = (taskBatchStatus: Api.Common.TaskBatchStatus) => {
   emit('update:value', taskBatchStatus);

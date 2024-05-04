@@ -8,12 +8,12 @@ defineOptions({
   name: 'TaskType'
 });
 
-const valueRef = ref<Api.Common.BlockStrategy>();
-const emit = defineEmits<Emits>();
-
 interface Emits {
   (e: 'update:value', value: Api.Common.BlockStrategy): void;
 }
+const emit = defineEmits<Emits>();
+
+const valueRef = ref<Api.Common.BlockStrategy>();
 
 const handleUpdate = (value: Api.Common.BlockStrategy) => {
   emit('update:value', value);

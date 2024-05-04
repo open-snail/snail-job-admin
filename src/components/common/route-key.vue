@@ -8,12 +8,12 @@ defineOptions({
   name: 'RouterKey'
 });
 
-const routeKeyRef = ref<Api.Common.RouteKey>();
-const emit = defineEmits<Emits>();
-
 interface Emits {
   (e: 'update:value', value: Api.Common.RouteKey): void;
 }
+const emit = defineEmits<Emits>();
+
+const routeKeyRef = ref<Api.Common.RouteKey>();
 
 const handleUpdate = (routeKey: Api.Common.RouteKey) => {
   emit('update:value', routeKey);

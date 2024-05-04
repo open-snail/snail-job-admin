@@ -8,12 +8,12 @@ defineOptions({
   name: 'TriggerType'
 });
 
-const valueRef = ref<Api.Common.TriggerType>();
-const emit = defineEmits<Emits>();
-
 interface Emits {
   (e: 'update:value', value: Api.Common.TriggerType): void;
 }
+const emit = defineEmits<Emits>();
+
+const valueRef = ref<Api.Common.TriggerType>();
 
 const handleUpdate = (value: Api.Common.TriggerType) => {
   emit('update:value', value);
