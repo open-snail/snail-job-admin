@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, nextTick, onUnmounted, reactive, ref } from 'vue';
 import { useAppStore } from '@/store/modules/app';
 
 defineOptions({
@@ -8,22 +8,20 @@ defineOptions({
 
 interface Props {
   title?: string;
-  modelValue?: boolean;
 }
-
 const props = defineProps<Props>();
 
 interface Emits {
   (e: 'update:modelValue', modelValue: boolean): void;
 }
-
-const visible = defineModel<boolean>('visible', {
-  default: false
-});
-
 const emit = defineEmits<Emits>();
+
+const model = defineModel<boolean>({ default: false });
+
 const slots = defineSlots();
+
 const appStore = useAppStore();
+
 const state = reactive({ width: 0 });
 const isFullscreen = ref(false);
 const drawerWidth = computed(() => {
@@ -53,21 +51,13 @@ onUnmounted(() => {
   window.removeEventListener('resize', getState);
 });
 
-watch(
-  () => props.modelValue,
-  val => {
-    visible.value = val;
-  },
-  { immediate: true }
-);
-
 const onUpdateShow = (value: boolean) => {
   emit('update:modelValue', value);
 };
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="if" :width="drawerWidth" @update:show="onUpdateShow">
+  <NDrawer v-model:show="model" display-directive="if" :width="drawerWidth" @update:show="onUpdateShow">
     <NDrawerContent :title="props.title" :native-scrollbar="false" closable header-class="operate-dawer-header">
       <template #header>
         {{ props.title }}
