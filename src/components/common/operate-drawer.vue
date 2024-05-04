@@ -17,11 +17,14 @@ interface Emits {
   (e: 'update:modelValue', modelValue: boolean): void;
 }
 
+const visible = defineModel<boolean>('visible', {
+  default: false
+});
+
 const emit = defineEmits<Emits>();
 const slots = defineSlots();
 const appStore = useAppStore();
 const state = reactive({ width: 0 });
-const visible = ref(props.modelValue);
 const isFullscreen = ref(false);
 const drawerWidth = computed(() => {
   const maxMinWidth = 360;
