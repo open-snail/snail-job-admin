@@ -80,7 +80,7 @@ function createDefaultModel(): Model {
     argsStr: '',
     argsType: 1,
     jobStatus: 1,
-    routeKey: '1',
+    routeKey: 1,
     executorType: 1,
     triggerType: 2,
     executorInfo: '',
