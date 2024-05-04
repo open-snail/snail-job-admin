@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
 defineOptions({
   name: 'StatusSwitch'
 });
 
-interface Props {
-  value?: Api.Common.EnableStatusNumber;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  value: 0
-});
+const modelValue = defineModel<Api.Common.EnableStatusNumber>('value', { default: 0 });
 
 interface Emits {
   (e: 'fetch', value: Api.Common.EnableStatusNumber, callback: () => void): void;
@@ -19,15 +13,8 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const active = ref(props.value);
+/** 状态切换过程的 loading 状态 */
 const loading = ref(false);
-
-watch(
-  () => props.value,
-  value => {
-    active.value = value;
-  }
-);
 
 const handleUpdateValue = (value: Api.Common.EnableStatusNumber) => {
   loading.value = true;
@@ -39,7 +26,7 @@ const handleUpdateValue = (value: Api.Common.EnableStatusNumber) => {
 
 <template>
   <NSwitch
-    :value="active"
+    :value="modelValue"
     :loading="loading"
     :rubber-band="false"
     :checked-value="1"
