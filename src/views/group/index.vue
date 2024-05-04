@@ -14,11 +14,10 @@ import GroupSearch from './modules/group-search.vue';
 
 const appStore = useAppStore();
 
-/** 组状态 Switch 的 loading 状态 */
-const detailData = ref();
-const detailVisible = defineModel<boolean>('detailVisible', {
-  default: false
-});
+/** 详情页属性数据 */
+const detailData = ref<Api.GroupConfig.GroupConfig | null>();
+/** 详情页可见状态 */
+const detailVisible = ref(false);
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetGroupConfigList,
@@ -89,19 +88,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'version',
       title: $t('page.groupConfig.version'),
-      align: 'left',
+      align: 'center',
       minWidth: 60
     },
     {
       key: 'groupPartition',
       title: $t('page.groupConfig.groupPartition'),
-      align: 'left',
+      align: 'center',
       minWidth: 60
     },
     {
       key: 'initScene',
       title: $t('page.groupConfig.initScene'),
-      align: 'left',
+      align: 'center',
       minWidth: 80,
       render: row => {
         if (row.groupStatus === null) {
