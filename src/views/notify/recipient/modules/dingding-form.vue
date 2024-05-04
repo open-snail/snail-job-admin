@@ -36,7 +36,7 @@ function createDefaultModel(): Model {
     notifyType: 1,
     webhookUrl,
     ats,
-    description: ''
+    description: props.value.description
   };
 }
 

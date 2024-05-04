@@ -27,6 +27,15 @@ export function fetchEditNotify(data: Api.NotifyConfig.NotifyConfig) {
   });
 }
 
+/** delete notify */
+export function fetchBatchDeleteNotify(data: string[]) {
+  return request<boolean>({
+    url: '/notify-config/ids',
+    method: 'delete',
+    data
+  });
+}
+
 /** edit notify status */
 export function fetchUpdateNotifyStatus(id: string, status: Api.Common.EnableStatusNumber) {
   return request<boolean>({
@@ -66,6 +75,15 @@ export function fetchEditNotifyRecipient(data: Api.NotifyRecipient.NotifyRecipie
   return request<boolean>({
     url: '/notify-recipient',
     method: 'put',
+    data
+  });
+}
+
+/** delete notify recipient */
+export function fetchDeleteNotifyRecipient(data: string[]) {
+  return request<boolean>({
+    url: '/notify-recipient/ids',
+    method: 'delete',
     data
   });
 }

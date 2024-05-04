@@ -11,7 +11,7 @@ interface Props {
   value: Api.NotifyRecipient.NotifyRecipient;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 interface Emits {
   (e: 'update:value', value: Api.NotifyRecipient.NotifyRecipient): void;
@@ -26,12 +26,13 @@ type Model = Pick<Api.NotifyRecipient.EmailNotify, 'id' | 'recipientName' | 'not
 const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
+  const { tos } = JSON.parse(props.value.notifyAttribute!) as { tos: string[] };
   return {
-    id: '',
-    recipientName: '',
+    id: props.value.id,
+    recipientName: props.value.recipientName,
     notifyType: 2,
-    tos: [],
-    description: ''
+    tos,
+    description: props.value.description
   };
 }
 

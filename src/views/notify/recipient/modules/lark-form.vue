@@ -11,7 +11,7 @@ interface Props {
   value: Api.NotifyRecipient.NotifyRecipient;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 interface Emits {
   (e: 'update:value', value: Api.NotifyRecipient.NotifyRecipient): void;
@@ -29,13 +29,15 @@ type Model = Pick<
 const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
+  const { webhookUrl, ats } = JSON.parse(props.value.notifyAttribute!) as { webhookUrl: string; ats: string[] };
+
   return {
-    id: '',
-    recipientName: '',
+    id: props.value.id,
+    recipientName: props.value.recipientName,
     notifyType: 4,
-    webhookUrl: '',
-    ats: [],
-    description: ''
+    webhookUrl,
+    ats,
+    description: props.value.description
   };
 }
 

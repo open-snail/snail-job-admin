@@ -64,11 +64,13 @@ function createDefaultModel(): Model {
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
     model.value = createDefaultModel();
+    notifyTabPane.value = 1;
     return;
   }
 
   if (props.operateType === 'edit' && props.rowData) {
     model.value = props.rowData;
+    notifyTabPane.value = props.rowData.notifyType;
   }
 }
 

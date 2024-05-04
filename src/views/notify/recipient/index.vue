@@ -2,11 +2,12 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetNotifyRecipientPageList } from '@/service/api';
+import { fetchDeleteNotifyRecipient, fetchGetNotifyRecipientPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { alarmTypeRecord } from '@/constants/business';
+import { tagColor } from '@/utils/common';
 import NotifyRecipientOperateDrawer from './modules/notify-recipient-operate-drawer.vue';
 import NotifyRecipientSearch from './modules/notify-recipient-search.vue';
 import NotifyRecipientDetailDrawer from './modules/notify-recipient-detail-drawer.vue';
@@ -65,7 +66,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       minWidth: 120,
       render: row => {
         const label = $t(alarmTypeRecord[row.notifyType!]);
-        return <NTag type="primary">{label}</NTag>;
+        return <NTag type={tagColor(row.notifyType)}>{label}</NTag>;
       }
     },
     {
@@ -106,24 +107,25 @@ const {
   editingData,
   handleAdd,
   handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
+  checkedRowKeys
   // closeDrawer
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await fetchDeleteNotifyRecipient(checkedRowKeys.value);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    getData();
+  }
 }
 
-function handleDelete(id: string) {
+async function handleDelete(id: string) {
   // request
-  console.log(id);
-
-  onDeleted();
+  const { error } = await fetchDeleteNotifyRecipient([id]);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    getData();
+  }
 }
 
 function edit(id: string) {

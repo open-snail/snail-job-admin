@@ -2,7 +2,7 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetNotifyConfigList, fetchUpdateNotifyStatus } from '@/service/api';
+import { fetchBatchDeleteNotify, fetchGetNotifyConfigList, fetchUpdateNotifyStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -173,21 +173,25 @@ const {
   editingData,
   handleAdd,
   handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
+  checkedRowKeys
   // closeDrawer
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  onBatchDeleted();
+  const { error } = await fetchBatchDeleteNotify(checkedRowKeys.value);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    getData();
+  }
 }
 
-function handleDelete(id: string) {
+async function handleDelete(id: string) {
   // request
-  console.log(id);
-
-  onDeleted();
+  const { error } = await fetchBatchDeleteNotify([id]);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    getData();
+  }
 }
 
 function edit(id: string) {
