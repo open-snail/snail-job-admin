@@ -35,9 +35,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       type: 'expand',
       minWidth: 10,
       renderExpand: row => {
-        if (!row.permissions) {
-          return <NTag type="info">ALL</NTag>;
-        }
         return (
           <div>
             {
@@ -45,14 +42,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
                 <n-text type="warning">{$t('page.userManager.permissionList')}:</n-text>
               </n-h5>
             }
-            {row.permissions?.map(option => (
-              <span>
-                <NTag type="info">
-                  <span style="font-weight: bolder;">{option.groupName}</span>({option.namespaceName})
-                </NTag>
-                {<n-divider vertical />}
-              </span>
-            ))}
+            {!row.permissions ? (
+              <NTag type="info">ALL</NTag>
+            ) : (
+              row.permissions?.map(option => (
+                <span>
+                  <NTag type="info">
+                    <span style="font-weight: bolder;">{option.groupName}</span>({option.namespaceName})
+                  </NTag>
+                  {<n-divider vertical />}
+                </span>
+              ))
+            )}
           </div>
         );
       }
