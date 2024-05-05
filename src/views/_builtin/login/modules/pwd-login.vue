@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { Md5 } from 'ts-md5';
+import { md5 } from '@/utils/common';
 import { $t } from '@/locales';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { useAuthStore } from '@/store/modules/auth';
@@ -32,9 +32,7 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 
 async function handleSubmit() {
   await validate();
-  const md5 = new Md5();
-  md5.appendAsciiStr(model.password);
-  const password: string = md5.end() as string;
+  const password = md5(model.password);
   await authStore.login(model.userName, password);
 }
 </script>

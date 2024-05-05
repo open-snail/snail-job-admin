@@ -4,6 +4,7 @@ import type { OptionValue } from 'naive-ui/es/transfer/src/interface';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
+import { md5 } from '@/utils/common';
 import { fetchAddUser, fetchEditUser, fetchGetAllGroupConfigList } from '@/service/api';
 import { groupConfigYesOrNoOptions, roleRecordOptions } from '@/constants/business';
 import Permission = Api.UserManager.Permission;
@@ -101,14 +102,31 @@ async function handleSubmit() {
   // request
   if (props.operateType === 'add') {
     const { username, password, checkPassword, role, permissions } = model;
-    const { error } = await fetchAddUser({ username, password, checkPassword, role, permissions });
+    const passwordMd5 = md5(password);
+    const checkPasswordMd5 = md5(checkPassword);
+    const { error } = await fetchAddUser({
+      username,
+      password: passwordMd5,
+      checkPassword: checkPasswordMd5,
+      role,
+      permissions
+    });
     if (error) return;
     window.$message?.success($t('common.addSuccess'));
   }
 
   if (props.operateType === 'edit') {
     const { id, username, password, checkPassword, role, permissions } = model;
-    const { error } = await fetchEditUser({ id, username, password, checkPassword, role, permissions });
+    const passwordMd5 = md5(password);
+    const checkPasswordMd5 = md5(checkPassword);
+    const { error } = await fetchEditUser({
+      id,
+      username,
+      password: passwordMd5,
+      checkPassword: checkPasswordMd5,
+      role,
+      permissions
+    });
     if (error) return;
     window.$message?.success($t('common.updateSuccess'));
   }

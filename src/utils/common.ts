@@ -1,3 +1,4 @@
+import { Md5 } from 'ts-md5';
 import { $t } from '@/locales';
 
 /**
@@ -83,4 +84,16 @@ export function tagColor(index: number) {
   }
 
   return tagMap[index % 5];
+}
+
+/**
+ * MD-5 哈希
+ *
+ * @param text 明文
+ * @returns md5哈希
+ */
+export function md5(text: string): string {
+  const md5Digest = new Md5();
+  md5Digest.appendAsciiStr(text);
+  return md5Digest.end() as string;
 }
