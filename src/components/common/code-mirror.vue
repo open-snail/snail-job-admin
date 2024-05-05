@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
   readonly: false,
   disabled: false,
   height: 'auto',
-  fontSize: '14px'
+  fontSize: '13px'
 });
 
 interface Emits {
@@ -60,7 +60,7 @@ const theme = computed(() => {
     '.cm-line': {
       height: '21px',
       fontSize: props.fontSize,
-      fontFamily: 'system-ui'
+      fontFamily: 'monospace'
     },
     '.cm-lineNumbers': {
       fontFamily: 'system-ui',
