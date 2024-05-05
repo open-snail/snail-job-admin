@@ -1093,6 +1093,8 @@ declare namespace App {
           title: string;
           groupName: string;
           jobName: string;
+          executorInfo: string;
+          executorType: string;
           executionAt: string;
           taskBatchStatus: string;
           operationReason: string;
@@ -1101,6 +1103,7 @@ declare namespace App {
             jobName: string;
             taskBatchStatus: string;
           };
+          detail: string;
         };
         userManager: {
           title: string;

@@ -8,3 +8,10 @@ export function fetchGetJobBatchList(params?: Api.JobBatch.JobBatchSearchParams)
     params
   });
 }
+
+export function fetchGetJobBatchDetail(id: string) {
+  return request<Api.JobBatch.JobBatch>({
+    url: `/job/batch/${id}`,
+    method: 'get'
+  });
+}

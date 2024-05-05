@@ -951,6 +951,8 @@ const local: App.I18n.Schema = {
       title: 'Job Batch List',
       groupName: 'Group name',
       jobName: 'Job name',
+      executorInfo: 'Executor Name',
+      executorType: 'Executor type',
       executionAt: 'Start execution time',
       taskBatchStatus: 'Task Batch Status',
       operationReason: 'Reason for operation',
@@ -958,7 +960,8 @@ const local: App.I18n.Schema = {
         groupName: 'Please enter group name',
         jobName: 'Please enter job name',
         taskBatchStatus: 'Please enter state'
-      }
+      },
+      detail: 'Job Batch Detail'
     },
     userManager: {
       title: 'UserCenter List',

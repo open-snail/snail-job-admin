@@ -946,6 +946,8 @@ const local: App.I18n.Schema = {
       title: '任务批次列表',
       groupName: '组名称',
       jobName: '任务名称',
+      executorInfo: '执行器名称',
+      executorType: '执行器类型',
       executionAt: '开始执行时间',
       taskBatchStatus: '状态',
       operationReason: '操作原因',
@@ -953,7 +955,8 @@ const local: App.I18n.Schema = {
         groupName: '请输入组名称',
         jobName: '请输入任务名称',
         taskBatchStatus: '请输入状态'
-      }
+      },
+      detail: '执行批次详情'
     },
     userManager: {
       title: '用户列表',

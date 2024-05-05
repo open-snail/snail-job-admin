@@ -1,13 +1,22 @@
 <script setup lang="tsx">
 import { NButton, NTag } from 'naive-ui';
+import { useBoolean } from '@sa/hooks';
+import { ref } from 'vue';
 import { fetchGetJobBatchList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { operationReasonRecord } from '@/constants/business';
+import { tagColor } from '@/utils/common';
 import JobBatchSearch from './modules/job-batch-search.vue';
+import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
 
 const appStore = useAppStore();
+
+/** 详情页属性数据 */
+const detailData = ref<Api.JobBatch.JobBatch | null>();
+/** 详情页可见状态 */
+const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
 const { columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobBatchList,
@@ -23,7 +32,19 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'id',
       title: $t('common.index'),
       align: 'center',
-      width: 64
+      width: 64,
+      render: row => {
+        function showDetailDrawer() {
+          detailData.value = row;
+          openDetail();
+        }
+
+        return (
+          <NButton text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.id}
+          </NButton>
+        );
+      }
     },
     {
       key: 'groupName',
@@ -52,26 +73,9 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
         if (row.operationReason === null) {
           return null;
         }
-        const tagMap: Record<Api.Common.OperationReason, NaiveUI.ThemeColor> = {
-          0: 'default',
-          1: 'default',
-          2: 'error',
-          3: 'default',
-          4: 'default',
-          5: 'default',
-          6: 'default',
-          7: 'default',
-          8: 'default',
-          9: 'default',
-          10: 'default',
-          11: 'default',
-          12: 'default',
-          13: 'default',
-          14: 'default'
-        };
         const label = $t(operationReasonRecord[row.operationReason!]);
 
-        return <NTag type={tagMap[row.operationReason!]}>{label}</NTag>;
+        return <NTag type={tagColor(row.operationReason!)}>{label}</NTag>;
       }
     },
     {
@@ -120,6 +124,7 @@ function detail(id: string) {
         class="sm:h-full"
       />
     </NCard>
+    <JobBatchDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
   </div>
 </template>
 
