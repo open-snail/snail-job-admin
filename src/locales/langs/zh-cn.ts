@@ -689,7 +689,10 @@ const local: App.I18n.Schema = {
         notifyStatus: '请选择状态',
         systemTaskType: '请选择任务类型',
         notifyRecipient: '请选择通知人',
-        rateLimiterThreshold: '请选择阈值'
+        rateLimiterThreshold: '请选择阈值',
+        sceneName: '请选择重试场景',
+        jobName: '请选择定时任务',
+        workflowName: '请选择工作流'
       },
       addNotifyConfig: '新增告警通知',
       editNotifyConfig: '编辑告警通知',
@@ -704,6 +707,11 @@ const local: App.I18n.Schema = {
       },
       jobNotifyScene: {
         jobTaskError: '任务执行失败'
+      },
+      workflowNotifyScene: {
+        workTaskError: '工作流任务执行失败',
+        workflowTaskCallbackError: '工作流回调任务执行失败',
+        workflowTaskDecisionError: '工作流判定节点执行失败'
       },
       notifyRecipient: '通知人信息',
       rateLimiterStatus: '限流开关',

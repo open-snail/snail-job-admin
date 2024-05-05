@@ -565,7 +565,7 @@ declare namespace Api {
       /** 状态 */
       notifyStatus: Api.Common.EnableStatusNumber;
       /** 通知场景 */
-      notifyScene: JobNotifyScene | RetryNotifyScene;
+      notifyScene: JobNotifyScene | RetryNotifyScene | WorkflowNotifyScene | null;
       /** 通知阈值 */
       notifyThreshold: number;
       /** 限流开关 */
@@ -596,6 +596,9 @@ declare namespace Api {
 
     /** 1、任务执行失败 */
     type JobNotifyScene = 1;
+
+    /** 100、工作流任务执行失败 101、回调节点执行失败 102、判定节点执行失败 */
+    type WorkflowNotifyScene = 100 | 101 | 102;
   }
 
   /**

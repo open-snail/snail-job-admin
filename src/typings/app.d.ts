@@ -837,6 +837,9 @@ declare namespace App {
             systemTaskType: string;
             notifyRecipient: string;
             rateLimiterThreshold: string;
+            sceneName: string;
+            jobName: string;
+            workflowName: string;
           };
           addNotifyConfig: string;
           editNotifyConfig: string;
@@ -851,6 +854,11 @@ declare namespace App {
           };
           jobNotifyScene: {
             jobTaskError: string;
+          };
+          workflowNotifyScene: {
+            workTaskError: string;
+            workflowTaskCallbackError: string;
+            workflowTaskDecisionError: string;
           };
           notifyRecipient: string;
           rateLimiterStatus: string;
