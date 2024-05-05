@@ -85,7 +85,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           callback();
         };
 
-        return <StatusSwitch v-model={row.workflowStatus} onFetch={fetchFn} />;
+        return <StatusSwitch v-model:value={row.workflowStatus} onFetch={fetchFn} />;
       }
     },
     {
