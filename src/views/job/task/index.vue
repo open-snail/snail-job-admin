@@ -1,5 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { useBoolean } from '@sa/hooks';
+import { ref } from 'vue';
 import { fetchDeleteJob, fetchGetJobPage, fetchTriggerJob, fetchUpdateJobStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -8,8 +10,14 @@ import { blockStrategyRecord, taskTypeRecord, triggerTypeRecord } from '@/consta
 import StatusSwitch from '@/components/common/status-switch.vue';
 import JobTaskOperateDrawer from './modules/job-task-operate-drawer.vue';
 import JobTaskSearch from './modules/job-task-search.vue';
+import JobTaskDetailDrawer from './modules/job-task-detail-drawer.vue';
 
 const appStore = useAppStore();
+
+/** 详情页属性数据 */
+const detailData = ref<Api.Job.Job | null>();
+/** 详情页可见状态 */
+const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
 const { columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobPage,
@@ -31,7 +39,19 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'jobName',
       title: $t('page.jobTask.jobName'),
       align: 'center',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        async function showDetailDrawer() {
+          detailData.value = row;
+          openDetail();
+        }
+
+        return (
+          <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.jobName}
+          </n-button>
+        );
+      }
     },
     {
       key: 'groupName',
@@ -237,6 +257,7 @@ async function handleTriggerJob(id: string) {
         @submitted="getData"
       />
     </NCard>
+    <JobTaskDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
   </div>
 </template>
 

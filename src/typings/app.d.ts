@@ -1087,6 +1087,7 @@ declare namespace App {
             cron: string;
             workflow: string;
           };
+          detail: string;
         };
         jobBatch: {
           title: string;

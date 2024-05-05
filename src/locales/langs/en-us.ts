@@ -944,7 +944,8 @@ const local: App.I18n.Schema = {
         fixed: '固定时间',
         cron: 'CRON表达式',
         workflow: '工作流'
-      }
+      },
+      detail: 'Job Task Detail'
     },
     jobBatch: {
       title: 'Job Batch List',
