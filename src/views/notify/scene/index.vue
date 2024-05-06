@@ -10,7 +10,7 @@ import NotifyConfigOperateDrawer from '@/views/notify/scene/modules/notify-confi
 import NotifyConfigSearch from '@/views/notify/scene/modules/notify-config-search.vue';
 import NotifyConfigDetailDrawer from '@/views/notify/scene/modules/notify-config-detail-drawer.vue';
 import StatusSwitch from '@/components/common/status-switch.vue';
-import { jobNotifyScene, retryNotifyScene, systemTaskType } from '@/constants/business';
+import { jobNotifyScene, retryNotifyScene, systemTaskType, workflowNotifyScene } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 
 const appStore = useAppStore();
@@ -117,6 +117,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 
         if (row.systemTaskType === 3) {
           const label = $t(jobNotifyScene[row.notifyScene! as Api.NotifyConfig.JobNotifyScene]);
+          return <NTag type={tagColor(row.notifyScene)}>{label}</NTag>;
+        }
+
+        if (row.systemTaskType === 4) {
+          const label = $t(workflowNotifyScene[row.notifyScene! as Api.NotifyConfig.WorkflowNotifyScene]);
           return <NTag type={tagColor(row.notifyScene)}>{label}</NTag>;
         }
 
