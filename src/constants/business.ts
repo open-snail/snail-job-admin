@@ -49,9 +49,16 @@ export const alarmTypeRecord: Record<Api.NotifyRecipient.AlarmType, App.I18n.I18
   1: 'page.notifyRecipient.dingDing',
   2: 'page.notifyRecipient.email',
   3: 'page.notifyRecipient.weCom',
-  4: 'page.notifyRecipient.lark'
+  4: 'page.notifyRecipient.lark',
+  5: 'page.notifyRecipient.webhook'
 };
 export const alarmTypeRecordOptions = transformRecordToOption(alarmTypeRecord);
+
+export const alarmWebhookTypeRecord: Record<Api.NotifyRecipient.AlarmTypeWebhook, App.I18n.I18nKey> = {
+  1: 'page.notifyRecipient.form.applicationJson',
+  2: 'page.notifyRecipient.form.applicationXWwwFormUrlencoded'
+};
+export const alarmWebhookTypeRecordOptions = transformRecordToOption(alarmWebhookTypeRecord);
 
 export const systemTaskType: Record<Api.NotifyConfig.SystemTaskType, App.I18n.I18nKey> = {
   1: 'common.systemTaskType.retry',

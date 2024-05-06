@@ -880,6 +880,10 @@ declare namespace App {
             weComAts: string;
             larkAts: string;
             webhookUrl: string;
+            secret: string;
+            contentType: string;
+            applicationJson: string;
+            applicationXWwwFormUrlencoded: string;
           };
           addNotifyRecipient: string;
           editNotifyRecipient: string;
@@ -890,6 +894,9 @@ declare namespace App {
           email: string;
           weCom: string;
           lark: string;
+          secret: string;
+          webhook: string;
+          contentType: string;
         };
         retryDeadLetter: {
           title: string;

@@ -8,6 +8,7 @@ import DingDingForm from './dingding-form.vue';
 import LarkForm from './lark-form.vue';
 import EmailForm from './email-form.vue';
 import WeComForm from './wecom-form.vue';
+import WebhookForm from './webhook-form.vue';
 
 defineOptions({
   name: 'NotifyRecipientOperateDrawer'
@@ -120,6 +121,9 @@ watch(visible, () => {
       </NTabPane>
       <NTabPane :name="4" tab="飞书">
         <LarkForm ref="formRef" v-model:value="model" />
+      </NTabPane>
+      <NTabPane :name="5" tab="Webhook">
+        <WebhookForm ref="formRef" v-model:value="model" />
       </NTabPane>
     </NTabs>
     <template #footer>

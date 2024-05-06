@@ -732,17 +732,24 @@ const local: App.I18n.Schema = {
         dingDingAts: "请输入被{'@'}人手机号或钉钉号",
         weComAts: "请输入被{'@'}人企业微信用户id",
         larkAts: "请输入被{'@'}人open_id",
-        webhookUrl: '请输入URL'
+        webhookUrl: '请输入URL',
+        secret: '请输入密钥',
+        contentType: '请选择请求类型',
+        applicationJson: 'application/json',
+        applicationXWwwFormUrlencoded: 'application/x-www-form-urlencoded'
       },
       addNotifyRecipient: '新增通知接收人',
       editNotifyRecipient: '编辑通知接收人',
       ats: "{'@'}通知人",
       webhookUrl: '通知地址',
+      secret: '密钥',
       tos: '通知人邮箱地址',
       dingDing: '钉钉',
       email: '邮箱',
       weCom: '企业微信',
-      lark: '飞书'
+      lark: '飞书',
+      webhook: 'webhook',
+      contentType: '请求类型'
     },
     retryDeadLetter: {
       title: '死信任务列表',

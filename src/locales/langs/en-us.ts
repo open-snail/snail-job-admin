@@ -736,17 +736,24 @@ const local: App.I18n.Schema = {
         dingDingAts: "Please enter the {'@'} phone number or DingTalk ID",
         weComAts: "Please enter the {'@'} Enterprise WeChat user ID",
         larkAts: "Please enter the {'@'} open_id",
-        webhookUrl: 'Please enter URL'
+        webhookUrl: 'Please enter URL',
+        secret: 'Please enter secret',
+        contentType: 'Please enter Request type',
+        applicationJson: 'application/json',
+        applicationXWwwFormUrlencoded: 'application/x-www-form-urlencoded'
       },
       addNotifyRecipient: 'Add Notify Recipient',
       editNotifyRecipient: 'Edit Notify Recipient',
       ats: "{'@'} Notification Recipient",
       webhookUrl: 'Notification Address',
+      secret: 'secret',
       tos: 'Recipient Email Address',
       dingDing: 'DingTalk',
       email: 'Email',
       weCom: 'WeCom',
-      lark: 'Lark'
+      lark: 'Lark',
+      webhook: 'webhook',
+      contentType: 'Request type'
     },
     retryDeadLetter: {
       title: 'RetryDeadLetter List',
