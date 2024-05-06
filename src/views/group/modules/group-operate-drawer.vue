@@ -55,7 +55,7 @@ function createDefaultModel(): Model {
     token: generateToken(32),
     groupStatus: 1,
     description: '',
-    idGeneratorMode: 1,
+    idGeneratorMode: 2,
     initScene: 1,
     groupPartition: 0
   };
