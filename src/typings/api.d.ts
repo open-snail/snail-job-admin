@@ -980,6 +980,12 @@ declare namespace Api {
 
     /** 2、固定时间 3、CRON表达式 99、工作流 */
     type TriggerType = 2 | 3 | 99;
+
+    type JobNameListSearchParams = CommonType.RecordNullable<{
+      groupName?: string;
+      jobId?: number;
+      keywords?: string;
+    }>;
   }
 
   /**

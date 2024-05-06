@@ -8,11 +8,13 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { blockStrategyRecord, taskTypeRecord, triggerTypeRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
+import { useRouterPush } from '@/hooks/common/router';
 import JobTaskOperateDrawer from './modules/job-task-operate-drawer.vue';
 import JobTaskSearch from './modules/job-task-search.vue';
 import JobTaskDetailDrawer from './modules/job-task-detail-drawer.vue';
 
 const appStore = useAppStore();
+const { routerPushByKey } = useRouterPush();
 
 /** 详情页属性数据 */
 const detailData = ref<Api.Job.Job | null>();
@@ -162,7 +164,7 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 260,
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
@@ -188,6 +190,9 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
               )
             }}
           </NPopconfirm>
+          <NButton type="primary" ghost size="small" onClick={() => goToBatch(row.id!)}>
+            {$t('common.batchList')}
+          </NButton>
         </div>
       )
     }
@@ -222,6 +227,10 @@ async function handleTriggerJob(id: string) {
   } else {
     window.$message?.error($t('common.executeFailed'));
   }
+}
+
+function goToBatch(jobId: string) {
+  routerPushByKey('job_batch', { query: { jobId } });
 }
 </script>
 

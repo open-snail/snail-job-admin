@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SelectGroup from '@/components/common/select-group.vue';
 import TaskBatchStatus from '@/components/common/task-batch-status.vue';
 import { $t } from '@/locales';
 
@@ -27,7 +28,7 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.groupName')" path="groupName" class="pr-24px">
-      <NInput v-model:value="model.groupName" :placeholder="$t('page.jobBatch.form.groupName')" />
+      <SelectGroup v-model:value="model.groupName" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.jobName')" path="jobName" class="pr-24px">
       <NInput v-model:value="model.jobName" :placeholder="$t('page.jobBatch.form.jobName')" />

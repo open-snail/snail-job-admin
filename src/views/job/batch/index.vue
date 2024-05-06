@@ -1,8 +1,9 @@
 <script setup lang="tsx">
 import { NButton, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { ref } from 'vue';
-import { fetchGetJobBatchList } from '@/service/api';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { fetchGetJobBatchList, fetchGetJobNameList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
@@ -12,6 +13,7 @@ import JobBatchSearch from './modules/job-batch-search.vue';
 import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
 
 const appStore = useAppStore();
+const route = useRoute();
 
 /** 详情页属性数据 */
 const detailData = ref<Api.JobBatch.JobBatch | null>();
@@ -97,6 +99,31 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
 function detail(id: string) {
   console.log(id);
 }
+
+/** 处理路由 query 参数变化 */
+async function handleQueryChanged(jobId: number) {
+  if (jobId === 0) {
+    searchParams.jobName = null;
+  } else {
+    const { data: jobList, error } = await fetchGetJobNameList({ jobId });
+    if (!error && jobList.length > 0) {
+      const jobName = jobList[0].jobName;
+      searchParams.jobName = jobName;
+    }
+  }
+  getData();
+}
+
+watch(
+  () => route.query,
+  () => {
+    if (route.name === 'job_batch' && route.query.jobId) {
+      const jobId = Number(route.query.jobId);
+      handleQueryChanged(jobId);
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

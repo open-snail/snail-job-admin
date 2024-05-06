@@ -60,3 +60,12 @@ export function fetchTriggerJob(jobId: string) {
     method: 'post'
   });
 }
+
+/** job name list */
+export function fetchGetJobNameList(params?: Api.Job.JobNameListSearchParams) {
+  return request<Api.Job.Job[]>({
+    url: '/job/job-name/list',
+    method: 'get',
+    params
+  });
+}
