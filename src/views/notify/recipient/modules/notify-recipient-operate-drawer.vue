@@ -110,19 +110,19 @@ watch(visible, () => {
 <template>
   <OperateDrawer v-model="visible" :title="title">
     <NTabs v-model:value="notifyTabPane" type="segment" animated>
-      <NTabPane :name="1" tab="钉钉">
+      <NTabPane :name="1" tab="钉钉" :disabled="notifyTabPane !== 1 && props.operateType === 'edit'">
         <DingDingForm ref="formRef" v-model:value="model" />
       </NTabPane>
-      <NTabPane :name="2" tab="邮箱">
+      <NTabPane :name="2" tab="邮箱" :disabled="notifyTabPane !== 2 && props.operateType === 'edit'">
         <EmailForm ref="formRef" v-model:value="model" />
       </NTabPane>
-      <NTabPane :name="3" tab="企业微信">
+      <NTabPane :name="3" tab="企业微信" :disabled="notifyTabPane !== 3 && props.operateType === 'edit'">
         <WeComForm ref="formRef" v-model:value="model" />
       </NTabPane>
-      <NTabPane :name="4" tab="飞书">
+      <NTabPane :name="4" tab="飞书" :disabled="notifyTabPane !== 4 && props.operateType === 'edit'">
         <LarkForm ref="formRef" v-model:value="model" />
       </NTabPane>
-      <NTabPane :name="5" tab="Webhook">
+      <NTabPane :name="5" tab="Webhook" :disabled="notifyTabPane !== 5 && props.operateType === 'edit'">
         <WebhookForm ref="formRef" v-model:value="model" />
       </NTabPane>
     </NTabs>
