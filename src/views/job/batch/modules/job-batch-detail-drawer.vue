@@ -196,7 +196,7 @@ onBeforeUnmount(() => {
         />
       </NTabPane>
     </NTabs>
-    <LogDrawer v-model="logList" v-model:show="logShow" title="日志" />
+    <LogDrawer v-model="logList" v-model:show="logShow" :title="$t('page.log.title')" />
   </DetailDrawer>
 </template>
 

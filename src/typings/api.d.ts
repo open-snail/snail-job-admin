@@ -1202,6 +1202,14 @@ declare namespace Api {
       taskBatchId: string;
       jobId: string;
       taskId: string;
+    } & LogSearchParams;
+
+    type RetryLogSearchParams = {
+      groupName: string;
+      uniqueId: string;
+    } & LogSearchParams;
+
+    type LogSearchParams = {
       startId: string;
       fromIndex: number;
       size: number;

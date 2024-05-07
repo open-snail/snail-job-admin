@@ -10,7 +10,7 @@ export function fetchJobLogList(params?: Api.JobLog.JobLogSearchParams) {
 }
 
 /** get Retry Log List */
-export function fetchRetryLogList(params?: Api.JobLog.JobLogSearchParams) {
+export function fetchRetryLogList(params?: Api.JobLog.RetryLogSearchParams) {
   return request<Api.JobLog.JobLogList>({
     url: '/retry-task-log/message/list',
     method: 'get',

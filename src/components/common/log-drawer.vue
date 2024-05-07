@@ -10,12 +10,14 @@ defineOptions({
 interface Props {
   title?: string;
   show?: boolean;
+  drawer?: boolean;
   modelValue?: Api.JobLog.JobMessage[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
   title: $t('page.log.title'),
   show: false,
+  drawer: true,
   modelValue: () => []
 });
 
@@ -79,7 +81,13 @@ function timestampToDate(timestamp: string): string {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" width="100%" display-directive="if" @update:show="onUpdateShow">
+  <NDrawer
+    v-if="drawer && modelValue.length > 0"
+    v-model:show="visible"
+    width="100%"
+    display-directive="if"
+    @update:show="onUpdateShow"
+  >
     <NDrawerContent :title="title" closable>
       <div class="snail-log">
         <div class="snail-log-scrollbar">
@@ -93,6 +101,17 @@ function timestampToDate(timestamp: string): string {
       </div>
     </NDrawerContent>
   </NDrawer>
+  <div v-if="!drawer && modelValue.length > 0" class="snail-log">
+    <div class="snail-log-scrollbar">
+      <code>
+        <pre
+          v-for="(message, index) in modelValue"
+          :key="index"
+        ><NDivider v-if="index !== 0" /><span class="log-hljs-time">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`">{{`\t${message.level}\t`}}</span><span class="log-hljs-thread">{{`[${message.thread}]\t`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}\n`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
+      </code>
+    </div>
+  </div>
+  <NEmpty v-else class="h-full" />
 </template>
 
 <style scoped lang="scss">
