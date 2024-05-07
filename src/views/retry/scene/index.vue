@@ -34,8 +34,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'sceneName',
       title: $t('page.retryScene.sceneName'),
-      align: 'left',
-      minWidth: 120,
+      fixed: 'left',
+      width: 120,
       render: row => {
         function showDetailDrawer() {
           detailData.value = row || null;
@@ -53,13 +53,13 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'groupName',
       title: $t('page.retryScene.groupName'),
       align: 'left',
-      minWidth: 120
+      width: 180
     },
     {
       key: 'sceneStatus',
       title: $t('page.retryScene.sceneStatus'),
       align: 'left',
-      minWidth: 120,
+      width: 50,
       render: row => {
         const fetchFn = async (sceneStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
           const { error } = await fetchUpdateSceneStatus(row.id!, sceneStatus);
@@ -77,7 +77,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'backOff',
       title: $t('page.retryScene.backOff'),
       align: 'left',
-      minWidth: 120,
+      width: 80,
       render: row => {
         const label = $t(backOffRecord[row.backOff!]);
         return <NTag type="primary">{label}</NTag>;
@@ -87,7 +87,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'routeKey',
       title: $t('page.retryScene.routeKey'),
       align: 'left',
-      minWidth: 120,
+      width: 80,
       render: row => {
         const label = $t(routeKeyRecord[row.routeKey!]);
         return <NTag type="primary">{label}</NTag>;
@@ -97,13 +97,13 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'maxRetryCount',
       title: $t('page.retryScene.maxRetryCount'),
       align: 'left',
-      minWidth: 120
+      width: 80
     },
     {
       key: 'triggerInterval',
       title: $t('page.retryScene.triggerInterval'),
       align: 'left',
-      minWidth: 120,
+      width: 130,
       render: row => {
         if (row.backOff === 1) {
           return triggerInterval(row.backOff!, row.maxRetryCount!);
@@ -116,36 +116,37 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'deadlineRequest',
       title: $t('page.retryScene.deadlineRequest'),
       align: 'left',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'executorTimeout',
       title: $t('page.retryScene.executorTimeout'),
       align: 'left',
-      minWidth: 120
+      width: 80
     },
     {
       key: 'createDt',
       title: $t('page.retryScene.createDt'),
       align: 'left',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'updateDt',
       title: $t('page.retryScene.updateDt'),
       align: 'left',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'description',
       title: $t('page.retryScene.description'),
       align: 'left',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
+      fixed: 'right',
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
@@ -205,7 +206,7 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
         :columns="columns"
         :data="data"
         :flex-height="!appStore.isMobile"
-        :scroll-x="962"
+        :scroll-x="2000"
         :loading="loading"
         remote
         :row-key="row => row.id"
