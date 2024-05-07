@@ -20,7 +20,7 @@ const detailData = ref<Api.JobBatch.JobBatch | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
-const { columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
+const { columnChecks, columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobBatchList,
   apiParams: {
     page: 1,
@@ -102,7 +102,7 @@ function detail(id: string) {
 
 /** 处理路由 query 参数变化 */
 async function handleQueryChanged(jobId: number) {
-  if (jobId === 0) {
+  if (!jobId) {
     searchParams.jobName = null;
   } else {
     const { data: jobList, error } = await fetchGetJobNameList({ jobId });
@@ -137,7 +137,13 @@ watch(
       header-class="view-card-header"
     >
       <template #header-extra>
-        <TableHeaderOperation :loading="loading" :show-delete="false" :show-add="false" @refresh="getData" />
+        <TableHeaderOperation
+          v-model:columns="columnChecks"
+          :loading="loading"
+          :show-delete="false"
+          :show-add="false"
+          @refresh="getData"
+        />
       </template>
       <NDataTable
         :columns="columns"
