@@ -21,7 +21,7 @@ const detailData = ref<Api.Job.Job | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
-const { columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
+const { columnChecks, columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobPage,
   apiParams: {
     page: 1,
@@ -35,13 +35,14 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'index',
       title: $t('common.index'),
       align: 'center',
-      width: 64
+      width: 40
     },
     {
       key: 'jobName',
       title: $t('page.jobTask.jobName'),
       align: 'center',
-      minWidth: 120,
+      width: 140,
+      fixed: 'left',
       render: row => {
         async function showDetailDrawer() {
           detailData.value = row;
@@ -59,19 +60,19 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'groupName',
       title: $t('page.jobTask.groupName'),
       align: 'left',
-      minWidth: 120
+      width: 180
     },
     {
       key: 'nextTriggerAt',
       title: $t('page.jobTask.nextTriggerAt'),
       align: 'center',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'jobStatus',
       title: $t('page.jobTask.jobStatus'),
       align: 'center',
-      minWidth: 120,
+      width: 60,
       render: row => {
         const fetchFn = async (jobStatus: Api.Common.EnableStatusNumber, callback: () => void) => {
           const { error } = await fetchUpdateJobStatus({ id: row.id!, jobStatus });
@@ -89,7 +90,7 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'taskType',
       title: $t('page.jobTask.taskType'),
       align: 'center',
-      minWidth: 120,
+      width: 120,
       render: row => {
         if (row.taskType === null) {
           return null;
@@ -108,7 +109,7 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'triggerType',
       title: $t('page.jobTask.triggerType'),
       align: 'center',
-      minWidth: 120,
+      width: 120,
       render: row => {
         if (row.triggerType === null) {
           return null;
@@ -127,13 +128,13 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'triggerInterval',
       title: $t('page.jobTask.triggerInterval'),
       align: 'center',
-      minWidth: 120
+      width: 80
     },
     {
       key: 'blockStrategy',
       title: $t('page.jobTask.blockStrategy'),
       align: 'center',
-      minWidth: 120,
+      width: 80,
       render: row => {
         if (row.blockStrategy === null) {
           return null;
@@ -152,19 +153,20 @@ const { columns, data, getData, loading, mobilePagination, searchParams, resetSe
       key: 'executorTimeout',
       title: $t('page.jobTask.executorTimeout'),
       align: 'center',
-      minWidth: 120
+      width: 80
     },
     {
       key: 'updateDt',
-      title: $t('page.jobTask.executorTimeout'),
+      title: $t('page.jobTask.updateDt'),
       align: 'center',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 260,
+      width: 180,
+      fixed: 'right',
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
@@ -245,27 +247,33 @@ function goToBatch(jobId: string) {
       header-class="view-card-header"
     >
       <template #header-extra>
-        <TableHeaderOperation :loading="loading" :show-delete="false" @add="handleAdd" @refresh="getData" />
+        <TableHeaderOperation
+          v-model:columns="columnChecks"
+          :loading="loading"
+          :show-delete="false"
+          @add="handleAdd"
+          @refresh="getData"
+        />
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
         :data="data"
         :flex-height="!appStore.isMobile"
-        :scroll-x="962"
+        :scroll-x="2000"
         :loading="loading"
         remote
         :row-key="row => row.id"
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <JobTaskOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getData"
-      />
     </NCard>
+    <JobTaskOperateDrawer
+      v-model:visible="drawerVisible"
+      :operate-type="operateType"
+      :row-data="editingData"
+      @submitted="getData"
+    />
     <JobTaskDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
   </div>
 </template>
