@@ -154,7 +154,7 @@ const cardData = computed<CardData[]>(() => [
     key: 'workflow',
     title: $t('page.home.workflow'),
     tip: $t('page.home.workflowTip'),
-    value: 7,
+    value: props.modelValue?.workFlowTask.totalNum,
     unit: '',
     color: {
       start: '#ec6f6f',
