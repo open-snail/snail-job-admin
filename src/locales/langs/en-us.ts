@@ -976,7 +976,17 @@ const local: App.I18n.Schema = {
         jobName: 'Please enter job name',
         taskBatchStatus: 'Please enter state'
       },
-      detail: 'Job Batch Detail'
+      detail: 'Job Batch Detail',
+      jobTask: {
+        title: 'JobTask 列表',
+        id: 'ID',
+        groupName: '组名称',
+        clientInfo: '地址',
+        argsStr: '参数',
+        resultMessage: '结果',
+        retryCount: '重试次数',
+        createDt: '开始执行时间'
+      }
     },
     userManager: {
       title: 'UserCenter List',
@@ -1001,6 +1011,11 @@ const local: App.I18n.Schema = {
         user: 'User',
         admin: 'Admin'
       }
+    },
+    log: {
+      title: 'Log Detail',
+      view: 'View Log',
+      info: 'Info'
     }
   },
   form: {

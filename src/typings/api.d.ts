@@ -986,6 +986,36 @@ declare namespace Api {
       jobId?: number;
       keywords?: string;
     }>;
+
+    /** jobTask */
+    type JobTask = Common.CommonRecord<{
+      /** ID */
+      id: string;
+      /** 任务 ID */
+      jobId: string;
+      /** 组名称 */
+      groupName: string;
+      /** 地址 */
+      clientInfo: string;
+      /** 参数 */
+      argsStr: string;
+      /** 结果 */
+      resultMessage: string;
+      /** 重试次数 */
+      retryCount: string;
+      /** 开始执行时间 */
+      createDt: string;
+      /** 任务批次 ID */
+      taskBatchId: string;
+    }>;
+
+    /** jobTask search params */
+    type jobTaskSearchParams = CommonType.RecordNullable<
+      Pick<Api.Job.JobTask, 'groupName' | 'taskBatchId'> & CommonSearchParams & { startId: number; fromIndex: number }
+    >;
+
+    /** jobTask list */
+    type JobTaskList = Common.PaginatingQueryRecord<JobTask>;
   }
 
   /**
@@ -1158,5 +1188,39 @@ declare namespace Api {
 
     /** 1、user 2、admin */
     type Role = 1 | 2;
+  }
+
+  /**
+   * namespace JobLog
+   *
+   * backend api module: "JobLog"
+   */
+  namespace JobLog {
+    type JobLevel = 'INFO' | 'WARN' | 'ERROR' | 'DEBUG';
+
+    type JobLogSearchParams = {
+      taskBatchId: string;
+      jobId: string;
+      taskId: string;
+      startId: string;
+      fromIndex: number;
+      size: number;
+    };
+
+    type JobLogList = {
+      finished: boolean;
+      fromIndex: number;
+      message: JobMessage[];
+      nextStartId: string;
+    };
+
+    type JobMessage = {
+      level: JobLevel;
+      location: string;
+      message: string;
+      thread: string;
+      ['time_stamp']: string;
+      throwable: string;
+    };
   }
 }

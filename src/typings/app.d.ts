@@ -1119,6 +1119,16 @@ declare namespace App {
             taskBatchStatus: string;
           };
           detail: string;
+          jobTask: {
+            title: string;
+            id: string;
+            groupName: string;
+            clientInfo: string;
+            argsStr: string;
+            resultMessage: string;
+            retryCount: string;
+            createDt: string;
+          };
         };
         userManager: {
           title: string;
@@ -1143,6 +1153,11 @@ declare namespace App {
             user: string;
             admin: string;
           };
+        };
+        log: {
+          title: string;
+          view: string;
+          info: string;
         };
       };
       form: {

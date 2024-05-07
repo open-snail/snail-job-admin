@@ -151,7 +151,7 @@ watch(
         class="sm:h-full"
       />
     </NCard>
-    <JobBatchDetailDrawer v-model:visible="detailVisible" :row-data="detailData" />
+    <JobBatchDetailDrawer v-if="detailVisible" v-model:visible="detailVisible" :row-data="detailData" />
   </div>
 </template>
 
