@@ -351,8 +351,8 @@ const local: App.I18n.Schema = {
       register: {
         title: 'Register',
         agreement: 'I have read and agree to',
-        protocol: '《User Agreement》',
-        policy: '《Privacy Policy》'
+        protocol: 'User Agreement',
+        policy: 'Privacy Policy'
       },
       resetPwd: {
         title: 'Reset Password'
@@ -691,35 +691,35 @@ const local: App.I18n.Schema = {
         groupName: 'Please select Group name',
         notifyThreshold: 'Please enter Notification threshold',
         notifyStatus: 'Please select State',
-        systemTaskType: '请选择任务类型',
-        notifyRecipient: '请选择通知人',
-        rateLimiterThreshold: '请选择阈值',
-        sceneName: '请选择重试场景',
-        jobName: '请选择定时任务',
-        workflowName: '请选择工作流'
+        systemTaskType: 'Please enter task type',
+        notifyRecipient: 'Please enter recipient',
+        rateLimiterThreshold: 'Please enter rate limiter threshold',
+        sceneName: 'Please enter scene name',
+        jobName: 'Please enter job name',
+        workflowName: 'Please enter workflow name'
       },
       addNotifyConfig: 'Add Alarm notification',
       editNotifyConfig: 'Add Alarm notification',
-      systemTaskType: '任务类型',
+      systemTaskType: 'Task type',
       retryNotifyScene: {
-        maxRetry: '场景重试数量超过阈值',
-        maxRetryError: '场景重试失败数量超过阈值',
-        clientReportError: '客户端上报失败',
-        clientComponentError: '客户端组件异常',
-        retryTaskReachThreshold: '任务重试失败数量超过阈值',
-        retryTaskEnterDeadLetter: '任务重试失败进入死信队列'
+        maxRetry: 'Maximum retry count reached',
+        maxRetryError: 'Maximum retry error count reached',
+        clientReportError: 'Client report error',
+        clientComponentError: 'Client component error',
+        retryTaskReachThreshold: 'Retry task reach threshold',
+        retryTaskEnterDeadLetter: 'Retry task enter dead letter'
       },
       jobNotifyScene: {
-        jobTaskError: '任务执行失败'
+        jobTaskError: 'Task execute error'
       },
       workflowNotifyScene: {
-        workTaskError: '任务执行失败',
-        workflowTaskCallbackError: '回调任务执行失败',
-        workflowTaskDecisionError: '判定节点执行失败'
+        workTaskError: 'Workflow task execute error',
+        workflowTaskCallbackError: 'Callback task execute error',
+        workflowTaskDecisionError: 'Workflow task decision error'
       },
-      notifyRecipient: '通知人信息',
-      rateLimiterStatus: '限流开关',
-      rateLimiterThreshold: '每秒限流阈值'
+      notifyRecipient: 'Notify recipient',
+      rateLimiterStatus: 'Rate limiter status',
+      rateLimiterThreshold: 'Rate limiter threshold'
     },
     notifyRecipient: {
       title: 'Notify Recipient List',
@@ -843,15 +843,15 @@ const local: App.I18n.Schema = {
         deadlineRequest: 'Please enter Call chain timeout(ms)',
         routeKey: 'Please enter Routing strategy',
         backOff: 'Please enter Backoff strategy',
-        sceneName2: '场景名称: 仅支持长度为:1~64位字符.格式为:数字、字母、下划线。'
+        sceneName2: 'Scene name: 1~64 characters. allowing: digit, letters and underscore.'
       },
       addScene: 'Add Scenes',
       editScene: 'Add Scenes',
       backOffItem: {
-        delayLevel: '延迟等级',
-        fixed: '固定时间',
-        cron: 'CRON表达式',
-        random: '随机等待'
+        delayLevel: 'Delay level',
+        fixed: 'Fixed rate',
+        cron: 'CRON expression',
+        random: 'Random delay'
       }
     },
     retryLog: {
@@ -956,9 +956,9 @@ const local: App.I18n.Schema = {
       addJobTask: 'Add job task',
       editJobTask: 'Edit job task',
       triggerTypeItem: {
-        fixed: '固定时间',
-        cron: 'CRON表达式',
-        workflow: '工作流'
+        fixed: 'Fixed rate',
+        cron: 'CRON expression',
+        workflow: 'Workflow'
       },
       detail: 'Job Task Detail'
     },
@@ -978,14 +978,14 @@ const local: App.I18n.Schema = {
       },
       detail: 'Job Batch Detail',
       jobTask: {
-        title: 'JobTask 列表',
+        title: 'Job task list',
         id: 'ID',
-        groupName: '组名称',
-        clientInfo: '地址',
-        argsStr: '参数',
-        resultMessage: '结果',
-        retryCount: '重试次数',
-        createDt: '开始执行时间'
+        groupName: 'Group name',
+        clientInfo: 'Client address',
+        argsStr: 'Argument string',
+        resultMessage: 'Result message',
+        retryCount: 'Number of retries',
+        createDt: 'Create time'
       }
     },
     userManager: {
