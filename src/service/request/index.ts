@@ -1,22 +1,16 @@
 import type { AxiosResponse } from 'axios';
 import { BACKEND_ERROR_CODE, createFlatRequest, createRequest } from '@sa/axios';
 import { useAuthStore } from '@/store/modules/auth';
+import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
 import { getServiceBaseURL } from '@/utils/service';
-import { $t } from '@/locales';
-import { handleRefreshToken } from './shared';
+import { handleRefreshToken, showErrorMsg } from './shared';
+import type { RequestInstanceState } from './type';
 
 const isHttpProxy = import.meta.env.DEV && import.meta.env.VITE_HTTP_PROXY === 'Y';
 const { baseURL, otherBaseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
 
-interface InstanceState {
-  /** whether the request is logout */
-  isLogout: boolean;
-  /** whether the request is refreshing token */
-  isRefreshingToken: boolean;
-}
-
-export const request = createFlatRequest<App.Service.Response, InstanceState>(
+export const request = createFlatRequest<App.Service.Response, RequestInstanceState>(
   {
     baseURL,
     headers: {
@@ -40,7 +34,7 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
     isBackendSuccess(response) {
       // when the backend response code is "0000"(default), it means the request is success
       // to change this logic by yourself, you can modify the `VITE_SERVICE_SUCCESS_CODE` in `.env` file
-      return response.data.status.toString() === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
+      return String(response.data.status) === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
     },
     async onBackendFail(response, instance) {
       const authStore = useAuthStore();
@@ -52,6 +46,8 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       function logoutAndCleanup() {
         handleLogout();
         window.removeEventListener('beforeunload', handleLogout);
+
+        request.state.errMsgStack = request.state.errMsgStack.filter(msg => msg !== response.data.message);
       }
 
       // when the backend response code is in `logoutCodes`, it means the user will be logged out and redirected to login page
@@ -63,7 +59,12 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
 
       // when the backend response code is in `modalLogoutCodes`, it means the user will be logged out by displaying a modal
       const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
-      if (modalLogoutCodes.includes(response.data.status.toString())) {
+      if (
+        modalLogoutCodes.includes(response.data.status) &&
+        !request.state.errMsgStack?.includes(response.data.message)
+      ) {
+        request.state.errMsgStack = [...(request.state.errMsgStack || []), response.data.message];
+
         // prevent the user from refreshing the page
         window.addEventListener('beforeunload', handleLogout);
 
@@ -92,7 +93,7 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       // when the backend response code is in `expiredTokenCodes`, it means the token is expired, and refresh token
       // the api `refreshToken` can not return error code in `expiredTokenCodes`, otherwise it will be a dead loop, should return `logoutCodes` or `modalLogoutCodes`
       const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
-      if (expiredTokenCodes.includes(response.data.status.toString()) && !request.state.isRefreshingToken) {
+      if (expiredTokenCodes.includes(response.data.status) && !request.state.isRefreshingToken) {
         request.state.isRefreshingToken = true;
 
         const refreshConfig = await handleRefreshToken(response.config);
@@ -118,7 +119,7 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       // get backend error message and code
       if (error.code === BACKEND_ERROR_CODE) {
         message = error.response?.data?.message || message;
-        backendErrorCode = error.response?.data?.status.toString() || '';
+        backendErrorCode = error.response?.data?.status || '';
       }
 
       // the error message is displayed in the modal
@@ -133,7 +134,7 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
         return;
       }
 
-      window.$message?.error?.(message);
+      showErrorMsg(request.state, message);
     }
   }
 );

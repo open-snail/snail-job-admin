@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch } from 'vue';
-import { getColorPalette } from '@sa/utils';
+import { getPaletteColorByNumber } from '@sa/color';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useEcharts } from '@/hooks/common/echarts';
@@ -69,7 +69,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
 }));
 
 function getColor(color: string) {
-  return themeStore.darkMode ? getColorPalette(color, 7) : color;
+  return themeStore.darkMode ? getPaletteColorByNumber(color, 700) : color;
 }
 
 const getData = async () => {

@@ -147,6 +147,10 @@ export function useEcharts<T extends ECOption>(optionsFactory: () => T, hooks: C
     await onUpdated?.(chart!);
   }
 
+  function setOptions(options: T) {
+    chart?.setOption(options);
+  }
+
   /** render chart */
   async function render() {
     if (!isRendered()) {
@@ -226,6 +230,7 @@ export function useEcharts<T extends ECOption>(optionsFactory: () => T, hooks: C
 
   return {
     domRef,
-    updateOptions
+    updateOptions,
+    setOptions
   };
 }

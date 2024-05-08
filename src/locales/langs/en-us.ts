@@ -13,6 +13,7 @@ const local: App.I18n.Schema = {
     cancel: 'Cancel',
     close: 'Close',
     check: 'Check',
+    expandColumn: 'Expand Column',
     columnSetting: 'Column Setting',
     config: 'Config',
     confirm: 'Confirm',
@@ -167,6 +168,7 @@ const local: App.I18n.Schema = {
       dark: 'Dark',
       auto: 'Follow System'
     },
+    grayscale: 'Grayscale',
     layoutMode: {
       title: 'Layout Mode',
       vertical: 'Vertical Menu Mode',
@@ -174,6 +176,8 @@ const local: App.I18n.Schema = {
       'vertical-mix': 'Vertical Mix Menu Mode',
       'horizontal-mix': 'Horizontal Mix menu Mode'
     },
+    recommendColor: 'Apply Recommended Color Algorithm',
+    recommendColorDesc: 'The recommended color algorithm refers to',
     themeColor: {
       title: 'Theme Color',
       primary: 'Primary',
@@ -542,6 +546,12 @@ const local: App.I18n.Schema = {
         superAdminVisible: 'Super Admin Visible',
         adminVisible: 'Admin Visible',
         adminOrUserVisible: 'Admin and User Visible'
+      },
+      request: {
+        repeatedErrorOccurOnce: 'Repeated Request Error Occurs Once',
+        repeatedError: 'Repeated Request Error',
+        repeatedErrorMsg1: 'Custom Request Error 1',
+        repeatedErrorMsg2: 'Custom Request Error 2'
       }
     },
     manage: {
@@ -614,7 +624,7 @@ const local: App.I18n.Schema = {
         menuName: 'Menu Name',
         routeName: 'Route Name',
         routePath: 'Route Path',
-        routeParams: 'Route Params',
+        pathParam: 'Path Param',
         layout: 'Layout Component',
         page: 'Page Component',
         i18nKey: 'I18n Key',
@@ -622,12 +632,14 @@ const local: App.I18n.Schema = {
         localIcon: 'Local Icon',
         iconTypeTitle: 'Icon Type',
         order: 'Order',
+        constant: 'Constant',
         keepAlive: 'Keep Alive',
         href: 'Href',
         hideInMenu: 'Hide In Menu',
         activeMenu: 'Active Menu',
         multiTab: 'Multi Tab',
         fixedIndexInTab: 'Fixed Index In Tab',
+        query: 'Query Params',
         button: 'Button',
         buttonCode: 'Button Code',
         buttonDesc: 'Button Desc',
@@ -638,6 +650,7 @@ const local: App.I18n.Schema = {
           menuName: 'Please enter menu name',
           routeName: 'Please enter route name',
           routePath: 'Please enter route path',
+          pathParam: 'Please enter path param',
           page: 'Please select page component',
           layout: 'Please select layout component',
           i18nKey: 'Please enter i18n key',
@@ -647,10 +660,12 @@ const local: App.I18n.Schema = {
           keepAlive: 'Please select whether to cache route',
           href: 'Please enter href',
           hideInMenu: 'Please select whether to hide menu',
-          activeMenu: 'Please enter the route name of the highlighted menu',
+          activeMenu: 'Please select route name of the highlighted menu',
           multiTab: 'Please select whether to support multiple tabs',
           fixedInTab: 'Please select whether to fix in the tab',
           fixedIndexInTab: 'Please enter the index fixed in the tab',
+          queryKey: 'Please enter route parameter Key',
+          queryValue: 'Please enter route parameter Value',
           button: 'Please select whether it is a button',
           buttonCode: 'Please enter button code',
           buttonDesc: 'Please enter button description',
@@ -1066,6 +1081,9 @@ const local: App.I18n.Schema = {
     pin: 'Pin',
     unpin: 'Unpin',
     namespace: 'Switch namespace'
+  },
+  datatable: {
+    itemCount: 'Total {total} items'
   }
 };
 

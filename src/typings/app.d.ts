@@ -2,7 +2,7 @@
 declare namespace App {
   /** Theme namespace */
   namespace Theme {
-    type ColorPaletteNumber = import('@sa/color-palette').ColorPaletteNumber;
+    type ColorPaletteNumber = import('@sa/color').ColorPaletteNumber;
 
     /** Theme token */
     type ThemeToken = {
@@ -18,6 +18,10 @@ declare namespace App {
     interface ThemeSetting {
       /** Theme scheme */
       themeScheme: UnionKey.ThemeScheme;
+      /** grayscale mode */
+      grayscale: boolean;
+      /** Whether to recommend color */
+      recommendColor: boolean;
       /** Theme color */
       themeColor: string;
       /** Other color */
@@ -154,7 +158,7 @@ declare namespace App {
       /** The menu label */
       label: string;
       /** The menu i18n key */
-      i18nKey?: I18n.I18nKey;
+      i18nKey?: I18n.I18nKey | null;
       /** The route key */
       routeKey: RouteKey;
       /** The route path */
@@ -212,7 +216,7 @@ declare namespace App {
        */
       localIcon?: string;
       /** I18n key */
-      i18nKey?: I18n.I18nKey;
+      i18nKey?: I18n.I18nKey | null;
     };
 
     /** Form rule */
@@ -259,6 +263,7 @@ declare namespace App {
         cancel: string;
         close: string;
         check: string;
+        expandColumn: string;
         columnSetting: string;
         config: string;
         confirm: string;
@@ -408,7 +413,10 @@ declare namespace App {
       };
       theme: {
         themeSchema: { title: string } & Record<UnionKey.ThemeScheme, string>;
+        grayscale: string;
         layoutMode: { title: string } & Record<UnionKey.ThemeLayoutMode, string>;
+        recommendColor: string;
+        recommendColorDesc: string;
         themeColor: {
           title: string;
           followPrimary: string;
@@ -686,6 +694,12 @@ declare namespace App {
             adminVisible: string;
             adminOrUserVisible: string;
           };
+          request: {
+            repeatedErrorOccurOnce: string;
+            repeatedError: string;
+            repeatedErrorMsg1: string;
+            repeatedErrorMsg2: string;
+          };
         };
         manage: {
           common: {
@@ -757,7 +771,7 @@ declare namespace App {
             menuName: string;
             routeName: string;
             routePath: string;
-            routeParams: string;
+            pathParam: string;
             layout: string;
             page: string;
             i18nKey: string;
@@ -765,12 +779,14 @@ declare namespace App {
             localIcon: string;
             iconTypeTitle: string;
             order: string;
+            constant: string;
             keepAlive: string;
             href: string;
             hideInMenu: string;
             activeMenu: string;
             multiTab: string;
             fixedIndexInTab: string;
+            query: string;
             button: string;
             buttonCode: string;
             buttonDesc: string;
@@ -781,6 +797,7 @@ declare namespace App {
               menuName: string;
               routeName: string;
               routePath: string;
+              pathParam: string;
               layout: string;
               page: string;
               i18nKey: string;
@@ -794,6 +811,8 @@ declare namespace App {
               multiTab: string;
               fixedInTab: string;
               fixedIndexInTab: string;
+              queryKey: string;
+              queryValue: string;
               button: string;
               buttonCode: string;
               buttonDesc: string;
@@ -1184,6 +1203,9 @@ declare namespace App {
         pin: string;
         unpin: string;
         namespace: string;
+      };
+      datatable: {
+        itemCount: string;
       };
     };
 

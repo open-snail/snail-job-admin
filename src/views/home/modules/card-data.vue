@@ -2,7 +2,7 @@
 import { computed, nextTick, onUnmounted, reactive } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { useRouter } from 'vue-router';
-import { getColorPalette } from '@sa/utils';
+import { getPaletteColorByNumber } from '@sa/color';
 import { $t } from '@/locales';
 import { useThemeStore } from '@/store/modules/theme';
 import DardRetryChart from './card-retry-chart.vue';
@@ -211,8 +211,8 @@ interface GradientBgProps {
 const [DefineGradientBg, GradientBg] = createReusableTemplate<GradientBgProps>();
 
 function getGradientColor(color: CardData['color']) {
-  const start = themeStore.darkMode ? getColorPalette(color.start, 7) : color.start;
-  const end = themeStore.darkMode ? getColorPalette(color.end, 7) : color.end;
+  const start = themeStore.darkMode ? getPaletteColorByNumber(color.start, 700) : color.start;
+  const end = themeStore.darkMode ? getPaletteColorByNumber(color.end, 700) : color.end;
   return `linear-gradient(to bottom right, ${start}, ${end})`;
 }
 </script>
