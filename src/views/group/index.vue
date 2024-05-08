@@ -87,12 +87,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       }
     },
     {
-      key: 'version',
-      title: $t('page.groupConfig.version'),
-      align: 'center',
-      minWidth: 60
-    },
-    {
       key: 'groupPartition',
       title: $t('page.groupConfig.groupPartition'),
       align: 'center',

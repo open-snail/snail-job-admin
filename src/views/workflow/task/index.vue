@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { NButton, NButtonGroup, NPopconfirm, NPopover, NTag } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import {
   fetchDelWorkflow,
@@ -128,17 +128,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 300,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => execute(row.id!)}>
-            {$t('common.execute')}
-          </NButton>
-          <NButton type="primary" ghost size="small" onClick={() => copy(row.id!)}>
-            {$t('common.copy')}
-          </NButton>
           <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
-          </NButton>
-          <NButton type="success" ghost size="small" onClick={() => batch(row.id!)}>
-            {$t('common.batchList')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
             {{
@@ -150,6 +141,30 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               )
             }}
           </NPopconfirm>
+          <NPopover trigger="click" placement="bottom" raw show-arrow={false} class="b-rd-6px bg-#fff dark:bg-#000">
+            {{
+              trigger: () => (
+                <NButton type="primary" ghost size="small">
+                  更多
+                </NButton>
+              ),
+              default: () => (
+                <div>
+                  <NButtonGroup vertical>
+                    <NButton type="primary" ghost size="small" onClick={() => execute(row.id!)}>
+                      {$t('common.execute')}
+                    </NButton>
+                    <NButton type="primary" ghost size="small" onClick={() => copy(row.id!)}>
+                      {$t('common.copy')}
+                    </NButton>
+                    <NButton type="success" ghost size="small" onClick={() => batch(row.id!)}>
+                      {$t('common.batchList')}
+                    </NButton>
+                  </NButtonGroup>
+                </div>
+              )
+            }}
+          </NPopover>
         </div>
       )
     }
