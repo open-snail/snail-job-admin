@@ -873,11 +873,11 @@ declare namespace App {
           };
           jobNotifyScene: {
             jobTaskError: string;
+            jobClientError: string;
           };
           workflowNotifyScene: {
             workTaskError: string;
-            workflowTaskCallbackError: string;
-            workflowTaskDecisionError: string;
+            workflowClientError: string;
           };
           notifyRecipient: string;
           rateLimiterStatus: string;

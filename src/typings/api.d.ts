@@ -582,11 +582,11 @@ declare namespace Api {
     /** 1、场景重试数量超过阈值 2、场景重试失败数量超过阈值 3、客户端上报失败 4、客户端组件异常 5、任务重试失败数量超过阈值 6、任务重试失败进入死信队列 */
     type RetryNotifyScene = 1 | 2 | 3 | 4 | 5 | 6;
 
-    /** 1、任务执行失败 */
-    type JobNotifyScene = 1;
+    /** 1、任务执行失败 2、客户端执行失败 */
+    type JobNotifyScene = 1 | 2;
 
-    /** 100、工作流任务执行失败 101、回调节点执行失败 102、判定节点执行失败 */
-    type WorkflowNotifyScene = 100 | 101 | 102;
+    /** 2、 客户端执行失败 100、工作流任务执行失败 */
+    type WorkflowNotifyScene = 2 | 100;
   }
 
   /**

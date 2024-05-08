@@ -721,12 +721,12 @@ const local: App.I18n.Schema = {
         retryTaskEnterDeadLetter: '任务重试失败进入死信队列'
       },
       jobNotifyScene: {
-        jobTaskError: '任务执行失败'
+        jobTaskError: '任务执行失败',
+        jobClientError: '客户端执行失败'
       },
       workflowNotifyScene: {
         workTaskError: '工作流任务执行失败',
-        workflowTaskCallbackError: '工作流回调任务执行失败',
-        workflowTaskDecisionError: '工作流判定节点执行失败'
+        workflowClientError: '客户端执行失败'
       },
       notifyRecipient: '通知人信息',
       rateLimiterStatus: '限流开关',

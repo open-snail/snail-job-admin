@@ -725,12 +725,12 @@ const local: App.I18n.Schema = {
         retryTaskEnterDeadLetter: 'Retry task enter dead letter'
       },
       jobNotifyScene: {
-        jobTaskError: 'Task execute error'
+        jobTaskError: 'Task execute error',
+        jobClientError: 'Client execute error'
       },
       workflowNotifyScene: {
         workTaskError: 'Workflow task execute error',
-        workflowTaskCallbackError: 'Callback task execute error',
-        workflowTaskDecisionError: 'Workflow task decision error'
+        workflowClientError: 'Client execute error'
       },
       notifyRecipient: 'Notify recipient',
       rateLimiterStatus: 'Rate limiter status',

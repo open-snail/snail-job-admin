@@ -79,14 +79,14 @@ export const retryNotifyScene: Record<Api.NotifyConfig.RetryNotifyScene, App.I18
 export const retryNotifySceneOptions = transformRecordToNumberOption(retryNotifyScene);
 
 export const jobNotifyScene: Record<Api.NotifyConfig.JobNotifyScene, App.I18n.I18nKey> = {
-  1: 'page.notifyConfig.jobNotifyScene.jobTaskError'
+  1: 'page.notifyConfig.jobNotifyScene.jobTaskError',
+  2: 'page.notifyConfig.jobNotifyScene.jobClientError'
 };
 export const jobNotifySceneOptions = transformRecordToOption(jobNotifyScene);
 
 export const workflowNotifyScene: Record<Api.NotifyConfig.WorkflowNotifyScene, App.I18n.I18nKey> = {
-  100: 'page.notifyConfig.workflowNotifyScene.workTaskError',
-  101: 'page.notifyConfig.workflowNotifyScene.workflowTaskCallbackError',
-  102: 'page.notifyConfig.workflowNotifyScene.workflowTaskDecisionError'
+  2: 'page.notifyConfig.workflowNotifyScene.workflowClientError',
+  100: 'page.notifyConfig.workflowNotifyScene.workTaskError'
 };
 export const workflowNotifySceneOptions = transformRecordToOption(workflowNotifyScene);
 
