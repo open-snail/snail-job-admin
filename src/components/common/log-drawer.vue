@@ -89,7 +89,7 @@ function timestampToDate(timestamp: string): string {
     @update:show="onUpdateShow"
   >
     <NDrawerContent :title="title" closable>
-      <div class="snail-log">
+      <div class="snail-log bg-#fafafc p-16px dark:bg-#000">
         <div class="snail-log-scrollbar">
           <code>
             <pre
