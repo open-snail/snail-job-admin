@@ -31,7 +31,13 @@ function search() {
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflow.groupName')" path="groupName" class="pr-24px">
       <SelectGroup v-model="model.groupName" />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflow.workflowName')" path="workflowName" class="pr-24px">
+    <NFormItemGi
+      span="24 s:12 m:6"
+      :label="$t('page.workflow.workflowName')"
+      path="workflowName"
+      class="pr-24px"
+      :label-width="100"
+    >
       <NInput v-model:value="model.workflowName" :placeholder="$t('page.workflow.form.workflowName')" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflow.workflowStatus')" path="workflowStatus" class="pr-24px">
