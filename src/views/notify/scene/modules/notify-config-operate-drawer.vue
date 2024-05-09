@@ -99,8 +99,8 @@ function createDefaultModel(): Model {
     notifyStatus: 1,
     notifyScene: 1,
     notifyThreshold: 16,
-    rateLimiterStatus: 1,
-    rateLimiterThreshold: 1,
+    rateLimiterStatus: 0,
+    rateLimiterThreshold: null,
     description: ''
   };
 }
@@ -308,11 +308,7 @@ watch(visible, () => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.rateLimiterStatus')" path="rateLimiterStatus">
-        <NRadioGroup
-          v-model:value="model.rateLimiterStatus"
-          name="rateLimiterStatus"
-          :disabled="props.operateType === 'edit'"
-        >
+        <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus" disabled>
           <NSpace>
             <NRadio
               v-for="item in enableStatusNumberOptions"
@@ -323,20 +319,12 @@ watch(visible, () => {
           </NSpace>
         </NRadioGroup>
       </NFormItem>
-      <NFormItem :label="$t('page.notifyConfig.rateLimiterThreshold')" path="rateLimiterThreshold">
-        <NInputNumber
-          v-model:value="model.rateLimiterThreshold"
-          :min="1"
-          :placeholder="$t('page.notifyConfig.form.rateLimiterThreshold')"
-          :disabled="props.operateType === 'edit'"
-        />
-      </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
         <NInputNumber
           v-model:value="model.notifyThreshold"
           :min="1"
           :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
-          :disabled="props.operateType === 'edit'"
+          disabled
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.description')" path="description">

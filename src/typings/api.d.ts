@@ -559,7 +559,7 @@ declare namespace Api {
       /** 限流开关 */
       rateLimiterStatus: Api.Common.EnableStatusNumber;
       /** 每秒限流阈值 */
-      rateLimiterThreshold: number;
+      rateLimiterThreshold: number | null;
       /** 描述 */
       description: string;
     }>;
