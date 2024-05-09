@@ -67,7 +67,7 @@ type Model = Pick<
   | 'id'
   | 'groupName'
   | 'businessId'
-  | 'notifyRecipientIds'
+  | 'recipientIds'
   | 'systemTaskType'
   | 'notifyStatus'
   | 'notifyScene'
@@ -94,26 +94,20 @@ function createDefaultModel(): Model {
   return {
     groupName: '',
     businessId: '',
-    notifyRecipientIds: 0,
+    recipientIds: [],
     systemTaskType: 1,
     notifyStatus: 1,
     notifyScene: 1,
     notifyThreshold: 16,
-    rateLimiterStatus: 0,
-    rateLimiterThreshold: 0,
+    rateLimiterStatus: 1,
+    rateLimiterThreshold: 1,
     description: ''
   };
 }
 
 type RuleKey = Extract<
   keyof Model,
-  | 'groupName'
-  | 'businessId'
-  | 'notifyRecipientIds'
-  | 'notifyStatus'
-  | 'notifyScene'
-  | 'rateLimiterStatus'
-  | 'notifyThreshold'
+  'groupName' | 'businessId' | 'recipientIds' | 'notifyStatus' | 'notifyScene' | 'rateLimiterStatus' | 'notifyThreshold'
 >;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
@@ -121,7 +115,7 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   businessId: defaultRequiredRule,
   notifyStatus: defaultRequiredRule,
   notifyScene: defaultRequiredRule,
-  notifyRecipientIds: defaultRequiredRule,
+  recipientIds: defaultRequiredRule,
   rateLimiterStatus: defaultRequiredRule,
   notifyThreshold: defaultRequiredRule
 };
@@ -148,7 +142,7 @@ async function handleSubmit() {
     const {
       groupName,
       businessId,
-      notifyRecipientIds,
+      recipientIds,
       systemTaskType,
       notifyStatus,
       notifyScene,
@@ -160,7 +154,7 @@ async function handleSubmit() {
     const { error } = await fetchAddNotify({
       groupName,
       businessId,
-      notifyRecipientIds,
+      recipientIds,
       systemTaskType,
       notifyStatus,
       notifyScene,
@@ -177,7 +171,7 @@ async function handleSubmit() {
       id,
       groupName,
       businessId,
-      notifyRecipientIds,
+      recipientIds,
       notifyStatus,
       systemTaskType,
       notifyScene,
@@ -190,7 +184,7 @@ async function handleSubmit() {
       id,
       groupName,
       businessId,
-      notifyRecipientIds,
+      recipientIds,
       systemTaskType,
       notifyStatus,
       notifyScene,
@@ -304,9 +298,9 @@ watch(visible, () => {
           clearable
         />
       </NFormItem>
-      <NFormItem :label="$t('page.notifyConfig.notifyRecipient')" path="notifyRecipientIds">
+      <NFormItem :label="$t('page.notifyConfig.notifyRecipient')" path="recipientIds">
         <NSelect
-          v-model:value="model.notifyRecipientIds"
+          v-model:value="model.recipientIds"
           :placeholder="$t('page.notifyConfig.form.notifyRecipient')"
           :options="notifyRecipientList"
           clearable
@@ -314,7 +308,11 @@ watch(visible, () => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.rateLimiterStatus')" path="rateLimiterStatus">
-        <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus">
+        <NRadioGroup
+          v-model:value="model.rateLimiterStatus"
+          name="rateLimiterStatus"
+          :disabled="props.operateType === 'edit'"
+        >
           <NSpace>
             <NRadio
               v-for="item in enableStatusNumberOptions"
@@ -330,6 +328,7 @@ watch(visible, () => {
           v-model:value="model.rateLimiterThreshold"
           :min="1"
           :placeholder="$t('page.notifyConfig.form.rateLimiterThreshold')"
+          :disabled="props.operateType === 'edit'"
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
@@ -337,6 +336,7 @@ watch(visible, () => {
           v-model:value="model.notifyThreshold"
           :min="1"
           :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
+          :disabled="props.operateType === 'edit'"
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.description')" path="description">

@@ -545,7 +545,7 @@ declare namespace Api {
       /** 业务ID */
       businessId: string;
       /** 通知人id */
-      notifyRecipientIds: number;
+      recipientIds: number[];
       /** 任务类型 1、重试任务 2、回调任务、3、JOB任务 4、WORKFLOW任务 */
       systemTaskType: SystemTaskType;
       /** 业务名称 */
