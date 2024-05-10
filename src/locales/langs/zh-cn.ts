@@ -133,7 +133,7 @@ const local: App.I18n.Schema = {
       label: '操作原因',
       form: '请选择执行状态',
       items: {
-        none: '',
+        none: '无',
         taskExecutionTimeout: '任务执行超时',
         notClient: '无客户端节点',
         closed: '任务已关闭',

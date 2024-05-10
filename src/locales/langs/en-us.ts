@@ -133,7 +133,7 @@ const local: App.I18n.Schema = {
       label: 'Job operation reason',
       form: 'Please enter job operation reason',
       items: {
-        none: '',
+        none: 'None',
         taskExecutionTimeout: 'Task execution timeout',
         notClient: 'No client',
         closed: 'Job closed',
