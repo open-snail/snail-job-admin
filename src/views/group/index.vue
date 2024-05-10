@@ -9,10 +9,11 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { groupConfigIdModeRecord, yesOrNoRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 import StatusSwitch from '@/components/common/status-switch.vue';
+import { useAuth } from '@/hooks/business/auth';
 import GroupOperateDrawer from './modules/group-operate-drawer.vue';
 import GroupDetailDrawer from './modules/group-detail-drawer.vue';
 import GroupSearch from './modules/group-search.vue';
-
+const { hasAuth } = useAuth();
 const appStore = useAppStore();
 
 /** 详情页属性数据 */
@@ -166,6 +167,7 @@ function edit(id: string) {
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           :show-delete="false"
+          :show-add="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @refresh="getData"
         />

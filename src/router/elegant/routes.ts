@@ -385,7 +385,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'namespace',
       i18nKey: 'route.namespace',
       icon: 'eos-icons:namespace',
-      order: 20
+      order: 20,
+      roles: ['R_ADMIN']
     }
   },
   {
@@ -497,7 +498,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'user',
       i18nKey: 'route.user',
       order: 900,
-      icon: 'material-symbols:manage-accounts'
+      icon: 'material-symbols:manage-accounts',
+      roles: ['R_ADMIN']
     },
     children: [
       {
@@ -508,7 +510,8 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'user_manager',
           i18nKey: 'route.user_manager',
           icon: 'streamline:interface-user-multiple-close-geometric-human-multiple-person-up-user',
-          order: 900
+          order: 900,
+          roles: ['R_ADMIN']
         }
       }
     ]
