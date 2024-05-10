@@ -61,6 +61,7 @@ const customRoutes: CustomRoute[] = [
       title: 'document',
       i18nKey: 'route.document',
       order: 2,
+      hideInMenu: true,
       icon: 'mdi:file-document-multiple-outline'
     },
     children: [
