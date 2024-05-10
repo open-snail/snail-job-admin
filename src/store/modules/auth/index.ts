@@ -7,6 +7,7 @@ import { useRouterPush } from '@/hooks/common/router';
 import { fetchGetUserInfo, fetchLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
+import { roleTypeRecord } from '@/constants/business';
 import { useRouteStore } from '../route';
 import { clearAuthStorage, getToken, getUserInfo } from './shared';
 
@@ -93,7 +94,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
     if (!error) {
       info!.userName = info?.username;
-      info!.roles = [info.role];
+      info!.roles = [roleTypeRecord[info.role]];
       // 2. store user info
       localStg.set('userInfo', info);
 
