@@ -1150,9 +1150,9 @@ declare namespace Api {
       /** 用户名 */
       username: string;
       /** 密码 */
-      password: string;
+      password: string | null;
       /** 确认密码 */
-      checkPassword: string;
+      checkPassword?: string;
       /** 角色 */
       role: Role;
       /** 组 */

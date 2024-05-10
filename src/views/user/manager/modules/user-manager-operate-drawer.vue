@@ -72,7 +72,7 @@ const rules = computed<RuleRecord>(() => {
   return {
     username: [defaultRequiredRule],
     password: formRules.pwd,
-    checkPassword: createConfirmPwdRule(model.password),
+    checkPassword: createConfirmPwdRule(model.password!),
     role: [defaultRequiredRule],
     permissions: [defaultRequiredRule]
   };
@@ -101,13 +101,10 @@ async function handleSubmit() {
   await validate();
   // request
   if (props.operateType === 'add') {
-    const { username, password, checkPassword, role, permissions } = model;
-    const passwordMd5 = md5(password);
-    const checkPasswordMd5 = md5(checkPassword);
+    const { username, password, role, permissions } = model;
     const { error } = await fetchAddUser({
       username,
-      password: passwordMd5,
-      checkPassword: checkPasswordMd5,
+      password: md5(password!),
       role,
       permissions
     });
@@ -116,20 +113,18 @@ async function handleSubmit() {
   }
 
   if (props.operateType === 'edit') {
-    const { id, username, password, checkPassword, role, permissions } = model;
-    const passwordMd5 = md5(password);
-    const checkPasswordMd5 = md5(checkPassword);
+    const { id, username, password, role, permissions } = model;
     const { error } = await fetchEditUser({
       id,
       username,
-      password: passwordMd5,
-      checkPassword: checkPasswordMd5,
+      password: updatePass.value ? md5(password!) : null,
       role,
       permissions
     });
     if (error) return;
     window.$message?.success($t('common.updateSuccess'));
   }
+
   closeDrawer();
   emit('submitted');
 }
@@ -219,7 +214,6 @@ function updatePermissions(p: OptionValue[]) {
       </NFormItem>
       <NFormItem v-if="model.role === 1" :label="$t('page.userManager.permissions')" path="permissions">
         <NTransfer
-          ref="transfer"
           v-model:value="valueRef"
           virtual-scroll
           :options="groupConfigs"
