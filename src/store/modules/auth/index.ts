@@ -113,7 +113,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
     if (!error) {
       info!.userName = info?.username;
-      info!.roles = [info.role];
+      info!.roles = [roleTypeRecord[info.role]];
       localStg.set('userInfo', info);
       Object.assign(userInfo, info);
 
