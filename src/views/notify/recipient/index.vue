@@ -8,9 +8,11 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { alarmTypeRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
+import { useAuth } from '@/hooks/business/auth';
 import NotifyRecipientOperateDrawer from './modules/notify-recipient-operate-drawer.vue';
 import NotifyRecipientSearch from './modules/notify-recipient-search.vue';
 import NotifyRecipientDetailDrawer from './modules/notify-recipient-detail-drawer.vue';
+const { hasAuth } = useAuth();
 
 const appStore = useAppStore();
 
@@ -85,16 +87,20 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
+          {hasAuth('R_ADMIN') ? (
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
         </div>
       )
     }

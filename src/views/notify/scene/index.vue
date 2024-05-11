@@ -12,6 +12,8 @@ import NotifyConfigDetailDrawer from '@/views/notify/scene/modules/notify-config
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { jobNotifyScene, retryNotifyScene, systemTaskType, workflowNotifyScene } from '@/constants/business';
 import { tagColor } from '@/utils/common';
+import { useAuth } from '@/hooks/business/auth';
+const { hasAuth } = useAuth();
 
 const appStore = useAppStore();
 
@@ -156,16 +158,20 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
+          {hasAuth('R_ADMIN') ? (
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
         </div>
       )
     }

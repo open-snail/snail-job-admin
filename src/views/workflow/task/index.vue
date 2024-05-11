@@ -13,7 +13,9 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { triggerTypeRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { tagColor } from '@/utils/common';
+import { useAuth } from '@/hooks/business/auth';
 import WorkflowSearch from './modules/workflow-search.vue';
+const { hasAuth } = useAuth();
 
 const router = useRouter();
 const appStore = useAppStore();
@@ -125,48 +127,55 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       fixed: 'right',
-      width: 300,
-      render: row => (
-        <div class="flex-center gap-8px">
-          <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
-            {$t('common.edit')}
-          </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
-          <NPopover trigger="click" placement="bottom" raw show-arrow={false} class="b-rd-6px bg-#fff dark:bg-#000">
-            {{
-              trigger: () => (
-                <NButton type="primary" ghost size="small">
-                  更多
-                </NButton>
-              ),
-              default: () => (
-                <div>
-                  <NButtonGroup vertical>
-                    <NButton type="primary" ghost size="small" onClick={() => execute(row.id!)}>
-                      {$t('common.execute')}
+      width: 200,
+      render: row => {
+        return (
+          <div class="flex-center gap-8px">
+            <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
+              {$t('common.edit')}
+            </NButton>
+            {hasAuth('R_ADMIN') ? (
+              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+                {{
+                  default: () => $t('common.confirmDelete'),
+                  trigger: () => (
+                    <NButton type="error" ghost size="small">
+                      {$t('common.delete')}
                     </NButton>
-                    <NButton type="primary" ghost size="small" onClick={() => copy(row.id!)}>
-                      {$t('common.copy')}
-                    </NButton>
-                    <NButton type="success" ghost size="small" onClick={() => batch(row.id!)}>
-                      {$t('common.batchList')}
-                    </NButton>
-                  </NButtonGroup>
-                </div>
-              )
-            }}
-          </NPopover>
-        </div>
-      )
+                  )
+                }}
+              </NPopconfirm>
+            ) : (
+              ''
+            )}
+
+            <NPopover trigger="click" placement="bottom" raw show-arrow={false} class="b-rd-6px bg-#fff dark:bg-#000">
+              {{
+                trigger: () => (
+                  <NButton type="primary" ghost size="small">
+                    更多
+                  </NButton>
+                ),
+                default: () => (
+                  <div>
+                    <NButtonGroup vertical>
+                      <NButton type="primary" ghost size="small" onClick={() => execute(row.id!)}>
+                        {$t('common.execute')}
+                      </NButton>
+                      <NButton type="primary" ghost size="small" onClick={() => copy(row.id!)}>
+                        {$t('common.copy')}
+                      </NButton>
+                      <NButton type="success" ghost size="small" onClick={() => batch(row.id!)}>
+                        {$t('common.batchList')}
+                      </NButton>
+                    </NButtonGroup>
+                  </div>
+                )
+              }}
+            </NPopover>
+          </div>
+        );
+      }
     }
   ]
 });

@@ -40,9 +40,9 @@ export const menuIconTypeRecord: Record<Api.SystemManage.IconType, App.I18n.I18n
 
 export const menuIconTypeOptions = transformRecordToOption(menuIconTypeRecord);
 
-export const roleTypeRecord: Record<string, string> = {
-  '1': 'R_USER',
-  '2': 'R_ADMIN'
+export const roleTypeRecord: Record<number, string> = {
+  1: 'R_USER',
+  2: 'R_ADMIN'
 };
 
 export const podsType: Record<Api.Dashboard.DashboardPodsType, App.I18n.I18nKey> = {

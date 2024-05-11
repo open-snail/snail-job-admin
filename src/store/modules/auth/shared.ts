@@ -12,7 +12,7 @@ export function getUserInfo() {
     username: '',
     userName: '',
     mode: '',
-    role: '',
+    role: 1,
     roles: [],
     buttons: [],
     namespaceIds: []

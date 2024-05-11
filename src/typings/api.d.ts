@@ -117,7 +117,7 @@ declare namespace Api {
       username: string;
       userName: string;
       mode: string;
-      role: string;
+      role: number;
       roles: string[];
       buttons: string[];
       namespaceIds: NamespaceId[];

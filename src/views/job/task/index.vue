@@ -9,9 +9,11 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { blockStrategyRecord, taskTypeRecord, triggerTypeRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { useRouterPush } from '@/hooks/common/router';
+import { useAuth } from '@/hooks/business/auth';
 import JobTaskOperateDrawer from './modules/job-task-operate-drawer.vue';
 import JobTaskSearch from './modules/job-task-search.vue';
 import JobTaskDetailDrawer from './modules/job-task-detail-drawer.vue';
+const { hasAuth } = useAuth();
 
 const appStore = useAppStore();
 const { routerPushByKey } = useRouterPush();
@@ -172,16 +174,21 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
+          {hasAuth('R_ADMIN') ? (
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
+
           <NPopconfirm onPositiveClick={() => handleTriggerJob(row.id!)}>
             {{
               default: () => $t('common.confirmExecute'),

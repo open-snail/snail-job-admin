@@ -125,13 +125,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
-        <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
-            {$t('common.edit')}
-          </NButton>
-        </div>
-      )
+      render: row => {
+        if (hasAuth('R_USER')) {
+          return <></>;
+        }
+        return (
+          <div class="flex-center gap-8px">
+            <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+              {$t('common.edit')}
+            </NButton>
+          </div>
+        );
+      }
     }
   ]
 });
