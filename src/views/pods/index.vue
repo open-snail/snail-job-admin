@@ -21,13 +21,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'hostId',
       title: $t('page.pods.hostId'),
       align: 'left',
-      width: 120
+      resizable: true,
+      width: 150,
+      minWidth: 150,
+      maxWidth: 200
     },
     {
       key: 'nodeType',
       title: $t('page.pods.nodeType'),
       align: 'center',
-      width: 100,
+      width: 80,
       render: row => {
         if (row.nodeType === null) {
           return null;
@@ -47,7 +50,10 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'groupName',
       title: $t('page.pods.groupName'),
       align: 'left',
-      width: 180
+      width: 120,
+      resizable: true,
+      minWidth: 120,
+      maxWidth: 200
     },
     {
       key: 'hostIp',
@@ -59,13 +65,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'hostPort',
       title: $t('page.pods.hostPort'),
       align: 'left',
-      width: 120
+      width: 80
     },
     {
       key: 'consumerBuckets',
       title: $t('page.pods.consumerBuckets'),
       align: 'left',
-      width: 360,
+      width: 300,
+      resizable: true,
+      minWidth: 120,
+      maxWidth: 400,
       render: row => {
         if (row.nodeType === null) {
           return null;
