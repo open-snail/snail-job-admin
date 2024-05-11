@@ -171,7 +171,20 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       fixed: 'right',
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+          <NPopconfirm onPositiveClick={() => handleTriggerJob(row.id!)}>
+            {{
+              default: () => $t('common.confirmExecute'),
+              trigger: () => (
+                <NButton type="error" ghost size="small">
+                  {$t('common.execute')}
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
+          <NButton type="primary" ghost size="small" onClick={() => goToBatch(row.id!)}>
+            {$t('common.batchList')}
+          </NButton>
+          <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
           {hasAuth('R_ADMIN') ? (
@@ -188,20 +201,6 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
           ) : (
             ''
           )}
-
-          <NPopconfirm onPositiveClick={() => handleTriggerJob(row.id!)}>
-            {{
-              default: () => $t('common.confirmExecute'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.execute')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
-          <NButton type="primary" ghost size="small" onClick={() => goToBatch(row.id!)}>
-            {$t('common.batchList')}
-          </NButton>
         </div>
       )
     }
@@ -232,9 +231,9 @@ function edit(id: string) {
 async function handleTriggerJob(id: string) {
   const { error } = await fetchTriggerJob(id);
   if (error) {
-    window.$message?.success($t('common.executeSuccess'));
-  } else {
     window.$message?.error($t('common.executeFailed'));
+  } else {
+    window.$message?.success($t('common.executeSuccess'));
   }
 }
 
