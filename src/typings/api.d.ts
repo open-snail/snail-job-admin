@@ -543,7 +543,7 @@ declare namespace Api {
       /** 组名称 */
       groupName: string;
       /** 业务ID */
-      businessId: string;
+      businessId: string | null;
       /** 通知人id */
       recipientIds: number[];
       /** 任务类型 1、重试任务 2、回调任务、3、JOB任务 4、WORKFLOW任务 */

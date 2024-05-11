@@ -128,6 +128,7 @@ function handleUpdateModelWhenEdit() {
 
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
+    systemTaskTypeChange(model.systemTaskType);
   }
 }
 
@@ -207,16 +208,27 @@ async function systemTaskTypeChange(value: number) {
     notifySceneOptions.value = translateOptions(retryNotifySceneOptions);
   } else if (value === 3) {
     const res = await fetchGetJobList({ groupName: model.groupName });
-    jobs.value = res.data as Api.Job.Job[];
+    jobs.value = res.data?.map(i => {
+      i.id = String(i.id);
+      return i;
+    }) as Api.Job.Job[];
     notifySceneOptions.value = translateOptions(jobNotifySceneOptions);
   } else if (value === 4) {
     const res = await fetchGetWorkflowNameList({ groupName: model.groupName });
-    workflows.value = res.data as Api.Workflow.Workflow[];
+    workflows.value = res.data?.map(i => {
+      i.id = String(i.id);
+      return i;
+    }) as Api.Workflow.Workflow[];
     notifySceneOptions.value = translateOptions(workflowNotifySceneOptions);
   }
 
-  model.businessId = '';
-  model.notifyScene = null;
+  if (value !== props.rowData?.systemTaskType) {
+    model.businessId = null;
+    model.notifyScene = null;
+  } else {
+    model.businessId = props.rowData?.businessId;
+    model.notifyScene = props.rowData?.notifyScene;
+  }
 }
 
 function groupNameUpdate(groupName: string) {
@@ -294,7 +306,7 @@ watch(visible, () => {
         <NSelect
           v-model:value="model.notifyScene"
           :placeholder="$t('page.notifyConfig.form.notifyScene')"
-          :options="notifySceneOptions"
+          :options="translateOptions(notifySceneOptions)"
           clearable
         />
       </NFormItem>

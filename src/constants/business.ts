@@ -87,13 +87,13 @@ export const jobNotifyScene: Record<Api.NotifyConfig.JobNotifyScene, App.I18n.I1
   1: 'page.notifyConfig.jobNotifyScene.jobTaskError',
   2: 'page.notifyConfig.jobNotifyScene.jobClientError'
 };
-export const jobNotifySceneOptions = transformRecordToOption(jobNotifyScene);
+export const jobNotifySceneOptions = transformRecordToNumberOption(jobNotifyScene);
 
 export const workflowNotifyScene: Record<Api.NotifyConfig.WorkflowNotifyScene, App.I18n.I18nKey> = {
   2: 'page.notifyConfig.workflowNotifyScene.workflowClientError',
   100: 'page.notifyConfig.workflowNotifyScene.workTaskError'
 };
-export const workflowNotifySceneOptions = transformRecordToOption(workflowNotifyScene);
+export const workflowNotifySceneOptions = transformRecordToNumberOption(workflowNotifyScene);
 
 export const groupConfigStatusRecord: Record<Api.GroupConfig.GroupStatusType, App.I18n.I18nKey> = {
   0: 'page.manage.common.status.disable',

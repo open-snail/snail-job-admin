@@ -104,7 +104,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'notifyScene',
       title: $t('page.notifyConfig.notifyScene'),
       align: 'left',
-      width: 120,
+      width: 160,
       render: row => {
         if (row.notifyScene === null) {
           return null;
