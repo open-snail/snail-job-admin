@@ -29,8 +29,8 @@ const selectOptions = computed(() => {
   // 默认选中轮询
   emit('update:value', 4);
 
-  // 1:集群, 3:切片
-  if (props.taskType === 1 || props.taskType === 3) {
+  // 2:集群, 3:切片
+  if (props.taskType === 2 || props.taskType === 3) {
     return translateOptions(routeKeyRecordOptions.filter(o => o.value === 4));
   }
   // 2:广播
