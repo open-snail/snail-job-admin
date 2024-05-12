@@ -13,7 +13,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  taskType: 1
+  // HACK: 默认值为`集群`, 选项不受限制
+  taskType: 2
 });
 
 interface Emits {
