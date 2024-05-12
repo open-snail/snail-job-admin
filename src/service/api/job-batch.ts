@@ -15,3 +15,19 @@ export function fetchGetJobBatchDetail(id: string) {
     method: 'get'
   });
 }
+
+/** stop job */
+export function fetchJobBatchStop(jobId: string) {
+  return request<boolean>({
+    url: `/job/batch/stop/${jobId}`,
+    method: 'post'
+  });
+}
+
+/** retry job */
+export function fetchJobBatchRetry(jobId: string) {
+  return request<boolean>({
+    url: `/job/batch/retry/${jobId}`,
+    method: 'post'
+  });
+}

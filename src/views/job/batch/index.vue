@@ -1,9 +1,9 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { fetchGetJobBatchList, fetchGetJobNameList } from '@/service/api';
+import { fetchGetJobBatchList, fetchGetJobNameList, fetchJobBatchRetry, fetchJobBatchStop } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
@@ -87,17 +87,54 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => detail(row.id!)}>
-            {$t('common.detail')}
-          </NButton>
+          {row.taskBatchStatus === 1 || row.taskBatchStatus === 2 ? (
+            <NPopconfirm onPositiveClick={() => handleStopJob(row.id!)}>
+              {{
+                default: () => $t('common.confirmStop'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.stop')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
+          {row.taskBatchStatus === 4 || row.taskBatchStatus === 5 || row.taskBatchStatus === 6 ? (
+            <NPopconfirm onPositiveClick={() => handleRetryJob(row.id!)}>
+              {{
+                default: () => $t('common.confirmRetry'),
+                trigger: () => (
+                  <NButton type="warning" ghost size="small">
+                    {$t('common.retry')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          ) : (
+            ''
+          )}
         </div>
       )
     }
   ]
 });
 
-function detail(id: string) {
-  console.log(id);
+async function handleRetryJob(id: string) {
+  const { error } = await fetchJobBatchRetry(id);
+  if (!error) {
+    window.$message?.success($t('common.operateSuccess'));
+    getData();
+  }
+}
+
+async function handleStopJob(id: string) {
+  const { error } = await fetchJobBatchStop(id);
+  if (!error) {
+    window.$message?.success($t('common.operateSuccess'));
+    getData();
+  }
 }
 
 /** 处理路由 query 参数变化 */

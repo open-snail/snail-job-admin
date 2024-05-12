@@ -56,13 +56,17 @@ const local: App.I18n.Schema = {
     resume: 'Resume',
     pause: 'Pause',
     finish: 'Finish',
+    retry: 'Retry',
     running: 'Running',
+    operateSuccess: 'Operate successfully',
+    operateFailed: 'Operate failed',
     executeSuccess: 'Execute successfully',
     executeFailed: 'Execute failed',
     confirmExecute: 'Are you sure you want to execute?',
     confirmResume: 'Are you sure you want to resume?',
     confirmPause: 'Are you sure you want to pause?',
     confirmFinish: 'Are you sure you want to finishe?',
+    confirmRetry: 'Are you sure you want to retry?',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'

@@ -306,13 +306,17 @@ declare namespace App {
         resume: string;
         pause: string;
         finish: string;
+        retry: string;
         running: string;
+        operateSuccess: string;
+        operateFailed: string;
         executeSuccess: string;
         executeFailed: string;
         confirmExecute: string;
         confirmResume: string;
         confirmPause: string;
         confirmFinish: string;
+        confirmRetry: string;
         yesOrNo: {
           yes: string;
           no: string;
