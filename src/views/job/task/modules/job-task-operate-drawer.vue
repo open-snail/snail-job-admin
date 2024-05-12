@@ -296,12 +296,6 @@ watch(visible, () => {
           </NSpace>
         </NRadioGroup>
       </NFormItem>
-      <NFormItem :label="$t('page.jobTask.routeKey')" path="routeKey">
-        <RouteKey v-model:value="model.routeKey" />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.blockStrategy')" path="blockStrategy">
-        <BlockStrategy v-model:value="model.blockStrategy" />
-      </NFormItem>
       <NFormItem :label="$t('page.jobTask.executorType')" path="executorType">
         <ExecutorType v-model:value="model.executorType" />
       </NFormItem>
@@ -341,6 +335,12 @@ watch(visible, () => {
           <NButton block dashed attr-type="button" @click="addItem"><icon-ic-round-plus class="text-icon" /></NButton>
         </NCard>
         <CodeMirror v-else v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
+      </NFormItem>
+      <NFormItem :label="$t('page.jobTask.routeKey')" path="routeKey">
+        <RouteKey v-model:value="model.routeKey" />
+      </NFormItem>
+      <NFormItem :label="$t('page.jobTask.blockStrategy')" path="blockStrategy">
+        <BlockStrategy v-model:value="model.blockStrategy" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.triggerType')" path="triggerType">
         <TriggerType

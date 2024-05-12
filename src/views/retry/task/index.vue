@@ -49,6 +49,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'uniqueId',
       title: $t('page.retryTask.uniqueId'),
       align: 'left',
+      fixed: 'left',
       minWidth: 120,
       render: row => {
         async function showDetailDrawer() {
@@ -66,44 +67,36 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'groupName',
       title: $t('page.retryTask.groupName'),
-      align: 'center',
-      minWidth: 120
+      align: 'left',
+      resizable: true,
+      minWidth: 120,
+      maxWidth: 250
     },
     {
       key: 'sceneName',
       title: $t('page.retryTask.sceneName'),
-      align: 'center',
-      minWidth: 120
-    },
-    {
-      key: 'idempotentId',
-      title: $t('page.retryTask.idempotentId'),
-      align: 'center',
-      minWidth: 120
-    },
-    {
-      key: 'bizNo',
-      title: $t('page.retryTask.bizNo'),
-      align: 'center',
+      align: 'left',
       minWidth: 120
     },
     {
       key: 'nextTriggerAt',
       title: $t('page.retryTask.nextTriggerAt'),
-      align: 'center',
-      minWidth: 120
+      align: 'left',
+      resizable: true,
+      minWidth: 120,
+      maxWidth: 150
     },
     {
       key: 'retryCount',
       title: $t('page.retryTask.retryCount'),
       align: 'center',
-      minWidth: 120
+      width: 80
     },
     {
       key: 'retryStatus',
       title: $t('page.retryTask.retryStatus'),
-      align: 'center',
-      minWidth: 120,
+      align: 'left',
+      width: 120,
       render: row => {
         if (row.retryStatus === null) {
           return null;
@@ -116,8 +109,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'taskType',
       title: $t('page.retryTask.taskType'),
-      align: 'center',
-      minWidth: 120,
+      align: 'left',
+      width: 100,
       render: row => {
         if (row.taskType === null) {
           return null;
@@ -132,10 +125,27 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       }
     },
     {
+      key: 'idempotentId',
+      title: $t('page.retryTask.idempotentId'),
+      align: 'left',
+      resizable: true,
+      minWidth: 150,
+      maxWidth: 300
+    },
+    {
+      key: 'bizNo',
+      title: $t('page.retryTask.bizNo'),
+      align: 'left',
+      resizable: true,
+      minWidth: 150,
+      maxWidth: 300
+    },
+    {
       key: 'operate',
       title: $t('common.operate'),
-      align: 'center',
+      align: 'left',
       width: 260,
+      fixed: 'right',
       render: row => (
         <div class="flex-center gap-8px">
           {/* 非[完成,最大次数], 显示[执行]按钮 */}
@@ -304,7 +314,7 @@ async function updateRetryTaskStatus(id: number, groupName: string, retryStatus:
         :columns="columns"
         :data="data"
         :flex-height="!appStore.isMobile"
-        :scroll-x="962"
+        :scroll-x="2000"
         :loading="loading"
         remote
         :row-key="row => row.id"
