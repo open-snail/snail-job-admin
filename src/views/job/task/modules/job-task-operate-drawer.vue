@@ -337,7 +337,7 @@ watch(visible, () => {
         <CodeMirror v-else v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.routeKey')" path="routeKey">
-        <RouteKey v-model:value="model.routeKey" />
+        <RouteKey v-model:value="model.routeKey" :task-type="model.taskType" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.blockStrategy')" path="blockStrategy">
         <BlockStrategy v-model:value="model.blockStrategy" />
