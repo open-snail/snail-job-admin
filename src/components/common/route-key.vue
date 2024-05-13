@@ -12,10 +12,7 @@ interface Props {
   taskType?: Api.Common.TaskType;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  // HACK: 默认值为`集群`, 选项不受限制
-  taskType: 1
-});
+const props = defineProps<Props>();
 
 interface Emits {
   (e: 'update:value', value: Api.Common.RouteKey): void;
@@ -33,7 +30,7 @@ const selectOptions = computed(() => {
   if (props.taskType === 2 || props.taskType === 3) {
     return translateOptions(routeKeyRecordOptions.filter(o => o.value === 4));
   }
-  // 1:集群 ==> 选项不受限
+  // 默认undefined, 1:集群 ==> 选项不受限
   return translateOptions(routeKeyRecordOptions);
 });
 </script>
