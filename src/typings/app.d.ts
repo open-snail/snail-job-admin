@@ -529,6 +529,9 @@ declare namespace App {
             latestBuildTime: string;
             githubLink: string;
             previewLink: string;
+            giteeLink: string;
+            officialWebsite: string;
+            videoTutorial: string;
           };
           prdDep: string;
           devDep: string;

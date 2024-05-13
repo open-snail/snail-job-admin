@@ -377,7 +377,10 @@ const local: App.I18n.Schema = {
         version: 'Version',
         latestBuildTime: 'Latest Build Time',
         githubLink: 'Github Link',
-        previewLink: 'Preview Link'
+        giteeLink: 'Gitee Link',
+        officialWebsite: 'Home Page',
+        previewLink: 'Preview Link',
+        videoTutorial: 'Video Tutorial'
       },
       prdDep: 'Production Dependency',
       devDep: 'Development Dependency'

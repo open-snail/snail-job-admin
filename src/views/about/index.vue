@@ -43,19 +43,26 @@ const latestBuildTime = BUILD_TIME;
 <template>
   <NSpace vertical :size="16">
     <NCard :title="$t('page.about.title')" :bordered="false" size="small" segmented class="card-wrapper">
-      <p>{{ $t('page.about.introduction') }}</p>
+      <p v-html="$t('page.about.introduction')" />
     </NCard>
     <NCard :title="$t('page.about.projectInfo.title')" :bordered="false" size="small" segmented class="card-wrapper">
       <NDescriptions label-placement="left" bordered size="small" :column="column">
+        <NDescriptionsItem :label="$t('page.about.projectInfo.officialWebsite')">
+          <a class="text-primary" :href="pkg.website" target="_blank" rel="noopener noreferrer">
+            {{ $t('page.about.projectInfo.officialWebsite') }}
+          </a>
+        </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.version')">
           <NTag type="primary">{{ pkgJson.version }}</NTag>
         </NDescriptionsItem>
-        <NDescriptionsItem :label="$t('page.about.projectInfo.latestBuildTime')">
-          <NTag type="primary">{{ latestBuildTime }}</NTag>
-        </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.githubLink')">
-          <a class="text-primary" :href="pkg.homepage" target="_blank" rel="noopener noreferrer">
+          <a class="text-primary" :href="pkg.repository.githubUrl" target="_blank" rel="noopener noreferrer">
             {{ $t('page.about.projectInfo.githubLink') }}
+          </a>
+        </NDescriptionsItem>
+        <NDescriptionsItem :label="$t('page.about.projectInfo.giteeLink')">
+          <a class="text-primary" :href="pkg.repository.giteeUrl" target="_blank" rel="noopener noreferrer">
+            {{ $t('page.about.projectInfo.giteeLink') }}
           </a>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.previewLink')">
@@ -63,22 +70,66 @@ const latestBuildTime = BUILD_TIME;
             {{ $t('page.about.projectInfo.previewLink') }}
           </a>
         </NDescriptionsItem>
-      </NDescriptions>
-    </NCard>
-    <NCard :title="$t('page.about.prdDep')" :bordered="false" size="small" segmented class="card-wrapper">
-      <NDescriptions label-placement="left" bordered size="small" :column="column">
-        <NDescriptionsItem v-for="item in pkgJson.dependencies" :key="item.name" :label="item.name">
-          {{ item.version }}
+        <NDescriptionsItem :label="$t('page.about.projectInfo.latestBuildTime')">
+          <NTag type="primary">{{ latestBuildTime }}</NTag>
         </NDescriptionsItem>
       </NDescriptions>
     </NCard>
-    <NCard :title="$t('page.about.devDep')" :bordered="false" size="small" segmented class="card-wrapper">
-      <NDescriptions label-placement="left" bordered size="small" :column="column">
-        <NDescriptionsItem v-for="item in pkgJson.devDependencies" :key="item.name" :label="item.name">
-          {{ item.version }}
-        </NDescriptionsItem>
-      </NDescriptions>
-    </NCard>
+    <!--    <NCard-->
+    <!--      :title="$t('page.about.projectInfo.videoTutorial')"-->
+    <!--      :bordered="false"-->
+    <!--      size="small"-->
+    <!--      segmented-->
+    <!--      class="card-wrapper"-->
+    <!--    >-->
+    <!--      <NCarousel :slides-per-view="3" :space-between="20" show-arrow :mousewheel="true">-->
+    <!--        <iframe-->
+    <!--          src="//player.bilibili.com/player.html?bvid=BV1Yu4y1k7WU&page=1"-->
+    <!--          scrolling="no"-->
+    <!--          border="0"-->
+    <!--          width="100%"-->
+    <!--          height="298px"-->
+    <!--          autoplay="no"-->
+    <!--          frameborder="no"-->
+    <!--          framespacing="0"-->
+    <!--          allowfullscreen="false"-->
+    <!--        ></iframe>-->
+    <!--        <iframe-->
+    <!--          src="//player.bilibili.com/player.html?bvid=BV1Lu4y1C74h&page=1"-->
+    <!--          scrolling="no"-->
+    <!--          border="0"-->
+    <!--          width="100%"-->
+    <!--          height="298px"-->
+    <!--          frameborder="no"-->
+    <!--          framespacing="0"-->
+    <!--          autoplay="no"-->
+    <!--          allowfullscreen="false"-->
+    <!--        ></iframe>-->
+    <!--        <iframe-->
+    <!--          src="//player.bilibili.com/player.html?bvid=BV1Km4y1N7s9&page=1"-->
+    <!--          scrolling="no"-->
+    <!--          border="0"-->
+    <!--          width="100%"-->
+    <!--          height="298px"-->
+    <!--          autoplay="no"-->
+    <!--          frameborder="no"-->
+    <!--          framespacing="0"-->
+    <!--          allowfullscreen="true"-->
+    <!--        ></iframe>-->
+    <!--        <iframe-->
+    <!--          src="//player.bilibili.com/player.html?bvid=BV1xk4y1F7tD&page=1"-->
+    <!--          scrolling="no"-->
+    <!--          border="0"-->
+    <!--          width="100%"-->
+    <!--          height="298px"-->
+    <!--          frameborder="no"-->
+    <!--          framespacing="0"-->
+    <!--          allowfullscreen="true"-->
+    <!--        ></iframe>-->
+    <!--      </NCarousel>-->
+    <!--      <p></p>-->
+    <!--      <p></p>-->
+    <!--    </NCard>-->
   </NSpace>
 </template>
 

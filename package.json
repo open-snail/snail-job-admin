@@ -1,18 +1,20 @@
 {
   "name": "snail-job",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "A flexible, reliable, and fast platform for distributed task retry and distributed task scheduling.",
   "license": "Apache-2.0",
   "homepage": "https://gitee.com/aizuda/snail-job",
   "repository": {
-    "url": "https://gitee.com/aizuda/snail-job.git"
+    "githubUrl": "https://github.com/aizuda/snail-job.git",
+    "giteeUrl": "https://gitee.com/aizuda/snail-job.git"
   },
   "bugs": {
     "url": "https://gitee.com/aizuda/snail-job/issues"
   },
   "keywords": [
     "Job",
+    "Retry",
     "Snail Job",
     "Vue3 admin ",
     "vue-admin-template",
@@ -109,5 +111,5 @@
   "lint-staged": {
     "*": "eslint --fix"
   },
-  "website": "https://www.easyretry.com"
+  "website": "https://www.easyretry.com/pages/78ba75/"
 }

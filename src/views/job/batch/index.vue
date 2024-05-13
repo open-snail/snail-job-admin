@@ -76,8 +76,15 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
           return null;
         }
         const label = $t(taskBatchStatusRecord[row.taskBatchStatus!]);
-
-        return <NTag type={tagColor(row.taskBatchStatus!)}>{label}</NTag>;
+        const tagMap: Record<number, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'info',
+          3: 'info',
+          4: 'error',
+          5: 'error',
+          6: 'error'
+        };
+        return <NTag type={tagMap[row.taskBatchStatus!]}>{label}</NTag>;
       }
     },
     {
