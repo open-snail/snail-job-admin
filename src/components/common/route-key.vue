@@ -14,7 +14,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   // HACK: 默认值为`集群`, 选项不受限制
-  taskType: 2
+  taskType: 1
 });
 
 interface Emits {
@@ -29,11 +29,11 @@ const selectOptions = computed(() => {
   // 默认选中轮询
   emit('update:value', 4);
 
-  // 2:集群, 3:切片
+  // 2:广播, 3:切片 ==> 只能选择`轮询`
   if (props.taskType === 2 || props.taskType === 3) {
     return translateOptions(routeKeyRecordOptions.filter(o => o.value === 4));
   }
-  // 2:广播
+  // 1:集群 ==> 选项不受限
   return translateOptions(routeKeyRecordOptions);
 });
 </script>
