@@ -7,7 +7,7 @@ import { fetchGetJobBatchList, fetchGetJobNameList, fetchJobBatchRetry, fetchJob
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
-import { operationReasonRecord } from '@/constants/business';
+import { operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 import JobBatchSearch from './modules/job-batch-search.vue';
 import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
@@ -65,6 +65,20 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       title: $t('page.jobBatch.executionAt'),
       align: 'center',
       minWidth: 120
+    },
+    {
+      key: 'taskBatchStatus',
+      title: $t('page.jobBatch.taskBatchStatus'),
+      align: 'center',
+      minWidth: 120,
+      render: row => {
+        if (row.taskBatchStatus === null) {
+          return null;
+        }
+        const label = $t(taskBatchStatusRecord[row.taskBatchStatus!]);
+
+        return <NTag type={tagColor(row.taskBatchStatus!)}>{label}</NTag>;
+      }
     },
     {
       key: 'operationReason',
