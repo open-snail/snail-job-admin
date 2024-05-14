@@ -83,18 +83,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         const buckets = (slice?: number) => {
           const consumerBuckets = slice ? row.consumerBuckets?.slice(0, slice) : row.consumerBuckets;
           return consumerBuckets?.map(bucket => (
-            <NTag type="error" key={bucket} class="mr-8px">
+            <NTag type="error" key={bucket} class="m-1 justify-center">
               {bucket}
             </NTag>
           ));
         };
 
         const path = () => {
-          return <NTag type="info">{row.contextPath}</NTag>;
+          return <NTag type="info">{row.contextPath ?? '/'}</NTag>;
         };
 
         return row.nodeType === 1 ? (
-          <>path: {path()}</>
+          <>Path: {path()}</>
         ) : (
           <>
             <span>Bucket: </span>
@@ -103,7 +103,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {{
                 trigger: () => <NTag type="error">...</NTag>,
                 default: () => {
-                  return <div class="w-600px">{buckets()}</div>;
+                  return <div class="grid grid-cols-16">{buckets()}</div>;
                 }
               }}
             </n-popover>
