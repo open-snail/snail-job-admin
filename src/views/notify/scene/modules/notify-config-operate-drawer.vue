@@ -40,6 +40,10 @@ const workflows = ref<Api.Workflow.Workflow[]>([]);
 const props = defineProps<Props>();
 
 interface Emits {
+  (e: 'update:value', value: Api.NotifyConfig.RetryNotifyScene): void;
+}
+
+interface Emits {
   (e: 'submitted'): void;
 }
 
@@ -47,6 +51,10 @@ const emit = defineEmits<Emits>();
 
 const visible = defineModel<boolean>('visible', {
   default: false
+});
+
+const retrySceneDisable = defineModel<boolean>('retrySceneDisable', {
+  default: true
 });
 
 const notifySceneOptions = ref<CommonType.Option<string | number>[]>(translateOptions(retryNotifySceneOptions));
@@ -95,12 +103,12 @@ function createDefaultModel(): Model {
     groupName: '',
     businessId: '',
     recipientIds: [],
-    systemTaskType: 1,
+    systemTaskType: null,
     notifyStatus: 1,
-    notifyScene: 1,
+    notifyScene: null,
     notifyThreshold: 16,
     rateLimiterStatus: 0,
-    rateLimiterThreshold: null,
+    rateLimiterThreshold: 100,
     description: ''
   };
 }
@@ -129,6 +137,7 @@ function handleUpdateModelWhenEdit() {
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
     systemTaskTypeChange(model.systemTaskType);
+    retrySceneChange(model.notifyScene);
   }
 }
 
@@ -201,7 +210,7 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-async function systemTaskTypeChange(value: number) {
+async function systemTaskTypeChange(value: number | null) {
   if (value === 1) {
     const res = await fetchGetRetrySceneList({ groupName: model.groupName });
     retryScenes.value = res.data as Api.RetryScene.Scene[];
@@ -231,10 +240,21 @@ async function systemTaskTypeChange(value: number) {
   }
 }
 
+async function retrySceneChange(
+  value:
+    | Api.NotifyConfig.JobNotifyScene
+    | Api.NotifyConfig.RetryNotifyScene
+    | Api.NotifyConfig.WorkflowNotifyScene
+    | null
+) {
+  retrySceneDisable.value = !(value === 5 || value === 6);
+}
+
 function groupNameUpdate(groupName: string) {
   handleUpdateModelWhenEdit();
   model.groupName = groupName;
   systemTaskTypeChange(1);
+  retrySceneChange(1);
 }
 
 watch(visible, () => {
@@ -306,8 +326,9 @@ watch(visible, () => {
         <NSelect
           v-model:value="model.notifyScene"
           :placeholder="$t('page.notifyConfig.form.notifyScene')"
-          :options="translateOptions(notifySceneOptions)"
+          :options="notifySceneOptions"
           clearable
+          @update:value="retrySceneChange"
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyRecipient')" path="recipientIds">
@@ -320,7 +341,27 @@ watch(visible, () => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.rateLimiterStatus')" path="rateLimiterStatus">
-        <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus" disabled>
+        <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus" :disabled="retrySceneDisable">
+          <NSpace>
+            <NRadio
+              v-for="item in enableStatusNumberOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
+            />
+          </NSpace>
+        </NRadioGroup>
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.rateLimiterThreshold')" path="notifyThreshold">
+        <NInputNumber
+          v-model:value="model.rateLimiterThreshold"
+          :min="1"
+          :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
+          :disabled="retrySceneDisable"
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="rateLimiterStatus">
+        <NRadioGroup v-model:value="model.notifyStatus" name="rateLimiterStatus">
           <NSpace>
             <NRadio
               v-for="item in enableStatusNumberOptions"
@@ -336,7 +377,7 @@ watch(visible, () => {
           v-model:value="model.notifyThreshold"
           :min="1"
           :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
-          disabled
+          :disabled="retrySceneDisable"
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.description')" path="description">

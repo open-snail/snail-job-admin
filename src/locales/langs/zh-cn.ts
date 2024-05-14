@@ -703,7 +703,7 @@ const local: App.I18n.Schema = {
       title: '告警通知列表',
       groupName: '组名称',
       businessName: '业务ID',
-      notifyStatus: '状态',
+      notifyStatus: '通知状态',
       notifyType: '通知类型',
       notifyScene: '通知场景',
       notifyThreshold: '通知阈值',
@@ -748,7 +748,7 @@ const local: App.I18n.Schema = {
         workflowClientError: '客户端执行失败'
       },
       notifyRecipient: '通知人信息',
-      rateLimiterStatus: '限流开关',
+      rateLimiterStatus: '限流状态',
       rateLimiterThreshold: '每秒限流阈值'
     },
     notifyRecipient: {
