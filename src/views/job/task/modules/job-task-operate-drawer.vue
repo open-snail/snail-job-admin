@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
-import CronInput from '@sa/cron-input';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
@@ -10,6 +9,7 @@ import RouteKey from '@/components/common/route-key.vue';
 import ExecutorType from '@/components/common/executor-type.vue';
 import TaskType from '@/components/common/task-type.vue';
 import CodeMirror from '@/components/common/code-mirror.vue';
+import JobTriggerInterval from '@/components/common/job-trigger-interval.vue';
 
 defineOptions({
   name: 'JobTaskOperateDrawer'
@@ -350,17 +350,7 @@ watch(visible, () => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.triggerInterval')" path="triggerInterval">
-        <NInput
-          v-if="model.triggerType === 2"
-          v-model:value="model.triggerInterval"
-          :placeholder="$t('page.jobTask.form.triggerInterval')"
-        />
-        <CronInput
-          v-else-if="model.triggerType === 3"
-          v-model:value="model.triggerInterval"
-          :placeholder="$t('page.jobTask.form.triggerInterval_CRON')"
-        />
-        <NInput v-else-if="model.triggerType === 99" v-model:value="model.triggerInterval" disabled />
+        <JobTriggerInterval v-model="model.triggerInterval" :trigger-type="model.triggerType" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.executorTimeout')" path="executorTimeout">
         <NInputNumber

@@ -812,7 +812,7 @@ declare namespace Api {
       /** 最大重试次数 */
       maxRetryCount: number;
       /** 间隔时间 */
-      triggerInterval: number;
+      triggerInterval: string;
       /** 调用链超时时间 */
       deadlineRequest: number;
       /** 超时时间 */
