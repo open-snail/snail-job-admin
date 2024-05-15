@@ -20,7 +20,7 @@ interface FormModel {
 
 const model: FormModel = reactive({
   userName: 'admin',
-  password: '654321'
+  password: 'admin'
 });
 
 type RuleKey = Extract<keyof FormModel, 'userName' | 'password'>;
