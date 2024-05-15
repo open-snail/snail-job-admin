@@ -13,30 +13,6 @@ const authStore = useAuthStore();
 
 const gap = computed(() => (appStore.isMobile ? 0 : 16));
 
-interface StatisticData {
-  id: string;
-  label: string;
-  value: string;
-}
-
-const statisticData = computed<StatisticData[]>(() => [
-  {
-    id: '0',
-    label: $t('page.home.userCount'),
-    value: '2'
-  },
-  {
-    id: '1',
-    label: $t('page.home.jobTaskCount'),
-    value: '8'
-  },
-  {
-    id: '2',
-    label: $t('page.home.retryTaskCount'),
-    value: '3'
-  }
-]);
-
 const timeFix = () => {
   const time = new Date();
   const hour = time.getHours();
@@ -74,13 +50,14 @@ const timeFix = () => {
         </div>
       </NGi>
       <NGi span="24 s:24 m:6">
-        <NSpace :size="24" justify="end">
-          <NStatistic
-            v-for="item in statisticData"
-            :key="item.id"
-            class="whitespace-nowrap text-center"
-            v-bind="item"
-          />
+        <NSpace :size="4" justify="end">
+          <NThing class="max-w-full w-full">
+            <template #avatar>
+              <img class="h-14 w-14 flex-none object-contain" src="@/assets/imgs/flowlong.png" />
+            </template>
+            <template #header><div class="text-base font-semibold">FlowLong</div></template>
+            <template #description><div class="text-slate-700">为中国特色审批流打造的国产JSON流程引擎</div></template>
+          </NThing>
         </NSpace>
       </NGi>
     </NGrid>

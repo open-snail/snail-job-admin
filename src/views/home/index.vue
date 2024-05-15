@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { fetchCardCount } from '@/service/api';
+import HeaderBanner from './modules/header-banner.vue';
 import CardData from './modules/card-data.vue';
 import RetryTab from './modules/retry-tab.vue';
 
@@ -18,6 +19,7 @@ getCardData();
 
 <template>
   <NSpace vertical :size="16">
+    <HeaderBanner />
     <CardData v-model="cardCount!" />
     <NCard :bordered="false" class="card-wrapper p-t-136px 2xl:p-t-0 lg:p-t-36px md:p-t-90px">
       <RetryTab v-model="cardCount!" />
