@@ -34,6 +34,10 @@ const timeFix = () => {
   }
   return text;
 };
+
+const href = (url: string) => {
+  window.open(url, '_blank');
+};
 </script>
 
 <template>
@@ -51,13 +55,15 @@ const timeFix = () => {
       </NGi>
       <NGi span="24 s:24 m:6">
         <NSpace :size="4" justify="end">
-          <NThing class="max-w-full w-full">
-            <template #avatar>
-              <img class="h-14 w-14 flex-none object-contain" src="@/assets/imgs/flowlong.png" />
-            </template>
-            <template #header><div class="text-base font-semibold">FlowLong</div></template>
-            <template #description><div class="text-slate-700">为中国特色审批流打造的国产JSON流程引擎</div></template>
-          </NThing>
+          <NButton quaternary class="h-full" @click="href('https://doc.flowlong.com/?from=snail-job')">
+            <NThing class="max-w-full w-full">
+              <template #avatar>
+                <img class="h-14 w-14 flex-none object-contain" src="@/assets/imgs/flowlong.png" />
+              </template>
+              <template #header><div class="text-base font-semibold">FlowLong</div></template>
+              <template #description><div class="text-slate-700">为中国特色审批流打造的国产JSON流程引擎</div></template>
+            </NThing>
+          </NButton>
         </NSpace>
       </NGi>
     </NGrid>
