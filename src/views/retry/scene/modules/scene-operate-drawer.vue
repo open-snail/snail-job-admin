@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
-import CronInput from '@sa/cron-input';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import RouteKey from '@/components/common/route-key.vue';
@@ -8,7 +7,6 @@ import { $t } from '@/locales';
 import { fetchAddRetryScene, fetchEditRetryScene, fetchGetAllGroupNameList } from '@/service/api';
 import { DelayLevel, backOffRecordOptions, enableStatusNumberOptions } from '@/constants/business';
 import { translateOptions, translateOptions2 } from '@/utils/common';
-import { useAppStore } from '@/store/modules/app';
 
 defineOptions({
   name: 'SceneOperateDrawer'
@@ -21,7 +19,6 @@ interface Props {
   rowData?: Api.RetryScene.Scene | null;
 }
 
-const app = useAppStore();
 const groupNameList = ref<string[]>([]);
 const delayLevelDesc = ref<string>('10s');
 
@@ -72,7 +69,7 @@ function createDefaultModel(): Model {
     sceneStatus: 1,
     backOff: 2,
     maxRetryCount: 1,
-    triggerInterval: 60,
+    triggerInterval: '60',
     deadlineRequest: 60000,
     executorTimeout: 60,
     description: '',
@@ -155,7 +152,7 @@ async function handleSubmit() {
       routeKey,
       description
     } = model;
-    fetchAddRetryScene({
+    const { error } = await fetchAddRetryScene({
       groupName,
       sceneName,
       sceneStatus,
@@ -167,6 +164,8 @@ async function handleSubmit() {
       routeKey,
       description
     });
+    if (error) return;
+    window.$message?.success($t('common.addSuccess'));
   }
 
   if (props.operateType === 'edit') {
@@ -183,7 +182,7 @@ async function handleSubmit() {
       routeKey,
       description
     } = model;
-    fetchEditRetryScene({
+    const { error } = await fetchEditRetryScene({
       id,
       groupName,
       sceneName,
@@ -196,8 +195,9 @@ async function handleSubmit() {
       routeKey,
       description
     });
+    if (error) return;
+    window.$message?.success($t('common.updateSuccess'));
   }
-  window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
 }
@@ -288,14 +288,7 @@ watch(
         />
       </NFormItem>
       <NFormItem path="triggerInterval">
-        <CronInput v-if="model.backOff === 3" v-model:value="model.triggerInterval as any" :lang="app.locale" />
-        <NInputNumber
-          v-else-if="model.backOff === 2 || model.backOff === 4"
-          v-model:value="model.triggerInterval as any"
-          :placeholder="$t('page.retryScene.form.triggerInterval')"
-          clearable
-        />
-        <NInput v-else v-model:value="delayLevelDesc" type="textarea" :autosize="{ minRows: 1, maxRows: 3 }" readonly />
+        <SceneTriggerInterval v-model="model.triggerInterval" :back-off="model.backOff" />
         <template #label>
           <div class="flex-center">
             {{ $t('page.retryScene.triggerInterval') }}
