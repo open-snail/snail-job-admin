@@ -152,7 +152,7 @@ async function handleSubmit() {
       routeKey,
       description
     } = model;
-    fetchAddRetryScene({
+    const { error } = await fetchAddRetryScene({
       groupName,
       sceneName,
       sceneStatus,
@@ -164,6 +164,8 @@ async function handleSubmit() {
       routeKey,
       description
     });
+    if (error) return;
+    window.$message?.success($t('common.addSuccess'));
   }
 
   if (props.operateType === 'edit') {
@@ -180,7 +182,7 @@ async function handleSubmit() {
       routeKey,
       description
     } = model;
-    fetchEditRetryScene({
+    const { error } = await fetchEditRetryScene({
       id,
       groupName,
       sceneName,
@@ -193,8 +195,9 @@ async function handleSubmit() {
       routeKey,
       description
     });
+    if (error) return;
+    window.$message?.success($t('common.updateSuccess'));
   }
-  window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
 }
