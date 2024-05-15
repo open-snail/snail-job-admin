@@ -131,6 +131,7 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
+    retrySceneDisable.value = true;
     return;
   }
 
@@ -359,18 +360,6 @@ watch(visible, () => {
           :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
           :disabled="retrySceneDisable"
         />
-      </NFormItem>
-      <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="rateLimiterStatus">
-        <NRadioGroup v-model:value="model.notifyStatus" name="rateLimiterStatus">
-          <NSpace>
-            <NRadio
-              v-for="item in enableStatusNumberOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
-            />
-          </NSpace>
-        </NRadioGroup>
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
         <NInputNumber
