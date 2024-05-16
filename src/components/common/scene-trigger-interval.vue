@@ -55,7 +55,7 @@ watch(
     } else if (backOff === 3) {
       model.value = cron.value;
     } else {
-      model.value = delayLevelDesc.value;
+      model.value = '';
     }
   },
   { immediate: true }
