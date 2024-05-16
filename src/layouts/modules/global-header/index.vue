@@ -63,18 +63,21 @@ const href = (url: string) => {
       <NamespaceSelect />
       <GlobalSearch />
       <ButtonIcon
+        v-if="!appStore.isMobile"
         class="color-#c71d23"
         tooltip-content="Gitee"
         icon="simple-icons:gitee"
         @click="href('https://gitee.com/aizuda/snail-job')"
       />
       <ButtonIcon
+        v-if="!appStore.isMobile"
         tooltip-content="Github"
         class="color-#010409 dark:color-#e6edf3"
         icon="simple-icons:github"
         @click="href('https://github.com/aizuda/snail-job')"
       />
       <ButtonIcon
+        v-if="!appStore.isMobile"
         tooltip-content="Document"
         class="color-#272636 dark:color-#f0f2f5"
         icon="material-symbols:unknown-document-outline"
