@@ -48,7 +48,7 @@ const latestBuildTime = BUILD_TIME;
     <NCard :title="$t('page.about.projectInfo.title')" :bordered="false" size="small" segmented class="card-wrapper">
       <NDescriptions label-placement="left" bordered size="small" :column="column">
         <NDescriptionsItem :label="$t('page.about.projectInfo.officialWebsite')">
-          <a class="text-primary" :href="pkg.website" target="_blank" rel="noopener noreferrer">
+          <a class="text-primary" :href="pkg.officialWebsite" target="_blank" rel="noopener noreferrer">
             {{ $t('page.about.projectInfo.officialWebsite') }}
           </a>
         </NDescriptionsItem>
