@@ -240,90 +240,115 @@ watch(
           :placeholder="$t('page.retryScene.form.sceneName')"
         />
       </NFormItem>
-      <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
-        <NSelect
-          v-model:value="model.groupName"
-          :disabled="props.operateType === 'edit'"
-          :placeholder="$t('page.retryScene.form.groupName')"
-          :options="translateOptions2(groupNameList)"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('common.routeKey.routeLabel')" path="routeKey">
-        <RouteKey v-model:value="model.routeKey" />
-      </NFormItem>
-      <NFormItem :label="$t('page.retryScene.maxRetryCount')" path="maxRetryCount">
-        <NInputNumber
-          v-model:value="model.maxRetryCount"
-          :min="1"
-          :max="model.backOff === 1 ? 26 : 9999999"
-          :placeholder="$t('page.retryScene.form.maxRetryCount')"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.retryScene.executorTimeout')" path="executorTimeout">
-        <NInputNumber
-          v-model:value="model.executorTimeout"
-          :min="1"
-          :max="60"
-          :placeholder="$t('page.retryScene.form.executorTimeout')"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.retryScene.deadlineRequest')" path="deadlineRequest">
-        <NInputNumber
-          v-model:value="model.deadlineRequest"
-          :min="100"
-          :max="60000"
-          :placeholder="$t('page.retryScene.form.deadlineRequest')"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.retryScene.backOff')" path="backOff">
-        <NSelect
-          v-model:value="model.backOff"
-          :placeholder="$t('page.retryScene.form.backOff')"
-          :options="translateOptions(backOffRecordOptions)"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem path="triggerInterval">
-        <SceneTriggerInterval v-model="model.triggerInterval" :back-off="model.backOff" />
-        <template #label>
-          <div class="flex-center">
-            {{ $t('page.retryScene.triggerInterval') }}
-            <NTooltip v-if="model.backOff === 1" trigger="hover">
-              <template #trigger>
-                <NButton text class="ml-6px">
-                  <SvgIcon icon="ant-design:info-circle-outlined" class="mb-1px text-16px" />
-                </NButton>
-              </template>
-              延迟等级是参考RocketMQ的messageDelayLevel设计实现，具体延迟时间如下:
-              【10s,15s,30s,35s,40s,50s,1m,2m,4m,6m,8m,10m,20m,40m,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h】
-              <br />
-              <NText strong>执行逻辑:</NText>
-              <NUl align-text>
-                <NLi>第一次执行间隔10s</NLi>
-                <NLi>第二次执行间隔15s</NLi>
-                <NLi>l第二次执行间隔30s</NLi>
-                <NLi>........... 依次类推</NLi>
-              </NUl>
-            </NTooltip>
-          </div>
-        </template>
-      </NFormItem>
-      <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
-        <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
-          <NSpace>
-            <NRadio
-              v-for="item in enableStatusNumberOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
+      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
+        <NGi span="0 m:1 l:17">
+          <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
+            <NSelect
+              v-model:value="model.groupName"
+              :disabled="props.operateType === 'edit'"
+              :placeholder="$t('page.retryScene.form.groupName')"
+              :options="translateOptions2(groupNameList)"
+              clearable
             />
-          </NSpace>
-        </NRadioGroup>
-      </NFormItem>
+          </NFormItem>
+        </NGi>
+        <NGi span="0 m:1 l:7">
+          <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
+            <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
+              <NSpace>
+                <NRadio
+                  v-for="item in enableStatusNumberOptions"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="$t(item.label)"
+                />
+              </NSpace>
+            </NRadioGroup>
+          </NFormItem>
+        </NGi>
+      </NGrid>
+
+      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
+        <NGi span="0 m:1 l:12">
+          <NFormItem :label="$t('common.routeKey.routeLabel')" path="routeKey">
+            <RouteKey v-model:value="model.routeKey" />
+          </NFormItem>
+        </NGi>
+        <NGi span="0 m:1 l:12">
+          <NFormItem :label="$t('page.retryScene.maxRetryCount')" path="maxRetryCount">
+            <NInputNumber
+              v-model:value="model.maxRetryCount"
+              :min="1"
+              :max="model.backOff === 1 ? 26 : 9999999"
+              :placeholder="$t('page.retryScene.form.maxRetryCount')"
+              clearable
+            />
+          </NFormItem>
+        </NGi>
+      </NGrid>
+      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
+        <NGi span="0 m:1 l:12">
+          <NFormItem :label="$t('page.retryScene.backOff')" path="backOff">
+            <NSelect
+              v-model:value="model.backOff"
+              :placeholder="$t('page.retryScene.form.backOff')"
+              :options="translateOptions(backOffRecordOptions)"
+              clearable
+            />
+          </NFormItem>
+        </NGi>
+        <NGi span="0 m:1 l:12">
+          <NFormItem path="triggerInterval">
+            <SceneTriggerInterval v-model="model.triggerInterval" :back-off="model.backOff" />
+            <template #label>
+              <div class="flex-center">
+                {{ $t('page.retryScene.triggerInterval') }}
+                <NTooltip v-if="model.backOff === 1" trigger="hover">
+                  <template #trigger>
+                    <NButton text class="ml-6px">
+                      <SvgIcon icon="ant-design:info-circle-outlined" class="mb-1px text-16px" />
+                    </NButton>
+                  </template>
+                  延迟等级是参考RocketMQ的messageDelayLevel设计实现，具体延迟时间如下:
+                  【10s,15s,30s,35s,40s,50s,1m,2m,4m,6m,8m,10m,20m,40m,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h】
+                  <br />
+                  <NText strong>执行逻辑:</NText>
+                  <NUl align-text>
+                    <NLi>第一次执行间隔10s</NLi>
+                    <NLi>第二次执行间隔15s</NLi>
+                    <NLi>l第二次执行间隔30s</NLi>
+                    <NLi>........... 依次类推</NLi>
+                  </NUl>
+                </NTooltip>
+              </div>
+            </template>
+          </NFormItem>
+        </NGi>
+      </NGrid>
+      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
+        <NGi span="0 m:1 l:12">
+          <NFormItem :label="$t('page.retryScene.executorTimeout')" path="executorTimeout">
+            <NInputNumber
+              v-model:value="model.executorTimeout"
+              :min="1"
+              :max="60"
+              :placeholder="$t('page.retryScene.form.executorTimeout')"
+              clearable
+            />
+          </NFormItem>
+        </NGi>
+        <NGi span="0 m:1 l:12">
+          <NFormItem :label="$t('page.retryScene.deadlineRequest')" path="deadlineRequest">
+            <NInputNumber
+              v-model:value="model.deadlineRequest"
+              :min="100"
+              :max="60000"
+              :placeholder="$t('page.retryScene.form.deadlineRequest')"
+              clearable
+            />
+          </NFormItem>
+        </NGi>
+      </NGrid>
       <NFormItem :label="$t('page.retryScene.description')" path="description">
         <NInput
           v-model:value="model.description"
