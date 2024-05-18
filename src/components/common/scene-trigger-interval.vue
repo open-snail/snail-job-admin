@@ -8,7 +8,7 @@ defineOptions({
 });
 
 interface Props {
-  backOff: number;
+  backOff: Api.RetryScene.BackOff;
 }
 
 const model = defineModel<string>();

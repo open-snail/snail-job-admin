@@ -8,7 +8,7 @@ defineOptions({
 });
 
 interface Props {
-  triggerType: number;
+  triggerType: Api.Common.TriggerType;
 }
 
 const model = defineModel<string>();
