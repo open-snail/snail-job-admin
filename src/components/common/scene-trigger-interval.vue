@@ -17,10 +17,10 @@ const props = defineProps<Props>();
 const app = useAppStore();
 
 /** 保存 `固定时间` 类型的 时间间隔 */
-const interval = ref<number>(60);
+const interval = ref<number>(props.backOff === 2 || props.backOff === 4 ? Number(model.value) : 60);
 
 /** 保存 `CRON表达式` 类型的 表达式 */
-const cron = ref<string>('* * * * * ?');
+const cron = ref<string>(props.backOff === 3 ? model.value! : '* * * * * ?');
 
 const delayLevelDesc = ref('10s,15s,30s,35s,40s,50s,1m,2m,4m,6m,8m,10m,20m,40m,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h');
 
@@ -55,7 +55,7 @@ watch(
     } else if (backOff === 3) {
       model.value = cron.value;
     } else {
-      model.value = '';
+      model.value = '*';
     }
   },
   { immediate: true }
