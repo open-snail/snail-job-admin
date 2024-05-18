@@ -356,7 +356,7 @@ watch(visible, () => {
         <NInputNumber
           v-model:value="model.executorTimeout"
           :min="1"
-          :max="60"
+          :max="99999999"
           :placeholder="$t('page.jobTask.form.executorTimeout')"
           clearable
         />
@@ -365,7 +365,7 @@ watch(visible, () => {
         <NInputNumber
           v-model:value="model.maxRetryTimes"
           :min="1"
-          :max="60"
+          :max="999"
           :placeholder="$t('page.jobTask.form.maxRetryTimes')"
           clearable
         />
@@ -374,7 +374,7 @@ watch(visible, () => {
         <NInputNumber
           v-model:value="model.retryInterval"
           :min="1"
-          :max="60"
+          :max="99999999"
           :placeholder="$t('page.jobTask.form.retryInterval')"
           clearable
         />
@@ -383,7 +383,7 @@ watch(visible, () => {
         <NInputNumber
           v-model:value="model.parallelNum"
           :min="1"
-          :max="60"
+          :max="999"
           :placeholder="$t('page.jobTask.form.parallelNum')"
           clearable
         />
