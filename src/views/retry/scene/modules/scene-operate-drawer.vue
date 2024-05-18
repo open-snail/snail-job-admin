@@ -229,7 +229,7 @@ watch(
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
+  <OperateDrawer v-model="visible" :title="title" :min-size="480" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.retryScene.sceneName')" path="sceneName">
         <NInput
@@ -240,8 +240,8 @@ watch(
           :placeholder="$t('page.retryScene.form.sceneName')"
         />
       </NFormItem>
-      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
-        <NGi span="0 m:1 l:17">
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
           <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
             <NSelect
               v-model:value="model.groupName"
@@ -252,7 +252,7 @@ watch(
             />
           </NFormItem>
         </NGi>
-        <NGi span="0 m:1 l:7">
+        <NGi>
           <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
             <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
               <NSpace>
@@ -268,13 +268,13 @@ watch(
         </NGi>
       </NGrid>
 
-      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
-        <NGi span="0 m:1 l:12">
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
           <NFormItem :label="$t('common.routeKey.routeLabel')" path="routeKey">
             <RouteKey v-model:value="model.routeKey" />
           </NFormItem>
         </NGi>
-        <NGi span="0 m:1 l:12">
+        <NGi>
           <NFormItem :label="$t('page.retryScene.maxRetryCount')" path="maxRetryCount">
             <NInputNumber
               v-model:value="model.maxRetryCount"
@@ -286,8 +286,8 @@ watch(
           </NFormItem>
         </NGi>
       </NGrid>
-      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
-        <NGi span="0 m:1 l:12">
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
           <NFormItem :label="$t('page.retryScene.backOff')" path="backOff">
             <NSelect
               v-model:value="model.backOff"
@@ -297,7 +297,7 @@ watch(
             />
           </NFormItem>
         </NGi>
-        <NGi span="0 m:1 l:12">
+        <NGi>
           <NFormItem path="triggerInterval">
             <SceneTriggerInterval v-model="model.triggerInterval" :back-off="model.backOff" />
             <template #label>
@@ -325,8 +325,8 @@ watch(
           </NFormItem>
         </NGi>
       </NGrid>
-      <NGrid cols="24" item-responsive responsive="screen" x-gap="20">
-        <NGi span="0 m:1 l:12">
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
           <NFormItem :label="$t('page.retryScene.executorTimeout')" path="executorTimeout">
             <NInputNumber
               v-model:value="model.executorTimeout"
@@ -337,7 +337,7 @@ watch(
             />
           </NFormItem>
         </NGi>
-        <NGi span="0 m:1 l:12">
+        <NGi>
           <NFormItem :label="$t('page.retryScene.deadlineRequest')" path="deadlineRequest">
             <NInputNumber
               v-model:value="model.deadlineRequest"
