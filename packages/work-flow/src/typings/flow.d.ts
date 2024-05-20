@@ -9,7 +9,7 @@ declare namespace Flow {
   type WorkFlowNodeStatus = 0 | 1;
 
   /** 组 */
-  type NodeDataType = {
+  export type NodeDataType = {
     /** 流程ID */
     id?: string;
     /** 工作流名称 */

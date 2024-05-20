@@ -80,10 +80,10 @@ const show = () => {
       class="node-wrap-box node-error-success start-node"
       @click="show"
     >
-      <div class="title bg-#ffffff">
-        <span class="text" calss="color-#ff943e">
+      <div class="title">
+        <span class="text text-#ff943e">
           <NBadge dot :color="nodeData.workflowStatus === 1 ? '#52c41a' : '#ff000d'" />
-          {{ nodeData.workflowName ? nodeData.workflowName : $t('snail.form.groupName') }}
+          &nbsp;{{ nodeData.workflowName ? nodeData.workflowName : $t('snail.form.groupName') }}
         </span>
       </div>
       <div v-if="nodeData.groupName" class="content">

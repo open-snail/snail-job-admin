@@ -299,6 +299,7 @@ const local: App.I18n.Schema = {
     workflow_form_batch: 'Workflow Batch Detail',
     workflow_form_detail: 'Workflow Detail',
     workflow_form_edit: 'Edit Workflow',
+    workflow_form_add: 'Add Workflow',
     job: 'Schedule Task Management',
     job_task: 'Schedule Task List',
     job_batch: 'Schedule Task Batch List',

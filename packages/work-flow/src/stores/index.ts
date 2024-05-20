@@ -40,6 +40,14 @@ export const useFlowStore = defineStore('workflow', () => {
     });
   }
 
+  function clear() {
+    id.value = undefined;
+    type.value = undefined;
+    groupName.value = undefined;
+    jobList.value = [];
+    clearFLowStorage();
+  }
+
   return {
     id,
     type,
@@ -49,6 +57,7 @@ export const useFlowStore = defineStore('workflow', () => {
     setType,
     setId,
     clearFLowStorage,
-    getJobList
+    getJobList,
+    clear
   };
 });

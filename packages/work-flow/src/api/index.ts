@@ -30,3 +30,18 @@ export function fetchGroupNameList() {
     method: 'get'
   });
 }
+
+export function fetchAddWorkflow(data: Flow.NodeDataType) {
+  return request<null>({
+    url: `/workflow`,
+    method: 'post',
+    data
+  });
+}
+
+export function fetchWorkflowInfo(id: string) {
+  return request<Flow.NodeDataType>({
+    url: `/workflow/${id}`,
+    method: 'get'
+  });
+}

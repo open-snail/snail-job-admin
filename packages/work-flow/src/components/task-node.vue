@@ -43,7 +43,7 @@ watch(
 const addTerm = () => {
   const len = nodeConfig.value.conditionNodes!.length + 1;
   nodeConfig.value.conditionNodes?.push({
-    nodeName: `${$t('node.task.name')}${len}`,
+    nodeName: `${$t('node.task.name')} ${len}`,
     priorityLevel: len,
     failStrategy: 1,
     workflowNodeStatus: 1,
@@ -179,7 +179,9 @@ const isStop = (taskBatchStatus: number) => {
 <template>
   <div class="node-wrap">
     <div class="branch-box">
-      <NButton v-if="!disabled" class="add-branch" type="success" @click="addTerm">{{ $t('node.task.add') }}</NButton>
+      <NButton v-if="!disabled" class="add-branch" strong type="success" @click="addTerm">
+        {{ $t('node.task.add') }}
+      </NButton>
       <div v-for="(item, i) in nodeConfig.conditionNodes" :key="i" class="col-box">
         <div class="condition-node">
           <div class="condition-node-box">
@@ -207,7 +209,7 @@ const isStop = (taskBatchStatus: number) => {
                   <div class="title">
                     <span class="text color-#3296fa">
                       <NBadge processing dot :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
-                      {{ item.nodeName }}
+                      &nbsp;{{ item.nodeName }}
                     </span>
                     <span class="priority-title">{{ $t('node.priority') }}{{ item.priorityLevel }}</span>
                     <icon-ant-design:close-outlined v-if="!disabled" class="close" @click.stop="delTerm(i)" />

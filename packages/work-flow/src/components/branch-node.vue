@@ -40,7 +40,7 @@ watch(
 const addTerm = () => {
   const len = nodeConfig.value.conditionNodes!.length;
   nodeConfig.value.conditionNodes!.splice(-1, 0, {
-    nodeName: `$t('node.condition.nodeName')${len}`,
+    nodeName: `${$t('node.condition.nodeName')} ${len}`,
     priorityLevel: len,
     decision: {
       expressionType: 1,
@@ -187,7 +187,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
   <div class="branch-wrap">
     <div class="branch-box-wrap">
       <div class="branch-box">
-        <NButton v-if="!disabled" type="success" class="add-branch" @click="addTerm">
+        <NButton v-if="!disabled" strong type="success" class="add-branch" @click="addTerm">
           {{ $t('node.condition.addBranch') }}
         </NButton>
         <div v-for="(item, index) in nodeConfig.conditionNodes" :key="index" class="col-box">

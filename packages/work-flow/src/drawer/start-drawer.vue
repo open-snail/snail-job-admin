@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import CronInput from '@sa/cron-input';
 import { type FormInst, type FormItemRule, useMessage } from 'naive-ui';
 import { blockStrategyOptions, triggerTypeOptions, workFlowNodeStatusOptions } from '../constants/business';
+import { $t } from '../locales';
 import { fetchGroupNameList } from '../api';
 import { isNotNull } from '../utils/common';
 import { useFlowStore } from '../stores';
@@ -132,9 +133,9 @@ const rules: Record<RuleKey, FormItemRule> = {
                 };
               })
             "
-          ></NSelect>
+          />
         </NFormItem>
-        <NGrid :cols="24">
+        <NGrid :cols="24" x-gap="20">
           <NGi :span="8">
             <NFormItem path="triggerType" label="触发类型">
               <NSelect
@@ -152,13 +153,18 @@ const rules: Record<RuleKey, FormItemRule> = {
                 v-model:value="form.triggerInterval"
                 placeholder="请输入Cron表达式"
               />
-              <NInputNumber v-else v-model:value="form.triggerInterval as number" placeholder="请输入触发间隔">
+              <NInputNumber
+                v-else
+                v-model:value="form.triggerInterval as number"
+                class="w-full"
+                placeholder="请输入触发间隔"
+              >
                 <template #suffix>秒</template>
               </NInputNumber>
             </NFormItem>
           </NGi>
         </NGrid>
-        <NGrid :cols="24">
+        <NGrid :cols="24" x-gap="20">
           <NGi :span="8">
             <NFormItem path="executorTimeout" label="执行超时时间">
               <NInputNumber v-model:value="form.executorTimeout" placeholder="请输入超时时间">
@@ -168,12 +174,30 @@ const rules: Record<RuleKey, FormItemRule> = {
           </NGi>
           <NGi :span="16">
             <NFormItem path="blockStrategy" label="阻塞策略">
-              <NRadioGroup v-model:value="form.blockStrategy" :option="blockStrategyOptions" />
+              <NRadioGroup v-model:value="form.blockStrategy">
+                <NSpace>
+                  <NRadio
+                    v-for="options in blockStrategyOptions"
+                    :key="options.value"
+                    :label="$t(options.label)"
+                    :value="options.value"
+                  />
+                </NSpace>
+              </NRadioGroup>
             </NFormItem>
           </NGi>
         </NGrid>
         <NFormItem path="workflowStatus" label="节点状态">
-          <NRadioGroup v-model:value="form.workflowStatus" :option="workFlowNodeStatusOptions" />
+          <NRadioGroup v-model:value="form.workflowStatus">
+            <NSpace>
+              <NRadio
+                v-for="options in workFlowNodeStatusOptions"
+                :key="options.value"
+                :label="$t(options.label)"
+                :value="options.value"
+              />
+            </NSpace>
+          </NRadioGroup>
         </NFormItem>
         <NFormItem path="description" label="描述">
           <NInput

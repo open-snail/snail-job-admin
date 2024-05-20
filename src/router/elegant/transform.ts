@@ -203,6 +203,7 @@ const routeMap: RouteMap = {
   "workflow": "/workflow",
   "workflow_batch": "/workflow/batch",
   "workflow_form": "/workflow/form",
+  "workflow_form_add": "/workflow/form/add",
   "workflow_form_batch": "/workflow/form/batch",
   "workflow_form_copy": "/workflow/form/copy",
   "workflow_form_detail": "/workflow/form/detail",

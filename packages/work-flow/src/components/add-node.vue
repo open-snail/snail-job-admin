@@ -45,7 +45,7 @@ const addType = (type: number) => {
       nodeType: 2,
       conditionNodes: [
         {
-          nodeName: `${$t('node.condition.conditionNodes.nodeName')}1`,
+          nodeName: `${$t('node.condition.conditionNodes.nodeName')} 1`,
           priorityLevel: 1,
           decision: {
             expressionType: 1,

@@ -1,5 +1,4 @@
 import { BACKEND_ERROR_CODE, createFlatRequest } from '@sa/axios';
-import { useMessage } from 'naive-ui';
 import { localStg } from './storage';
 
 const baseURL = '/proxy-default';
@@ -36,12 +35,12 @@ export const request = createFlatRequest<Service.Response>(
     onError(error) {
       // when the request is fail, you can show error message
 
-      let message = error.message;
+      let msg = error.message;
       let backendErrorCode = '';
 
       // get backend error message and code
       if (error.code === BACKEND_ERROR_CODE) {
-        message = error.response?.data?.message || message;
+        msg = error.response?.data?.message || msg;
         backendErrorCode = error.response?.data?.status.toString() || '';
       }
 
@@ -57,7 +56,7 @@ export const request = createFlatRequest<Service.Response>(
         return;
       }
 
-      useMessage().error(message);
+      window.$message?.error(msg);
     }
   }
 );
