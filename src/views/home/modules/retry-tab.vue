@@ -139,7 +139,7 @@ const createColumns = (): DataTableColumns<Api.Dashboard.Task> => [
     title: $t('page.home.retryTab.task.total'),
     key: 'total',
     align: 'center',
-    render: row => <span class="retry-table-number">{row.run}</span>
+    render: row => <span class="retry-table-number">{row.total}</span>
   }
 ];
 
