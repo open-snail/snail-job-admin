@@ -112,5 +112,6 @@
   "lint-staged": {
     "*": "eslint --fix"
   },
-  "website": "https://www.easyretry.com/pages/78ba75/"
+  "officialWebsite": "https://snailjob.opensnail.com",
+  "website": "https://snailjob.opensnail.com/pages/78ba75/"
 }

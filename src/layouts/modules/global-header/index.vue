@@ -45,6 +45,10 @@ const headerMenus = computed(() => {
 
   return [];
 });
+
+const href = (url: string) => {
+  window.open(url, '_blank');
+};
 </script>
 
 <template>
@@ -58,6 +62,27 @@ const headerMenus = computed(() => {
     <div class="h-full flex-y-center justify-end">
       <NamespaceSelect />
       <GlobalSearch />
+      <ButtonIcon
+        v-if="!appStore.isMobile"
+        class="color-#c71d23"
+        tooltip-content="Gitee"
+        icon="simple-icons:gitee"
+        @click="href('https://gitee.com/aizuda/snail-job')"
+      />
+      <ButtonIcon
+        v-if="!appStore.isMobile"
+        tooltip-content="Github"
+        class="color-#010409 dark:color-#e6edf3"
+        icon="simple-icons:github"
+        @click="href('https://github.com/aizuda/snail-job')"
+      />
+      <ButtonIcon
+        v-if="!appStore.isMobile"
+        tooltip-content="Document"
+        class="color-#272636 dark:color-#f0f2f5"
+        icon="material-symbols:unknown-document-outline"
+        @click="href('https://snailjob.opensnail.com/')"
+      />
       <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
       <LangSwitch :lang="appStore.locale" :lang-options="appStore.localeOptions" @change-lang="appStore.changeLocale" />
       <ThemeSchemaSwitch

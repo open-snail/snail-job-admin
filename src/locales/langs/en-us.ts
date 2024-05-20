@@ -946,7 +946,7 @@ const local: App.I18n.Schema = {
       triggerType: 'Trigger type',
       triggerInterval: 'Interval duration',
       blockStrategy: 'Blocking strategy',
-      executorTimeout: 'Overtime time',
+      executorTimeout: 'Overtime time(s)',
       maxRetryTimes: 'Maximum number of retries',
       retryInterval: 'Retry interval',
       taskType: 'Task type',

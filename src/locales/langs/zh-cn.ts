@@ -953,7 +953,7 @@ const local: App.I18n.Schema = {
       triggerType: '触发类型',
       triggerInterval: '间隔时长',
       blockStrategy: '阻塞策略',
-      executorTimeout: '超时时间',
+      executorTimeout: '超时时间(秒)',
       maxRetryTimes: '最大重试次数',
       retryInterval: '重试间隔',
       taskType: '任务类型',
