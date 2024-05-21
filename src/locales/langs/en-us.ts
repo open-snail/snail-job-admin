@@ -133,6 +133,17 @@ const local: App.I18n.Schema = {
         cancel: 'Cancel'
       }
     },
+    taskStatus: {
+      label: 'Task status',
+      form: 'Please enter task status',
+      items: {
+        running: 'Running',
+        success: 'Success',
+        fail: 'Fail',
+        stop: 'Stop',
+        cancel: 'Cancel'
+      }
+    },
     jobOperationReason: {
       label: 'Job operation reason',
       form: 'Please enter job operation reason',
@@ -1003,6 +1014,7 @@ const local: App.I18n.Schema = {
         title: 'Job task list',
         id: 'ID',
         groupName: 'Group name',
+        taskStatus: 'Status',
         clientInfo: 'Client address',
         argsStr: 'Argument string',
         resultMessage: 'Result message',

@@ -383,6 +383,17 @@ declare namespace App {
             cancel: string;
           };
         };
+        taskStatus: {
+          label: string;
+          form: string;
+          items: {
+            running: string;
+            success: string;
+            fail: string;
+            stop: string;
+            cancel: string;
+          };
+        };
         jobOperationReason: {
           label: string;
           form: string;
@@ -1149,6 +1160,7 @@ declare namespace App {
             title: string;
             id: string;
             groupName: string;
+            taskStatus: string;
             clientInfo: string;
             argsStr: string;
             resultMessage: string;

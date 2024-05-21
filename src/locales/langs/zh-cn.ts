@@ -133,6 +133,17 @@ const local: App.I18n.Schema = {
         cancel: '取消'
       }
     },
+    taskStatus: {
+      label: '状态',
+      form: '请选择状态',
+      items: {
+        running: '运行中',
+        success: '处理成功',
+        fail: '处理失败',
+        stop: '任务停止',
+        cancel: '取消'
+      }
+    },
     jobOperationReason: {
       label: '操作原因',
       form: '请选择执行状态',
@@ -1010,6 +1021,7 @@ const local: App.I18n.Schema = {
         title: 'JobTask 列表',
         id: 'ID',
         groupName: '组名称',
+        taskStatus: '状态',
         clientInfo: '地址',
         argsStr: '参数',
         resultMessage: '结果',

@@ -213,6 +213,15 @@ export const taskBatchStatusRecord: Record<Api.Common.TaskBatchStatus, App.I18n.
 };
 export const taskBatchStatusRecordOptions = transformRecordToNumberOption(taskBatchStatusRecord);
 
+export const taskStatusRecord: Record<Api.Common.TaskStatus, App.I18n.I18nKey> = {
+  2: 'common.taskStatus.items.running',
+  3: 'common.taskStatus.items.success',
+  4: 'common.taskStatus.items.fail',
+  5: 'common.taskStatus.items.stop',
+  6: 'common.taskStatus.items.cancel'
+};
+export const taskStatusRecordOptions = transformRecordToNumberOption(taskStatusRecord);
+
 export const operationReasonRecord: Record<Api.Common.OperationReason, App.I18n.I18nKey> = {
   0: 'common.jobOperationReason.items.none',
   1: 'common.jobOperationReason.items.taskExecutionTimeout',

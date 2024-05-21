@@ -1,9 +1,13 @@
 <script setup lang="tsx">
-import { NButton } from 'naive-ui';
+import { NButton, NTag } from 'naive-ui';
 import { onBeforeUnmount, ref } from 'vue';
-import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
+import {
+  executorTypeRecord,
+  operationReasonRecord,
+  taskBatchStatusRecord,
+  taskStatusRecord
+} from '@/constants/business';
 import { $t } from '@/locales';
-// import { fetchGetJobBatchDetail } from '@/service/api';
 import { tagColor } from '@/utils/common';
 import { useTable } from '@/hooks/common/table';
 import { fetchGetJobTaskList } from '@/service/api';
@@ -70,6 +74,27 @@ const { columns, data, loading, mobilePagination } = useTable({
       title: $t('page.jobBatch.jobTask.groupName'),
       align: 'left',
       minWidth: 120
+    },
+    {
+      key: 'taskStatus',
+      title: $t('page.jobBatch.jobTask.taskStatus'),
+      align: 'left',
+      minWidth: 80,
+      render: row => {
+        if (row.taskStatus === null) {
+          return null;
+        }
+        const label = $t(taskStatusRecord[row.taskStatus!]);
+        const tagMap: Record<number, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'info',
+          3: 'info',
+          4: 'error',
+          5: 'error',
+          6: 'error'
+        };
+        return <NTag type={tagMap[row.taskStatus!]}>{label}</NTag>;
+      }
     },
     {
       key: 'clientInfo',
