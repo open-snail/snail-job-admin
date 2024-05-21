@@ -34,7 +34,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'id',
       title: $t('common.index'),
       align: 'center',
-      width: 64,
+      width: 120,
       render: row => {
         function showDetailDrawer() {
           detailData.value = row;
