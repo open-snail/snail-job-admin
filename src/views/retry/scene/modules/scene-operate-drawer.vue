@@ -202,17 +202,6 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-function maxRetryCountUpdate(maxRetryCount: number) {
-  if (model.backOff !== 1) {
-    return;
-  }
-  let desc = '';
-  for (let i = 1; i <= maxRetryCount; i += 1) {
-    desc += `,${DelayLevel[i as keyof typeof DelayLevel]}`;
-  }
-  delayLevelDesc.value = desc.substring(1, desc.length);
-}
-
 watch(visible, () => {
   if (visible.value) {
     handleUpdateModelWhenEdit();
@@ -221,9 +210,18 @@ watch(visible, () => {
 });
 
 watch(
+  () => model.backOff,
+  backOff => {
+    if (backOff === 1 && model.maxRetryCount > 26) {
+      model.maxRetryCount = 1;
+    }
+  }
+);
+
+watch(
   () => model.maxRetryCount,
   () => {
-    maxRetryCountUpdate(model.maxRetryCount);
+    delayLevelDesc.value = Object.values(DelayLevel).slice(0, model.maxRetryCount).join(',');
   }
 );
 </script>
@@ -299,7 +297,18 @@ watch(
         </NGi>
         <NGi>
           <NFormItem path="triggerInterval">
-            <SceneTriggerInterval v-model="model.triggerInterval" :back-off="model.backOff" />
+            <SceneTriggerInterval
+              v-if="model.backOff !== 1"
+              v-model="model.triggerInterval"
+              :back-off="model.backOff"
+            />
+            <NInput
+              v-else
+              v-model:value="delayLevelDesc"
+              type="textarea"
+              :autosize="{ minRows: 1, maxRows: 3 }"
+              readonly
+            />
             <template #label>
               <div class="flex-center">
                 {{ $t('page.retryScene.triggerInterval') }}
