@@ -541,7 +541,7 @@ declare namespace Api {
     /** notify-config */
     type NotifyConfig = Common.CommonRecord<{
       /** 组名称 */
-      groupName: string;
+      groupName: string | null;
       /** 业务ID */
       businessId: string | null;
       /** 通知人id */
