@@ -131,7 +131,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 });
 
 const {
-  handleAdd,
   checkedRowKeys,
   onBatchDeleted
   // closeDrawer
@@ -172,8 +171,8 @@ function detail(id: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-add="false"
           :show-delete="false"
-          @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
         />
