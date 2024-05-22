@@ -671,6 +671,7 @@ declare namespace App {
             initScene: string;
             collapseCommon: string;
             collapseRetry: string;
+            groupNameRule: string;
           };
           idMode: {
             idWorker: string;

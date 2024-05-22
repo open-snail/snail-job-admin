@@ -107,7 +107,7 @@ const rules = {
     defaultRequiredRule,
     {
       required: true,
-      pattern: /^[A-Za-z0-9_]{1,64}$/,
+      pattern: /^[A-Za-z0-9_-]{1,64}$/,
       trigger: 'change',
       message: $t('page.retryScene.form.sceneName2')
     }
