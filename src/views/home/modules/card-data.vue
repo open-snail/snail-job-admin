@@ -268,7 +268,7 @@ function getGradientColor(color: CardData['color']) {
               type="line"
               color="#728bf9"
               rail-color="#ebebeb"
-              :percentage="12.58 ?? 0"
+              :percentage="props.modelValue?.workFlowTask.successRate ?? 0"
               indicator-text-color="#fff"
             />
             <DardRetryChart v-else-if="item.key === 'retryTask'" :model-value="props.modelValue?.retryTaskBarList" />
