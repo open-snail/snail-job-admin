@@ -92,6 +92,35 @@ interface CardData {
 // eslint-disable-next-line complexity
 const cardData = computed<CardData[]>(() => [
   {
+    key: 'jobTask',
+    title: $t('page.home.jobTask'),
+    tip: $t('page.home.jobTaskTip'),
+    value: props.modelValue?.jobTask.totalNum ?? 0,
+    color: {
+      start: '#f5b386',
+      end: '#FFD6BA'
+    },
+    icon: 'ant-design:profile-outlined',
+    bottom: [
+      {
+        label: $t('common.success'),
+        value: props.modelValue?.jobTask.successNum ?? 0
+      },
+      {
+        label: $t('common.fail'),
+        value: props.modelValue?.jobTask.failNum ?? 0
+      },
+      {
+        label: $t('common.stop'),
+        value: props.modelValue?.jobTask.stopNum ?? 0
+      },
+      {
+        label: $t('common.cancel'),
+        value: props.modelValue?.jobTask.cancelNum ?? 0
+      }
+    ]
+  },
+  {
     key: 'retryTask',
     title: $t('page.home.retryTask'),
     tip: $t('page.home.retryTaskTip'),
@@ -118,35 +147,6 @@ const cardData = computed<CardData[]>(() => [
       {
         label: $t('page.manage.retryTask.status.pauseRetry'),
         value: props.modelValue?.retryTask.suspendNum ?? 0
-      }
-    ]
-  },
-  {
-    key: 'jobTask',
-    title: $t('page.home.jobTask'),
-    tip: $t('page.home.jobTaskTip'),
-    value: props.modelValue?.jobTask.totalNum ?? 0,
-    color: {
-      start: '#f5b386',
-      end: '#FFD6BA'
-    },
-    icon: 'ant-design:profile-outlined',
-    bottom: [
-      {
-        label: $t('common.success'),
-        value: props.modelValue?.jobTask.successNum ?? 0
-      },
-      {
-        label: $t('common.fail'),
-        value: props.modelValue?.jobTask.failNum ?? 0
-      },
-      {
-        label: $t('common.stop'),
-        value: props.modelValue?.jobTask.stopNum ?? 0
-      },
-      {
-        label: $t('common.cancel'),
-        value: props.modelValue?.jobTask.cancelNum ?? 0
       }
     ]
   },

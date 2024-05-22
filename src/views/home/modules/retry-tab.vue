@@ -17,7 +17,7 @@ interface Props {
 
 defineProps<Props>();
 
-const type = ref(0);
+const type = ref(1);
 const appStore = useAppStore();
 const gap = computed(() => (appStore.isMobile ? 0 : 16));
 const data = ref<Api.Dashboard.DashboardLine>();
@@ -25,7 +25,8 @@ const groupOptions = ref();
 const tabParams = ref<Api.Dashboard.DashboardLineParams>({
   type: 'WEEK',
   page: 1,
-  size: 6
+  size: 6,
+  mode: 'JOB'
 });
 const dateRange = ref<[number, number] | null>();
 const formattedValue = ref<[string, string] | null>(
@@ -41,8 +42,6 @@ const getData = async () => {
   }
 };
 
-getData();
-
 const getGroupNames = async () => {
   const { data: groupNames, error } = await fetchAllGroupName();
 
@@ -52,8 +51,6 @@ const getGroupNames = async () => {
     });
   }
 };
-
-getGroupNames();
 
 watch(
   () => tabParams.value,
@@ -109,12 +106,12 @@ const pagination = ref({
 
 const createPanels = () => [
   {
-    name: 'retryTask',
-    tab: $t('page.home.retryTask')
-  },
-  {
     name: 'jobTask',
     tab: $t('page.home.jobTask')
+  },
+  {
+    name: 'retryTask',
+    tab: $t('page.home.retryTask')
   },
   {
     name: 'workflow',
@@ -152,6 +149,9 @@ watch(
     columns.value = createColumns();
   }
 );
+
+getData();
+getGroupNames();
 </script>
 
 <template>
