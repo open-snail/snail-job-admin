@@ -296,6 +296,6 @@ function getGradientColor(color: CardData['color']) {
 }
 
 :deep(.n-progress-icon--as-text) {
-  width: 53px !important;
+  width: 60px !important;
 }
 </style>
