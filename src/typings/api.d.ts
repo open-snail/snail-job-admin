@@ -200,10 +200,10 @@ declare namespace Api {
     type DashboardLine = {
       taskList: TaskList;
       rankList: RankList[];
-      dashboardLineResponseDOList: DashboardLineResponseDOList[];
+      dashboardLineResponseDOList: DashboardLineResponseDO[];
     };
 
-    type DashboardLineResponseDOList = {
+    type DashboardLineResponseDO = {
       createDt: string;
       total: number;
     } & DashboardLineJob &
@@ -264,6 +264,8 @@ declare namespace Api {
      * - "WORKFLOW": "workflow"
      */
     type DashboardLineMode = 'JOB' | 'WORKFLOW';
+
+    type TaskType = 'JOB' | 'RETRY' | 'WORKFLOW';
 
     type DashboardLineParams = {
       groupName?: string;

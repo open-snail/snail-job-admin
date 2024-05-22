@@ -5,16 +5,16 @@ import { useAppStore } from '@/store/modules/app';
 import { useEcharts } from '@/hooks/common/echarts';
 
 defineOptions({
-  name: 'LineRetryChart'
+  name: 'TaskLineChart'
 });
 
 interface Props {
-  type?: number;
+  type?: Api.Dashboard.TaskType;
   modelValue: Api.Dashboard.DashboardLine;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 0
+  type: 'JOB'
 });
 
 const appStore = useAppStore();
@@ -32,7 +32,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
   },
   legend: {
     data:
-      props.type === 0
+      props.type === 'RETRY'
         ? [
             $t('common.success'),
             $t('common.running'),
@@ -88,7 +88,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#40e9c5',
-      name: props.type === 0 ? $t('common.running') : $t('common.fail'),
+      name: props.type === 'RETRY' ? $t('common.running') : $t('common.fail'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -118,7 +118,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#b686d4',
-      name: props.type === 0 ? $t('page.manage.retryTask.status.maxRetryTimes') : $t('common.stop'),
+      name: props.type === 'RETRY' ? $t('page.manage.retryTask.status.maxRetryTimes') : $t('common.stop'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -148,7 +148,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#ec6f6f',
-      name: props.type === 0 ? $t('page.manage.retryTask.status.pauseRetry') : $t('common.cancel'),
+      name: props.type === 'RETRY' ? $t('page.manage.retryTask.status.pauseRetry') : $t('common.cancel'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -190,37 +190,23 @@ const getData = () => {
 
     opts.xAxis.data = props.modelValue?.dashboardLineResponseDOList.map(x => x.createDt);
     opts.series[0].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 0 ? x.successNum : x.success
+      opts.tabIndex === 'RETRY' ? x.successNum : x.success
     );
     opts.series[1].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 0 ? x.runningNum : x.failNum
+      opts.tabIndex === 'RETRY' ? x.runningNum : x.failNum
     );
     opts.series[2].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 0 ? x.maxCountNum : x.stop
+      opts.tabIndex === 'RETRY' ? x.maxCountNum : x.stop
     );
     opts.series[3].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 0 ? x.suspendNum : x.cancel
+      opts.tabIndex === 'RETRY' ? x.suspendNum : x.cancel
     );
     return opts;
   });
 };
 
 watch(
-  () => appStore.locale,
-  () => {
-    getData();
-  }
-);
-
-watch(
-  () => props.modelValue,
-  () => {
-    getData();
-  }
-);
-
-watch(
-  () => props.type,
+  [() => appStore.locale, props],
   () => {
     getData();
   },
