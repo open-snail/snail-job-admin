@@ -238,34 +238,27 @@ watch(
           :placeholder="$t('page.retryScene.form.sceneName')"
         />
       </NFormItem>
-      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
-        <NGi>
-          <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
-            <NSelect
-              v-model:value="model.groupName"
-              :disabled="props.operateType === 'edit'"
-              :placeholder="$t('page.retryScene.form.groupName')"
-              :options="translateOptions2(groupNameList)"
-              clearable
+      <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
+        <NSelect
+          v-model:value="model.groupName"
+          :disabled="props.operateType === 'edit'"
+          :placeholder="$t('page.retryScene.form.groupName')"
+          :options="translateOptions2(groupNameList)"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
+        <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
+          <NSpace>
+            <NRadio
+              v-for="item in enableStatusNumberOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
             />
-          </NFormItem>
-        </NGi>
-        <NGi>
-          <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
-            <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
-              <NSpace>
-                <NRadio
-                  v-for="item in enableStatusNumberOptions"
-                  :key="item.value"
-                  :value="item.value"
-                  :label="$t(item.label)"
-                />
-              </NSpace>
-            </NRadioGroup>
-          </NFormItem>
-        </NGi>
-      </NGrid>
-
+          </NSpace>
+        </NRadioGroup>
+      </NFormItem>
       <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
         <NGi>
           <NFormItem :label="$t('common.routeKey.routeLabel')" path="routeKey">

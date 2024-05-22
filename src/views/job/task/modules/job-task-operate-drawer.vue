@@ -284,18 +284,7 @@ watch(visible, () => {
       <NFormItem :label="$t('page.jobTask.groupName')" path="groupName">
         <SelectGroup v-model:value="model.groupName" />
       </NFormItem>
-      <NFormItem :label="$t('page.jobTask.jobStatus')" path="jobStatus">
-        <NRadioGroup v-model:value="model.jobStatus" name="jobStatus">
-          <NSpace>
-            <NRadio
-              v-for="item in enableStatusNumberOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
-            />
-          </NSpace>
-        </NRadioGroup>
-      </NFormItem>
+
       <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
         <NGi>
           <NFormItem :label="$t('page.jobTask.executorType')" path="executorType">
@@ -303,11 +292,23 @@ watch(visible, () => {
           </NFormItem>
         </NGi>
         <NGi>
-          <NFormItem :label="$t('page.jobTask.executorInfo')" path="executorInfo">
-            <NInput v-model:value="model.executorInfo" :placeholder="$t('page.jobTask.form.executorInfo')" />
+          <NFormItem :label="$t('page.jobTask.jobStatus')" path="jobStatus">
+            <NRadioGroup v-model:value="model.jobStatus" name="jobStatus">
+              <NSpace>
+                <NRadio
+                  v-for="item in enableStatusNumberOptions"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="$t(item.label)"
+                />
+              </NSpace>
+            </NRadioGroup>
           </NFormItem>
         </NGi>
       </NGrid>
+      <NFormItem :label="$t('page.jobTask.executorInfo')" path="executorInfo">
+        <NInput v-model:value="model.executorInfo" :placeholder="$t('page.jobTask.form.executorInfo')" />
+      </NFormItem>
       <NFormItem :label="$t('page.jobTask.taskType')" path="taskType">
         <TaskType v-model:value="model.taskType" :placeholder="$t('page.jobTask.form.taskType')" />
       </NFormItem>
