@@ -193,7 +193,7 @@ const getData = () => {
       opts.tabIndex === 0 ? x.successNum : x.success
     );
     opts.series[1].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 0 ? x.runningNum : x.fail
+      opts.tabIndex === 0 ? x.runningNum : x.failNum
     );
     opts.series[2].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
       opts.tabIndex === 0 ? x.maxCountNum : x.stop

@@ -212,7 +212,7 @@ declare namespace Api {
     type DashboardLineJob = {
       createDt: string;
       total: number;
-      fail: number;
+      failNum: number;
       stop: number;
       cancel: number;
       success: number;
