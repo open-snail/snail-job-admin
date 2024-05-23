@@ -55,7 +55,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
 
 const getData = async () => {
   await new Promise(resolve => {
-    setTimeout(resolve, 1);
+    setTimeout(resolve, 100);
   });
 
   if (!props.modelValue) {
