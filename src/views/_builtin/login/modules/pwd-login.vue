@@ -9,6 +9,8 @@ defineOptions({
   name: 'PwdLogin'
 });
 
+const devMode = import.meta.env.DEV;
+
 const authStore = useAuthStore();
 const { formRef, validate } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
@@ -19,8 +21,8 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  userName: 'admin',
-  password: 'admin'
+  userName: devMode ? 'admin' : '',
+  password: devMode ? 'admin' : ''
 });
 
 type RuleKey = Extract<keyof FormModel, 'userName' | 'password'>;
