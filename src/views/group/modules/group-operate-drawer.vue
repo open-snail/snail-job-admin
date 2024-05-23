@@ -66,14 +66,31 @@ type RuleKey = Extract<
   'groupName' | 'token' | 'groupStatus' | 'idGeneratorMode' | 'initScene' | 'groupPartition'
 >;
 
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  groupName: defaultRequiredRule,
-  token: defaultRequiredRule,
-  groupStatus: defaultRequiredRule,
-  idGeneratorMode: defaultRequiredRule,
-  initScene: defaultRequiredRule,
-  groupPartition: defaultRequiredRule
-};
+// const rules: Record<RuleKey, App.Global.FormRule> = {
+//   groupName: defaultRequiredRule,
+//   token: defaultRequiredRule,
+//   groupStatus: defaultRequiredRule,
+//   idGeneratorMode: defaultRequiredRule,
+//   initScene: defaultRequiredRule,
+//   groupPartition: defaultRequiredRule
+// };
+
+const rules = {
+  groupName: [
+    defaultRequiredRule,
+    {
+      required: true,
+      pattern: /^[A-Za-z0-9_-]{1,64}$/,
+      trigger: 'change',
+      message: $t('page.groupConfig.form.groupNameRule')
+    }
+  ],
+  token: [defaultRequiredRule],
+  groupStatus: [defaultRequiredRule],
+  idGeneratorMode: [defaultRequiredRule],
+  initScene: [defaultRequiredRule],
+  groupPartition: [defaultRequiredRule]
+} satisfies Record<RuleKey, App.Global.FormRule[]>;
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {

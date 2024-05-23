@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { fetchCardCount } from '@/service/api';
 import CardData from './modules/card-data.vue';
-import RetryTab from './modules/retry-tab.vue';
+import TaskTab from './modules/task-tab.vue';
 
 const cardCount = ref<Api.Dashboard.CardCount>();
 
@@ -20,7 +20,7 @@ getCardData();
   <NSpace vertical :size="16">
     <CardData v-model="cardCount!" />
     <NCard :bordered="false" class="card-wrapper p-t-136px 2xl:p-t-0 lg:p-t-36px md:p-t-90px">
-      <RetryTab v-model="cardCount!" />
+      <TaskTab v-model="cardCount!" />
     </NCard>
   </NSpace>
 </template>

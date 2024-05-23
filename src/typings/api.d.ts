@@ -88,6 +88,9 @@ declare namespace Api {
     /** 1、待处理 2、运行中 3、成功 4、失败 5、停止 6、取消 */
     type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6;
 
+    /** 2、处理中 3、处理成功 4、处理失败、5、任务停止 6、取消 */
+    type TaskStatus = 2 | 3 | 4 | 5 | 6;
+
     /**
      * 1、任务执行超时 2、无客户端节点 3、JOB已关闭 4、任务丢弃 5、任务被覆盖 6、无可执行任务项 7、任务执行期间发生非预期异常 8、手动停止 9、条件节点执行异常 10、任务中断 11、回调节点执行异常 12、无需处理
      * 13、节点关闭跳过执行 14、判定未通过
@@ -197,10 +200,10 @@ declare namespace Api {
     type DashboardLine = {
       taskList: TaskList;
       rankList: RankList[];
-      dashboardLineResponseDOList: DashboardLineResponseDOList[];
+      dashboardLineResponseDOList: DashboardLineResponseDO[];
     };
 
-    type DashboardLineResponseDOList = {
+    type DashboardLineResponseDO = {
       createDt: string;
       total: number;
     } & DashboardLineJob &
@@ -209,7 +212,7 @@ declare namespace Api {
     type DashboardLineJob = {
       createDt: string;
       total: number;
-      fail: number;
+      failNum: number;
       stop: number;
       cancel: number;
       success: number;
@@ -261,6 +264,8 @@ declare namespace Api {
      * - "WORKFLOW": "workflow"
      */
     type DashboardLineMode = 'JOB' | 'WORKFLOW';
+
+    type TaskType = 'JOB' | 'RETRY' | 'WORKFLOW';
 
     type DashboardLineParams = {
       groupName?: string;
@@ -541,7 +546,7 @@ declare namespace Api {
     /** notify-config */
     type NotifyConfig = Common.CommonRecord<{
       /** 组名称 */
-      groupName: string;
+      groupName: string | null;
       /** 业务ID */
       businessId: string | null;
       /** 通知人id */
@@ -995,6 +1000,8 @@ declare namespace Api {
       createDt: string;
       /** 任务批次 ID */
       taskBatchId: string;
+      /** 任务状态 ID */
+      taskStatus: Common.TaskStatus;
     }>;
 
     /** jobTask search params */

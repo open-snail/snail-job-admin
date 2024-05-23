@@ -107,7 +107,7 @@ const rules = {
     defaultRequiredRule,
     {
       required: true,
-      pattern: /^[A-Za-z0-9_]{1,64}$/,
+      pattern: /^[A-Za-z0-9_-]{1,64}$/,
       trigger: 'change',
       message: $t('page.retryScene.form.sceneName2')
     }
@@ -202,17 +202,6 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-function maxRetryCountUpdate(maxRetryCount: number) {
-  if (model.backOff !== 1) {
-    return;
-  }
-  let desc = '';
-  for (let i = 1; i <= maxRetryCount; i += 1) {
-    desc += `,${DelayLevel[i as keyof typeof DelayLevel]}`;
-  }
-  delayLevelDesc.value = desc.substring(1, desc.length);
-}
-
 watch(visible, () => {
   if (visible.value) {
     handleUpdateModelWhenEdit();
@@ -221,9 +210,18 @@ watch(visible, () => {
 });
 
 watch(
+  () => model.backOff,
+  backOff => {
+    if (backOff === 1 && model.maxRetryCount > 26) {
+      model.maxRetryCount = 1;
+    }
+  }
+);
+
+watch(
   () => model.maxRetryCount,
   () => {
-    maxRetryCountUpdate(model.maxRetryCount);
+    delayLevelDesc.value = Object.values(DelayLevel).slice(0, model.maxRetryCount).join(',');
   }
 );
 </script>
@@ -240,34 +238,27 @@ watch(
           :placeholder="$t('page.retryScene.form.sceneName')"
         />
       </NFormItem>
-      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
-        <NGi>
-          <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
-            <NSelect
-              v-model:value="model.groupName"
-              :disabled="props.operateType === 'edit'"
-              :placeholder="$t('page.retryScene.form.groupName')"
-              :options="translateOptions2(groupNameList)"
-              clearable
+      <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
+        <NSelect
+          v-model:value="model.groupName"
+          :disabled="props.operateType === 'edit'"
+          :placeholder="$t('page.retryScene.form.groupName')"
+          :options="translateOptions2(groupNameList)"
+          clearable
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
+        <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
+          <NSpace>
+            <NRadio
+              v-for="item in enableStatusNumberOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
             />
-          </NFormItem>
-        </NGi>
-        <NGi>
-          <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
-            <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">
-              <NSpace>
-                <NRadio
-                  v-for="item in enableStatusNumberOptions"
-                  :key="item.value"
-                  :value="item.value"
-                  :label="$t(item.label)"
-                />
-              </NSpace>
-            </NRadioGroup>
-          </NFormItem>
-        </NGi>
-      </NGrid>
-
+          </NSpace>
+        </NRadioGroup>
+      </NFormItem>
       <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
         <NGi>
           <NFormItem :label="$t('common.routeKey.routeLabel')" path="routeKey">
@@ -299,7 +290,18 @@ watch(
         </NGi>
         <NGi>
           <NFormItem path="triggerInterval">
-            <SceneTriggerInterval v-model="model.triggerInterval" :back-off="model.backOff" />
+            <SceneTriggerInterval
+              v-if="model.backOff !== 1"
+              v-model="model.triggerInterval"
+              :back-off="model.backOff"
+            />
+            <NInput
+              v-else
+              v-model:value="delayLevelDesc"
+              type="textarea"
+              :autosize="{ minRows: 1, maxRows: 3 }"
+              readonly
+            />
             <template #label>
               <div class="flex-center">
                 {{ $t('page.retryScene.triggerInterval') }}

@@ -7,16 +7,16 @@ import { useEcharts } from '@/hooks/common/echarts';
 import { useThemeStore } from '@/store/modules/theme';
 
 defineOptions({
-  name: 'PieRetryChart'
+  name: 'TaskPieChart'
 });
 
 interface Props {
-  type?: number;
+  type?: Api.Dashboard.TaskType;
   modelValue: Api.Dashboard.CardCount;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 0
+  type: 'JOB'
 });
 
 const appStore = useAppStore();
@@ -94,16 +94,7 @@ function updateLocale() {
     opts.tooltip.textStyle.color = originOpts.tooltip.textStyle.color;
     opts.tooltip.backgroundColor = originOpts.tooltip.backgroundColor;
 
-    if (props.type === 0) {
-      const retryTask = props.modelValue.retryTask;
-      opts.series[0].data = [
-        { name: $t('common.success'), value: retryTask.finishNum / retryTask.totalNum },
-        { name: $t('common.running'), value: retryTask.runningNum / retryTask.totalNum },
-        { name: $t('page.manage.retryTask.status.maxRetryTimes'), value: retryTask.maxCountNum / retryTask.totalNum },
-        { name: $t('page.manage.retryTask.status.pauseRetry'), value: retryTask.suspendNum / retryTask.totalNum }
-      ];
-    }
-    if (props.type === 1) {
+    if (props.type === 'JOB') {
       const jobTask = props.modelValue.jobTask;
       opts.series[0].data = [
         { name: $t('common.success'), value: jobTask.successNum / jobTask.totalNum },
@@ -112,7 +103,18 @@ function updateLocale() {
         { name: $t('common.cancel'), value: jobTask.cancelNum / jobTask.totalNum }
       ];
     }
-    if (props.type === 2) {
+
+    if (props.type === 'RETRY') {
+      const retryTask = props.modelValue.retryTask;
+      opts.series[0].data = [
+        { name: $t('common.success'), value: retryTask.finishNum / retryTask.totalNum },
+        { name: $t('common.running'), value: retryTask.runningNum / retryTask.totalNum },
+        { name: $t('page.manage.retryTask.status.maxRetryTimes'), value: retryTask.maxCountNum / retryTask.totalNum },
+        { name: $t('page.manage.retryTask.status.pauseRetry'), value: retryTask.suspendNum / retryTask.totalNum }
+      ];
+    }
+
+    if (props.type === 'WORKFLOW') {
       const workFlowTask = props.modelValue.workFlowTask;
       opts.series[0].data = [
         { name: $t('common.success'), value: workFlowTask.successNum / workFlowTask.totalNum },

@@ -100,7 +100,7 @@ const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    groupName: '',
+    groupName: null,
     businessId: '',
     recipientIds: [],
     systemTaskType: null,
@@ -267,22 +267,10 @@ watch(visible, () => {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
+  <OperateDrawer v-model="visible" :title="title" :min-size="480" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.notifyConfig.groupName')" path="groupName">
         <SelectGroup v-model:modelValue="model.groupName" @update:model-value="groupNameUpdate" />
-      </NFormItem>
-      <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus">
-        <NRadioGroup v-model:value="model.notifyStatus" name="notifyStatus">
-          <NSpace>
-            <NRadio
-              v-for="item in enableStatusNumberOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
-            />
-          </NSpace>
-        </NRadioGroup>
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.systemTaskType')" path="systemTaskType">
         <NSelect
@@ -341,34 +329,58 @@ watch(visible, () => {
           multiple
         />
       </NFormItem>
-      <NFormItem :label="$t('page.notifyConfig.rateLimiterStatus')" path="rateLimiterStatus">
-        <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus" :disabled="retrySceneDisable">
-          <NSpace>
-            <NRadio
-              v-for="item in enableStatusNumberOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="$t(item.label)"
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
+          <NFormItem :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus">
+            <NRadioGroup v-model:value="model.notifyStatus" name="notifyStatus">
+              <NSpace>
+                <NRadio
+                  v-for="item in enableStatusNumberOptions"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="$t(item.label)"
+                />
+              </NSpace>
+            </NRadioGroup>
+          </NFormItem>
+        </NGi>
+        <NGi>
+          <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
+            <NInputNumber
+              v-model:value="model.notifyThreshold"
+              :min="1"
+              :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
+              :disabled="retrySceneDisable"
             />
-          </NSpace>
-        </NRadioGroup>
-      </NFormItem>
-      <NFormItem :label="$t('page.notifyConfig.rateLimiterThreshold')" path="notifyThreshold">
-        <NInputNumber
-          v-model:value="model.rateLimiterThreshold"
-          :min="1"
-          :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
-          :disabled="retrySceneDisable"
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.notifyConfig.notifyThreshold')" path="notifyThreshold">
-        <NInputNumber
-          v-model:value="model.notifyThreshold"
-          :min="1"
-          :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
-          :disabled="retrySceneDisable"
-        />
-      </NFormItem>
+          </NFormItem>
+        </NGi>
+      </NGrid>
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
+          <NFormItem :label="$t('page.notifyConfig.rateLimiterStatus')" path="rateLimiterStatus">
+            <NRadioGroup v-model:value="model.rateLimiterStatus" name="rateLimiterStatus" :disabled="retrySceneDisable">
+              <NSpace>
+                <NRadio
+                  v-for="item in enableStatusNumberOptions"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="$t(item.label)"
+                />
+              </NSpace>
+            </NRadioGroup>
+          </NFormItem>
+        </NGi>
+        <NGi>
+          <NFormItem :label="$t('page.notifyConfig.rateLimiterThreshold')" path="notifyThreshold">
+            <NInputNumber
+              v-model:value="model.rateLimiterThreshold"
+              :min="1"
+              :placeholder="$t('page.notifyConfig.form.notifyThreshold')"
+              :disabled="retrySceneDisable"
+            />
+          </NFormItem>
+        </NGi>
+      </NGrid>
       <NFormItem :label="$t('page.notifyConfig.description')" path="description">
         <NInput
           v-model:value="model.description"

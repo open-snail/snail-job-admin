@@ -37,7 +37,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'index',
       title: $t('common.index'),
       align: 'center',
-      width: 40
+      width: 120
     },
     {
       key: 'jobName',
