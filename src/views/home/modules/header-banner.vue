@@ -54,20 +54,44 @@ const href = (url: string) => {
         </div>
       </NGi>
       <NGi span="24 s:24 m:6">
-        <NSpace :size="4" justify="end">
+        <div class="float-right max-w-250px flex flex-col-reverse">
+          <div class="order-9999 m-6px max-w-240px text-13px color-gray">
+            <span>广告</span>
+            <span class="float-right">
+              ❤️
+              <NButton text @click="href('https://snailjob.opensnail.com/docs/sponsor.html')">成为赞助商</NButton>
+            </span>
+          </div>
           <NButton quaternary class="h-full" @click="href('https://doc.flowlong.com/?from=snail-job')">
-            <NThing class="max-w-full w-full">
+            <NThing class="max-w-full flex-center">
               <template #avatar>
-                <img class="h-14 w-14 flex-none object-contain" src="@/assets/imgs/flowlong.png" />
+                <SvgIcon class="text-66px" local-icon="flowlong" />
               </template>
-              <template #header><div class="text-base font-semibold">FlowLong</div></template>
-              <template #description><div class="text-slate-700">为中国特色审批流打造的国产JSON流程引擎</div></template>
+              <template #header>
+                <div class="flow-long-title-color font-semibold">FlowLong</div>
+                <div class="flow-long-title font-semibold">飞龙工作流引擎</div>
+              </template>
             </NThing>
           </NButton>
-        </NSpace>
+        </div>
       </NGi>
     </NGrid>
   </NCard>
 </template>
 
-<style scoped></style>
+<style scoped>
+.flow-long-title-color {
+  text-align: left;
+  line-height: 36px;
+  font-size: 28px;
+  background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.flow-long-title {
+  text-align: left;
+  line-height: 22px;
+  font-size: 20px;
+}
+</style>

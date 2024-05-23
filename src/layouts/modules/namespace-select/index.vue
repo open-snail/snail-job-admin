@@ -3,10 +3,16 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
-import { useAppStore } from '@/store/modules/app';
+
+interface Props {
+  isMobile?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  isMobile: false
+});
 
 const router = useRouter();
-const appStore = useAppStore();
 const namespaceId = ref<string>(localStg.get('namespaceId')!);
 const userInfo = localStg.get('userInfo');
 const selectOptions = computed(() =>
@@ -28,7 +34,7 @@ const onChange = (value: string) => {
 </script>
 
 <template>
-  <NDropdown v-if="appStore.isMobile" :value="namespaceId" :options="dropOptions" trigger="hover" @select="onChange">
+  <NDropdown v-if="isMobile" :value="namespaceId" :options="dropOptions" trigger="hover" @select="onChange">
     <div>
       <ButtonIcon :tooltip-content="$t('icon.namespace')" tooltip-placement="left">
         <SvgIcon icon="oui:app-spaces" />

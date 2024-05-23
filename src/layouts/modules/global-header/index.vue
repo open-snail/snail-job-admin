@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, nextTick, onUnmounted, reactive } from 'vue';
 import { useFullscreen } from '@vueuse/core';
 import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
@@ -49,6 +49,21 @@ const headerMenus = computed(() => {
 const href = (url: string) => {
   window.open(url, '_blank');
 };
+
+const state = reactive({ width: 0 });
+
+const getState = () => {
+  state.width = document.documentElement.clientWidth;
+};
+
+nextTick(() => {
+  getState();
+  window.addEventListener('resize', getState);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', getState);
+});
 </script>
 
 <template>
@@ -57,27 +72,26 @@ const href = (url: string) => {
     <HorizontalMenu v-if="showMenu" mode="horizontal" :menus="headerMenus" class="px-12px" />
     <div v-else class="h-full flex-y-center flex-1-hidden">
       <MenuToggler v-if="showMenuToggler" :collapsed="appStore.siderCollapse" @click="appStore.toggleSiderCollapse" />
-      <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
+      <GlobalBreadcrumb v-if="!appStore.isMobile && state.width > 900" class="ml-12px" />
     </div>
     <div class="h-full flex-y-center justify-end">
-      <NamespaceSelect />
+      <NamespaceSelect :is-mobile="appStore.isMobile || state.width < 970" />
       <GlobalSearch />
       <ButtonIcon
-        v-if="!appStore.isMobile"
+        v-if="!appStore.isMobile && state.width > 760"
         class="color-#c71d23"
         tooltip-content="Gitee"
         icon="simple-icons:gitee"
         @click="href('https://gitee.com/aizuda/snail-job')"
       />
       <ButtonIcon
-        v-if="!appStore.isMobile"
+        v-if="!appStore.isMobile && state.width > 760"
         tooltip-content="Github"
         class="color-#010409 dark:color-#e6edf3"
         icon="simple-icons:github"
         @click="href('https://github.com/aizuda/snail-job')"
       />
       <ButtonIcon
-        v-if="!appStore.isMobile"
         tooltip-content="Document"
         class="color-#272636 dark:color-#f0f2f5"
         icon="material-symbols:unknown-document-outline"
@@ -90,7 +104,7 @@ const href = (url: string) => {
         :is-dark="themeStore.darkMode"
         @switch="themeStore.toggleThemeScheme"
       />
-      <ThemeButton v-if="!appStore.isMobile" />
+      <ThemeButton v-if="!appStore.isMobile && state.width > 970" />
       <UserAvatar />
     </div>
   </DarkModeContainer>
