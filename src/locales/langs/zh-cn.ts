@@ -133,6 +133,17 @@ const local: App.I18n.Schema = {
         cancel: '取消'
       }
     },
+    taskStatus: {
+      label: '状态',
+      form: '请选择状态',
+      items: {
+        running: '运行中',
+        success: '处理成功',
+        fail: '处理失败',
+        stop: '任务停止',
+        cancel: '取消'
+      }
+    },
     jobOperationReason: {
       label: '操作原因',
       form: '请选择执行状态',
@@ -520,7 +531,8 @@ const local: App.I18n.Schema = {
         groupPartition: '分区',
         initScene: '初始化场景',
         collapseCommon: '通用配置',
-        collapseRetry: '重试配置'
+        collapseRetry: '重试配置',
+        groupNameRule: '组名称: 仅支持长度为:1~64位字符.格式为:数字、字母、下划线、短横线。'
       },
       idMode: {
         idWorker: '雪花算法',
@@ -873,7 +885,7 @@ const local: App.I18n.Schema = {
         deadlineRequest: '请输入调用链超时时间(毫秒)',
         routeKey: '请输入路由策略',
         backOff: '请输入退避策略',
-        sceneName2: '场景名称: 仅支持长度为:1~64位字符.格式为:数字、字母、下划线。'
+        sceneName2: '场景名称: 仅支持长度为:1~64位字符.格式为:数字、字母、下划线和中横线。'
       },
       addScene: '新增场景',
       editScene: '编辑场景',
@@ -953,7 +965,7 @@ const local: App.I18n.Schema = {
       triggerType: '触发类型',
       triggerInterval: '间隔时长',
       blockStrategy: '阻塞策略',
-      executorTimeout: '超时时间',
+      executorTimeout: '超时时间(秒)',
       maxRetryTimes: '最大重试次数',
       retryInterval: '重试间隔',
       taskType: '任务类型',
@@ -1010,6 +1022,7 @@ const local: App.I18n.Schema = {
         title: 'JobTask 列表',
         id: 'ID',
         groupName: '组名称',
+        taskStatus: '状态',
         clientInfo: '地址',
         argsStr: '参数',
         resultMessage: '结果',

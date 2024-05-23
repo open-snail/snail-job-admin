@@ -133,6 +133,17 @@ const local: App.I18n.Schema = {
         cancel: 'Cancel'
       }
     },
+    taskStatus: {
+      label: 'Task status',
+      form: 'Please enter task status',
+      items: {
+        running: 'Running',
+        success: 'Success',
+        fail: 'Fail',
+        stop: 'Stop',
+        cancel: 'Cancel'
+      }
+    },
     jobOperationReason: {
       label: 'Job operation reason',
       form: 'Please enter job operation reason',
@@ -512,7 +523,9 @@ const local: App.I18n.Schema = {
         groupPartition: 'Please select Group partition',
         initScene: 'Initialized scene',
         collapseCommon: 'Common config',
-        collapseRetry: 'Retry config'
+        collapseRetry: 'Retry config',
+        groupNameRule:
+          'Group name: Must be between 1 and 64 characters in length. Format: numbers, letters, underscores, or hyphens.'
       },
       idMode: {
         idWorker: 'Id Workder',
@@ -865,7 +878,7 @@ const local: App.I18n.Schema = {
         deadlineRequest: 'Please enter Call chain timeout(ms)',
         routeKey: 'Please enter Routing strategy',
         backOff: 'Please enter Backoff strategy',
-        sceneName2: 'Scene name: 1~64 characters. allowing: digit, letters and underscore.'
+        sceneName2: 'Scene name: 1~64 characters. allowing: digit, letters, underscore or hyphens..'
       },
       addScene: 'Add Scenes',
       editScene: 'Add Scenes',
@@ -946,7 +959,7 @@ const local: App.I18n.Schema = {
       triggerType: 'Trigger type',
       triggerInterval: 'Interval duration',
       blockStrategy: 'Blocking strategy',
-      executorTimeout: 'Overtime time',
+      executorTimeout: 'Overtime time(s)',
       maxRetryTimes: 'Maximum number of retries',
       retryInterval: 'Retry interval',
       taskType: 'Task type',
@@ -1003,6 +1016,7 @@ const local: App.I18n.Schema = {
         title: 'Job task list',
         id: 'ID',
         groupName: 'Group name',
+        taskStatus: 'Status',
         clientInfo: 'Client address',
         argsStr: 'Argument string',
         resultMessage: 'Result message',

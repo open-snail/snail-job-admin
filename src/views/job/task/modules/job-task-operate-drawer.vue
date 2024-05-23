@@ -271,7 +271,7 @@ watch(visible, () => {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
+  <OperateDrawer v-model="visible" :title="title" :min-size="480" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.jobTask.jobName')" path="jobName">
         <NInput
@@ -336,58 +336,84 @@ watch(visible, () => {
         </NCard>
         <CodeMirror v-else v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
       </NFormItem>
-      <NFormItem :label="$t('page.jobTask.routeKey')" path="routeKey">
-        <RouteKey v-model:value="model.routeKey" :task-type="model.taskType" />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.blockStrategy')" path="blockStrategy">
-        <BlockStrategy v-model:value="model.blockStrategy" />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.triggerType')" path="triggerType">
-        <TriggerType
-          v-model:value="model.triggerType"
-          :placeholder="$t('page.jobTask.form.triggerType')"
-          @update:value="model.triggerInterval = ''"
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.triggerInterval')" path="triggerInterval">
-        <JobTriggerInterval v-model="model.triggerInterval" :trigger-type="model.triggerType" />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.executorTimeout')" path="executorTimeout">
-        <NInputNumber
-          v-model:value="model.executorTimeout"
-          :min="1"
-          :max="60"
-          :placeholder="$t('page.jobTask.form.executorTimeout')"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.maxRetryTimes')" path="maxRetryTimes">
-        <NInputNumber
-          v-model:value="model.maxRetryTimes"
-          :min="1"
-          :max="60"
-          :placeholder="$t('page.jobTask.form.maxRetryTimes')"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.retryInterval')" path="retryInterval">
-        <NInputNumber
-          v-model:value="model.retryInterval"
-          :min="1"
-          :max="60"
-          :placeholder="$t('page.jobTask.form.retryInterval')"
-          clearable
-        />
-      </NFormItem>
-      <NFormItem :label="$t('page.jobTask.parallelNum')" path="parallelNum">
-        <NInputNumber
-          v-model:value="model.parallelNum"
-          :min="1"
-          :max="60"
-          :placeholder="$t('page.jobTask.form.parallelNum')"
-          clearable
-        />
-      </NFormItem>
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.routeKey')" path="routeKey">
+            <RouteKey v-model:value="model.routeKey" :task-type="model.taskType" />
+          </NFormItem>
+        </NGi>
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.blockStrategy')" path="blockStrategy">
+            <BlockStrategy v-model:value="model.blockStrategy" />
+          </NFormItem>
+        </NGi>
+      </NGrid>
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.triggerType')" path="triggerType">
+            <TriggerType
+              v-model:value="model.triggerType"
+              :placeholder="$t('page.jobTask.form.triggerType')"
+              @update:value="model.triggerInterval = ''"
+            />
+          </NFormItem>
+        </NGi>
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.triggerInterval')" path="triggerInterval">
+            <JobTriggerInterval v-model="model.triggerInterval" :trigger-type="model.triggerType" />
+          </NFormItem>
+        </NGi>
+      </NGrid>
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.executorTimeout')" path="executorTimeout">
+            <NInputGroup>
+              <NInputNumber
+                v-model:value="model.executorTimeout"
+                :min="1"
+                :max="99999999"
+                :placeholder="$t('page.jobTask.form.executorTimeout')"
+                clearable
+              />
+            </NInputGroup>
+          </NFormItem>
+        </NGi>
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.maxRetryTimes')" path="maxRetryTimes">
+            <NInputNumber
+              v-model:value="model.maxRetryTimes"
+              :min="1"
+              :max="999"
+              :placeholder="$t('page.jobTask.form.maxRetryTimes')"
+              clearable
+            />
+          </NFormItem>
+        </NGi>
+      </NGrid>
+      <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.retryInterval')" path="retryInterval">
+            <NInputNumber
+              v-model:value="model.retryInterval"
+              :min="1"
+              :max="99999999"
+              :placeholder="$t('page.jobTask.form.retryInterval')"
+              clearable
+            />
+          </NFormItem>
+        </NGi>
+        <NGi>
+          <NFormItem :label="$t('page.jobTask.parallelNum')" path="parallelNum">
+            <NInputNumber
+              v-model:value="model.parallelNum"
+              :min="1"
+              :max="999"
+              :placeholder="$t('page.jobTask.form.parallelNum')"
+              clearable
+            />
+          </NFormItem>
+        </NGi>
+      </NGrid>
       <NFormItem :label="$t('page.jobTask.description')" path="description">
         <NInput v-model:value="model.description" type="textarea" :placeholder="$t('page.jobTask.form.description')" />
       </NFormItem>

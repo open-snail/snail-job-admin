@@ -8,7 +8,7 @@ defineOptions({
 });
 
 interface Props {
-  triggerType: number;
+  triggerType: Api.Common.TriggerType;
 }
 
 const model = defineModel<string>();
@@ -17,10 +17,10 @@ const props = defineProps<Props>();
 const app = useAppStore();
 
 /** 保存 `固定时间` 类型的 时间间隔 */
-const interval = ref<number>(60);
+const interval = ref<number>(props.triggerType === 2 ? Number(model.value) : 60);
 
 /** 保存 `CRON表达式` 类型的 表达式 */
-const cron = ref<string>('* * * * * ?');
+const cron = ref<string>(props.triggerType === 3 ? model.value! : '* * * * * ?');
 
 /** 监视 触发间隔 变化 */
 watch(

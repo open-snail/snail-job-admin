@@ -7,9 +7,10 @@ defineOptions({
 });
 
 interface Props {
-  title?: string;
+  title: string;
+  minSize?: number;
 }
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), { minSize: 360 });
 
 interface Emits {
   (e: 'update:modelValue', modelValue: boolean): void;
@@ -25,8 +26,8 @@ const appStore = useAppStore();
 const state = reactive({ width: 0 });
 const isFullscreen = ref(false);
 const drawerWidth = computed(() => {
-  const maxMinWidth = 360;
-  const maxMaxWidth = 600;
+  const maxMinWidth = props.minSize;
+  const maxMaxWidth = Math.max(props.minSize, 600);
   if (appStore.isMobile) {
     return state.width * 0.9 >= maxMinWidth ? `${maxMinWidth}px` : '90%';
   }

@@ -108,7 +108,7 @@ watch(visible, () => {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="title">
+  <OperateDrawer v-model="visible" :min-size="480" :title="title">
     <NTabs v-model:value="notifyTabPane" type="segment" animated>
       <NTabPane :name="1" tab="钉钉" :disabled="notifyTabPane !== 1 && props.operateType === 'edit'">
         <DingDingForm ref="formRef" v-model:value="model" />
