@@ -170,8 +170,10 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
       const authStore = useAuthStore();
       await authStore.getInfo();
       const { data, error } = await fetchVersion();
-      if (!error) {
+      if (!error && data) {
         localStg.set('version', data!);
+      } else {
+        localStg.remove('version');
       }
     }
   }

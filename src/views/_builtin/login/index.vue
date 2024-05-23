@@ -27,10 +27,12 @@ const version = ref<string>(`v${localStg.get('version') || VITE_APP_VERSION}`);
 
 const getVersion = async () => {
   const { data, error } = await fetchVersion();
-  if (!error) {
+  if (!error && data) {
     version.value = data;
     localStg.set('version', data);
+    return;
   }
+  localStg.remove('version');
 };
 
 getVersion();
