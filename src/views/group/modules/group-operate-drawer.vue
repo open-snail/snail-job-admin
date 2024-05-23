@@ -52,7 +52,7 @@ const model: Model = reactive(createDefaultModel());
 function createDefaultModel(): Model {
   return {
     groupName: '',
-    token: generateToken(32),
+    token: import.meta.env.VITE_APP_DEFAULT_TOKEN || '',
     groupStatus: 1,
     description: '',
     idGeneratorMode: 2,
