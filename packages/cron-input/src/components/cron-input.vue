@@ -40,7 +40,7 @@ defineExpose({
 </script>
 
 <template>
-  <NPopover trigger="click" placement="bottom-start">
+  <NPopover class="cron-popover" trigger="click" placement="bottom-start">
     <template #trigger>
       <NInput v-bind="attrs" v-model:value="cron" />
     </template>
@@ -49,10 +49,7 @@ defineExpose({
 </template>
 
 <style>
-.n-popover {
+.cron-popover {
   padding: 0 !important;
-}
-
-.n-popover .n-popover-shared .n-popover-arrow-wrapper .n-popover-arrow {
 }
 </style>
