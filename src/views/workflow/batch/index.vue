@@ -28,13 +28,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     taskBatchStatus: null
   },
   columns: () => [
-    // {
-    //   type: 'selection',
-    //   align: 'center',
-    //   width: 48
-    // },
     {
-      key: 'index',
+      key: 'id',
       title: $t('common.index'),
       align: 'center',
       width: 120

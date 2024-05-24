@@ -351,11 +351,7 @@ watch(visible, () => {
       <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
         <NGi>
           <NFormItem :label="$t('page.jobTask.triggerType')" path="triggerType">
-            <TriggerType
-              v-model:value="model.triggerType"
-              :placeholder="$t('page.jobTask.form.triggerType')"
-              @update:value="model.triggerInterval = ''"
-            />
+            <TriggerType v-model:value="model.triggerType" :placeholder="$t('page.jobTask.form.triggerType')" />
           </NFormItem>
         </NGi>
         <NGi>
