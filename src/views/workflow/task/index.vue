@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NButtonGroup, NPopconfirm, NPopover, NTag } from 'naive-ui';
+import { NButton, NDropdown, NPopconfirm, NTag } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import {
   fetchDelWorkflow,
@@ -129,17 +129,50 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       fixed: 'right',
       width: 200,
       render: row => {
+        const options = [
+          {
+            label: $t('common.execute'),
+            key: 'execute',
+            click: () => execute(row.id!)
+          },
+          {
+            type: 'divider',
+            key: 'd1'
+          },
+          {
+            label: $t('common.copy'),
+            key: 'copy',
+            click: () => copy(row.id!)
+          },
+          {
+            type: 'divider',
+            key: 'd2'
+          },
+          {
+            label: $t('common.batchList'),
+            key: 'batchList',
+            click: () => batch(row.id!)
+          }
+        ];
+
+        function onSelect(key: string) {
+          options.filter(o => o.key === key)[0].click!();
+        }
+
         return (
           <div class="flex-center gap-8px">
-            <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
+            <NButton text type="warning" ghost size="small" onClick={() => edit(row.id!)}>
               {$t('common.edit')}
             </NButton>
+
+            <n-divider vertical />
+
             {hasAuth('R_ADMIN') ? (
               <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
                 {{
                   default: () => $t('common.confirmDelete'),
                   trigger: () => (
-                    <NButton type="error" ghost size="small">
+                    <NButton text type="error" ghost size="small">
                       {$t('common.delete')}
                     </NButton>
                   )
@@ -149,30 +182,17 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               ''
             )}
 
-            <NPopover trigger="click" placement="bottom" raw show-arrow={false} class="b-rd-6px bg-#fff dark:bg-#000">
+            <n-divider vertical />
+
+            <NDropdown trigger="click" show-arrow={false} options={options} size="small" on-select={onSelect}>
               {{
-                trigger: () => (
-                  <NButton type="primary" ghost size="small">
+                default: () => (
+                  <NButton text type="primary" ghost size="small">
                     更多
                   </NButton>
-                ),
-                default: () => (
-                  <div>
-                    <NButtonGroup vertical>
-                      <NButton type="primary" ghost size="small" onClick={() => execute(row.id!)}>
-                        {$t('common.execute')}
-                      </NButton>
-                      <NButton type="primary" ghost size="small" onClick={() => copy(row.id!)}>
-                        {$t('common.copy')}
-                      </NButton>
-                      <NButton type="success" ghost size="small" onClick={() => batch(row.id!)}>
-                        {$t('common.batchList')}
-                      </NButton>
-                    </NButtonGroup>
-                  </div>
                 )
               }}
-            </NPopover>
+            </NDropdown>
           </div>
         );
       }
