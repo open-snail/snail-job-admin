@@ -76,8 +76,8 @@ const show = () => {
 <template>
   <div class="node-wrap">
     <div
-      :class="disabled ? 'start-node-disabled' : 'node-wrap-box-hover'"
-      class="node-wrap-box node-error-success start-node"
+      :class="`${disabled ? 'start-node-disabled' : 'node-wrap-box-hover'} ${store.type === 2 ? 'node-error-success' : ''}`"
+      class="node-wrap-box start-node"
       @click="show"
     >
       <div class="title">
@@ -102,15 +102,13 @@ const show = () => {
       <div v-else class="content min-h-85px">
         <span class="placeholder">{{ $t('snail.form.workflowTip') }}</span>
       </div>
-      <NTooltip v-if="store.type === 2" trigger="hover">
-        <template #trigger>{{ taskBatchStatusEnum[3].title }}</template>
-        <SvgIcon
-          class="error-tip"
-          :color="taskBatchStatusEnum[3].color"
-          size="24px"
-          :icon="taskBatchStatusEnum[3].icon"
-          @click.stop="() => {}"
-        />
+      <NTooltip v-if="store.type === 2">
+        <template #trigger>
+          <div class="error-tip text-24px" :style="{ color: taskBatchStatusEnum[3].color }">
+            <SvgIcon :icon="taskBatchStatusEnum[3].icon" />
+          </div>
+        </template>
+        {{ taskBatchStatusEnum[3].title }}
       </NTooltip>
     </div>
     <AddNode v-model="nodeData.nodeConfig!" :disabled="disabled"></AddNode>

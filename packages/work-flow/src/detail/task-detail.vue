@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { $t } from '../locales';
-import { blockStrategyRecord, triggerTypeRecord, workFlowNodeStatusRecord } from '../constants/business';
+import { useFlowStore } from '../stores';
+import { failStrategyRecord, workFlowNodeStatusRecord } from '../constants/business';
 
 defineOptions({
-  name: 'StartDetail'
+  name: 'TaskDetail'
 });
 
 interface Props {
-  modelValue?: Flow.NodeDataType;
+  modelValue?: Flow.ConditionNodeType;
   open?: boolean;
 }
 
@@ -23,6 +24,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
+const store = useFlowStore();
 const visible = ref(false);
 
 watch(
@@ -36,24 +38,29 @@ watch(
 const onClose = () => {
   emit('update:open', false);
 };
+
+const getTaskName = (id: string) => {
+  const jobList: { id?: string; jobName?: string }[] = store.jobList;
+  return jobList.find(item => item.id === id)?.jobName;
+};
 </script>
 
 <template>
   <NDrawer v-model:show="visible" placement="right" :width="500" display-directive="if" @after-leave="onClose">
     <NDrawerContent title="工作流详情">
       <NDescriptions :column="1" bordered :label-style="{ width: '120px' }">
-        <NDescriptionsItem label="工作流名称">{{ modelValue.workflowName }}</NDescriptionsItem>
-        <NDescriptionsItem label="组名称">{{ modelValue.groupName }}</NDescriptionsItem>
-        <NDescriptionsItem label="触发类型">{{ $t(triggerTypeRecord[modelValue.triggerType!]) }}</NDescriptionsItem>
-        <NDescriptionsItem label="触发间隔">
-          {{ modelValue.triggerInterval }} {{ modelValue.triggerType === 2 ? '秒' : null }}
+        <NDescriptionsItem label="节点名称">{{ modelValue.nodeName }}</NDescriptionsItem>
+        <NDescriptionsItem label="任务 ID">{{ modelValue.jobTask?.jobId }}</NDescriptionsItem>
+        <NDescriptionsItem label="任务名称">{{ getTaskName(modelValue.jobTask?.jobId!) }}</NDescriptionsItem>
+        <NDescriptionsItem label="失败策略">
+          {{ $t(failStrategyRecord[modelValue.failStrategy!]) }}
         </NDescriptionsItem>
-        <NDescriptionsItem label="执行超时时间">{{ modelValue.executorTimeout }} 秒</NDescriptionsItem>
-        <NDescriptionsItem label="阻塞策略">{{ blockStrategyRecord[modelValue.blockStrategy!] }}</NDescriptionsItem>
         <NDescriptionsItem label="工作流状态">
-          {{ $t(workFlowNodeStatusRecord[modelValue.workflowStatus!]) }}
+          {{ $t(workFlowNodeStatusRecord[modelValue.workflowNodeStatus!]) }} 秒
         </NDescriptionsItem>
       </NDescriptions>
     </NDrawerContent>
   </NDrawer>
 </template>
+
+<style scoped lang="scss"></style>

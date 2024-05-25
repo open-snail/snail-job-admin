@@ -6,6 +6,7 @@ import { useFlowStore } from '../stores';
 import { $t } from '../locales';
 import { failStrategyRecord, taskBatchStatusEnum } from '../constants/business';
 import TaskDrawer from '../drawer/task-drawer.vue';
+import TaskDetail from '../detail/task-detail.vue';
 import AddNode from './add-node.vue';
 
 defineOptions({
@@ -31,7 +32,6 @@ const emit = defineEmits<Emits>();
 const store = useFlowStore();
 const message = useMessage();
 const nodeConfig = ref<Flow.NodeModelType>({});
-const popoverVisible = ref<Record<number, boolean>>({});
 
 watch(
   () => props.modelValue,
@@ -186,15 +186,13 @@ const isStop = (taskBatchStatus: number) => {
       <div v-for="(item, i) in nodeConfig.conditionNodes" :key="i" class="col-box">
         <div class="condition-node">
           <div class="condition-node-box">
-            <NPopover
-              :show="popoverVisible[i] && store.type === 2"
-              @update:show="(visible: boolean) => (popoverVisible[i] = visible)"
-            >
+            <NPopover :disabled="store.type !== 2">
               <div class="popover">
-                <NDivider v-if="isRetry(item.taskBatchStatus!)" vertical />
-                <NButton v-if="isRetry(item.taskBatchStatus!)" text class="popover-item" @click="retry(item!)">
-                  <icon-ant-design:redo-outlined />
-                  <span>{{ $t('snail.retry') }}</span>
+                <NButton v-if="isRetry(item.taskBatchStatus!)" text @click="retry(item!)">
+                  <span class="popover-item">
+                    <icon-ant-design:redo-outlined class="mb-3px text-24px font-bold" />
+                    {{ $t('snail.retry') }}
+                  </span>
                 </NButton>
                 <NDivider v-if="isStop(item.taskBatchStatus!)" vertical />
                 <NButton v-if="isStop(item.taskBatchStatus!)" text class="popover-item" @click="stop(item!)">
@@ -238,19 +236,20 @@ const isStop = (taskBatchStatus: number) => {
                   >
                     <icon-ant-design:right-outlined />
                   </div>
-                  <NTooltip v-if="store.type === 2 && item.taskBatchStatus" trigger="hover">
-                    <template #trigger>{{ taskBatchStatusEnum[item.taskBatchStatus].title }}</template>
-                    <SvgIcon
-                      class="error-tip"
-                      :color="taskBatchStatusEnum[item.taskBatchStatus].color"
-                      size="24px"
-                      :icon="taskBatchStatusEnum[item.taskBatchStatus].icon"
-                      @click.stop="() => {}"
-                    />
-                  </NTooltip>
                 </div>
               </template>
             </NPopover>
+            <NTooltip v-if="store.type === 2 && item.taskBatchStatus">
+              <template #trigger>
+                <div
+                  class="task-error-tip text-24px"
+                  :style="{ color: taskBatchStatusEnum[item.taskBatchStatus!].color }"
+                >
+                  <SvgIcon :icon="taskBatchStatusEnum[item.taskBatchStatus!].icon" />
+                </div>
+              </template>
+              {{ taskBatchStatusEnum[item.taskBatchStatus!].title }}
+            </NTooltip>
             <AddNode v-model="item.childNode!" :disabled="disabled"></AddNode>
           </div>
         </div>
@@ -259,13 +258,8 @@ const isStop = (taskBatchStatus: number) => {
         <div v-if="i == 0" class="bottom-left-cover-line"></div>
         <div v-if="i == nodeConfig.conditionNodes!.length - 1" class="top-right-cover-line"></div>
         <div v-if="i == nodeConfig.conditionNodes!.length - 1" class="bottom-right-cover-line"></div>
-        <!--
- <TaskDetail
-          v-if="store.type !== 0 && detailDrawer[i]"
-          v-model:open="detailDrawer[i]"
-          v-model="nodeConfig.conditionNodes![i]"
-        />
--->
+
+        <TaskDetail v-if="store.type !== 0" v-model:open="detailDrawer[i]" v-model="nodeConfig.conditionNodes![i]" />
       </div>
     </div>
     <AddNode v-if="nodeConfig.conditionNodes!.length > 1" v-model="nodeConfig.childNode!" :disabled="disabled" />
@@ -282,6 +276,14 @@ const isStop = (taskBatchStatus: number) => {
 </template>
 
 <style scoped lang="scss">
+.task-error-tip {
+  cursor: default;
+  position: absolute;
+  top: 63px;
+  left: 291px;
+  font-size: 24px;
+}
+
 .popover {
   display: flex;
   align-items: center;

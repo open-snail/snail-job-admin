@@ -36,14 +36,14 @@ export const contentTypeRecord: Record<Flow.ContentType, string> = {
   2: 'application/x-www-form-urlencoded'
 };
 
-export const triggerTypeRecord: Record<Flow.TriggerType, string> = {
-  2: '固定时间',
-  3: 'CRON表达式'
+export const triggerTypeRecord: Record<Flow.TriggerType, FlowI18n.I18nKey> = {
+  2: 'snail.enum.triggerType.time',
+  3: 'snail.enum.triggerType.cron'
 };
 
 export const triggerTypeOptions = transformRecordToOption(triggerTypeRecord);
 
-export const workFlowNodeStatusRecord: Record<Flow.WorkFlowNodeStatus, string> = {
+export const workFlowNodeStatusRecord: Record<Flow.WorkFlowNodeStatus, FlowI18n.I18nKey> = {
   0: 'snail.enum.workFlowNodeStatus.close',
   1: 'snail.enum.workFlowNodeStatus.open'
 };

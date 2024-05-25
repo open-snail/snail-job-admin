@@ -53,3 +53,10 @@ export function fetchWorkflowInfo(id: string) {
     method: 'get'
   });
 }
+
+export function fetchWorkflowBatchInfo(id: string) {
+  return request<Flow.NodeDataType>({
+    url: `/workflow/batch/${id}`,
+    method: 'get'
+  });
+}

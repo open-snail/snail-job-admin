@@ -34,7 +34,9 @@ export const useFlowStore = defineStore('workflow', () => {
     if (!error) {
       jobList.value = data;
     }
+    const workflow = localStg.get('workflow');
     localStg.set('workflow', {
+      ...workflow,
       groupName: value,
       jobList: data!
     });

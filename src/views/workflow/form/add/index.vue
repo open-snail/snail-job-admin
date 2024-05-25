@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Workflow, { flowFetch, flowStores } from '@sa/workflow';
 import { useRouter } from 'vue-router';
+import Workflow, { flowFetch, flowStores } from '@sa/workflow';
 import { $t } from '@/locales';
 
 const store = flowStores.useFlowStore();
 const router = useRouter();
 
-const spinning = ref(false);
-const disabled = ref(false);
-
 onMounted(() => {
   store.clear();
   store.setType(0);
-  disabled.value = false;
 });
 
 const node = ref<Flow.NodeDataType>({
@@ -38,7 +34,7 @@ const cancel = () => {
 </script>
 
 <template>
-  <Workflow v-model="node" :spinning="spinning" :disabled="disabled" @save="save" @cancel="cancel" />
+  <Workflow v-model="node" @save="save" @cancel="cancel" />
 </template>
 
 <style scoped></style>

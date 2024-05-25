@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Workflow, { flowFetch, flowStores } from '@sa/workflow';
 import { useRoute, useRouter } from 'vue-router';
+import Workflow, { flowFetch, flowStores } from '@sa/workflow';
 import { $t } from '@/locales';
 
 const store = flowStores.useFlowStore();
@@ -9,7 +9,6 @@ const route = useRoute();
 const router = useRouter();
 
 const spinning = ref(false);
-const disabled = ref(false);
 
 const id: string = String(route.query.id);
 
@@ -29,7 +28,6 @@ onMounted(() => {
   store.setType(0);
   store.setId(id);
   getDetail();
-  disabled.value = false;
 });
 
 const update = async () => {
@@ -46,7 +44,7 @@ const cancel = () => {
 </script>
 
 <template>
-  <Workflow v-model="node" :spinning="spinning" :disabled="disabled" @save="update" @cancel="cancel" />
+  <Workflow v-model="node" :spinning="spinning" @save="update" @cancel="cancel" />
 </template>
 
 <style scoped></style>

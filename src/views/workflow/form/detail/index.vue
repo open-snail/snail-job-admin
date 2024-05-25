@@ -1,17 +1,36 @@
 <script setup lang="ts">
-import WorkFlowIframe from '../modules/workflow-iframe.vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import Workflow, { flowFetch, flowStores } from '@sa/workflow';
 
-defineOptions({
-  name: 'WorkFlowDetail'
+const store = flowStores.useFlowStore();
+const route = useRoute();
+
+const spinning = ref(false);
+
+const id: string = String(route.query.id);
+
+const node = ref<Flow.NodeDataType>({});
+
+const getDetail = async () => {
+  spinning.value = true;
+  const { data, error } = await flowFetch.fetchWorkflowInfo(id);
+  if (!error) {
+    node.value = data;
+  }
+  spinning.value = false;
+};
+
+onMounted(() => {
+  store.clear();
+  store.setType(1);
+  store.setId(id);
+  getDetail();
 });
 </script>
 
 <template>
-  <div class="iframe"><WorkFlowIframe value="kaxC8Iml" /></div>
+  <Workflow v-model="node" :spinning="spinning" disabled />
 </template>
 
-<style scoped>
-.iframe {
-  padding: 0 !important;
-}
-</style>
+<style scoped></style>
