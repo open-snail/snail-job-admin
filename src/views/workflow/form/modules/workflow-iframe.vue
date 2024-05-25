@@ -81,7 +81,7 @@ onActivated(() => {
     <iframe
       ref="iframeRef"
       class="size-full"
-      :src="`${mode === 'prod' ? baseUrl : '/'}lib/index.html?id=${id}&mode=${mode}&x1c2Hdd6=${value}`"
+      :src="`${mode === 'prod' ? baseUrl + '/' : '/'}lib/index.html?id=${id}&mode=${mode}&x1c2Hdd6=${value}`"
     />
   </NSpin>
 </template>
