@@ -44,8 +44,8 @@ export const triggerTypeRecord: Record<Flow.TriggerType, string> = {
 export const triggerTypeOptions = transformRecordToOption(triggerTypeRecord);
 
 export const workFlowNodeStatusRecord: Record<Flow.WorkFlowNodeStatus, string> = {
-  0: '关闭',
-  1: '开启'
+  0: 'snail.enum.workFlowNodeStatus.close',
+  1: 'snail.enum.workFlowNodeStatus.open'
 };
 
 export const workFlowNodeStatusOptions = transformRecordToOption(workFlowNodeStatusRecord);

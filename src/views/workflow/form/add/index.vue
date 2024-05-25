@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import Workflow, { flowFetch, flowStores } from '@sa/workflow';
 import { useRouter } from 'vue-router';
+import { $t } from '@/locales';
 
 const store = flowStores.useFlowStore();
 const router = useRouter();
@@ -16,6 +17,7 @@ onMounted(() => {
 });
 
 const node = ref<Flow.NodeDataType>({
+  workflowName: `Workflow ${new Date().getTime()}`,
   workflowStatus: 1,
   blockStrategy: 1,
   description: undefined,
@@ -25,7 +27,7 @@ const node = ref<Flow.NodeDataType>({
 const save = async () => {
   const { error } = await flowFetch.fetchAddWorkflow(node.value);
   if (!error) {
-    window.$message?.success('工作流新增成功');
+    window.$message?.info($t('common.addSuccess'));
     router.push('/workflow/task');
   }
 };

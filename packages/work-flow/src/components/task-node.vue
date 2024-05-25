@@ -5,6 +5,7 @@ import { fetchNodeRetry, fetchNodeStop } from '../api';
 import { useFlowStore } from '../stores';
 import { $t } from '../locales';
 import { failStrategyRecord, taskBatchStatusEnum } from '../constants/business';
+import TaskDrawer from '../drawer/task-drawer.vue';
 import AddNode from './add-node.vue';
 
 defineOptions({
@@ -93,15 +94,15 @@ const index = ref<number>(0);
 const drawer = ref<boolean>(false);
 const form = ref<Flow.ConditionNodeType>({});
 
-// const save = (val: Flow.ConditionNodeType) => {
-//   const oldLevel = nodeConfig.value.conditionNodes![index.value].priorityLevel;
-//   const newLevel = val.priorityLevel;
-//   nodeConfig.value.conditionNodes![index.value] = val;
-//   if (oldLevel !== newLevel) {
-//     arrTransfer(index.value, newLevel! - oldLevel!);
-//   }
-//   emit('update:modelValue', nodeConfig.value);
-// };
+const save = (val: Flow.ConditionNodeType) => {
+  const oldLevel = nodeConfig.value.conditionNodes![index.value].priorityLevel;
+  const newLevel = val.priorityLevel;
+  nodeConfig.value.conditionNodes![index.value] = val;
+  if (oldLevel !== newLevel) {
+    arrTransfer(index.value, newLevel! - oldLevel!);
+  }
+  emit('update:modelValue', nodeConfig.value);
+};
 
 const show = (currentIndex: number) => {
   if (!props.disabled) {
@@ -214,16 +215,18 @@ const isStop = (taskBatchStatus: number) => {
                     <span class="priority-title">{{ $t('node.priority') }}{{ item.priorityLevel }}</span>
                     <icon-ant-design:close-outlined v-if="!disabled" class="close" @click.stop="delTerm(i)" />
                   </div>
-                  <div class="content min-h-81px">
+                  <div class="content min-h-72px">
                     <div v-if="!item.jobTask?.jobId" class="placeholder">{{ $t('snail.form.taskTip') }}</div>
                     <template v-if="item.jobTask?.jobId">
                       <div>
-                        <span class="content_label">{{ $t('snail.taskName') }}:</span>
-                        <NEllipsis class="w-126px">{{ `${item.jobTask?.jobName}(${item.jobTask?.jobId})` }}</NEllipsis>
+                        <span class="content_label">{{ $t('snail.taskName') }}:&nbsp;</span>
+                        <NEllipsis class="max-w-123px">
+                          {{ `${item.jobTask?.jobName}(${item.jobTask?.jobId})` }}
+                        </NEllipsis>
                       </div>
                       <div>
-                        <span class="content_label">{{ $t('snail.failStrategy') }} :</span>
-                        {{ failStrategyRecord[item.failStrategy!] }}
+                        <span class="content_label">{{ $t('snail.failStrategy') }}:&nbsp;</span>
+                        {{ $t(failStrategyRecord[item.failStrategy!]) }}
                       </div>
                       <div>.........</div>
                     </template>
@@ -266,16 +269,15 @@ const isStop = (taskBatchStatus: number) => {
       </div>
     </div>
     <AddNode v-if="nodeConfig.conditionNodes!.length > 1" v-model="nodeConfig.childNode!" :disabled="disabled" />
-    <!--
- <TaskDrawer
-      v-if="store.type === 0 && drawer"
+
+    <TaskDrawer
+      v-if="store.type === 0"
       v-model:open="drawer"
       v-model="form"
       v-model:len="nodeConfig.conditionNodes!.length"
       @save="save"
     />
-    <DetailCard v-if="store.type !== 0 && cardDrawer" :id="detailId" v-model:open="cardDrawer" :ids="detailIds" />
--->
+    <!-- <DetailCard v-if="store.type !== 0 && cardDrawer" :id="detailId" v-model:open="cardDrawer" :ids="detailIds" /> -->
   </div>
 </template>
 

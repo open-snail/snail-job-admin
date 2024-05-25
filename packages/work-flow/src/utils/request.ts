@@ -1,7 +1,7 @@
 import { BACKEND_ERROR_CODE, createFlatRequest } from '@sa/axios';
 import { localStg } from './storage';
 
-const baseURL = '/proxy-default';
+const baseURL = '/snail-job';
 
 export const request = createFlatRequest<Service.Response>(
   {

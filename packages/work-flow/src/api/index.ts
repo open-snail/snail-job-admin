@@ -39,6 +39,14 @@ export function fetchAddWorkflow(data: Flow.NodeDataType) {
   });
 }
 
+export function fetchUpdateWorkflow(data: Flow.NodeDataType) {
+  return request<null>({
+    url: `/workflow`,
+    method: 'put',
+    data
+  });
+}
+
 export function fetchWorkflowInfo(id: string) {
   return request<Flow.NodeDataType>({
     url: `/workflow/${id}`,

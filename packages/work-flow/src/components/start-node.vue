@@ -88,18 +88,18 @@ const show = () => {
       </div>
       <div v-if="nodeData.groupName" class="content">
         <div>
-          <span class="content_label">{{ $t('snail.groupName') }}:</span>
-          <NEllipsis class="w-135px">
+          <span class="content_label">{{ $t('snail.groupName') }}:&nbsp;</span>
+          <NEllipsis class="max-w-132px">
             {{ nodeData.groupName }}
           </NEllipsis>
         </div>
         <div>
-          <span class="content_label">{{ $t('snail.blockStrategy') }}:</span>
-          {{ blockStrategyRecord[nodeData.blockStrategy!] }}
+          <span class="content_label">{{ $t('snail.blockStrategy') }}:&nbsp;</span>
+          {{ $t(blockStrategyRecord[nodeData.blockStrategy!]) }}
         </div>
         <div>.........</div>
       </div>
-      <div v-else class="content">
+      <div v-else class="content min-h-85px">
         <span class="placeholder">{{ $t('snail.form.workflowTip') }}</span>
       </div>
       <NTooltip v-if="store.type === 2" trigger="hover">

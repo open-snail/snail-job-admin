@@ -37,6 +37,14 @@ declare namespace FlowI18n {
           decisionFailed: string;
           skip: string;
         };
+        workFlowNodeStatus: {
+          open: string;
+          close: string;
+        };
+        triggerType: {
+          time: string;
+          cron: string;
+        };
       };
     };
     node: {

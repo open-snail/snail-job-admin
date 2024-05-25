@@ -156,7 +156,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
                     <template v-if="item.callback?.webhook">
                       <div class="flex justify-between">
                         <span class="content_label">Webhook:</span>
-                        <NEllipsis class="w-116px">{{ item.callback.webhook }}</NEllipsis>
+                        <NEllipsis class="max-w-116px">{{ item.callback.webhook }}</NEllipsis>
                       </div>
                       <div>
                         <span class="content_label">{{ $t('node.callback.conditionNodes.contentType') }}:</span>

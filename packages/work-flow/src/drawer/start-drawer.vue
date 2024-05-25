@@ -7,9 +7,10 @@ import { $t } from '../locales';
 import { fetchGroupNameList } from '../api';
 import { isNotNull } from '../utils/common';
 import { useFlowStore } from '../stores';
+import EditableInput from '../common/editable-input.vue';
 
 defineOptions({
-  name: 'StartDetail'
+  name: 'StartDrawer'
 });
 
 interface Props {
@@ -49,6 +50,9 @@ watch(
   () => props.modelValue,
   val => {
     form.value = val;
+    if (val.triggerType === 2) {
+      form.value.triggerInterval = Number(val.triggerInterval);
+    }
     if (val.workflowName) {
       title = val.workflowName;
     } else if (val.groupName) {
@@ -92,7 +96,7 @@ const typeChange = (value: number) => {
   if (value === 1) {
     form.value.triggerInterval = '* * * * * ?';
   } else if (value === 2) {
-    form.value.triggerInterval = '60';
+    form.value.triggerInterval = 60;
   }
 };
 
@@ -116,10 +120,10 @@ const rules: Record<RuleKey, FormItemRule> = {
 <template>
   <NDrawer v-model:show="drawer" display-directive="if" :width="610" @after-leave="close">
     <NDrawerContent :title="title">
+      <template #header>
+        <EditableInput v-model="form.workflowName" class="max-w-570px min-w-570px" />
+      </template>
       <NForm ref="formRef" :model="form" :rules="rules" label-align="left" label-width="100px">
-        <NFormItem path="workflowName" label="工作流名称">
-          <NInput v-model:value="form.workflowName" placeholder="请输入工作流名称" />
-        </NFormItem>
         <NFormItem path="groupName" label="组名称">
           <NSelect
             v-model:value="form.groupName"
@@ -177,8 +181,8 @@ const rules: Record<RuleKey, FormItemRule> = {
               <NRadioGroup v-model:value="form.blockStrategy">
                 <NSpace>
                   <NRadio
-                    v-for="options in blockStrategyOptions"
-                    :key="options.value"
+                    v-for="(options, index) in blockStrategyOptions"
+                    :key="index"
                     :label="$t(options.label)"
                     :value="options.value"
                   />
@@ -191,8 +195,8 @@ const rules: Record<RuleKey, FormItemRule> = {
           <NRadioGroup v-model:value="form.workflowStatus">
             <NSpace>
               <NRadio
-                v-for="options in workFlowNodeStatusOptions"
-                :key="options.value"
+                v-for="(options, index) in workFlowNodeStatusOptions"
+                :key="index"
                 :label="$t(options.label)"
                 :value="options.value"
               />

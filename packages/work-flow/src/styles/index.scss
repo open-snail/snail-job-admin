@@ -595,7 +595,7 @@
   }
 
   .end-node .end-node-text {
-    color: #ccc;
+    color: #d6d6d6;
   }
 
   .auto-judge .sort-left:hover,
@@ -607,5 +607,9 @@
 .dark {
   .add-branch {
     background-color: #3e5a2d;
+  }
+
+  .content {
+    color: #d6d6d6;
   }
 }

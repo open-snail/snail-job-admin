@@ -33,6 +33,14 @@ const local: FlowI18n.Schema = {
         cancel: 'Cancel',
         decisionFailed: 'Decision Failed',
         skip: 'Skip'
+      },
+      workFlowNodeStatus: {
+        open: 'Open',
+        close: 'Close'
+      },
+      triggerType: {
+        time: 'Fixed Time',
+        cron: 'CRON Expressions'
       }
     }
   },
