@@ -88,6 +88,12 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       }
     },
     {
+      key: 'createDt',
+      title: $t('common.createDt'),
+      align: 'center',
+      minWidth: 120
+    },
+    {
       key: 'operationReason',
       title: $t('page.jobBatch.operationReason'),
       align: 'center',
@@ -113,7 +119,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmStop'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="error" text ghost size="small">
                     {$t('common.stop')}
                   </NButton>
                 )
@@ -127,7 +133,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmRetry'),
                 trigger: () => (
-                  <NButton type="warning" ghost size="small">
+                  <NButton type="error" text ghost size="small">
                     {$t('common.retry')}
                   </NButton>
                 )

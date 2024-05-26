@@ -132,7 +132,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmDelete'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="error" text ghost size="small">
                     {$t('common.delete')}
                   </NButton>
                 )

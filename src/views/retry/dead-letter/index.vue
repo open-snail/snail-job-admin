@@ -112,14 +112,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => rollback(row)}>
+          <NButton type="primary" text ghost size="small" onClick={() => rollback(row)}>
             {$t('common.rollback')}
           </NButton>
+          <n-divider vertical />
           <NPopconfirm onPositiveClick={() => handleDelete(row)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton type="error" text ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
