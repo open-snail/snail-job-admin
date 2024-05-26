@@ -2,6 +2,7 @@
 import { NButton, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
+import type { UploadFileInfo } from 'naive-ui';
 import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -179,6 +180,14 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
   }
   return desc.substring(1, desc.length);
 }
+
+async function beforeUpload(fileData: { file: UploadFileInfo; fileList: UploadFileInfo[] }) {
+  if (fileData.file.file?.type !== 'application/json') {
+    window.$message?.error('只能上传json格式的文件，请重新上传');
+    return false;
+  }
+  return true;
+}
 </script>
 
 <template>
@@ -199,7 +208,30 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
           :show-delete="false"
           @add="handleAdd"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <NUpload action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f" @before-upload="beforeUpload">
+              <NButton size="small" ghost type="primary">
+                <template #icon>
+                  <IconPajamasImport class="text-icon" />
+                </template>
+                {{ $t('common.import') }}
+              </NButton>
+            </NUpload>
+            <NButton size="small" ghost type="primary">
+              <template #icon>
+                <IconPajamasExport class="text-icon" />
+              </template>
+              {{ $t('common.export') }}
+            </NButton>
+            <NButton size="small" ghost type="primary">
+              <template #icon>
+                <IconIcRoundContentCopy class="text-icon" />
+              </template>
+              {{ $t('common.batchCopy') }}
+            </NButton>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"
