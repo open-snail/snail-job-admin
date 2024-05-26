@@ -110,17 +110,23 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" ghost size="small" text onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          <n-divider vertical />
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" text ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
+          {row.id === '1' ? (
+            <>
+              <n-divider vertical />
+              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+                {{
+                  default: () => $t('common.confirmDelete'),
+                  trigger: () => (
+                    <NButton type="error" text ghost size="small">
+                      {$t('common.delete')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+            </>
+          ) : (
+            ''
+          )}
         </div>
       )
     }
