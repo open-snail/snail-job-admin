@@ -164,7 +164,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
             <NButton text type="warning" ghost size="small" onClick={() => edit(row.id!)}>
               {$t('common.edit')}
             </NButton>
-
             {hasAuth('R_ADMIN') ? (
               <>
                 <n-divider vertical />
@@ -179,7 +178,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
                   }}
                 </NPopconfirm>
               </>
-            ) : null}
+            ) : (
+              ''
+            )}
 
             <n-divider vertical />
 

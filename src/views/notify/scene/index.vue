@@ -153,22 +153,28 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       width: 130,
+      fixed: 'right',
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+          <NButton type="primary" ghost text size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
           {hasAuth('R_ADMIN') ? (
-            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-              {{
-                default: () => $t('common.confirmDelete'),
-                trigger: () => (
-                  <NButton type="error" ghost size="small">
-                    {$t('common.delete')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <n-divider vertical />
+              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+                {{
+                  default: () => $t('common.confirmDelete'),
+                  trigger: () => (
+                    <span>
+                      <NButton type="error" text ghost size="small">
+                        {$t('common.delete')}
+                      </NButton>
+                    </span>
+                  )
+                }}
+              </NPopconfirm>
+            </>
           ) : (
             ''
           )}

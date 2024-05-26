@@ -175,29 +175,34 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
             {{
               default: () => $t('common.confirmExecute'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton type="error" text ghost size="small">
                   {$t('common.execute')}
                 </NButton>
               )
             }}
           </NPopconfirm>
-          <NButton type="primary" ghost size="small" onClick={() => goToBatch(row.id!)}>
+          <n-divider vertical />
+          <NButton type="primary" ghost text size="small" onClick={() => goToBatch(row.id!)}>
             {$t('common.batchList')}
           </NButton>
-          <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
+          <n-divider vertical />
+          <NButton type="warning" ghost text size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
           {hasAuth('R_ADMIN') ? (
-            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-              {{
-                default: () => $t('common.confirmDelete'),
-                trigger: () => (
-                  <NButton type="error" ghost size="small">
-                    {$t('common.delete')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <n-divider vertical />
+              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+                {{
+                  default: () => $t('common.confirmDelete'),
+                  trigger: () => (
+                    <NButton type="error" text ghost size="small">
+                      {$t('common.delete')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+            </>
           ) : (
             ''
           )}
