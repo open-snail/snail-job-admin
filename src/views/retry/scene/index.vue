@@ -212,7 +212,7 @@ function handleExport() {
         >
           <template #addAfter>
             <FileUpload action="/scene-config/import" accept="application/json" />
-            <NButton size="small" ghost type="primary" @click="handleExport">
+            <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0" @click="handleExport">
               <template #icon>
                 <IconPajamasExport class="text-icon" />
               </template>

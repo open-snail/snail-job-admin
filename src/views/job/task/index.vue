@@ -10,9 +10,11 @@ import { blockStrategyRecord, taskTypeRecord, triggerTypeRecord } from '@/consta
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { useRouterPush } from '@/hooks/common/router';
 import { useAuth } from '@/hooks/business/auth';
+import { downloadFetch } from '@/utils/download';
 import JobTaskOperateDrawer from './modules/job-task-operate-drawer.vue';
 import JobTaskSearch from './modules/job-task-search.vue';
 import JobTaskDetailDrawer from './modules/job-task-detail-drawer.vue';
+
 const { hasAuth } = useAuth();
 
 const appStore = useAppStore();
@@ -33,6 +35,11 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     jobStatus: null
   },
   columns: () => [
+    {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
     {
       key: 'index',
       title: $t('common.index'),
@@ -245,6 +252,10 @@ async function handleTriggerJob(id: string) {
 function goToBatch(jobId: string) {
   routerPushByKey('job_batch', { query: { jobId } });
 }
+
+function handleExport() {
+  downloadFetch('/job/export', checkedRowKeys.value, $t('page.jobTask.title'));
+}
 </script>
 
 <template>
@@ -264,7 +275,17 @@ function goToBatch(jobId: string) {
           :show-delete="false"
           @add="handleAdd"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload action="/job/import" accept="application/json" />
+            <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0" @click="handleExport">
+              <template #icon>
+                <IconPajamasExport class="text-icon" />
+              </template>
+              {{ $t('common.export') }}
+            </NButton>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"
