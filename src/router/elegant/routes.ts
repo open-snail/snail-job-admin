@@ -216,16 +216,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
-        name: 'job_batch',
-        path: '/job/batch',
-        component: 'view.job_batch',
-        meta: {
-          title: 'job_batch',
-          i18nKey: 'route.job_batch',
-          icon: 'carbon:batch-job'
-        }
-      },
-      {
         name: 'job_task',
         path: '/job/task',
         component: 'view.job_task',
@@ -233,6 +223,16 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'job_task',
           i18nKey: 'route.job_task',
           icon: 'octicon:tasklist'
+        }
+      },
+      {
+        name: 'job_batch',
+        path: '/job/batch',
+        component: 'view.job_batch',
+        meta: {
+          title: 'job_batch',
+          i18nKey: 'route.job_batch',
+          icon: 'carbon:batch-job'
         }
       }
     ]
@@ -445,6 +445,17 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'retry_scene',
+        path: '/retry/scene',
+        component: 'view.retry_scene',
+        meta: {
+          title: 'retry_scene',
+          i18nKey: 'route.retry_scene',
+          icon: 'cbi:scene-dynamic',
+          order: 1
+        }
+      },
+      {
         name: 'retry_dead-letter',
         path: '/retry/dead-letter',
         component: 'view.retry_dead-letter',
@@ -464,17 +475,6 @@ export const generatedRoutes: GeneratedRoute[] = [
           i18nKey: 'route.retry_log',
           icon: 'tabler:logs',
           order: 20
-        }
-      },
-      {
-        name: 'retry_scene',
-        path: '/retry/scene',
-        component: 'view.retry_scene',
-        meta: {
-          title: 'retry_scene',
-          i18nKey: 'route.retry_scene',
-          icon: 'cbi:scene-dynamic',
-          order: 40
         }
       },
       {
@@ -538,6 +538,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'workflow_task',
+        path: '/workflow/task',
+        component: 'view.workflow_task',
+        meta: {
+          title: 'workflow_task',
+          i18nKey: 'route.workflow_task',
+          icon: 'octicon:tasklist'
+        }
+      },
+      {
         name: 'workflow_batch',
         path: '/workflow/batch',
         component: 'view.workflow_batch',
@@ -597,16 +607,6 @@ export const generatedRoutes: GeneratedRoute[] = [
             }
           }
         ]
-      },
-      {
-        name: 'workflow_task',
-        path: '/workflow/task',
-        component: 'view.workflow_task',
-        meta: {
-          title: 'workflow_task',
-          i18nKey: 'route.workflow_task',
-          icon: 'octicon:tasklist'
-        }
       }
     ]
   }

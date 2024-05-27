@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { UploadCustomRequestOptions, UploadFileInfo } from 'naive-ui';
 import { request } from '@/service/request';
+import { $t } from '@/locales';
 
 defineOptions({
-  name: 'FlieUpload'
+  name: 'FileUpload'
 });
 
 interface Props {
@@ -15,7 +16,7 @@ defineProps<Props>();
 
 const beforeUpload = (fileData: { file: UploadFileInfo; fileList: UploadFileInfo[] }) => {
   if (fileData.file.file?.type !== 'application/json') {
-    window.$message?.error('只能上传json格式的文件，请重新上传');
+    window.$message?.error($t('common.checkUploadType'));
     return false;
   }
   return true;

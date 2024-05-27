@@ -24,6 +24,7 @@ const local: App.I18n.Schema = {
     rollbackSuccess: 'Rollback Success',
     deleteSuccess: 'Delete Success',
     confirmDelete: 'Are you sure you want to delete?',
+    checkUploadType: 'Only JSON format files can be uploaded, please re-upload',
     import: 'import',
     export: 'export',
     batchCopy: 'BatchCopy',

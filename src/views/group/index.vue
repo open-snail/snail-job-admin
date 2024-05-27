@@ -10,6 +10,7 @@ import { groupConfigIdModeRecord, yesOrNoRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { useAuth } from '@/hooks/business/auth';
+import { downloadFetch } from '@/utils/download';
 import GroupOperateDrawer from './modules/group-operate-drawer.vue';
 import GroupDetailDrawer from './modules/group-detail-drawer.vue';
 import GroupSearch from './modules/group-search.vue';
@@ -154,6 +155,10 @@ const {
 function edit(id: string) {
   handleEdit(id);
 }
+
+function handleExport() {
+  downloadFetch('/group/export', checkedRowKeys.value, $t('page.groupConfig.title'));
+}
 </script>
 
 <template>
@@ -175,7 +180,17 @@ function edit(id: string) {
           :show-add="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload action="/group/import" accept="application/json" />
+            <NButton size="small" ghost type="primary" @click="handleExport">
+              <template #icon>
+                <IconPajamasExport class="text-icon" />
+              </template>
+              {{ $t('common.export') }}
+            </NButton>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

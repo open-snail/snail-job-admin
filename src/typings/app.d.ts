@@ -274,6 +274,7 @@ declare namespace App {
         rollbackSuccess: string;
         deleteSuccess: string;
         confirmDelete: string;
+        checkUploadType: string;
         import: string;
         export: string;
         batchCopy: string;

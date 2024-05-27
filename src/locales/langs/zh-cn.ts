@@ -24,6 +24,7 @@ const local: App.I18n.Schema = {
     rollbackSuccess: '回滚成功',
     deleteSuccess: '删除成功',
     confirmDelete: '确认删除吗？',
+    checkUploadType: '只能上传json格式的文件，请重新上传',
     import: '导入',
     export: '导出',
     batchCopy: '批量复制',
