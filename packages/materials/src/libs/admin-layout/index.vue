@@ -1,11 +1,27 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, createTextVNode, defineComponent } from 'vue';
+import { useLoading } from '@sa/hooks';
 import type { AdminLayoutProps } from '../../types';
 import { LAYOUT_MAX_Z_INDEX, LAYOUT_SCROLL_EL_ID, createLayoutCssVars } from './shared';
 import style from './index.module.css';
 
 defineOptions({
   name: 'AdminLayout'
+});
+
+const loading = useLoading(false);
+
+const MainContextHolder = defineComponent({
+  name: 'MainContextHolder',
+  setup() {
+    function register() {
+      window.$loading = loading;
+    }
+
+    register();
+
+    return () => createTextVNode();
+  }
 });
 
 const props = withDefaults(defineProps<AdminLayoutProps>(), {
@@ -201,13 +217,16 @@ function handleClickMask() {
       </template>
 
       <!-- Main Content -->
-      <main
-        :id="isContentScroll ? scrollElId : undefined"
-        class="flex flex-col flex-grow"
-        :class="[commonClass, contentClass, leftGapClass, { 'overflow-y-auto': isContentScroll }]"
-      >
-        <slot></slot>
-      </main>
+      <NSpin class="h-full" content-class="h-full" :show="loading.loading.value">
+        <MainContextHolder />
+        <main
+          :id="isContentScroll ? scrollElId : undefined"
+          class="h-full flex flex-col flex-grow"
+          :class="[commonClass, contentClass, leftGapClass, { 'overflow-y-auto': isContentScroll }]"
+        >
+          <slot></slot>
+        </main>
+      </NSpin>
 
       <!-- Footer -->
       <template v-if="showFooter">

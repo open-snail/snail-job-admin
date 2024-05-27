@@ -49,6 +49,7 @@ const local: App.I18n.Schema = {
     updateSuccess: '更新成功',
     updateFailed: '更新失败',
     userCenter: '个人中心',
+    downloadFail: '文件下载失败',
     success: '成功',
     fail: '失败',
     stop: '停止',

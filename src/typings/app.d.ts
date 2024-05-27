@@ -299,6 +299,7 @@ declare namespace App {
         updateSuccess: string;
         updateFailed: string;
         userCenter: string;
+        downloadFail: string;
         success: string;
         fail: string;
         stop: string;
