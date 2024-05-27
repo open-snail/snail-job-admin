@@ -150,61 +150,73 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         <div class="flex-center gap-8px">
           {/* 非[完成,最大次数], 显示[执行]按钮 */}
           {row.retryStatus !== 1 && row.retryStatus !== 2 ? (
-            <NPopconfirm onPositiveClick={() => handleExecute(row.groupName!, row.uniqueId!)}>
-              {{
-                default: () => $t('common.confirmExecute'),
-                trigger: () => (
-                  <NButton type="info" ghost size="small">
-                    {$t('common.execute')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <NPopconfirm onPositiveClick={() => handleExecute(row.groupName!, row.uniqueId!)}>
+                {{
+                  default: () => $t('common.confirmExecute'),
+                  trigger: () => (
+                    <NButton type="info" text ghost size="small">
+                      {$t('common.execute')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+              <n-divider vertical />
+            </>
           ) : (
             ''
           )}
           {/* 非[完成,最大次数], 显示[完成]按钮 */}
           {row.retryStatus !== 1 && row.retryStatus !== 2 ? (
-            <NPopconfirm onPositiveClick={() => handleFinish(Number(row.id!), row.groupName!)}>
-              {{
-                default: () => $t('common.confirmFinish'),
-                trigger: () => (
-                  <NButton type="warning" ghost size="small">
-                    {$t('common.finish')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <NPopconfirm onPositiveClick={() => handleFinish(Number(row.id!), row.groupName!)}>
+                {{
+                  default: () => $t('common.confirmFinish'),
+                  trigger: () => (
+                    <NButton type="warning" text ghost size="small">
+                      {$t('common.finish')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+              <n-divider vertical />
+            </>
           ) : (
             ''
           )}
           {/* 重试中, 显示[停止]按钮 */}
           {row.retryStatus === 0 ? (
-            <NPopconfirm onPositiveClick={() => handlePause(Number(row.id!), row.groupName!)}>
-              {{
-                default: () => $t('common.confirmPause'),
-                trigger: () => (
-                  <NButton type="success" ghost size="small">
-                    {$t('common.pause')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <NPopconfirm onPositiveClick={() => handlePause(Number(row.id!), row.groupName!)}>
+                {{
+                  default: () => $t('common.confirmPause'),
+                  trigger: () => (
+                    <NButton type="success" text ghost size="small">
+                      {$t('common.pause')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+              <n-divider vertical />
+            </>
           ) : (
             ''
           )}
           {/* 暂停, 显示[开始]按钮 */}
           {row.retryStatus === 3 ? (
-            <NPopconfirm onPositiveClick={() => handleResume(Number(row.id!), row.groupName!)}>
-              {{
-                default: () => $t('common.confirmResume'),
-                trigger: () => (
-                  <NButton type="info" ghost size="small">
-                    {$t('common.resume')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <NPopconfirm onPositiveClick={() => handleResume(Number(row.id!), row.groupName!)}>
+                {{
+                  default: () => $t('common.confirmResume'),
+                  trigger: () => (
+                    <NButton type="info" text ghost size="small">
+                      {$t('common.resume')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+              <n-divider vertical />
+            </>
           ) : (
             ''
           )}
@@ -213,7 +225,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmDelete'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="error" text ghost size="small">
                     {$t('common.delete')}
                   </NButton>
                 )

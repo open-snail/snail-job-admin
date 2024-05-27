@@ -8,6 +8,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { DelayLevel, backOffRecord, routeKeyRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
+import { downloadFetch } from '@/utils/download';
 import SceneOperateDrawer from './modules/scene-operate-drawer.vue';
 import SceneSearch from './modules/scene-search.vue';
 import SceneDetailDrawer from './modules/scene-detail-drawer.vue';
@@ -31,6 +32,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     sceneStatus: null
   },
   columns: () => [
+    {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
     {
       key: 'sceneName',
       title: $t('page.retryScene.sceneName'),
@@ -147,10 +153,10 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       fixed: 'right',
-      width: 130,
+      width: 120,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+          <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
         </div>
@@ -179,6 +185,10 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
   }
   return desc.substring(1, desc.length);
 }
+
+function handleExport() {
+  downloadFetch('/scene-config/export', checkedRowKeys.value, $t('page.retryScene.title'));
+}
 </script>
 
 <template>
@@ -199,7 +209,17 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
           :show-delete="false"
           @add="handleAdd"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload action="/scene-config/import" accept="application/json" />
+            <NButton size="small" ghost type="primary" @click="handleExport">
+              <template #icon>
+                <IconPajamasExport class="text-icon" />
+              </template>
+              {{ $t('common.export') }}
+            </NButton>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

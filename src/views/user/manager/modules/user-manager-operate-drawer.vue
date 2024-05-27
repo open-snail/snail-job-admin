@@ -208,7 +208,13 @@ function updatePermissions(p: OptionValue[]) {
       <NFormItem :label="$t('page.userManager.role')" path="role">
         <NRadioGroup v-model:value="model.role" name="role">
           <NSpace>
-            <NRadio v-for="item in roleRecordOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
+            <NRadio
+              v-for="item in roleRecordOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.label)"
+              :disabled="operateType === 'edit' && model.id == '1'"
+            />
           </NSpace>
         </NRadioGroup>
       </NFormItem>
