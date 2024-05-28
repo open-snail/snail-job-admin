@@ -275,6 +275,8 @@ declare namespace App {
         deleteSuccess: string;
         confirmDelete: string;
         checkUploadType: string;
+        second: string;
+        millisecond: string;
         import: string;
         export: string;
         batchCopy: string;

@@ -330,24 +330,30 @@ watch(
       <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
         <NGi>
           <NFormItem :label="$t('page.retryScene.executorTimeout')" path="executorTimeout">
-            <NInputNumber
-              v-model:value="model.executorTimeout"
-              :min="1"
-              :max="60"
-              :placeholder="$t('page.retryScene.form.executorTimeout')"
-              clearable
-            />
+            <NInputGroup>
+              <NInputNumber
+                v-model:value="model.executorTimeout"
+                :min="1"
+                :max="60"
+                :placeholder="$t('page.retryScene.form.executorTimeout')"
+                clearable
+              />
+              <NInputGroupLabel>{{ $t('common.second') }}</NInputGroupLabel>
+            </NInputGroup>
           </NFormItem>
         </NGi>
         <NGi>
           <NFormItem :label="$t('page.retryScene.deadlineRequest')" path="deadlineRequest">
-            <NInputNumber
-              v-model:value="model.deadlineRequest"
-              :min="100"
-              :max="60000"
-              :placeholder="$t('page.retryScene.form.deadlineRequest')"
-              clearable
-            />
+            <NInputGroup>
+              <NInputNumber
+                v-model:value="model.deadlineRequest"
+                :min="100"
+                :max="60000"
+                :placeholder="$t('page.retryScene.form.deadlineRequest')"
+                clearable
+              />
+              <NInputGroupLabel>{{ $t('common.millisecond') }}</NInputGroupLabel>
+            </NInputGroup>
           </NFormItem>
         </NGi>
       </NGrid>
