@@ -279,7 +279,8 @@ declare namespace App {
         millisecond: string;
         import: string;
         export: string;
-        batchCopy: string;
+        exportAll: string;
+        exportPar: string;
         edit: string;
         detail: string;
         index: string;

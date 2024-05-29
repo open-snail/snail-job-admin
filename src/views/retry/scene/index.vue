@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
 import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
@@ -9,9 +9,11 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { DelayLevel, backOffRecord, routeKeyRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { downloadFetch } from '@/utils/download';
+import { useAuth } from '@/hooks/business/auth';
 import SceneOperateDrawer from './modules/scene-operate-drawer.vue';
 import SceneSearch from './modules/scene-search.vue';
 import SceneDetailDrawer from './modules/scene-detail-drawer.vue';
+const { hasAuth } = useAuth();
 
 const appStore = useAppStore();
 
@@ -212,12 +214,23 @@ function handleExport() {
         >
           <template #addAfter>
             <FileUpload action="/scene-config/import" accept="application/json" />
-            <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0" @click="handleExport">
-              <template #icon>
-                <IconPajamasExport class="text-icon" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
               </template>
-              {{ $t('common.export') }}
-            </NButton>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
           </template>
         </TableHeaderOperation>
       </template>

@@ -44,7 +44,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'index',
       title: $t('common.index'),
       align: 'center',
-      width: 120
+      width: 48
     },
     {
       key: 'jobName',
@@ -278,12 +278,23 @@ function handleExport() {
         >
           <template #addAfter>
             <FileUpload action="/job/import" accept="application/json" />
-            <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0" @click="handleExport">
-              <template #icon>
-                <IconPajamasExport class="text-icon" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
               </template>
-              {{ $t('common.export') }}
-            </NButton>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
           </template>
         </TableHeaderOperation>
       </template>

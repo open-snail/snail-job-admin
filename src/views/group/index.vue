@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
 import { fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
@@ -30,6 +30,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     groupName: null
   },
   columns: () => [
+    {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
     {
       key: 'index',
       title: $t('common.index'),
@@ -182,13 +187,24 @@ function handleExport() {
           @refresh="getData"
         >
           <template #addAfter>
-            <FileUpload action="/group/import" accept="application/json" />
-            <NButton size="small" ghost type="primary" @click="handleExport">
-              <template #icon>
-                <IconPajamasExport class="text-icon" />
+            <FileUpload v-if="hasAuth('R_ADMIN')" action="/group/import" accept="application/json" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
               </template>
-              {{ $t('common.export') }}
-            </NButton>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
           </template>
         </TableHeaderOperation>
       </template>
