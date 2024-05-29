@@ -525,7 +525,7 @@ const local: App.I18n.Schema = {
       form: {
         groupName: 'Please enter group name',
         token: 'Please enter Token',
-        groupStatus: 'Group status',
+        groupStatus: 'Please select group status',
         description: 'Please enter description',
         idGeneratorMode: 'Please select ID generator mode',
         groupPartition: 'Please select Group partition',

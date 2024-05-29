@@ -161,8 +161,16 @@ function edit(id: string) {
   handleEdit(id);
 }
 
+function body(): Api.GroupConfig.ExportGroupConfig {
+  return {
+    groupName: searchParams.groupName,
+    groupStatus: searchParams.groupStatus,
+    groupIds: checkedRowKeys.value
+  };
+}
+
 function handleExport() {
-  downloadFetch('/group/export', checkedRowKeys.value, $t('page.groupConfig.title'));
+  downloadFetch('/group/export', body(), $t('page.groupConfig.title'));
 }
 </script>
 

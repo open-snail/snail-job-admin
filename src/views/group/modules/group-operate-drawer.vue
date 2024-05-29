@@ -66,15 +66,6 @@ type RuleKey = Extract<
   'groupName' | 'token' | 'groupStatus' | 'idGeneratorMode' | 'initScene' | 'groupPartition'
 >;
 
-// const rules: Record<RuleKey, App.Global.FormRule> = {
-//   groupName: defaultRequiredRule,
-//   token: defaultRequiredRule,
-//   groupStatus: defaultRequiredRule,
-//   idGeneratorMode: defaultRequiredRule,
-//   initScene: defaultRequiredRule,
-//   groupPartition: defaultRequiredRule
-// };
-
 const rules = {
   groupName: [
     defaultRequiredRule,

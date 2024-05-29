@@ -378,8 +378,14 @@ declare namespace Api {
 
     /** groupConfig search params */
     type GroupConfigSearchParams = CommonType.RecordNullable<
-      Pick<Api.GroupConfig.GroupConfig, 'groupName'> & CommonSearchParams
+      Pick<Api.GroupConfig.GroupConfig, 'groupName' | 'groupStatus'> & CommonSearchParams
     >;
+
+    /** export groupConfig */
+    type ExportGroupConfig = Common.CommonRecord<{
+      groupIds: string[];
+    }> &
+      CommonType.RecordNullable<Pick<Api.GroupConfig.GroupConfig, 'groupName' | 'groupStatus'>>;
 
     type GroupConfigRequestVO = {
       groupName: string;
