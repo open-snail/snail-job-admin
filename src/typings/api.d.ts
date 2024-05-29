@@ -844,6 +844,11 @@ declare namespace Api {
         CommonSearchParams
     >;
 
+    type ExportScene = Common.CommonRecord<{
+      sceneIds: string[];
+    }> &
+      SceneSearchParams;
+
     /** scene list */
     type SceneList = Common.PaginatingQueryRecord<Scene>;
 

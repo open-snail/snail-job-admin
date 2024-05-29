@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
 import SelectGroup from '@/components/common/select-group.vue';
-import SelectScene from '@/components/common/select-scene.vue';
+import { translateOptions } from '@/utils/common';
+import { enableStatusNumberOptions } from '@/constants/business';
 
 defineOptions({
   name: 'SceneSearch'
@@ -31,7 +32,14 @@ function search() {
       <SelectGroup v-model:value="model.groupName" />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryScene.sceneName')" path="sceneName" class="pr-24px">
-      <SelectScene v-model:value="model.sceneName" :group-name="model.groupName as string" />
+      <NInput v-model:value="model.sceneName" :placeholder="$t('page.retryScene.form.sceneName')" />
+    </NFormItemGi>
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryScene.sceneStatus')" path="sceneStatus" class="pr-24px">
+      <NSelect
+        v-model:value="model.sceneStatus"
+        :placeholder="$t('page.jobTask.form.jobStatus')"
+        :options="translateOptions(enableStatusNumberOptions)"
+      />
     </NFormItemGi>
   </SearchForm>
 </template>

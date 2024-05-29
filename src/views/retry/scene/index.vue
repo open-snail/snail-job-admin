@@ -188,8 +188,17 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
   return desc.substring(1, desc.length);
 }
 
+function body(): Api.RetryScene.ExportScene {
+  return {
+    sceneIds: checkedRowKeys.value,
+    groupName: searchParams.groupName,
+    sceneName: searchParams.sceneName,
+    sceneStatus: searchParams.sceneStatus
+  };
+}
+
 function handleExport() {
-  downloadFetch('/scene-config/export', checkedRowKeys.value, $t('page.retryScene.title'));
+  downloadFetch('/scene-config/export', body(), $t('page.retryScene.title'));
 }
 </script>
 

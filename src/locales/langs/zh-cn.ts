@@ -29,7 +29,7 @@ const local: App.I18n.Schema = {
     millisecond: '毫秒',
     import: '导入',
     export: '导出',
-    exportAll: '确认全部导出吗?',
+    exportAll: '确认导出列表中全部数据吗?',
     exportPar: '确认导出{num}条数据吗?',
     edit: '编辑',
     detail: '详情',
