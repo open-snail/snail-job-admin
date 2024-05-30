@@ -14,7 +14,6 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
-import CustomerTableHeaderOperation from './modules/customer-table-header-operation.vue';
 import RetryTaskOperateDrawer from './modules/retry-task-operate-drawer.vue';
 import RetryTaskBatchAddDrawer from './modules/retry-task-batch-add-drawer.vue';
 import RetryTaskSearch from './modules/retry-task-search.vue';
@@ -311,15 +310,23 @@ async function updateRetryTaskStatus(id: number, groupName: string, retryStatus:
       header-class="view-card-header"
     >
       <template #header-extra>
-        <CustomerTableHeaderOperation
+        <TableHeaderOperation
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           @add="handleAdd"
-          @batch-add="handleBatchAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <NButton size="small" ghost type="primary" @click="handleBatchAdd">
+              <template #icon>
+                <icon-ic-round-plus class="text-icon" />
+              </template>
+              {{ $t('common.batchAdd') }}
+            </NButton>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

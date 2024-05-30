@@ -222,7 +222,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'job_batch',
           i18nKey: 'route.job_batch',
-          icon: 'carbon:batch-job'
+          icon: 'carbon:batch-job',
+          order: 20
         }
       },
       {
@@ -232,7 +233,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'job_task',
           i18nKey: 'route.job_task',
-          icon: 'octicon:tasklist'
+          icon: 'octicon:tasklist',
+          order: 10
         }
       }
     ]
@@ -474,7 +476,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'retry_scene',
           i18nKey: 'route.retry_scene',
           icon: 'cbi:scene-dynamic',
-          order: 40
+          order: 1
         }
       },
       {
@@ -544,7 +546,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'workflow_batch',
           i18nKey: 'route.workflow_batch',
-          icon: 'carbon:batch-job'
+          icon: 'carbon:batch-job',
+          order: 10
         }
       },
       {
@@ -615,7 +618,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'workflow_task',
           i18nKey: 'route.workflow_task',
-          icon: 'octicon:tasklist'
+          icon: 'octicon:tasklist',
+          order: 1
         }
       }
     ]
