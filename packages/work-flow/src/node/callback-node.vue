@@ -3,6 +3,8 @@ import { nextTick, ref, watch } from 'vue';
 import { $t } from '../locales';
 import { useFlowStore } from '../stores';
 import { contentTypeRecord, taskBatchStatusEnum } from '../constants/business';
+import CallbackDrawer from '../drawer/callback-drawer.vue';
+import CallbackDetail from '../detail/callback-detail.vue';
 import AddNode from './add-node.vue';
 
 defineOptions({
@@ -64,10 +66,10 @@ const drawer = ref<boolean>(false);
 const detailDrawer = ref<boolean>(false);
 const form = ref<Flow.ConditionNodeType>({});
 
-// const save = (val: Flow.ConditionNodeType) => {
-//   nodeConfig.value.conditionNodes![currentIndex.value] = val;
-//   emit('update:modelValue', nodeConfig.value);
-// };
+const save = (val: Flow.ConditionNodeType) => {
+  nodeConfig.value.conditionNodes![currentIndex.value] = val;
+  emit('update:modelValue', nodeConfig.value);
+};
 
 const show = (index: number) => {
   if (store.type === 0) {
@@ -156,7 +158,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
                     <template v-if="item.callback?.webhook">
                       <div class="flex justify-between">
                         <span class="content_label">Webhook:</span>
-                        <NEllipsis class="max-w-116px">{{ item.callback.webhook }}</NEllipsis>
+                        <NEllipsis class="w-116px">{{ item.callback.webhook }}</NEllipsis>
                       </div>
                       <div>
                         <span class="content_label">{{ $t('node.callback.conditionNodes.contentType') }}:</span>
@@ -189,9 +191,9 @@ const getClass = (item: Flow.ConditionNodeType) => {
       </div>
     </div>
     <AddNode v-if="nodeConfig.conditionNodes!.length > 1" v-model="nodeConfig.childNode!" :disabled="disabled" />
-    <!--
- <CallbackDetail v-if="store.type !== 0" v-model:open="detailDrawer" v-model="nodeConfig.conditionNodes![0]" />
+    <CallbackDetail v-if="store.type !== 0" v-model:open="detailDrawer" v-model="nodeConfig.conditionNodes![0]" />
     <CallbackDrawer v-model:open="drawer" v-model="form" @save="save" />
+    <!--
     <DetailCard v-if="store.TYPE !== 0 && cardDrawer" :id="detailId" v-model:open="cardDrawer" :ids="detailIds">
       <div style="margin: 20px 0; border-left: #f5222d 5px solid; font-size: medium; font-weight: bold">
         <span style="padding-left: 18px">回调节点详情</span>

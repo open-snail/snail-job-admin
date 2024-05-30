@@ -116,7 +116,6 @@ const onZoom = (n: number) => {
 
 .workflow {
   padding: 0 !important;
-  height: calc(100% - 50px);
 
   &-affix {
     .header {
@@ -132,7 +131,7 @@ const onZoom = (n: number) => {
 
   &-body {
     overflow: auto;
-    height: 100%;
+    height: calc(100vh - 198px);
   }
 
   &-design {

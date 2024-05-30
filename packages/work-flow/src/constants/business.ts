@@ -36,6 +36,8 @@ export const contentTypeRecord: Record<Flow.ContentType, string> = {
   2: 'application/x-www-form-urlencoded'
 };
 
+export const contentTypeOptions = transformRecordToOption(contentTypeRecord);
+
 export const triggerTypeRecord: Record<Flow.TriggerType, FlowI18n.I18nKey> = {
   2: 'snail.enum.triggerType.time',
   3: 'snail.enum.triggerType.cron'
