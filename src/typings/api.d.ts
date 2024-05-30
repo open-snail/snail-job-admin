@@ -987,6 +987,11 @@ declare namespace Api {
     /** JobTask list */
     type JobList = Common.PaginatingQueryRecord<Job>;
 
+    type ExportJob = Common.CommonRecord<{
+      jobIds: string[];
+    }> &
+      JobSearchParams;
+
     /** 2、固定时间 3、CRON表达式 99、工作流 */
     type TriggerType = 2 | 3 | 99;
 

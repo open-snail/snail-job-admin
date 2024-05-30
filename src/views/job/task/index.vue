@@ -253,8 +253,17 @@ function goToBatch(jobId: string) {
   routerPushByKey('job_batch', { query: { jobId } });
 }
 
+function body(): Api.Job.ExportJob {
+  return {
+    jobIds: checkedRowKeys.value,
+    groupName: searchParams.groupName,
+    jobName: searchParams.jobName,
+    jobStatus: searchParams.jobStatus
+  };
+}
+
 function handleExport() {
-  downloadFetch('/job/export', checkedRowKeys.value, $t('page.jobTask.title'));
+  downloadFetch('/job/export', body(), $t('page.jobTask.title'));
 }
 </script>
 
