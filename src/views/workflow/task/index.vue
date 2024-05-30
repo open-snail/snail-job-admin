@@ -33,11 +33,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     workflowStatus: null
   },
   columns: () => [
-    // {
-    //   type: 'selection',
-    //   align: 'center',
-    //   width: 48
-    // },
+    {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
     {
       key: 'id',
       title: $t('common.index'),
@@ -251,8 +251,17 @@ async function execute(id: string) {
   }
 }
 
+function body(): Api.Workflow.ExportWorkflow {
+  return {
+    workflowIds: checkedRowKeys.value,
+    groupName: searchParams.groupName,
+    workflowName: searchParams.workflowName,
+    workflowStatus: searchParams.workflowStatus
+  };
+}
+
 function handleExport() {
-  downloadFetch('/workflow/export', checkedRowKeys.value, $t('page.workflow.title'));
+  downloadFetch('/workflow/export', body(), $t('page.workflow.title'));
 }
 </script>
 
@@ -277,7 +286,7 @@ function handleExport() {
           @refresh="getData"
         >
           <template #addAfter>
-            <FileUpload action="/workflow/import" accept="application/json" />
+            <FileUpload action="/workflow/import" accept="application/json" @refresh="getData" />
             <NPopconfirm @positive-click="handleExport">
               <template #trigger>
                 <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
