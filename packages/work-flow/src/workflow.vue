@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import NodeWrap from './components/node-wrap.vue';
-import StartNode from './components/start-node.vue';
+import NodeWrap from './node/node-wrap.vue';
+import StartNode from './node/start-node.vue';
 import { $t } from './locales';
 
 defineOptions({

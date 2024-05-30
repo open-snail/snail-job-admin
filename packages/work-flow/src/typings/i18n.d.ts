@@ -9,6 +9,7 @@ declare namespace FlowI18n {
       retry: string;
       ignore: string;
       stop: string;
+      refresh: string;
       failStrategy: string;
       form: {
         groupName: string;
@@ -16,6 +17,26 @@ declare namespace FlowI18n {
         executeMessage: string;
         stopMessage: string;
         taskTip: string;
+      };
+      jobBatch: {
+        groupName: string;
+        jobName: string;
+        executorInfo: string;
+        executorType: string;
+        executionAt: string;
+        taskBatchStatus: string;
+        operationReason: string;
+        createDt: string;
+        jobTask: {
+          id: string;
+          groupName: string;
+          taskStatus: string;
+          clientInfo: string;
+          argsStr: string;
+          resultMessage: string;
+          retryCount: string;
+          createDt: string;
+        };
       };
       enum: {
         failStrategy: {
@@ -44,6 +65,26 @@ declare namespace FlowI18n {
         triggerType: {
           time: string;
           cron: string;
+        };
+        jobOperationReason: {
+          none: string;
+          taskExecutionTimeout: string;
+          notClient: string;
+          closed: string;
+          discard: string;
+          overlay: string;
+          notExecutionTask: string;
+          taskExecutionError: string;
+          mannerStop: string;
+          workflowConditionNodeExecutionError: string;
+          jobTaskInterrupted: string;
+          workflowCallbackNodeExecutionError: string;
+          workflowNodeNoRequired: string;
+          workflowNodeClosedSkipExecution: string;
+          workflowDecisionFailed: string;
+        };
+        executorType: {
+          java: string;
         };
       };
     };
@@ -81,6 +122,9 @@ declare namespace FlowI18n {
         };
       };
       endNode: string;
+      log: {
+        title: string;
+      };
     };
   };
 

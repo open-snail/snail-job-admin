@@ -10,6 +10,36 @@ export function fetchJobList(groupName: string) {
   });
 }
 
+export function fetchJobLogList(params?: FlowApi.JobLog.JobLogSearchParams) {
+  return request<FlowApi.JobLog.JobLogList>({
+    url: '/job/log/list',
+    method: 'get',
+    params
+  });
+}
+
+export function fetchJobDetail(id: string) {
+  return request<Flow.JobTaskType>({
+    url: `/job/${id}`,
+    method: 'get'
+  });
+}
+
+export function fetchBatchDetail(id: string) {
+  return request<Flow.JobBatchType>({
+    url: `/job/batch/${id}`,
+    method: 'get'
+  });
+}
+
+export function fetchTaskList(params: { groupName: string; taskBatchId: string; page?: number; pageSize?: number }) {
+  return request<Flow.JobBatchPage>({
+    url: '/job/task/list',
+    method: 'get',
+    params
+  });
+}
+
 export function fetchNodeRetry(nodeId: string, taskBatchId: string) {
   return request<null>({
     url: `/workflow/node/retry/${nodeId}/${taskBatchId}`,
@@ -57,6 +87,13 @@ export function fetchWorkflowInfo(id: string) {
 export function fetchWorkflowBatchInfo(id: string) {
   return request<Flow.NodeDataType>({
     url: `/workflow/batch/${id}`,
+    method: 'get'
+  });
+}
+
+export function fetchWorkflowNodeRetry(id: string, workflowNodeId: number) {
+  return request<null>({
+    url: `/workflow/node/retry/${workflowNodeId}/${id}`,
     method: 'get'
   });
 }

@@ -113,3 +113,28 @@ export const taskBatchStatusRecord: Record<Flow.TaskBatchStatus, FlowI18n.I18nKe
 };
 
 export const taskBatchStatusOptions = transformRecordToOption(taskBatchStatusRecord);
+
+export const operationReasonRecord: Record<Flow.OperationReason, FlowI18n.I18nKey> = {
+  0: 'snail.enum.jobOperationReason.none',
+  1: 'snail.enum.jobOperationReason.taskExecutionTimeout',
+  2: 'snail.enum.jobOperationReason.notClient',
+  3: 'snail.enum.jobOperationReason.closed',
+  4: 'snail.enum.jobOperationReason.discard',
+  5: 'snail.enum.jobOperationReason.overlay',
+  6: 'snail.enum.jobOperationReason.notExecutionTask',
+  7: 'snail.enum.jobOperationReason.taskExecutionError',
+  8: 'snail.enum.jobOperationReason.mannerStop',
+  9: 'snail.enum.jobOperationReason.workflowConditionNodeExecutionError',
+  10: 'snail.enum.jobOperationReason.jobTaskInterrupted',
+  11: 'snail.enum.jobOperationReason.workflowCallbackNodeExecutionError',
+  12: 'snail.enum.jobOperationReason.workflowNodeNoRequired',
+  13: 'snail.enum.jobOperationReason.workflowNodeClosedSkipExecution',
+  14: 'snail.enum.jobOperationReason.workflowDecisionFailed'
+};
+export const operationReasonOptions = transformRecordToOption(operationReasonRecord);
+
+export const executorTypeRecord: Record<Flow.ExecutorType, FlowI18n.I18nKey> = {
+  1: 'snail.enum.executorType.java'
+};
+
+export const executorTypeRecordOptions = transformRecordToOption(executorTypeRecord);

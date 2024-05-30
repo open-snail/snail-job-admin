@@ -7,6 +7,7 @@ import { $t } from '../locales';
 import { failStrategyRecord, taskBatchStatusEnum } from '../constants/business';
 import TaskDrawer from '../drawer/task-drawer.vue';
 import TaskDetail from '../detail/task-detail.vue';
+import DetailCard from '../components/detail-card.vue';
 import AddNode from './add-node.vue';
 
 defineOptions({
@@ -271,7 +272,7 @@ const isStop = (taskBatchStatus: number) => {
       v-model:len="nodeConfig.conditionNodes!.length"
       @save="save"
     />
-    <!-- <DetailCard v-if="store.type !== 0 && cardDrawer" :id="detailId" v-model:open="cardDrawer" :ids="detailIds" /> -->
+    <DetailCard v-if="store.type !== 0" :id="detailId" v-model:show="cardDrawer" :ids="detailIds" />
   </div>
 </template>
 

@@ -7,12 +7,33 @@ const local: FlowI18n.Schema = {
     retry: '重试',
     ignore: '忽略',
     stop: '停止',
+    refresh: '刷新',
     form: {
       groupName: '请选择组',
       workflowTip: '请配置工作流',
       executeMessage: '执行重试成功',
       stopMessage: '停止任务成功',
       taskTip: '请选择任务'
+    },
+    jobBatch: {
+      groupName: '组名称',
+      jobName: '任务名称',
+      executorInfo: '执行器名称',
+      executorType: '执行器类型',
+      executionAt: '开始执行时间',
+      taskBatchStatus: '状态',
+      operationReason: '操作原因',
+      createDt: '创建时间',
+      jobTask: {
+        id: 'ID',
+        groupName: '组名称',
+        taskStatus: '状态',
+        clientInfo: '地址',
+        argsStr: '参数',
+        resultMessage: '结果',
+        retryCount: '重试次数',
+        createDt: '开始执行时间'
+      }
     },
     enum: {
       failStrategy: {
@@ -41,6 +62,26 @@ const local: FlowI18n.Schema = {
       triggerType: {
         time: '固定时间',
         cron: 'CRON 表达式'
+      },
+      jobOperationReason: {
+        none: '无',
+        taskExecutionTimeout: '任务执行超时',
+        notClient: '无客户端节点',
+        closed: '任务已关闭',
+        discard: '任务丢弃',
+        overlay: '任务被覆盖',
+        notExecutionTask: '无可执行任务项',
+        taskExecutionError: '任务执行期间发生非预期异常',
+        mannerStop: '手动停止',
+        workflowConditionNodeExecutionError: '条件节点执行异常',
+        jobTaskInterrupted: '任务中断',
+        workflowCallbackNodeExecutionError: '回调节点执行异常',
+        workflowNodeNoRequired: '无需处理',
+        workflowNodeClosedSkipExecution: '节点关闭跳过执行',
+        workflowDecisionFailed: '判定未通过'
+      },
+      executorType: {
+        java: 'Java'
       }
     }
   },
@@ -77,7 +118,10 @@ const local: FlowI18n.Schema = {
         webhookTip: '请配置回调通知'
       }
     },
-    endNode: '流程结束'
+    endNode: '流程结束',
+    log: {
+      title: '日志详情'
+    }
   }
 };
 

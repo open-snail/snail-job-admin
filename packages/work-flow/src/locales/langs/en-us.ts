@@ -7,12 +7,33 @@ const local: FlowI18n.Schema = {
     retry: 'Retry',
     ignore: 'Ignore',
     stop: 'Stop',
+    refresh: 'Refresh',
     form: {
       groupName: 'Please select group',
       workflowTip: 'Please configure workflow',
       executeMessage: 'Execute Retry Succeeded',
       stopMessage: 'Stop mission successful',
       taskTip: 'Please select task'
+    },
+    jobBatch: {
+      groupName: 'Group name',
+      jobName: 'Job name',
+      executorInfo: 'Executor Name',
+      executorType: 'Executor type',
+      executionAt: 'Start execution time',
+      taskBatchStatus: 'Task Batch Status',
+      operationReason: 'Reason for operation',
+      createDt: 'Create time',
+      jobTask: {
+        id: 'ID',
+        groupName: 'Group name',
+        taskStatus: 'Status',
+        clientInfo: 'Client address',
+        argsStr: 'Argument string',
+        resultMessage: 'Result message',
+        retryCount: 'Number of retries',
+        createDt: 'Create time'
+      }
     },
     enum: {
       failStrategy: {
@@ -41,6 +62,26 @@ const local: FlowI18n.Schema = {
       triggerType: {
         time: 'Fixed Time',
         cron: 'CRON Expressions'
+      },
+      jobOperationReason: {
+        none: 'None',
+        taskExecutionTimeout: 'Task execution timeout',
+        notClient: 'No client',
+        closed: 'Job closed',
+        discard: 'Job discard',
+        overlay: 'Job overlapped',
+        notExecutionTask: 'No execution task',
+        taskExecutionError: 'Execution error',
+        mannerStop: 'Manual stop',
+        workflowConditionNodeExecutionError: 'Condition node execution error',
+        jobTaskInterrupted: 'Job interrupted',
+        workflowCallbackNodeExecutionError: 'Callback node execution error',
+        workflowNodeNoRequired: 'No process required',
+        workflowNodeClosedSkipExecution: 'Node closed, skip execution',
+        workflowDecisionFailed: 'Workflow decision failed'
+      },
+      executorType: {
+        java: 'Java'
       }
     }
   },
@@ -79,7 +120,10 @@ const local: FlowI18n.Schema = {
         webhookTip: 'Please configure callback notifications'
       }
     },
-    endNode: 'End Node'
+    endNode: 'End Node',
+    log: {
+      title: 'Log Detail'
+    }
   }
 };
 
