@@ -3,6 +3,8 @@ import { nextTick, ref, watch } from 'vue';
 import { $t } from '../locales';
 import { useFlowStore } from '../stores';
 import { expressionRecord, logicalConditionRecord, taskBatchStatusEnum } from '../constants/business';
+import BranchDrawer from '../drawer/branch-drawer.vue';
+import BranchDetail from '../detail/branch-detail.vue';
 import AddNode from './add-node.vue';
 
 defineOptions({
@@ -111,15 +113,15 @@ const drawer = ref<boolean>(false);
 const detailDrawer = ref<boolean[]>([]);
 const form = ref<Flow.ConditionNodeType>({});
 
-// const save = (val: Flow.ConditionNodeType) => {
-//   const oldLevel = nodeConfig.value.conditionNodes![currentIndex.value].priorityLevel;
-//   const newLevel = val.priorityLevel;
-//   nodeConfig.value.conditionNodes![currentIndex.value] = val;
-//   if (oldLevel !== newLevel) {
-//     arrTransfer(currentIndex.value, newLevel! - oldLevel!);
-//   }
-//   emit('update:modelValue', nodeConfig.value);
-// };
+const save = (val: Flow.ConditionNodeType) => {
+  const oldLevel = nodeConfig.value.conditionNodes![currentIndex.value].priorityLevel;
+  const newLevel = val.priorityLevel;
+  nodeConfig.value.conditionNodes![currentIndex.value] = val;
+  if (oldLevel !== newLevel) {
+    arrTransfer(currentIndex.value, newLevel! - oldLevel!);
+  }
+  emit('update:modelValue', nodeConfig.value);
+};
 
 const show = (index: number) => {
   if (!props.disabled && index !== nodeConfig.value.conditionNodes!.length - 1) {
@@ -247,13 +249,12 @@ const getClass = (item: Flow.ConditionNodeType) => {
           <div v-if="index == 0" class="bottom-left-cover-line"></div>
           <div v-if="index == nodeConfig.conditionNodes!.length - 1" class="top-right-cover-line"></div>
           <div v-if="index == nodeConfig.conditionNodes!.length - 1" class="bottom-right-cover-line"></div>
-          <!--
- <BranchDetail
-            v-if="store.type !== 0 && detailDrawer[index]"
+          <BranchDetail
+            v-if="store.type !== 0"
             v-model:open="detailDrawer[index]"
             v-model="nodeConfig.conditionNodes![index]"
           />
--->
+
           <!--
  <DetailCard
             v-if="store.type !== 0 && cardDrawer[index]"
@@ -271,7 +272,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
       </div>
       <AddNode v-model="nodeConfig.childNode!" :disabled="disabled"></AddNode>
     </div>
-    <!-- <BranchDrawer v-model:open="drawer" v-model="form" v-model:len="nodeConfig.conditionNodes!.length" @save="save" /> -->
+    <BranchDrawer v-model:open="drawer" v-model="form" v-model:len="nodeConfig.conditionNodes!.length" @save="save" />
   </div>
 </template>
 

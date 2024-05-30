@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { type FormInst, useMessage } from 'naive-ui';
+import { type FormInst } from 'naive-ui';
 import { useFlowStore } from '../stores';
 import { $t } from '../locales';
 import { failStrategyOptions, workFlowNodeStatusOptions } from '../constants/business';
@@ -30,7 +30,6 @@ interface Emits {
 const emit = defineEmits<Emits>();
 
 const store = useFlowStore();
-const message = useMessage();
 const drawer = ref<boolean>(false);
 const form = ref<Flow.ConditionNodeType>({});
 const jobList = ref<{ id: string; jobName: string }[]>([]);
@@ -67,14 +66,14 @@ const close = () => {
 };
 
 const save = () => {
-  formRef.value?.validate(errors => {
-    if (!errors) {
-      close();
-      emit('save', form.value);
-    } else {
-      message.warning('请检查表单信息');
-    }
-  });
+  formRef.value
+    ?.validate(errors => {
+      if (!errors) {
+        close();
+        emit('save', form.value);
+      }
+    })
+    .catch(() => window.$message?.warning('请检查表单信息'));
 };
 
 const rules = {

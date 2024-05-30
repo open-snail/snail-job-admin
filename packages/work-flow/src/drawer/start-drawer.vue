@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import CronInput from '@sa/cron-input';
-import { type FormInst, type FormItemRule, useMessage } from 'naive-ui';
+import { type FormInst, type FormItemRule } from 'naive-ui';
 import { blockStrategyOptions, triggerTypeOptions, workFlowNodeStatusOptions } from '../constants/business';
 import { $t } from '../locales';
 import { fetchGroupNameList } from '../api';
@@ -30,7 +30,6 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const message = useMessage();
 const store = useFlowStore();
 
 let title: string = '';
@@ -73,14 +72,13 @@ const close = () => {
 
 const save = () => {
   formRef.value
-    ?.validate()
-    .then(() => {
-      close();
-      emit('save', form.value);
+    ?.validate(errors => {
+      if (!errors) {
+        close();
+        emit('save', form.value);
+      }
     })
-    .catch(() => {
-      message.warning('请检查表单信息');
-    });
+    .catch(() => window.$message?.warning('请检查表单信息'));
 };
 
 const getGroupNameList = async () => {
@@ -145,7 +143,14 @@ const rules: Record<RuleKey, FormItemRule> = {
               <NSelect
                 v-model:value="form.triggerType"
                 placeholder="请选择触发类型"
-                :options="triggerTypeOptions"
+                :options="
+                  triggerTypeOptions.map(option => {
+                    return {
+                      label: $t(option.label),
+                      value: option.value
+                    };
+                  })
+                "
                 @update:value="typeChange"
               />
             </NFormItem>

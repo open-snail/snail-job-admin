@@ -176,6 +176,10 @@ const isRetry = (taskBatchStatus: number) => {
 const isStop = (taskBatchStatus: number) => {
   return taskBatchStatus === 1 || taskBatchStatus === 2;
 };
+
+const isShow = (taskBatchStatus: number) => {
+  return isRetry(taskBatchStatus!) || isStop(taskBatchStatus!);
+};
 </script>
 
 <template>
@@ -187,7 +191,7 @@ const isStop = (taskBatchStatus: number) => {
       <div v-for="(item, i) in nodeConfig.conditionNodes" :key="i" class="col-box">
         <div class="condition-node">
           <div class="condition-node-box">
-            <NPopover :disabled="store.type !== 2">
+            <NPopover :disabled="store.type !== 2 || !isShow(item.taskBatchStatus!)">
               <div class="popover">
                 <NButton v-if="isRetry(item.taskBatchStatus!)" text @click="retry(item!)">
                   <span class="popover-item">

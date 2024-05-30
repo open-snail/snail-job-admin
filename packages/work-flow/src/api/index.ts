@@ -97,3 +97,11 @@ export function fetchWorkflowNodeRetry(id: string, workflowNodeId: number) {
     method: 'get'
   });
 }
+
+export function fetchCheckNodeExpression(expression: Flow.BrachNodeType) {
+  return request<{ key: number; value: string }>({
+    url: '/workflow/check-node-expression',
+    method: 'post',
+    data: expression
+  });
+}

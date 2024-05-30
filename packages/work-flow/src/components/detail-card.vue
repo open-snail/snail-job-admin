@@ -6,6 +6,7 @@ import { useFlowStore } from '../stores';
 import { fetchBatchDetail, fetchJobDetail, fetchTaskList, fetchWorkflowNodeRetry } from '../api';
 import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '../constants/business';
 import { $t } from '../locales';
+import { isNotNull } from '../utils/common';
 import LogDrawer from './log-drawer.vue';
 
 defineOptions({
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  id: undefined,
   show: false,
   ids: () => []
 });
@@ -267,8 +269,8 @@ const onUpdatePage = (page: number) => {
             <NDescriptionsItem :label="$t('snail.jobBatch.jobName')">{{ jobData?.jobName }}</NDescriptionsItem>
 
             <NDescriptionsItem :label="$t('snail.jobBatch.taskBatchStatus')">
-              <NTag v-if="jobData.taskBatchStatus" :type="tagColor(jobData?.taskBatchStatus!)">
-                {{ $t(taskBatchStatusRecord[jobData?.taskBatchStatus]) }}
+              <NTag v-if="isNotNull(jobData.taskBatchStatus)" :type="tagColor(jobData.taskBatchStatus!)">
+                {{ $t(taskBatchStatusRecord[jobData.taskBatchStatus!]) }}
               </NTag>
             </NDescriptionsItem>
 
@@ -277,14 +279,14 @@ const onUpdatePage = (page: number) => {
             </NDescriptionsItem>
 
             <NDescriptionsItem :label="$t('snail.jobBatch.operationReason')">
-              <NTag v-if="jobData.operationReason" :type="tagColor(jobData?.operationReason!)">
-                {{ $t(operationReasonRecord[jobData.operationReason]) }}
+              <NTag v-if="isNotNull(jobData.operationReason)" :type="tagColor(jobData.operationReason!)">
+                {{ $t(operationReasonRecord[jobData.operationReason!]) }}
               </NTag>
             </NDescriptionsItem>
 
             <NDescriptionsItem v-if="!slots.default" :label="$t('snail.jobBatch.executorType')">
-              <NTag v-if="jobData.executorType" :type="tagColor(jobData?.executorType!)">
-                {{ $t(executorTypeRecord[jobData?.executorType!]) }}
+              <NTag v-if="isNotNull(jobData.executorType)" :type="tagColor(jobData.executorType!)">
+                {{ $t(executorTypeRecord[jobData.executorType!]) }}
               </NTag>
             </NDescriptionsItem>
 
