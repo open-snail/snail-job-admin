@@ -649,8 +649,7 @@ declare namespace Api {
 
     /** notifyRecipient search params */
     type NotifyRecipientParams = CommonType.RecordNullable<
-      Pick<Api.NotifyRecipient.NotifyRecipient, 'recipientName' | 'notifyType' | 'notifyAttribute' | 'description'> &
-        CommonSearchParams
+      Pick<Api.NotifyRecipient.NotifyRecipient, 'recipientName' | 'notifyType'> & CommonSearchParams
     >;
 
     /** notifyRecipient list */
@@ -658,6 +657,11 @@ declare namespace Api {
 
     /** 1: 钉钉通知 2: 邮件通知 3: 企业通知 4: 飞书 5: Webhook */
     type AlarmType = 1 | 2 | 3 | 4 | 5;
+
+    type ExportNotifyRecipient = Common.CommonRecord<{
+      notifyRecipientIds: string[];
+    }> &
+      NotifyRecipientParams;
 
     /* 1: application/json 2：application/x-www-form-urlencoded */
     type AlarmTypeWebhook = 1 | 2;
