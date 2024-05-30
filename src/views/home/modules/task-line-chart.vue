@@ -193,7 +193,7 @@ const getData = () => {
       opts.tabIndex === 'RETRY' ? x.successNum : x.success
     );
     opts.series[1].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
-      opts.tabIndex === 'RETRY' ? x.runningNum : x.failNum
+      opts.tabIndex === 'RETRY' ? x.runningNum : x.fail
     );
     opts.series[2].data = props.modelValue?.dashboardLineResponseDOList.map(x =>
       opts.tabIndex === 'RETRY' ? x.maxCountNum : x.stop
