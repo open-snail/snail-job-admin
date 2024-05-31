@@ -603,6 +603,21 @@
   .auto-judge .sort-right:hover {
     background: var(--el-bg-color);
   }
+
+  .node-wrap-box {
+    box-shadow: 0 2px 5px rgb(255 255 255 / 0.1);
+  }
+
+  .node-error,
+  .start-node-disabled {
+    // cursor: default;
+    border: 1px solid #ffffff36 !important;
+    box-shadow: 0 2px 5px #ffffff36 !important;
+  }
+
+  .auto-judge {
+    box-shadow: 0 2px 5px 0 rgba(255, 255, 255, 0.1);
+  }
 }
 
 .dark {

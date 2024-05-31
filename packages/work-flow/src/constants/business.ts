@@ -109,7 +109,7 @@ export const taskBatchStatusEnum: Record<Flow.TaskBatchStatus, Flow.TaskBatchSta
   99: {
     title: $t('snail.enum.taskBatchStatus.skip'),
     name: 'skip',
-    color: '#00000036',
+    color: '#ffffffa8',
     icon: 'ant-design:close-circle-outlined'
   }
 };

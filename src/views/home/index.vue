@@ -17,7 +17,7 @@ getCardData();
 </script>
 
 <template>
-  <NSpace vertical :size="16">
+  <NSpace vertical :size="16" class="home-main">
     <CardData v-model="cardCount!" />
     <NCard :bordered="false" class="card-wrapper p-t-136px 2xl:p-t-0 lg:p-t-36px md:p-t-90px">
       <TaskTab v-model="cardCount!" />
@@ -25,4 +25,8 @@ getCardData();
   </NSpace>
 </template>
 
-<style scoped></style>
+<style scoped>
+.home-main {
+  max-height: calc(100vh - 148px);
+}
+</style>
