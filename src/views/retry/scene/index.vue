@@ -222,7 +222,7 @@ function handleExport() {
           @refresh="getData"
         >
           <template #addAfter>
-            <FileUpload action="/scene-config/import" accept="application/json" />
+            <FileUpload action="/scene-config/import" accept="application/json" @refresh="getData" />
             <NPopconfirm @positive-click="handleExport">
               <template #trigger>
                 <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">

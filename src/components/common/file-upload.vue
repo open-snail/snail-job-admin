@@ -7,6 +7,12 @@ defineOptions({
   name: 'FileUpload'
 });
 
+const emit = defineEmits<Emits>();
+
+interface Emits {
+  (e: 'refresh'): void;
+}
+
 interface Props {
   accept?: string;
   action?: string;
@@ -51,6 +57,7 @@ const handleImport = ({
   })
     .then(() => {
       onFinish();
+      emit('refresh');
     })
     .catch(() => onError());
 };

@@ -9,6 +9,7 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 import { alarmTypeRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 import { useAuth } from '@/hooks/business/auth';
+import { downloadFetch } from '@/utils/download';
 import NotifyRecipientOperateDrawer from './modules/notify-recipient-operate-drawer.vue';
 import NotifyRecipientSearch from './modules/notify-recipient-search.vue';
 import NotifyRecipientDetailDrawer from './modules/notify-recipient-detail-drawer.vue';
@@ -28,7 +29,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    recipientName: '',
+    recipientName: null,
     notifyType: null
   },
   columns: () => [
@@ -137,6 +138,18 @@ async function handleDelete(id: string) {
 function edit(id: string) {
   handleEdit(id);
 }
+
+function body(): Api.NotifyRecipient.ExportNotifyRecipient {
+  return {
+    notifyRecipientIds: checkedRowKeys.value,
+    notifyType: searchParams.notifyType,
+    recipientName: searchParams.recipientName
+  };
+}
+
+function handleExport() {
+  downloadFetch('/notify-recipient/export', body(), $t('page.notifyRecipient.title'));
+}
 </script>
 
 <template>
@@ -157,7 +170,28 @@ function edit(id: string) {
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload action="/job/import" accept="application/json" @refresh="getData" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
+              </template>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

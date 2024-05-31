@@ -253,8 +253,17 @@ function goToBatch(jobId: string) {
   routerPushByKey('job_batch', { query: { jobId } });
 }
 
+function body(): Api.Job.ExportJob {
+  return {
+    jobIds: checkedRowKeys.value,
+    groupName: searchParams.groupName,
+    jobName: searchParams.jobName,
+    jobStatus: searchParams.jobStatus
+  };
+}
+
 function handleExport() {
-  downloadFetch('/job/export', checkedRowKeys.value, $t('page.jobTask.title'));
+  downloadFetch('/job/export', body(), $t('page.jobTask.title'));
 }
 </script>
 
@@ -277,7 +286,7 @@ function handleExport() {
           @refresh="getData"
         >
           <template #addAfter>
-            <FileUpload action="/job/import" accept="application/json" />
+            <FileUpload action="/job/import" accept="application/json" @refresh="getData" />
             <NPopconfirm @positive-click="handleExport">
               <template #trigger>
                 <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">

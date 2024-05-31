@@ -36,3 +36,4 @@ yarn.lock
 
 src/typings/elegant-router.d.ts
 src/typings/components.d.ts
+src/router/elegant/transform.ts
