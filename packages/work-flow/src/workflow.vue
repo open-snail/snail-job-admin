@@ -71,20 +71,22 @@ const onZoom = (n: number) => {
       <NAffix :trigger-top="0">
         <div class="header">
           <div>
-            <NTooltip title="缩小">
+            <NTooltip>
               <template #trigger>
                 <NButton type="info" strong @click="onZoom(-1)">
                   <icon-ant-design:minus-outlined />
                 </NButton>
               </template>
+              缩小
             </NTooltip>
             <span class="ml-8px mr-8px text-#333639 dark:text-#d6d6d6">{{ zoom }}%</span>
-            <NTooltip title="放大">
+            <NTooltip>
               <template #trigger>
                 <NButton type="info" strong @click="onZoom(1)">
                   <icon-ant-design:plus-outlined />
                 </NButton>
               </template>
+              放大
             </NTooltip>
           </div>
           <div v-if="!disabled" class="buttons">

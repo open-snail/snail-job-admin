@@ -348,19 +348,19 @@
   .top-left-cover-line,
   .top-right-cover-line {
     position: absolute;
-    height: 3px;
+    height: 5px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    top: -2px;
+    top: -3px;
   }
 
   .bottom-left-cover-line,
   .bottom-right-cover-line {
     position: absolute;
-    height: 3px;
+    height: 5px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    bottom: -2px;
+    bottom: -3px;
   }
 
   .top-left-cover-line {

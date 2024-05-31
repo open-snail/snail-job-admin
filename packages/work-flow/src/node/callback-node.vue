@@ -125,7 +125,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
       <div v-for="(item, index) in nodeConfig.conditionNodes" :key="index" class="col-box">
         <div class="condition-node min-h-230px">
           <div class="condition-node-box pt-0px">
-            <NPopover :disabled="store.type !== 2">
+            <NPopover :disabled="store.type !== 2 || true">
               <div class="popover">
                 <NButton text>
                   <span class="popover-item">
