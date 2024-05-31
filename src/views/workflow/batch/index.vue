@@ -102,15 +102,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => detail(row.id!)}>
+          <NButton type="primary" ghost text size="small" onClick={() => detail(row.id!)}>
             {$t('common.detail')}
           </NButton>
           {row?.taskBatchStatus === 1 || row?.taskBatchStatus === 2 ? (
-            <NPopconfirm onPositiveClick={() => handleStop(row.id!)} v-if="">
+            <NPopconfirm onPositiveClick={() => handleStop(row.id!)}>
               {{
                 default: () => $t('common.confirmStop'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="error" text ghost size="small">
                     {$t('common.stop')}
                   </NButton>
                 )
@@ -132,9 +132,7 @@ const {
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
+  // requestd
   onBatchDeleted();
 }
 

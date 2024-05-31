@@ -1,0 +1,227 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import CronInput from '@sa/cron-input';
+import { type FormInst, type FormItemRule } from 'naive-ui';
+import { blockStrategyOptions, triggerTypeOptions, workFlowNodeStatusOptions } from '../constants/business';
+import { $t } from '../locales';
+import { fetchGroupNameList } from '../api';
+import { isNotNull } from '../utils/common';
+import { useFlowStore } from '../stores';
+import EditableInput from '../common/editable-input.vue';
+
+defineOptions({
+  name: 'StartDrawer'
+});
+
+interface Props {
+  modelValue?: Flow.NodeDataType;
+  open?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  open: false,
+  modelValue: () => ({})
+});
+
+interface Emits {
+  (e: 'update:open', open: boolean): void;
+  (e: 'save', form: Flow.NodeDataType): void;
+}
+
+const emit = defineEmits<Emits>();
+
+const store = useFlowStore();
+
+let title: string = '';
+const drawer = ref<boolean>(false);
+const form = ref<Flow.NodeDataType>({});
+const groupNameList = ref<string[]>([]);
+
+watch(
+  () => props.open,
+  val => {
+    drawer.value = val;
+  },
+  { immediate: true }
+);
+
+watch(
+  () => props.modelValue,
+  val => {
+    form.value = val;
+    if (val.triggerType === 2) {
+      form.value.triggerInterval = Number(val.triggerInterval);
+    }
+    if (val.workflowName) {
+      title = val.workflowName;
+    } else if (val.groupName) {
+      title = val.groupName;
+    } else {
+      title = '请选择组';
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+const formRef = ref<FormInst>();
+
+const close = () => {
+  emit('update:open', false);
+  drawer.value = false;
+};
+
+const save = () => {
+  formRef.value
+    ?.validate(errors => {
+      if (!errors) {
+        close();
+        emit('save', form.value);
+      }
+    })
+    .catch(() => window.$message?.warning('请检查表单信息'));
+};
+
+const getGroupNameList = async () => {
+  const { data, error } = await fetchGroupNameList();
+  if (!error) {
+    groupNameList.value = data;
+  }
+};
+
+getGroupNameList();
+
+const typeChange = (value: number) => {
+  if (value === 1) {
+    form.value.triggerInterval = '* * * * * ?';
+  } else if (value === 2) {
+    form.value.triggerInterval = 60;
+  }
+};
+
+type Model = Pick<
+  Flow.NodeDataType,
+  'groupName' | 'triggerType' | 'triggerInterval' | 'executorTimeout' | 'blockStrategy' | 'workflowStatus'
+>;
+
+type RuleKey = keyof Model;
+
+const rules: Record<RuleKey, FormItemRule> = {
+  groupName: { required: true, message: '请选择组' },
+  triggerType: { required: true, message: '请选择触发类型' },
+  triggerInterval: { required: true, message: '请输入触发间隔' },
+  executorTimeout: { required: true, message: '请输入执行超时时间' },
+  blockStrategy: { required: true, message: '请选择阻塞策略' },
+  workflowStatus: { required: true, message: '请选择工作流状态' }
+};
+</script>
+
+<template>
+  <NDrawer v-model:show="drawer" display-directive="if" :width="610" @after-leave="close">
+    <NDrawerContent :title="title">
+      <template #header>
+        <EditableInput v-model="form.workflowName" class="max-w-570px min-w-570px" />
+      </template>
+      <NForm ref="formRef" :model="form" :rules="rules" label-align="left" label-width="100px">
+        <NFormItem path="groupName" label="组名称">
+          <NSelect
+            v-model:value="form.groupName"
+            placeholder="请选择组"
+            :disabled="store.type === 0 && isNotNull(store.id)"
+            :options="
+              groupNameList.map(groupName => {
+                return {
+                  label: groupName,
+                  value: groupName
+                };
+              })
+            "
+          />
+        </NFormItem>
+        <NGrid :cols="24" x-gap="20">
+          <NGi :span="8">
+            <NFormItem path="triggerType" label="触发类型">
+              <NSelect
+                v-model:value="form.triggerType"
+                placeholder="请选择触发类型"
+                :options="
+                  triggerTypeOptions.map(option => {
+                    return {
+                      label: $t(option.label),
+                      value: option.value
+                    };
+                  })
+                "
+                @update:value="typeChange"
+              />
+            </NFormItem>
+          </NGi>
+          <NGi :span="16">
+            <NFormItem path="triggerInterval" label="触发间隔">
+              <CronInput
+                v-if="form.triggerType === 3"
+                v-model:value="form.triggerInterval"
+                placeholder="请输入Cron表达式"
+              />
+              <NInputNumber
+                v-else
+                v-model:value="form.triggerInterval as number"
+                class="w-full"
+                placeholder="请输入触发间隔"
+              >
+                <template #suffix>秒</template>
+              </NInputNumber>
+            </NFormItem>
+          </NGi>
+        </NGrid>
+        <NGrid :cols="24" x-gap="20">
+          <NGi :span="8">
+            <NFormItem path="executorTimeout" label="执行超时时间">
+              <NInputNumber v-model:value="form.executorTimeout" placeholder="请输入超时时间">
+                <template #suffix>秒</template>
+              </NInputNumber>
+            </NFormItem>
+          </NGi>
+          <NGi :span="16">
+            <NFormItem path="blockStrategy" label="阻塞策略">
+              <NRadioGroup v-model:value="form.blockStrategy">
+                <NSpace>
+                  <NRadio
+                    v-for="(options, index) in blockStrategyOptions"
+                    :key="index"
+                    :label="$t(options.label)"
+                    :value="options.value"
+                  />
+                </NSpace>
+              </NRadioGroup>
+            </NFormItem>
+          </NGi>
+        </NGrid>
+        <NFormItem path="workflowStatus" label="节点状态">
+          <NRadioGroup v-model:value="form.workflowStatus">
+            <NSpace>
+              <NRadio
+                v-for="(options, index) in workFlowNodeStatusOptions"
+                :key="index"
+                :label="$t(options.label)"
+                :value="options.value"
+              />
+            </NSpace>
+          </NRadioGroup>
+        </NFormItem>
+        <NFormItem path="description" label="描述">
+          <NInput
+            v-model:value="form.description"
+            type="textarea"
+            :autosize="{ minRows: 5 }"
+            placeholder="请输入描述"
+          />
+        </NFormItem>
+      </NForm>
+
+      <template #footer>
+        <NButton type="primary" @click="save">保存</NButton>
+        <NButton class="ml-12px" @click="close">取消</NButton>
+      </template>
+    </NDrawerContent>
+  </NDrawer>
+</template>

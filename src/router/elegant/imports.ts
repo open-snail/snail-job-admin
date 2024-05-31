@@ -50,6 +50,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   "user-center": () => import("@/views/user-center/index.vue"),
   user_manager: () => import("@/views/user/manager/index.vue"),
   workflow_batch: () => import("@/views/workflow/batch/index.vue"),
+  workflow_form_add: () => import("@/views/workflow/form/add/index.vue"),
   workflow_form_batch: () => import("@/views/workflow/form/batch/index.vue"),
   workflow_form_copy: () => import("@/views/workflow/form/copy/index.vue"),
   workflow_form_detail: () => import("@/views/workflow/form/detail/index.vue"),

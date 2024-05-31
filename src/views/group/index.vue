@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
 import { fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
@@ -10,6 +10,7 @@ import { groupConfigIdModeRecord, yesOrNoRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { useAuth } from '@/hooks/business/auth';
+import { downloadFetch } from '@/utils/download';
 import GroupOperateDrawer from './modules/group-operate-drawer.vue';
 import GroupDetailDrawer from './modules/group-detail-drawer.vue';
 import GroupSearch from './modules/group-search.vue';
@@ -29,6 +30,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     groupName: null
   },
   columns: () => [
+    {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
     {
       key: 'index',
       title: $t('common.index'),
@@ -131,7 +137,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         }
         return (
           <div class="flex-center gap-8px">
-            <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+            <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
               {$t('common.edit')}
             </NButton>
           </div>
@@ -154,6 +160,18 @@ const {
 function edit(id: string) {
   handleEdit(id);
 }
+
+function body(): Api.GroupConfig.ExportGroupConfig {
+  return {
+    groupName: searchParams.groupName,
+    groupStatus: searchParams.groupStatus,
+    groupIds: checkedRowKeys.value
+  };
+}
+
+function handleExport() {
+  downloadFetch('/group/export', body(), $t('page.groupConfig.title'));
+}
 </script>
 
 <template>
@@ -175,7 +193,28 @@ function edit(id: string) {
           :show-add="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload v-if="hasAuth('R_ADMIN')" action="/group/import" accept="application/json" @refresh="getData" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
+              </template>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

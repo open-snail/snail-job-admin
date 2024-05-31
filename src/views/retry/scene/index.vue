@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
 import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
@@ -8,9 +8,12 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { DelayLevel, backOffRecord, routeKeyRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
+import { downloadFetch } from '@/utils/download';
+import { useAuth } from '@/hooks/business/auth';
 import SceneOperateDrawer from './modules/scene-operate-drawer.vue';
 import SceneSearch from './modules/scene-search.vue';
 import SceneDetailDrawer from './modules/scene-detail-drawer.vue';
+const { hasAuth } = useAuth();
 
 const appStore = useAppStore();
 
@@ -31,6 +34,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     sceneStatus: null
   },
   columns: () => [
+    {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
     {
       key: 'sceneName',
       title: $t('page.retryScene.sceneName'),
@@ -147,10 +155,10 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       fixed: 'right',
-      width: 130,
+      width: 120,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+          <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
         </div>
@@ -179,6 +187,19 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
   }
   return desc.substring(1, desc.length);
 }
+
+function body(): Api.RetryScene.ExportScene {
+  return {
+    sceneIds: checkedRowKeys.value,
+    groupName: searchParams.groupName,
+    sceneName: searchParams.sceneName,
+    sceneStatus: searchParams.sceneStatus
+  };
+}
+
+function handleExport() {
+  downloadFetch('/scene-config/export', body(), $t('page.retryScene.title'));
+}
 </script>
 
 <template>
@@ -199,7 +220,28 @@ function triggerInterval(backOff: number, maxRetryCount: number) {
           :show-delete="false"
           @add="handleAdd"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload action="/scene-config/import" accept="application/json" @refresh="getData" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
+              </template>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

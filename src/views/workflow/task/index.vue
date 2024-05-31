@@ -14,6 +14,7 @@ import { triggerTypeRecord } from '@/constants/business';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { tagColor } from '@/utils/common';
 import { useAuth } from '@/hooks/business/auth';
+import { downloadFetch } from '@/utils/download';
 import WorkflowSearch from './modules/workflow-search.vue';
 const { hasAuth } = useAuth();
 
@@ -32,11 +33,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     workflowStatus: null
   },
   columns: () => [
-    // {
-    //   type: 'selection',
-    //   align: 'center',
-    //   width: 48
-    // },
+    {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
     {
       key: 'id',
       title: $t('common.index'),
@@ -164,7 +165,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
             <NButton text type="warning" ghost size="small" onClick={() => edit(row.id!)}>
               {$t('common.edit')}
             </NButton>
-
             {hasAuth('R_ADMIN') ? (
               <>
                 <n-divider vertical />
@@ -179,7 +179,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
                   }}
                 </NPopconfirm>
               </>
-            ) : null}
+            ) : (
+              ''
+            )}
 
             <n-divider vertical />
 
@@ -207,8 +209,6 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
-
   onBatchDeleted();
 }
 
@@ -226,7 +226,7 @@ function edit(id: string) {
 }
 
 function handleAdd() {
-  router.push({ path: '/workflow/form/edit' });
+  router.push({ path: '/workflow/form/add' });
 }
 
 function detail(id: string) {
@@ -247,6 +247,19 @@ async function execute(id: string) {
     window.$message?.success($t('common.executeSuccess'));
     getData();
   }
+}
+
+function body(): Api.Workflow.ExportWorkflow {
+  return {
+    workflowIds: checkedRowKeys.value,
+    groupName: searchParams.groupName,
+    workflowName: searchParams.workflowName,
+    workflowStatus: searchParams.workflowStatus
+  };
+}
+
+function handleExport() {
+  downloadFetch('/workflow/export', body(), $t('page.workflow.title'));
 }
 </script>
 
@@ -269,7 +282,28 @@ async function execute(id: string) {
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload action="/workflow/import" accept="application/json" @refresh="getData" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
+              </template>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

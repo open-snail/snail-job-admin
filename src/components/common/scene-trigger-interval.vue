@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import CronInput from '@sa/cron-input';
 import { useAppStore } from '@/store/modules/app';
+import { $t } from '@/locales';
 
 defineOptions({
   name: 'SceneTriggerInterval'
@@ -62,12 +63,11 @@ watch(
 
 <template>
   <CronInput v-if="backOff === 3" v-model="cron" :lang="app.locale" />
-  <NInputNumber
-    v-else-if="backOff === 2 || backOff === 4"
-    v-model:value="interval"
-    :placeholder="$t('page.retryScene.form.triggerInterval')"
-    clearable
-  />
+
+  <NInputGroup v-else-if="backOff === 2 || backOff === 4">
+    <NInputNumber v-model:value="interval" :placeholder="$t('page.retryScene.form.triggerInterval')" clearable />
+    <NInputGroupLabel>{{ $t('common.second') }}</NInputGroupLabel>
+  </NInputGroup>
 </template>
 
 <style scoped></style>

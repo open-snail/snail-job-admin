@@ -27,7 +27,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   apiFn: fetchGetRetryDeadLetterPageList,
   apiParams: {
     page: 1,
-    size: 10
+    size: 10,
+    groupName: null,
+    sceneName: null
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
   },
@@ -112,14 +114,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => rollback(row)}>
+          <NButton type="primary" text ghost size="small" onClick={() => rollback(row)}>
             {$t('common.rollback')}
           </NButton>
+          <n-divider vertical />
           <NPopconfirm onPositiveClick={() => handleDelete(row)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton type="error" text ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -190,6 +193,7 @@ async function rollback(row: Api.RetryDeadLetter.DeadLetter) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-add="false"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

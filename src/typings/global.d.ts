@@ -9,6 +9,7 @@ interface Window {
   $message?: import('naive-ui').MessageProviderInst;
   /** Notification instance */
   $notification?: import('naive-ui').NotificationProviderInst;
+  $loading?: import('@sa/hooks').LoadingApiInst;
 }
 
 interface ViewTransition {

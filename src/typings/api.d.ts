@@ -212,7 +212,7 @@ declare namespace Api {
     type DashboardLineJob = {
       createDt: string;
       total: number;
-      failNum: number;
+      fail: number;
       stop: number;
       cancel: number;
       success: number;
@@ -378,8 +378,14 @@ declare namespace Api {
 
     /** groupConfig search params */
     type GroupConfigSearchParams = CommonType.RecordNullable<
-      Pick<Api.GroupConfig.GroupConfig, 'groupName'> & CommonSearchParams
+      Pick<Api.GroupConfig.GroupConfig, 'groupName' | 'groupStatus'> & CommonSearchParams
     >;
+
+    /** export groupConfig */
+    type ExportGroupConfig = Common.CommonRecord<{
+      groupIds: string[];
+    }> &
+      CommonType.RecordNullable<Pick<Api.GroupConfig.GroupConfig, 'groupName' | 'groupStatus'>>;
 
     type GroupConfigRequestVO = {
       groupName: string;
@@ -643,8 +649,7 @@ declare namespace Api {
 
     /** notifyRecipient search params */
     type NotifyRecipientParams = CommonType.RecordNullable<
-      Pick<Api.NotifyRecipient.NotifyRecipient, 'recipientName' | 'notifyType' | 'notifyAttribute' | 'description'> &
-        CommonSearchParams
+      Pick<Api.NotifyRecipient.NotifyRecipient, 'recipientName' | 'notifyType'> & CommonSearchParams
     >;
 
     /** notifyRecipient list */
@@ -652,6 +657,11 @@ declare namespace Api {
 
     /** 1: 钉钉通知 2: 邮件通知 3: 企业通知 4: 飞书 5: Webhook */
     type AlarmType = 1 | 2 | 3 | 4 | 5;
+
+    type ExportNotifyRecipient = Common.CommonRecord<{
+      notifyRecipientIds: string[];
+    }> &
+      NotifyRecipientParams;
 
     /* 1: application/json 2：application/x-www-form-urlencoded */
     type AlarmTypeWebhook = 1 | 2;
@@ -844,6 +854,11 @@ declare namespace Api {
         CommonSearchParams
     >;
 
+    type ExportScene = Common.CommonRecord<{
+      sceneIds: string[];
+    }> &
+      SceneSearchParams;
+
     /** scene list */
     type SceneList = Common.PaginatingQueryRecord<Scene>;
 
@@ -882,6 +897,11 @@ declare namespace Api {
     type WorkflowSearchParams = CommonType.RecordNullable<
       Pick<Api.Workflow.Workflow, 'workflowName' | 'groupName' | 'workflowStatus'> & CommonSearchParams
     >;
+
+    type ExportWorkflow = Common.CommonRecord<{
+      workflowIds: String[];
+    }> &
+      WorkflowSearchParams;
 
     /** workflow list */
     type WorkflowList = Common.PaginatingQueryRecord<Workflow>;
@@ -970,6 +990,11 @@ declare namespace Api {
 
     /** JobTask list */
     type JobList = Common.PaginatingQueryRecord<Job>;
+
+    type ExportJob = Common.CommonRecord<{
+      jobIds: string[];
+    }> &
+      JobSearchParams;
 
     /** 2、固定时间 3、CRON表达式 99、工作流 */
     type TriggerType = 2 | 3 | 99;

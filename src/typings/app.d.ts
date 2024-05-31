@@ -274,6 +274,13 @@ declare namespace App {
         rollbackSuccess: string;
         deleteSuccess: string;
         confirmDelete: string;
+        checkUploadType: string;
+        second: string;
+        millisecond: string;
+        import: string;
+        export: string;
+        exportAll: string;
+        exportPar: string;
         edit: string;
         detail: string;
         index: string;
@@ -296,6 +303,7 @@ declare namespace App {
         updateSuccess: string;
         updateFailed: string;
         userCenter: string;
+        downloadFail: string;
         success: string;
         fail: string;
         stop: string;

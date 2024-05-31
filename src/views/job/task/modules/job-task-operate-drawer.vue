@@ -371,6 +371,7 @@ watch(visible, () => {
                 :placeholder="$t('page.jobTask.form.executorTimeout')"
                 clearable
               />
+              <NInputGroupLabel>{{ $t('common.second') }}</NInputGroupLabel>
             </NInputGroup>
           </NFormItem>
         </NGi>
@@ -389,13 +390,16 @@ watch(visible, () => {
       <NGrid cols="2 s:1 m:2" responsive="screen" x-gap="20">
         <NGi>
           <NFormItem :label="$t('page.jobTask.retryInterval')" path="retryInterval">
-            <NInputNumber
-              v-model:value="model.retryInterval"
-              :min="1"
-              :max="99999999"
-              :placeholder="$t('page.jobTask.form.retryInterval')"
-              clearable
-            />
+            <NInputGroup>
+              <NInputNumber
+                v-model:value="model.retryInterval"
+                :min="1"
+                :max="99999999"
+                :placeholder="$t('page.jobTask.form.retryInterval')"
+                clearable
+              />
+              <NInputGroupLabel>{{ $t('common.second') }}</NInputGroupLabel>
+            </NInputGroup>
           </NFormItem>
         </NGi>
         <NGi>

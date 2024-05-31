@@ -132,7 +132,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {{
                 default: () => $t('common.confirmDelete'),
                 trigger: () => (
-                  <NButton type="error" ghost size="small">
+                  <NButton type="error" text ghost size="small">
                     {$t('common.delete')}
                   </NButton>
                 )
@@ -184,6 +184,7 @@ async function loadRetryInfo(row: Api.RetryLog.RetryLog) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-add="false"
           @delete="handleBatchDelete"
           @refresh="getData"
         />

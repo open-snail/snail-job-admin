@@ -10,9 +10,11 @@ import { blockStrategyRecord, taskTypeRecord, triggerTypeRecord } from '@/consta
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { useRouterPush } from '@/hooks/common/router';
 import { useAuth } from '@/hooks/business/auth';
+import { downloadFetch } from '@/utils/download';
 import JobTaskOperateDrawer from './modules/job-task-operate-drawer.vue';
 import JobTaskSearch from './modules/job-task-search.vue';
 import JobTaskDetailDrawer from './modules/job-task-detail-drawer.vue';
+
 const { hasAuth } = useAuth();
 
 const appStore = useAppStore();
@@ -34,10 +36,15 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
   },
   columns: () => [
     {
+      type: 'selection',
+      align: 'center',
+      width: 48
+    },
+    {
       key: 'index',
       title: $t('common.index'),
       align: 'center',
-      width: 120
+      width: 48
     },
     {
       key: 'jobName',
@@ -175,29 +182,34 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
             {{
               default: () => $t('common.confirmExecute'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton type="error" text ghost size="small">
                   {$t('common.execute')}
                 </NButton>
               )
             }}
           </NPopconfirm>
-          <NButton type="primary" ghost size="small" onClick={() => goToBatch(row.id!)}>
+          <n-divider vertical />
+          <NButton type="primary" ghost text size="small" onClick={() => goToBatch(row.id!)}>
             {$t('common.batchList')}
           </NButton>
-          <NButton type="warning" ghost size="small" onClick={() => edit(row.id!)}>
+          <n-divider vertical />
+          <NButton type="warning" ghost text size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
           {hasAuth('R_ADMIN') ? (
-            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-              {{
-                default: () => $t('common.confirmDelete'),
-                trigger: () => (
-                  <NButton type="error" ghost size="small">
-                    {$t('common.delete')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <n-divider vertical />
+              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+                {{
+                  default: () => $t('common.confirmDelete'),
+                  trigger: () => (
+                    <NButton type="error" text ghost size="small">
+                      {$t('common.delete')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+            </>
           ) : (
             ''
           )}
@@ -240,6 +252,19 @@ async function handleTriggerJob(id: string) {
 function goToBatch(jobId: string) {
   routerPushByKey('job_batch', { query: { jobId } });
 }
+
+function body(): Api.Job.ExportJob {
+  return {
+    jobIds: checkedRowKeys.value,
+    groupName: searchParams.groupName,
+    jobName: searchParams.jobName,
+    jobStatus: searchParams.jobStatus
+  };
+}
+
+function handleExport() {
+  downloadFetch('/job/export', body(), $t('page.jobTask.title'));
+}
 </script>
 
 <template>
@@ -259,7 +284,28 @@ function goToBatch(jobId: string) {
           :show-delete="false"
           @add="handleAdd"
           @refresh="getData"
-        />
+        >
+          <template #addAfter>
+            <FileUpload action="/job/import" accept="application/json" @refresh="getData" />
+            <NPopconfirm @positive-click="handleExport">
+              <template #trigger>
+                <NButton size="small" ghost type="primary" :disabled="checkedRowKeys.length === 0 && hasAuth('R_USER')">
+                  <template #icon>
+                    <IconPajamasExport class="text-icon" />
+                  </template>
+                  {{ $t('common.export') }}
+                </NButton>
+              </template>
+              <template #default>
+                {{
+                  checkedRowKeys.length === 0
+                    ? $t('common.exportAll')
+                    : $t('common.exportPar', { num: checkedRowKeys.length })
+                }}
+              </template>
+            </NPopconfirm>
+          </template>
+        </TableHeaderOperation>
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"

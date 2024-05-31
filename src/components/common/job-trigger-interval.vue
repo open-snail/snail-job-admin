@@ -64,7 +64,7 @@ watch(
   <div>
     <NInputGroup v-if="triggerType === 2">
       <NInputNumber v-model:value="interval" :placeholder="$t('page.jobTask.form.triggerInterval')" />
-      <NInputGroupLabel>秒</NInputGroupLabel>
+      <NInputGroupLabel>{{ $t('common.second') }}</NInputGroupLabel>
     </NInputGroup>
     <CronInput
       v-else-if="triggerType === 3"
