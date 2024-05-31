@@ -199,7 +199,7 @@ const isShow = (taskBatchStatus: number) => {
                     {{ $t('snail.retry') }}
                   </span>
                 </NButton>
-                <NDivider v-if="isStop(item.taskBatchStatus!)" vertical />
+                <NDivider v-if="isStop(item.taskBatchStatus!) && isRetry(item.taskBatchStatus!)" vertical />
                 <NButton v-if="isStop(item.taskBatchStatus!)" text class="popover-item" @click="stop(item!)">
                   <icon-ant-design:stop-outlined />
                   <span>{{ $t('snail.stop') }}</span>

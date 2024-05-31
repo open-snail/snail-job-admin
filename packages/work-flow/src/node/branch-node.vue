@@ -5,6 +5,8 @@ import { useFlowStore } from '../stores';
 import { expressionRecord, logicalConditionRecord, taskBatchStatusEnum } from '../constants/business';
 import BranchDrawer from '../drawer/branch-drawer.vue';
 import BranchDetail from '../detail/branch-detail.vue';
+import DetailCard from '../components/detail-card.vue';
+import BranchDesc from '../detail/branch-desc.vue';
 import AddNode from './add-node.vue';
 
 defineOptions({
@@ -139,6 +141,7 @@ const detailIds = ref<string[]>([]);
 
 const showDetail = (item: Flow.ConditionNodeType, index: number) => {
   detailIds.value = [];
+
   if (item.nodeName !== $t('node.condition.conditionNodes.otherNodeName')) {
     if (store.type === 2) {
       item.jobBatchList?.forEach(job => {
@@ -204,12 +207,10 @@ const getClass = (item: Flow.ConditionNodeType) => {
                     <NBadge processing color="#52c41a" />
                     {{ item.nodeName }}
                     <NTooltip v-if="item.nodeName === $t('node.condition.conditionNodes.otherNodeName')">
-                      <template #header>
-                        {{ $t('node.condition.conditionNodes.otherTip') }}
-                      </template>
                       <template #trigger>
-                        <icon-ant-design:info-circle-outlined class="ml-3px" />
+                        <icon-ant-design:info-circle-outlined class="ml-3px text-16px" />
                       </template>
+                      {{ $t('node.condition.conditionNodes.otherTip') }}
                     </NTooltip>
                   </span>
                   <span class="priority-title">
@@ -228,17 +229,17 @@ const getClass = (item: Flow.ConditionNodeType) => {
                 >
                   <icon-ant-design:right-outlined />
                 </div>
+
                 <NTooltip v-if="store.type === 2 && item.taskBatchStatus">
-                  <template #header>{{ taskBatchStatusEnum[item.taskBatchStatus].title }}</template>
                   <template #trigger>
-                    <SvgIcon
-                      class="error-tip"
-                      :color="taskBatchStatusEnum[item.taskBatchStatus].color"
-                      size="24px"
-                      :icon="taskBatchStatusEnum[item.taskBatchStatus].icon"
-                      @click.stop="() => {}"
-                    />
+                    <div
+                      class="error-tip text-24px"
+                      :style="{ color: taskBatchStatusEnum[item.taskBatchStatus].color }"
+                    >
+                      <SvgIcon :icon="taskBatchStatusEnum[item.taskBatchStatus].icon" />
+                    </div>
                   </template>
+                  {{ taskBatchStatusEnum[item.taskBatchStatus].title }}
                 </NTooltip>
               </div>
               <AddNode v-model="item.childNode!" :disabled="disabled"></AddNode>
@@ -249,25 +250,14 @@ const getClass = (item: Flow.ConditionNodeType) => {
           <div v-if="index == 0" class="bottom-left-cover-line"></div>
           <div v-if="index == nodeConfig.conditionNodes!.length - 1" class="top-right-cover-line"></div>
           <div v-if="index == nodeConfig.conditionNodes!.length - 1" class="bottom-right-cover-line"></div>
-          <BranchDetail
-            v-if="store.type !== 0"
-            v-model:open="detailDrawer[index]"
-            v-model="nodeConfig.conditionNodes![index]"
-          />
+          <BranchDetail v-model:open="detailDrawer[index]" v-model="nodeConfig.conditionNodes![index]" />
 
-          <!--
- <DetailCard
-            v-if="store.type !== 0 && cardDrawer[index]"
-            :id="detailId"
-            v-model:open="cardDrawer[index]"
-            :ids="detailIds"
-          >
-            <div class="mb-20px mt-20px border-l-5px border-l-#f5222d border-l-solid font-bold font-medium">
-              <span class="pl-18">决策节点详情</span>
+          <DetailCard :id="detailId" v-model:show="cardDrawer[index]" :ids="detailIds">
+            <div class="header-border">
+              <span class="pl-12px">决策节点详情</span>
             </div>
-            <BranchDesc v-model="nodeConfig.conditionNodes![index]" />
+            <BranchDesc :model-value="nodeConfig.conditionNodes![index]" />
           </DetailCard>
--->
         </div>
       </div>
       <AddNode v-model="nodeConfig.childNode!" :disabled="disabled"></AddNode>
@@ -291,6 +281,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
 
 .auto-judge {
   white-space: pre;
+  min-height: 132px !important;
 }
 
 .top-tips {
@@ -407,9 +398,22 @@ const getClass = (item: Flow.ConditionNodeType) => {
   .title .node-title {
     color: #8f959e !important;
   }
+
+  .node-title {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 
 .node-disabled:hover {
   cursor: default;
+}
+
+.header-border {
+  margin: 20px 0;
+  border-left: #1366ff 5px solid;
+  font-size: medium;
+  font-weight: bold;
 }
 </style>

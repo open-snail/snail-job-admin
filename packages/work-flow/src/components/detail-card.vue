@@ -4,7 +4,13 @@ import type { DataTableColumn } from 'naive-ui';
 import { NButton, NTag } from 'naive-ui';
 import { useFlowStore } from '../stores';
 import { fetchBatchDetail, fetchJobDetail, fetchTaskList, fetchWorkflowNodeRetry } from '../api';
-import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '../constants/business';
+import {
+  jobExecutorEnum,
+  jobOperationReasonEnum,
+  jobStatusEnum,
+  taskBatchStatusEnum,
+  taskBatchStatusRecord
+} from '../constants/business';
 import { $t } from '../locales';
 import { isNotNull } from '../utils/common';
 import LogDrawer from './log-drawer.vue';
@@ -234,20 +240,12 @@ const columns = ref<DataTableColumn<Flow.JobBatchType>[]>([
   }
 ]);
 
-function tagColor(tagIndex: number) {
-  const tagMap: Record<number, ThemeColor> = {
-    0: 'error',
-    1: 'info',
-    2: 'success',
-    3: 'warning',
-    4: 'primary'
+function getTagColor(color: string) {
+  return {
+    color: `${color}18`,
+    textColor: color,
+    borderColor: `${color}58`
   };
-
-  if (tagIndex === null || tagIndex < 0) {
-    return tagMap[1];
-  }
-
-  return tagMap[tagIndex % 5];
 }
 
 const onUpdatePage = (page: number) => {
@@ -263,40 +261,54 @@ const onUpdatePage = (page: number) => {
     <NDrawerContent title="任务批次详情" closable>
       <NTabs v-if="idList && idList.length > 0" v-model:value="currentIndex" type="segment" animated>
         <NTabPane v-for="(item, index) in idList" :key="index" :name="index + 1" :tab="item">
-          <NDescriptions label-placement="top" bordered :column="2">
-            <NDescriptionsItem :label="$t('snail.jobBatch.groupName')">{{ jobData?.groupName }}</NDescriptionsItem>
+          <NSpin :show="spinning">
+            <NDescriptions label-placement="left" bordered :column="2">
+              <NDescriptionsItem :label="$t('snail.jobBatch.groupName')">{{ jobData?.groupName }}</NDescriptionsItem>
 
-            <NDescriptionsItem :label="$t('snail.jobBatch.jobName')">{{ jobData?.jobName }}</NDescriptionsItem>
+              <NDescriptionsItem :label="$t('snail.jobBatch.jobName')">{{ jobData?.jobName }}</NDescriptionsItem>
 
-            <NDescriptionsItem :label="$t('snail.jobBatch.taskBatchStatus')">
-              <NTag v-if="isNotNull(jobData.taskBatchStatus)" :type="tagColor(jobData.taskBatchStatus!)">
-                {{ $t(taskBatchStatusRecord[jobData.taskBatchStatus!]) }}
-              </NTag>
-            </NDescriptionsItem>
+              <NDescriptionsItem :label="$t('snail.jobBatch.taskBatchStatus')">
+                <NTag
+                  v-if="isNotNull(jobData.taskBatchStatus)"
+                  :color="getTagColor(taskBatchStatusEnum[jobData.taskBatchStatus!].color )"
+                >
+                  {{ taskBatchStatusEnum[jobData.taskBatchStatus!].title }}
+                </NTag>
+                <NTag v-if="isNotNull(jobData.jobStatus)" :color="getTagColor(jobStatusEnum[jobData.jobStatus!].color)">
+                  {{ $t(jobStatusEnum[jobData.jobStatus!].name) }}
+                </NTag>
+              </NDescriptionsItem>
 
-            <NDescriptionsItem :label="$t('snail.jobBatch.executionAt')">
-              {{ jobData?.executionAt }}
-            </NDescriptionsItem>
+              <NDescriptionsItem :label="$t('snail.jobBatch.executionAt')">
+                {{ jobData?.executionAt }}
+              </NDescriptionsItem>
 
-            <NDescriptionsItem :label="$t('snail.jobBatch.operationReason')">
-              <NTag v-if="isNotNull(jobData.operationReason)" :type="tagColor(jobData.operationReason!)">
-                {{ $t(operationReasonRecord[jobData.operationReason!]) }}
-              </NTag>
-            </NDescriptionsItem>
+              <NDescriptionsItem :label="$t('snail.jobBatch.operationReason')">
+                <NTag
+                  v-if="isNotNull(jobData.operationReason)"
+                  :color="getTagColor(jobOperationReasonEnum[jobData.operationReason!].color)"
+                >
+                  {{ $t(jobOperationReasonEnum[jobData.operationReason!].name) }}
+                </NTag>
+              </NDescriptionsItem>
 
-            <NDescriptionsItem v-if="!slots.default" :label="$t('snail.jobBatch.executorType')">
-              <NTag v-if="isNotNull(jobData.executorType)" :type="tagColor(jobData.executorType!)">
-                {{ $t(executorTypeRecord[jobData.executorType!]) }}
-              </NTag>
-            </NDescriptionsItem>
+              <NDescriptionsItem v-if="!slots.default" :label="$t('snail.jobBatch.executorType')">
+                <NTag
+                  v-if="isNotNull(jobData.executorType)"
+                  :color="getTagColor(jobExecutorEnum[jobData.executorType!].color)"
+                >
+                  {{ $t(jobExecutorEnum[jobData.executorType!].name) }}
+                </NTag>
+              </NDescriptionsItem>
 
-            <NDescriptionsItem :label="$t('snail.jobBatch.executorInfo')" :span="2">
-              {{ jobData?.executorInfo }}
-            </NDescriptionsItem>
-            <NDescriptionsItem :label="$t('snail.jobBatch.createDt')" :span="2">
-              {{ jobData?.createDt }}
-            </NDescriptionsItem>
-          </NDescriptions>
+              <NDescriptionsItem :label="$t('snail.jobBatch.executorInfo')" :span="2">
+                {{ jobData?.executorInfo }}
+              </NDescriptionsItem>
+              <NDescriptionsItem :label="$t('snail.jobBatch.createDt')" :span="2">
+                {{ jobData?.createDt }}
+              </NDescriptionsItem>
+            </NDescriptions>
+          </NSpin>
           <slot></slot>
           <NCard
             :bordered="false"

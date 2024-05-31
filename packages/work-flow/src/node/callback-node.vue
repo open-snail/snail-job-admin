@@ -30,7 +30,6 @@ const emit = defineEmits<Emits>();
 const store = useFlowStore();
 
 const nodeConfig = ref<Flow.NodeModelType>({});
-const popoverVisible = ref<Record<number, boolean>>({});
 
 watch(
   () => props.modelValue,
@@ -126,20 +125,20 @@ const getClass = (item: Flow.ConditionNodeType) => {
       <div v-for="(item, index) in nodeConfig.conditionNodes" :key="index" class="col-box">
         <div class="condition-node min-h-230px">
           <div class="condition-node-box pt-0px">
-            <NPopover
-              :show="popoverVisible[index] && store.type === 2"
-              @update:show="(visible: boolean) => (popoverVisible[index] = visible)"
-            >
+            <NPopover :disabled="store.type !== 2">
               <div class="popover">
-                <NDivider vertical />
-                <NButton text class="popover-item">
-                  <icon-ant-design:redo-outlined />
-                  <span>{{ $t('snail.retry') }}</span>
+                <NButton text>
+                  <span class="popover-item">
+                    <icon-ant-design:redo-outlined class="mb-3px text-24px font-bold" />
+                    {{ $t('snail.retry') }}
+                  </span>
                 </NButton>
                 <NDivider vertical />
-                <NButton text class="popover-item">
-                  <icon-ant-design:dash-outlined />
-                  <span>{{ $t('snail.ignore') }}</span>
+                <NButton text>
+                  <span class="popover-item">
+                    <icon-ant-design:dash-outlined class="mb-3px text-24px font-bold" />
+                    <span>{{ $t('snail.ignore') }}</span>
+                  </span>
                 </NButton>
               </div>
               <template #trigger>
@@ -168,14 +167,15 @@ const getClass = (item: Flow.ConditionNodeType) => {
                     </template>
                   </div>
                   <NTooltip v-if="store.type === 2 && item.taskBatchStatus">
-                    <template #title>{{ taskBatchStatusEnum[item.taskBatchStatus].title }}</template>
-                    <SvgIcon
-                      class="error-tip"
-                      :color="taskBatchStatusEnum[item.taskBatchStatus].color"
-                      size="24px"
-                      :icon="taskBatchStatusEnum[item.taskBatchStatus].icon"
-                      @click.stop="() => {}"
-                    />
+                    <template #trigger>
+                      <div
+                        class="error-tip text-24px"
+                        :style="{ color: taskBatchStatusEnum[item.taskBatchStatus].color }"
+                      >
+                        <SvgIcon :icon="taskBatchStatusEnum[item.taskBatchStatus].icon" />
+                      </div>
+                    </template>
+                    {{ taskBatchStatusEnum[item.taskBatchStatus].title }}
                   </NTooltip>
                 </div>
               </template>
@@ -193,9 +193,10 @@ const getClass = (item: Flow.ConditionNodeType) => {
     <AddNode v-if="nodeConfig.conditionNodes!.length > 1" v-model="nodeConfig.childNode!" :disabled="disabled" />
     <CallbackDetail v-if="store.type !== 0" v-model:open="detailDrawer" v-model="nodeConfig.conditionNodes![0]" />
     <CallbackDrawer v-model:open="drawer" v-model="form" @save="save" />
+
     <!--
-    <DetailCard v-if="store.TYPE !== 0 && cardDrawer" :id="detailId" v-model:open="cardDrawer" :ids="detailIds">
-      <div style="margin: 20px 0; border-left: #f5222d 5px solid; font-size: medium; font-weight: bold">
+ <DetailCard v-if="store.TYPE !== 0 && cardDrawer" :id="detailId" v-model:show="cardDrawer" :ids="detailIds">
+      <div style="margin: 20px 0; border-left: #1366ff 5px solid; font-size: medium; font-weight: bold">
         <span style="padding-left: 18px">回调节点详情</span>
       </div>
       <ADescriptions :column="1" bordered :label-style="{ width: '120px' }">

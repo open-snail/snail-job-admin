@@ -106,7 +106,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
             {$t('common.detail')}
           </NButton>
           {row?.taskBatchStatus === 1 || row?.taskBatchStatus === 2 ? (
-            <NPopconfirm onPositiveClick={() => handleStop(row.id!)} v-if="">
+            <NPopconfirm onPositiveClick={() => handleStop(row.id!)}>
               {{
                 default: () => $t('common.confirmStop'),
                 trigger: () => (
@@ -132,9 +132,7 @@ const {
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
+  // requestd
   onBatchDeleted();
 }
 

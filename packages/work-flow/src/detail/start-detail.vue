@@ -41,7 +41,7 @@ const onClose = () => {
 <template>
   <NDrawer v-model:show="visible" placement="right" :width="500" display-directive="if" @after-leave="onClose">
     <NDrawerContent title="工作流详情">
-      <NDescriptions :column="1" bordered :label-style="{ width: '120px' }">
+      <NDescriptions :column="1" label-placement="left" bordered :label-style="{ width: '120px' }">
         <NDescriptionsItem label="工作流名称">{{ modelValue.workflowName }}</NDescriptionsItem>
         <NDescriptionsItem label="组名称">{{ modelValue.groupName }}</NDescriptionsItem>
         <NDescriptionsItem label="触发类型">{{ $t(triggerTypeRecord[modelValue.triggerType!]) }}</NDescriptionsItem>

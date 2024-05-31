@@ -52,6 +52,17 @@ export const workFlowNodeStatusRecord: Record<Flow.WorkFlowNodeStatus, FlowI18n.
 
 export const workFlowNodeStatusOptions = transformRecordToOption(workFlowNodeStatusRecord);
 
+export const jobStatusEnum: Flow.JobTagType = {
+  0: {
+    name: 'snail.enum.workFlowNodeStatus.close',
+    color: '#dc3f41'
+  },
+  1: {
+    name: 'snail.enum.workFlowNodeStatus.open',
+    color: '#1b7ee5'
+  }
+};
+
 export const taskBatchStatusEnum: Record<Flow.TaskBatchStatus, Flow.TaskBatchStatusType> = {
   1: {
     title: $t('snail.enum.taskBatchStatus.waiting'),
@@ -103,18 +114,12 @@ export const taskBatchStatusEnum: Record<Flow.TaskBatchStatus, Flow.TaskBatchSta
   }
 };
 
-export const taskBatchStatusRecord: Record<Flow.TaskBatchStatus, FlowI18n.I18nKey> = {
-  1: 'snail.enum.taskBatchStatus.waiting',
-  2: 'snail.enum.taskBatchStatus.running',
-  3: 'snail.enum.taskBatchStatus.success',
-  4: 'snail.enum.taskBatchStatus.fail',
-  5: 'snail.enum.taskBatchStatus.stop',
-  6: 'snail.enum.taskBatchStatus.cancel',
-  98: 'snail.enum.taskBatchStatus.decisionFailed',
-  99: 'snail.enum.taskBatchStatus.skip'
+export const jobExecutorEnum: Flow.JobTagType = {
+  1: {
+    name: 'snail.enum.executorType.java',
+    color: '#d06892'
+  }
 };
-
-export const taskBatchStatusOptions = transformRecordToOption(taskBatchStatusRecord);
 
 export const operationReasonRecord: Record<Flow.OperationReason, FlowI18n.I18nKey> = {
   0: 'snail.enum.jobOperationReason.none',
@@ -133,7 +138,84 @@ export const operationReasonRecord: Record<Flow.OperationReason, FlowI18n.I18nKe
   13: 'snail.enum.jobOperationReason.workflowNodeClosedSkipExecution',
   14: 'snail.enum.jobOperationReason.workflowDecisionFailed'
 };
+
 export const operationReasonOptions = transformRecordToOption(operationReasonRecord);
+
+export const jobOperationReasonEnum: Flow.JobTagType = {
+  0: {
+    name: operationReasonRecord[0],
+    color: '#f5f5f5'
+  },
+  1: {
+    name: operationReasonRecord[1],
+    color: '#64a6ea'
+  },
+  2: {
+    name: operationReasonRecord[2],
+    color: '#1b7ee5'
+  },
+  3: {
+    name: operationReasonRecord[3],
+    color: '#087da1'
+  },
+  4: {
+    name: operationReasonRecord[4],
+    color: '#3a2f81'
+  },
+  5: {
+    name: operationReasonRecord[5],
+    color: '#c2238a'
+  },
+  6: {
+    name: operationReasonRecord[6],
+    color: '#23c28a'
+  },
+  7: {
+    name: operationReasonRecord[7],
+    color: '#bdc223'
+  },
+  8: {
+    name: operationReasonRecord[8],
+    color: '#23c28a'
+  },
+  9: {
+    name: operationReasonRecord[9],
+    color: '#23c28a'
+  },
+  10: {
+    name: operationReasonRecord[10],
+    color: '#bdc223'
+  },
+  11: {
+    name: operationReasonRecord[11],
+    color: '#bdc223'
+  },
+  12: {
+    name: operationReasonRecord[12],
+    color: '#23c28a'
+  },
+  13: {
+    name: operationReasonRecord[13],
+    color: '#3a2f81'
+  },
+  14: {
+    name: operationReasonRecord[14],
+    color: '#b63f1a'
+  }
+};
+
+export const taskBatchStatusRecord: Record<Flow.TaskBatchStatus, FlowI18n.I18nKey> = {
+  1: 'snail.enum.taskBatchStatus.waiting',
+  2: 'snail.enum.taskBatchStatus.running',
+  3: 'snail.enum.taskBatchStatus.success',
+  4: 'snail.enum.taskBatchStatus.fail',
+  5: 'snail.enum.taskBatchStatus.stop',
+  6: 'snail.enum.taskBatchStatus.cancel',
+  98: 'snail.enum.taskBatchStatus.decisionFailed',
+  99: 'snail.enum.taskBatchStatus.skip'
+};
+
+export const taskBatchStatusOptions = transformRecordToOption(taskBatchStatusRecord);
 
 export const executorTypeRecord: Record<Flow.ExecutorType, FlowI18n.I18nKey> = {
   1: 'snail.enum.executorType.java'

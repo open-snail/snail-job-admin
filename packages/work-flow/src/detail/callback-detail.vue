@@ -40,7 +40,7 @@ const onClose = () => {
 <template>
   <NDrawer v-model:show="visible" placement="right" :width="500" display-directive="if" @after-leave="onClose">
     <NDrawerContent title="工作流详情">
-      <NDescriptions :column="1" bordered :label-style="{ width: '120px' }">
+      <NDescriptions :column="1" label-placement="left" bordered :label-style="{ width: '120px' }">
         <NDescriptionsItem label="节点名称">{{ modelValue.nodeName }}</NDescriptionsItem>
         <NDescriptionsItem label="webhook">{{ modelValue.callback?.webhook }}</NDescriptionsItem>
         <NDescriptionsItem label="请求类型">
