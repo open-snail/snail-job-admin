@@ -56,7 +56,7 @@ const getTaskName = (id: string) => {
           {{ $t(failStrategyRecord[modelValue.failStrategy!]) }}
         </NDescriptionsItem>
         <NDescriptionsItem label="工作流状态">
-          {{ $t(workFlowNodeStatusRecord[modelValue.workflowNodeStatus!]) }} 秒
+          {{ $t(workFlowNodeStatusRecord[modelValue.workflowNodeStatus!]) }}
         </NDescriptionsItem>
       </NDescriptions>
     </NDrawerContent>
