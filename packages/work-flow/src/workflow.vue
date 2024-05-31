@@ -73,16 +73,16 @@ const onZoom = (n: number) => {
           <div>
             <NTooltip>
               <template #trigger>
-                <NButton type="info" strong @click="onZoom(-1)">
+                <NButton type="info" size="small" strong @click="onZoom(-1)">
                   <icon-ant-design:minus-outlined />
                 </NButton>
               </template>
               缩小
             </NTooltip>
-            <span class="ml-8px mr-8px text-#333639 dark:text-#d6d6d6">{{ zoom }}%</span>
+            <span class="ml-8px mr-8px text-18px text-#333639 dark:text-#d6d6d6">{{ zoom }}%</span>
             <NTooltip>
               <template #trigger>
-                <NButton type="info" strong @click="onZoom(1)">
+                <NButton type="info" size="small" strong @click="onZoom(1)">
                   <icon-ant-design:plus-outlined />
                 </NButton>
               </template>
@@ -90,8 +90,8 @@ const onZoom = (n: number) => {
             </NTooltip>
           </div>
           <div v-if="!disabled" class="buttons">
-            <NButton type="info" siz="large" @click="save">保存</NButton>
-            <NButton siz="large" class="ml-16px" @click="cancel">取消</NButton>
+            <NButton type="info" @click="save">保存</NButton>
+            <NButton class="ml-16px" @click="cancel">取消</NButton>
           </div>
         </div>
       </NAffix>
