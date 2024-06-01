@@ -35,6 +35,7 @@ function search() {
         v-model:value="model.groupStatus"
         :placeholder="$t('page.groupConfig.form.groupStatus')"
         :options="translateOptions(groupConfigStatusOptions)"
+        clearable
       />
     </NFormItemGi>
   </SearchForm>

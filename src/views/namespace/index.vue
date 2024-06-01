@@ -14,15 +14,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   apiParams: {
     page: 1,
     size: 10,
-    keyword: undefined
+    keyword: null
   },
   columns: () => [
-    {
-      key: 'index',
-      title: $t('common.index'),
-      align: 'center',
-      width: 64
-    },
+    // {
+    //   key: 'index',
+    //   title: $t('common.index'),
+    //   align: 'center',
+    //   width: 64
+    // },
     {
       key: 'name',
       title: $t('page.namespace.name'),

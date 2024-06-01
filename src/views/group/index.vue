@@ -27,7 +27,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   apiParams: {
     page: 1,
     size: 10,
-    groupName: null
+    groupName: null,
+    groupStatus: null
   },
   columns: () => [
     {

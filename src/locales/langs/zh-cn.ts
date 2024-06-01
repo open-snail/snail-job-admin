@@ -510,7 +510,8 @@ const local: App.I18n.Schema = {
       form: {
         name: '请输入空间名称',
         keyword: '请输入空间名称/唯一标识',
-        uniqueId: '请输入唯一标识'
+        uniqueId: '请输入唯一标识',
+        uniqueIdRule: '仅支持长度为:1~64位字符.格式为:数字、字母、下划线、短横线。'
       },
       addNamespace: '新增命名空间',
       editNamespace: '编辑命名空间'

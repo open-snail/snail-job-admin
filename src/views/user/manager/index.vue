@@ -110,7 +110,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" ghost size="small" text onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          {row.id === '1' ? (
+          {(row.id as any) !== 1 ? (
             <>
               <n-divider vertical />
               <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>

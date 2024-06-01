@@ -49,10 +49,16 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'name'>;
+type RuleKey = Extract<keyof Model, App.Global.FormRule>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  name: defaultRequiredRule
+  name: defaultRequiredRule,
+  uniqueId: {
+    required: false,
+    pattern: /^[A-Za-z0-9_-]{1,64}$/,
+    trigger: 'change',
+    message: $t('page.namespace.form.uniqueIdRule')
+  }
 };
 
 function handleUpdateModelWhenEdit() {
