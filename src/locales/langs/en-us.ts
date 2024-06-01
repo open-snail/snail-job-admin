@@ -453,7 +453,7 @@ const local: App.I18n.Schema = {
           year: 'Year Round'
         },
         rank: {
-          title: 'Task volume ranking'
+          title: 'Failure ranking'
         },
         task: {
           title: 'List of scenes',

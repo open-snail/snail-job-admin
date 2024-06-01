@@ -461,7 +461,7 @@ const local: App.I18n.Schema = {
           year: '全年'
         },
         rank: {
-          title: '任务量排名'
+          title: '失败总量排名'
         },
         task: {
           title: '场景列表',
