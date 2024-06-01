@@ -32,7 +32,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'id',
       title: $t('common.index'),
       align: 'center',
-      width: 120
+      width: 120,
+      render: row => {
+        function showDetailDrawer() {
+          detail(row.id!);
+        }
+
+        return (
+          <NButton text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
+            {row.id}
+          </NButton>
+        );
+      }
     },
     {
       key: 'workflowName',
@@ -102,9 +113,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost text size="small" onClick={() => detail(row.id!)}>
-            {$t('common.detail')}
-          </NButton>
           {row?.taskBatchStatus === 1 || row?.taskBatchStatus === 2 ? (
             <NPopconfirm onPositiveClick={() => handleStop(row.id!)}>
               {{
