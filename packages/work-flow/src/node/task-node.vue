@@ -212,7 +212,7 @@ const isShow = (taskBatchStatus: number) => {
                   </div>
                   <div class="title">
                     <span class="text color-#3296fa">
-                      <!-- <NBadge processing dot :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" /> -->
+                      <NBadge processing dot :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
                       &nbsp;{{ item.nodeName }}
                     </span>
                     <span class="priority-title">{{ $t('node.priority') }}{{ item.priorityLevel }}</span>

@@ -204,7 +204,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
                 </div>
                 <div class="title">
                   <span class="node-title">
-                    <NBadge processing color="#52c41a" />
+                    <NBadge dot processing color="#52c41a" />
                     {{ item.nodeName }}
                     <NTooltip v-if="item.nodeName === $t('node.condition.conditionNodes.otherNodeName')">
                       <template #trigger>

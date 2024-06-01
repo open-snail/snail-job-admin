@@ -145,7 +145,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
                 <div class="auto-judge" :class="getClass(item)" @click="showDetail(item, index)">
                   <div class="title">
                     <span class="text text-#935af6">
-                      <NBadge processing :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
+                      <NBadge processing dot :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
                       {{ item.nodeName }}
                     </span>
                     <icon-ant-design:close-outlined v-if="!disabled" class="close" @click.stop="delTerm" />
