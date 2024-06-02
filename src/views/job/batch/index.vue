@@ -88,12 +88,6 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       }
     },
     {
-      key: 'createDt',
-      title: $t('common.createDt'),
-      align: 'center',
-      minWidth: 120
-    },
-    {
       key: 'operationReason',
       title: $t('page.jobBatch.operationReason'),
       align: 'center',
@@ -106,6 +100,12 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
 
         return <NTag type={tagColor(row.operationReason!)}>{label}</NTag>;
       }
+    },
+    {
+      key: 'createDt',
+      title: $t('common.createDt'),
+      align: 'center',
+      minWidth: 120
     },
     {
       key: 'operate',
