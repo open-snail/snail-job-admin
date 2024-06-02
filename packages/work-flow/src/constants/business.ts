@@ -98,7 +98,7 @@ export const taskBatchStatusEnum: Record<Flow.TaskBatchStatus, Flow.TaskBatchSta
     title: $t('snail.enum.taskBatchStatus.cancel'),
     name: 'cancel',
     color: '#f5732d',
-    icon: 'ant-design:close-circle-outlined'
+    icon: 'mdi:cancel'
   },
   98: {
     title: $t('snail.enum.taskBatchStatus.decisionFailed'),
