@@ -205,7 +205,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
                 <div class="title">
                   <span class="node-title">
                     <NBadge dot processing color="#52c41a" />
-                    {{ item.nodeName }}
+                    &nbsp;{{ item.nodeName }}
                     <NTooltip v-if="item.nodeName === $t('node.condition.conditionNodes.otherNodeName')">
                       <template #trigger>
                         <icon-ant-design:info-circle-outlined class="ml-3px text-16px" />
