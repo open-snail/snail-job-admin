@@ -81,9 +81,11 @@ const show = () => {
       @click="show"
     >
       <div class="title">
-        <span class="text text-#ff943e">
+        <span class="text">
           <NBadge dot :color="nodeData.workflowStatus === 1 ? '#52c41a' : '#ff000d'" />
-          &nbsp;{{ nodeData.workflowName ? nodeData.workflowName : $t('snail.form.groupName') }}
+          <span class="text-#ff943e">
+            &nbsp;{{ nodeData.workflowName ? nodeData.workflowName : $t('snail.form.groupName') }}
+          </span>
         </span>
       </div>
       <div v-if="nodeData.groupName" class="content">

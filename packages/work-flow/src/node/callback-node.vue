@@ -146,7 +146,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
                   <div class="title">
                     <span class="text text-#935af6">
                       <NBadge processing dot :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
-                      {{ item.nodeName }}
+                      &nbsp;{{ item.nodeName }}
                     </span>
                     <icon-ant-design:close-outlined v-if="!disabled" class="close" @click.stop="delTerm" />
                   </div>
