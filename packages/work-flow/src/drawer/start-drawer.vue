@@ -91,7 +91,7 @@ const getGroupNameList = async () => {
 getGroupNameList();
 
 const typeChange = (value: number) => {
-  if (value === 1) {
+  if (value === 3) {
     form.value.triggerInterval = '* * * * * ?';
   } else if (value === 2) {
     form.value.triggerInterval = 60;
@@ -159,7 +159,7 @@ const rules: Record<RuleKey, FormItemRule> = {
             <NFormItem path="triggerInterval" label="触发间隔">
               <CronInput
                 v-if="form.triggerType === 3"
-                v-model:value="form.triggerInterval"
+                v-model="form.triggerInterval as string"
                 placeholder="请输入Cron表达式"
               />
               <NInputNumber
