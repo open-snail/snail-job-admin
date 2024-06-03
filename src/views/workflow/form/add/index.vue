@@ -13,7 +13,7 @@ onMounted(() => {
 });
 
 const node = ref<Flow.NodeDataType>({
-  workflowName: `Workflow ${new Date().getTime()}`,
+  workflowName: `WF-${new Date().getTime()}`,
   workflowStatus: 1,
   blockStrategy: 1,
   description: undefined,
