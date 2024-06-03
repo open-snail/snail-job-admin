@@ -77,20 +77,18 @@ const props = withDefaults(defineProps<Props>(), {
   })
 });
 
-/** 卡片 key 类型, 与卡片的路由的 name 一致, 便于直接使用 routerPushByKey */
-type KeyType = 'job_task' | 'retry_task' | 'workflow_task' | 'pods';
-
 interface CardData {
-  key: KeyType;
+  key: string;
   title: string;
   tip: string;
   value: number;
+  click?: () => void;
   color: {
     start: string;
     end: string;
   };
   icon: string;
-  bottom: { label: string; value: number }[];
+  bottom: { label: string; value: number; click?: () => void }[];
 }
 
 // eslint-disable-next-line complexity
@@ -100,6 +98,7 @@ const cardData = computed<CardData[]>(() => [
     title: $t('page.home.jobTask'),
     tip: $t('page.home.jobTaskTip'),
     value: props.modelValue?.jobTask.totalNum ?? 0,
+    click: () => routerPushByKey('job_task'),
     color: {
       start: '#f5b386',
       end: '#FFD6BA'
@@ -108,19 +107,23 @@ const cardData = computed<CardData[]>(() => [
     bottom: [
       {
         label: $t('common.success'),
-        value: props.modelValue?.jobTask.successNum ?? 0
+        value: props.modelValue?.jobTask.successNum ?? 0,
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '3' } })
       },
       {
         label: $t('common.fail'),
-        value: props.modelValue?.jobTask.failNum ?? 0
+        value: props.modelValue?.jobTask.failNum ?? 0,
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '4' } })
       },
       {
         label: $t('common.stop'),
-        value: props.modelValue?.jobTask.stopNum ?? 0
+        value: props.modelValue?.jobTask.stopNum ?? 0,
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '5' } })
       },
       {
         label: $t('common.cancel'),
-        value: props.modelValue?.jobTask.cancelNum ?? 0
+        value: props.modelValue?.jobTask.cancelNum ?? 0,
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '6' } })
       }
     ]
   },
@@ -129,6 +132,7 @@ const cardData = computed<CardData[]>(() => [
     title: $t('page.home.retryTask'),
     tip: $t('page.home.retryTaskTip'),
     value: props.modelValue?.retryTask.totalNum ?? 0,
+    click: () => routerPushByKey('retry_task'),
     unit: '',
     color: {
       start: '#40e9c5',
@@ -159,6 +163,7 @@ const cardData = computed<CardData[]>(() => [
     title: $t('page.home.workflow'),
     tip: $t('page.home.workflowTip'),
     value: props.modelValue?.workFlowTask.totalNum,
+    click: () => routerPushByKey('workflow_task'),
     unit: '',
     color: {
       start: '#ec6f6f',
@@ -189,6 +194,7 @@ const cardData = computed<CardData[]>(() => [
     title: $t('page.home.onlineServiceCount'),
     tip: $t('page.home.onlineServiceTip'),
     value: props.modelValue?.onLineService.total ?? 0,
+    click: () => routerPushByKey('pods'),
     unit: '',
     color: {
       start: '#b686d4',
@@ -234,27 +240,25 @@ function getGradientColor(color: CardData['color']) {
     <NGrid :cols="gridCol" responsive="screen" :x-gap="16" :y-gap="16">
       <NGi v-for="item in cardData" :key="item.key">
         <NSpin :show="false">
-          <GradientBg
-            :gradient-color="getGradientColor(item.color)"
-            class="h-165px flex-1 cursor-pointer"
-            @click="routerPushByKey(item.key)"
-          >
-            <div class="flex justify-between">
-              <div class="align-center flex">
-                <SvgIcon :icon="item.icon" class="text-26px" />
-                <h3 class="ml-2 text-18px">{{ item.title }}</h3>
+          <GradientBg :gradient-color="getGradientColor(item.color)" class="h-165px flex-1">
+            <div :class="item.click ? 'cursor-pointer' : null" @click="item.click">
+              <div class="flex justify-between">
+                <div class="align-center flex">
+                  <SvgIcon :icon="item.icon" class="text-26px" />
+                  <h3 class="ml-2 text-18px">{{ item.title }}</h3>
+                </div>
+                <NPopover trigger="hover">
+                  <template #trigger>
+                    <NButton text>
+                      <SvgIcon icon="ant-design:info-circle-outlined" class="text-20px color-white" />
+                    </NButton>
+                  </template>
+                  {{ item.tip }}
+                </NPopover>
               </div>
-              <NPopover trigger="hover">
-                <template #trigger>
-                  <NButton text>
-                    <SvgIcon icon="ant-design:info-circle-outlined" class="text-20px color-white" />
-                  </NButton>
-                </template>
-                {{ item.tip }}
-              </NPopover>
-            </div>
-            <div class="flex">
-              <CountTo :start-value="0" :end-value="item.value" class="text-30px text-white" />
+              <div class="flex">
+                <CountTo :start-value="0" :end-value="item.value" class="text-30px text-white" />
+              </div>
             </div>
             <NProgress
               v-if="item.key === 'job_task'"
@@ -279,8 +283,10 @@ function getGradientColor(color: CardData['color']) {
             <NDivider />
             <template v-for="(bottomItem, bottomIndex) in item.bottom" :key="bottomIndex">
               <NDivider v-if="bottomIndex !== 0" vertical />
-              {{ bottomItem.label }}
-              <CountTo :start-value="0" :end-value="bottomItem.value" class="text-white" />
+              <span :class="bottomItem.click ? 'cursor-pointer' : null" @click="bottomItem.click">
+                {{ bottomItem.label }}
+                <CountTo :start-value="0" :end-value="bottomItem.value" class="text-white" />
+              </span>
             </template>
           </GradientBg>
         </NSpin>
@@ -295,7 +301,7 @@ function getGradientColor(color: CardData['color']) {
 }
 
 .n-divider--vertical {
-  margin: 0 1px 0 5px;
+  margin: 0 5px 0 5px;
 }
 
 :deep(.n-progress-icon--as-text) {

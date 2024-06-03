@@ -21,10 +21,11 @@ export function useRouterPush(inSetup = true) {
   interface RouterPushOptions {
     query?: Record<string, string>;
     params?: Record<string, string>;
+    state?: Record<string, string>;
   }
 
   async function routerPushByKey(key: RouteKey, options?: RouterPushOptions) {
-    const { query, params } = options || {};
+    const { query, params, state } = options || {};
 
     const routeLocation: RouteLocationRaw = {
       name: key
@@ -36,6 +37,10 @@ export function useRouterPush(inSetup = true) {
 
     if (params) {
       routeLocation.params = params;
+    }
+
+    if (state) {
+      routeLocation.state = state;
     }
 
     return routerPush(routeLocation);
