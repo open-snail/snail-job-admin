@@ -125,7 +125,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
       <div v-for="(item, index) in nodeConfig.conditionNodes" :key="index" class="col-box">
         <div class="condition-node min-h-230px">
           <div class="condition-node-box pt-0px">
-            <NPopover :disabled="store.type !== 2">
+            <NPopover :disabled="store.type !== 2 || true">
               <div class="popover">
                 <NButton text>
                   <span class="popover-item">
@@ -145,7 +145,7 @@ const getClass = (item: Flow.ConditionNodeType) => {
                 <div class="auto-judge" :class="getClass(item)" @click="showDetail(item, index)">
                   <div class="title">
                     <span class="text text-#935af6">
-                      <NBadge processing :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
+                      <NBadge processing dot :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
                       {{ item.nodeName }}
                     </span>
                     <icon-ant-design:close-outlined v-if="!disabled" class="close" @click.stop="delTerm" />

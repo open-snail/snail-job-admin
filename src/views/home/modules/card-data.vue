@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed, nextTick, onUnmounted, reactive } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
-import { useRouter } from 'vue-router';
 import { getPaletteColorByNumber } from '@sa/color';
 import { $t } from '@/locales';
 import { useThemeStore } from '@/store/modules/theme';
+import { useRouterPush } from '@/hooks/common/router';
 import DardRetryChart from './card-retry-chart.vue';
 
-const router = useRouter();
+const { routerPushByKey } = useRouterPush();
+
 const themeStore = useThemeStore();
 
 defineOptions({
@@ -76,8 +77,11 @@ const props = withDefaults(defineProps<Props>(), {
   })
 });
 
+/** 卡片 key 类型, 与卡片的路由的 name 一致, 便于直接使用 routerPushByKey */
+type KeyType = 'job_task' | 'retry_task' | 'workflow_task' | 'pods';
+
 interface CardData {
-  key: string;
+  key: KeyType;
   title: string;
   tip: string;
   value: number;
@@ -92,7 +96,7 @@ interface CardData {
 // eslint-disable-next-line complexity
 const cardData = computed<CardData[]>(() => [
   {
-    key: 'jobTask',
+    key: 'job_task',
     title: $t('page.home.jobTask'),
     tip: $t('page.home.jobTaskTip'),
     value: props.modelValue?.jobTask.totalNum ?? 0,
@@ -121,7 +125,7 @@ const cardData = computed<CardData[]>(() => [
     ]
   },
   {
-    key: 'retryTask',
+    key: 'retry_task',
     title: $t('page.home.retryTask'),
     tip: $t('page.home.retryTaskTip'),
     value: props.modelValue?.retryTask.totalNum ?? 0,
@@ -151,7 +155,7 @@ const cardData = computed<CardData[]>(() => [
     ]
   },
   {
-    key: 'workflow',
+    key: 'workflow_task',
     title: $t('page.home.workflow'),
     tip: $t('page.home.workflowTip'),
     value: props.modelValue?.workFlowTask.totalNum,
@@ -181,7 +185,7 @@ const cardData = computed<CardData[]>(() => [
     ]
   },
   {
-    key: 'onlineServiceCount',
+    key: 'pods',
     title: $t('page.home.onlineServiceCount'),
     tip: $t('page.home.onlineServiceTip'),
     value: props.modelValue?.onLineService.total ?? 0,
@@ -232,9 +236,8 @@ function getGradientColor(color: CardData['color']) {
         <NSpin :show="false">
           <GradientBg
             :gradient-color="getGradientColor(item.color)"
-            class="h-165px flex-1"
-            :class="item.key === 'onlineServiceCount' ? 'cursor-pointer' : ''"
-            @click="() => (item.key === 'onlineServiceCount' ? router.push('pods') : null)"
+            class="h-165px flex-1 cursor-pointer"
+            @click="routerPushByKey(item.key)"
           >
             <div class="flex justify-between">
               <div class="align-center flex">
@@ -254,7 +257,7 @@ function getGradientColor(color: CardData['color']) {
               <CountTo :start-value="0" :end-value="item.value" class="text-30px text-white" />
             </div>
             <NProgress
-              v-if="item.key === 'jobTask'"
+              v-if="item.key === 'job_task'"
               class="mb-24px h-20px pt-18px"
               type="line"
               color="#728bf9"
@@ -263,7 +266,7 @@ function getGradientColor(color: CardData['color']) {
               indicator-text-color="#fff"
             />
             <NProgress
-              v-else-if="item.key === 'workflow'"
+              v-else-if="item.key === 'workflow_task'"
               class="mb-24px h-20px pt-18px"
               type="line"
               color="#728bf9"
@@ -271,7 +274,7 @@ function getGradientColor(color: CardData['color']) {
               :percentage="props.modelValue?.workFlowTask.successRate ?? 0"
               indicator-text-color="#fff"
             />
-            <DardRetryChart v-else-if="item.key === 'retryTask'" :model-value="props.modelValue?.retryTaskBarList" />
+            <DardRetryChart v-else-if="item.key === 'retry_task'" :model-value="props.modelValue?.retryTaskBarList" />
             <div v-else class="mb-12px h-32px"></div>
             <NDivider />
             <template v-for="(bottomItem, bottomIndex) in item.bottom" :key="bottomIndex">

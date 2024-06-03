@@ -98,7 +98,7 @@ export const taskBatchStatusEnum: Record<Flow.TaskBatchStatus, Flow.TaskBatchSta
     title: $t('snail.enum.taskBatchStatus.cancel'),
     name: 'cancel',
     color: '#f5732d',
-    icon: 'ant-design:close-circle-outlined'
+    icon: 'mdi:cancel'
   },
   98: {
     title: $t('snail.enum.taskBatchStatus.decisionFailed'),
@@ -109,8 +109,8 @@ export const taskBatchStatusEnum: Record<Flow.TaskBatchStatus, Flow.TaskBatchSta
   99: {
     title: $t('snail.enum.taskBatchStatus.skip'),
     name: 'skip',
-    color: '#00000036',
-    icon: 'ant-design:close-circle-outlined'
+    color: '#999999a6',
+    icon: 'mdi:transit-skip'
   }
 };
 

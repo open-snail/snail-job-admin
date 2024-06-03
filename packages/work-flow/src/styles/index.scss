@@ -348,19 +348,19 @@
   .top-left-cover-line,
   .top-right-cover-line {
     position: absolute;
-    height: 3px;
+    height: 5px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    top: -2px;
+    top: -3px;
   }
 
   .bottom-left-cover-line,
   .bottom-right-cover-line {
     position: absolute;
-    height: 3px;
+    height: 5px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    bottom: -2px;
+    bottom: -3px;
   }
 
   .top-left-cover-line {
@@ -602,6 +602,21 @@
   .auto-judge .sort-left:hover,
   .auto-judge .sort-right:hover {
     background: var(--el-bg-color);
+  }
+
+  .node-wrap-box {
+    box-shadow: 0 2px 5px rgb(255 255 255 / 0.1);
+  }
+
+  .node-error,
+  .start-node-disabled {
+    // cursor: default;
+    border: 1px solid #ffffff36 !important;
+    box-shadow: 0 2px 5px #ffffff36 !important;
+  }
+
+  .auto-judge {
+    box-shadow: 0 2px 5px 0 rgba(255, 255, 255, 0.1);
   }
 }
 

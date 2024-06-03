@@ -39,6 +39,7 @@ function search() {
         v-model:value="model.sceneStatus"
         :placeholder="$t('page.jobTask.form.jobStatus')"
         :options="translateOptions(enableStatusNumberOptions)"
+        clearable
       />
     </NFormItemGi>
   </SearchForm>

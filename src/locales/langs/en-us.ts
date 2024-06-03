@@ -453,7 +453,7 @@ const local: App.I18n.Schema = {
           year: 'Year Round'
         },
         rank: {
-          title: 'Task volume ranking'
+          title: 'Failure ranking'
         },
         task: {
           title: 'List of scenes',
@@ -502,7 +502,9 @@ const local: App.I18n.Schema = {
       form: {
         name: 'Please enter name',
         keyword: 'Please enter name/uniqueId',
-        uniqueId: 'Please enter Unique ID'
+        uniqueId: 'Please enter Unique ID',
+        uniqueIdRule:
+          'Must be between 1 and 64 characters in length. Format: numbers, letters, underscores, or hyphens.'
       },
       addNamespace: 'Add Namespace',
       editNamespace: 'Edit Namespace'

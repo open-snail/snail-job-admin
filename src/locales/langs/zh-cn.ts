@@ -305,7 +305,7 @@ const local: App.I18n.Schema = {
     notify_recipient: '通知人',
     notify_scene: '通知场景',
     retry: '重试任务',
-    retry_task: '重试任务',
+    retry_task: '任务管理',
     'retry_dead-letter': '死信任务',
     user: '用户管理',
     user_manager: '用户信息',
@@ -461,7 +461,7 @@ const local: App.I18n.Schema = {
           year: '全年'
         },
         rank: {
-          title: '任务量排名'
+          title: '失败总量排名'
         },
         task: {
           title: '场景列表',
@@ -510,7 +510,8 @@ const local: App.I18n.Schema = {
       form: {
         name: '请输入空间名称',
         keyword: '请输入空间名称/唯一标识',
-        uniqueId: '请输入唯一标识'
+        uniqueId: '请输入唯一标识',
+        uniqueIdRule: '仅支持长度为:1~64位字符.格式为:数字、字母、下划线、短横线。'
       },
       addNamespace: '新增命名空间',
       editNamespace: '编辑命名空间'

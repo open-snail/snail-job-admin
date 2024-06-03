@@ -649,6 +649,7 @@ declare namespace App {
             name: string;
             keyword: string;
             uniqueId: string;
+            uniqueIdRule: string;
           };
           addNamespace: string;
           editNamespace: string;

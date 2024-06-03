@@ -49,7 +49,7 @@ const onClose = () => {
           {{ modelValue.triggerInterval }} {{ modelValue.triggerType === 2 ? '秒' : null }}
         </NDescriptionsItem>
         <NDescriptionsItem label="执行超时时间">{{ modelValue.executorTimeout }} 秒</NDescriptionsItem>
-        <NDescriptionsItem label="阻塞策略">{{ blockStrategyRecord[modelValue.blockStrategy!] }}</NDescriptionsItem>
+        <NDescriptionsItem label="阻塞策略">{{ $t(blockStrategyRecord[modelValue.blockStrategy!]) }}</NDescriptionsItem>
         <NDescriptionsItem label="工作流状态">
           {{ $t(workFlowNodeStatusRecord[modelValue.workflowStatus!]) }}
         </NDescriptionsItem>

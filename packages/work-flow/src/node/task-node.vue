@@ -264,7 +264,11 @@ const isShow = (taskBatchStatus: number) => {
         <div v-if="i == nodeConfig.conditionNodes!.length - 1" class="top-right-cover-line"></div>
         <div v-if="i == nodeConfig.conditionNodes!.length - 1" class="bottom-right-cover-line"></div>
 
-        <TaskDetail v-if="store.type !== 0" v-model:open="detailDrawer[i]" v-model="nodeConfig.conditionNodes![i]" />
+        <TaskDetail
+          v-if="store.type !== 0"
+          v-model:open="detailDrawer[i]"
+          :model-value="nodeConfig.conditionNodes![i]"
+        />
       </div>
     </div>
     <AddNode v-if="nodeConfig.conditionNodes!.length > 1" v-model="nodeConfig.childNode!" :disabled="disabled" />
