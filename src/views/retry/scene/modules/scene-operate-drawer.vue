@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import RouteKey from '@/components/common/route-key.vue';
 import { $t } from '@/locales';
-import { fetchAddRetryScene, fetchEditRetryScene, fetchGetAllGroupNameList } from '@/service/api';
+import { fetchAddRetryScene, fetchEditRetryScene } from '@/service/api';
 import { DelayLevel, backOffRecordOptions, enableStatusNumberOptions } from '@/constants/business';
-import { translateOptions, translateOptions2 } from '@/utils/common';
+import { translateOptions } from '@/utils/common';
 
 defineOptions({
   name: 'SceneOperateDrawer'
@@ -19,7 +19,6 @@ interface Props {
   rowData?: Api.RetryScene.Scene | null;
 }
 
-const groupNameList = ref<string[]>([]);
 const delayLevelDesc = ref<string>('10s');
 
 const props = defineProps<Props>();
@@ -75,17 +74,6 @@ function createDefaultModel(): Model {
     description: '',
     routeKey: 4
   };
-}
-
-onMounted(() => {
-  nextTick(() => {
-    getGroupNameList();
-  });
-});
-
-async function getGroupNameList() {
-  const res = await fetchGetAllGroupNameList();
-  groupNameList.value = res.data as string[];
 }
 
 type RuleKey = Extract<
@@ -239,13 +227,7 @@ watch(
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.groupName')" path="groupName">
-        <NSelect
-          v-model:value="model.groupName"
-          :disabled="props.operateType === 'edit'"
-          :placeholder="$t('page.retryScene.form.groupName')"
-          :options="translateOptions2(groupNameList)"
-          clearable
-        />
+        <SelectGroup v-model:value="model.groupName" :disabled="props.operateType === 'edit'" />
       </NFormItem>
       <NFormItem :label="$t('page.retryScene.sceneStatus')" path="sceneStatus">
         <NRadioGroup v-model:value="model.sceneStatus" name="sceneStatus">

@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import {
-  fetchAddRetryTask,
-  fetchGetAllGroupNameList,
-  fetchGetRetrySceneList,
-  fetchIdempotentIdGenerate
-} from '@/service/api';
-import { translateOptions, translateOptions2 } from '@/utils/common';
+import { fetchAddRetryTask, fetchIdempotentIdGenerate } from '@/service/api';
+import { translateOptions } from '@/utils/common';
 import { retryTaskStatusTypeOptions } from '@/constants/business';
 import CodeMirror from '@/components/common/code-mirror.vue';
+import SelectGroup from '@/components/common/select-group.vue';
+import SelectScene from '@/components/common/select-scene.vue';
 
 defineOptions({
   name: 'RetryTaskOperateDrawer'
@@ -53,11 +50,6 @@ type Model = Pick<
 >;
 
 const model: Model = reactive(createDefaultModel());
-
-/** 组列表 */
-const groupNameList = ref<string[]>([]);
-/** 场景列表 */
-const sceneNameList = ref<string[]>([]);
 
 function createDefaultModel(): Model {
   return {
@@ -130,21 +122,6 @@ watch(visible, () => {
   }
 });
 
-async function getGroupNameList() {
-  const res = await fetchGetAllGroupNameList();
-  groupNameList.value = res.data as string[];
-}
-
-async function handleGroupNameUpdate(groupName: string) {
-  if (groupName) {
-    const res = await fetchGetRetrySceneList({ groupName });
-    sceneNameList.value = res.data!.map((scene: Api.RetryScene.Scene) => scene.sceneName);
-  } else {
-    model.sceneName = '';
-    sceneNameList.value = [];
-  }
-}
-
 async function setIdempotentId() {
   const groupName = model.groupName;
   const sceneName = model.sceneName;
@@ -160,29 +137,18 @@ async function setIdempotentId() {
     model.idempotentId = idempotentId;
   }
 }
-
-onMounted(() => {
-  getGroupNameList();
-});
 </script>
 
 <template>
   <OperateDrawer v-model="visible" :title="title" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.retryTask.groupName')" path="groupName">
-        <NSelect
-          v-model:value="model.groupName"
-          :placeholder="$t('page.retryTask.form.groupName')"
-          :options="translateOptions2(groupNameList)"
-          :disabled="props.operateType === 'edit'"
-          @update-value="handleGroupNameUpdate"
-        />
+        <SelectGroup v-model:value="model.groupName" :disabled="props.operateType === 'edit'" />
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.sceneName')" path="sceneName">
-        <NSelect
+        <SelectScene
           v-model:value="model.sceneName"
-          :placeholder="$t('page.retryTask.form.sceneName')"
-          :options="translateOptions2(sceneNameList)"
+          :group-name="model.groupName as string"
           :disabled="props.operateType === 'edit'"
         />
       </NFormItem>
