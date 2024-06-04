@@ -32,7 +32,7 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
     getData,
     searchParams,
     updateSearchParams,
-    resetSearchParams
+    resetSearchParams: resetSearchParams0
   } = useHookTable<A, GetTableData<A>, TableColumn<NaiveUI.TableDataWithIndex<GetTableData<A>>>>({
     apiFn,
     apiParams,
@@ -171,6 +171,11 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
   onScopeDispose(() => {
     scope.stop();
   });
+
+  const resetSearchParams = () => {
+    resetSearchParams0();
+    getData();
+  };
 
   return {
     loading,

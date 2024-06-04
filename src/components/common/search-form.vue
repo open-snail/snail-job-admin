@@ -12,7 +12,7 @@ interface Props {
   model: Record<string, any>;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 interface Emits {
   (e: 'reset'): void;
@@ -29,11 +29,13 @@ const { formRef, validate, restoreValidation } = useNaiveForm();
 
 async function reset() {
   await restoreValidation();
+  Object.assign(props.model, { ...props.model, page: 1 });
   emit('reset');
 }
 
 async function search() {
   await validate();
+  Object.assign(props.model, { ...props.model, page: 1 });
   emit('search');
 }
 </script>
