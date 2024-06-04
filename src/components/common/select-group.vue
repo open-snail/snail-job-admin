@@ -45,7 +45,6 @@ getGroupNameList();
     :placeholder="$t('page.retryTask.form.groupName')"
     :options="translateOptions2(groupNameList)"
     :disabled="props.disabled"
-    clearable
     filterable
     @update:value="handleUpdate"
   />
