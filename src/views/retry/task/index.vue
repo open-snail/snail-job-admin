@@ -1,10 +1,11 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import {
   fetchBatchDeleteRetryTask,
   fetchExecuteRetryTask,
+  fetchGetAllGroupNameList,
   fetchGetRetryTaskById,
   fetchGetRetryTaskList,
   fetchUpdateRetryTaskStatus
@@ -297,6 +298,14 @@ async function updateRetryTaskStatus(id: number, groupName: string, retryStatus:
   window.$message?.success($t('common.updateSuccess'));
   getData();
 }
+
+onMounted(async () => {
+  const { error, data: groupList } = await fetchGetAllGroupNameList();
+  if (!error && groupList.length > 0) {
+    searchParams.groupName = groupList[0];
+    getData();
+  }
+});
 </script>
 
 <template>
