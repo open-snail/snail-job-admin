@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useNaiveForm } from '@/hooks/common/form';
@@ -12,7 +12,7 @@ interface Props {
   model: Record<string, any>;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 interface Emits {
   (e: 'reset'): void;
@@ -29,13 +29,20 @@ const { formRef, validate, restoreValidation } = useNaiveForm();
 
 async function reset() {
   await restoreValidation();
+  Object.assign(props.model, { ...props.model, page: 1 });
   emit('reset');
 }
 
 async function search() {
   await validate();
+  Object.assign(props.model, { ...props.model, page: 1 });
   emit('search');
 }
+
+const btnSpan = computed(() => {
+  const keyNum = Object.keys(props.model).length - 2;
+  return `24 m:12 m:${(4 - (keyNum % 4)) * 6}`;
+});
 </script>
 
 <template>
@@ -43,7 +50,7 @@ async function search() {
     <NForm ref="formRef" :model="model" label-placement="left" :label-width="80" :show-feedback="appStore.isMobile">
       <NGrid responsive="screen" item-responsive :y-gap="5">
         <slot></slot>
-        <NFormItemGi :y-gap="8" span="24 m:12 m:6" class="pr-24px lg:p-t-0 md:p-t-16px">
+        <NFormItemGi :y-gap="8" :span="btnSpan" class="pr-24px lg:p-t-0 md:p-t-16px">
           <NSpace class="min-w-172px w-full" justify="end">
             <NButton @click="reset">
               <template #icon>
