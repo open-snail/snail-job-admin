@@ -238,7 +238,7 @@ function getGradientColor(color: CardData['color']) {
     <!-- define component end: GradientBg -->
 
     <NGrid :cols="gridCol" responsive="screen" :x-gap="16" :y-gap="16">
-      <NGi v-for="item in cardData" :key="item.key">
+      <NGi v-for="item in cardData" :key="item.key" class="home-card">
         <NSpin :show="false">
           <GradientBg :gradient-color="getGradientColor(item.color)" class="h-165px flex-1">
             <div :class="item.click ? 'cursor-pointer' : null" @click="item.click">
@@ -306,5 +306,15 @@ function getGradientColor(color: CardData['color']) {
 
 :deep(.n-progress-icon--as-text) {
   width: 60px !important;
+}
+
+.home-card {
+  transition: all 0.25s ease-in;
+}
+
+.home-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--n-box-shadow);
+  border-radius: 8px;
 }
 </style>
