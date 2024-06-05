@@ -18,6 +18,8 @@ const detailData = ref<Api.RetryLog.RetryLog | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
+const retryStatus = history.state.retryStatus;
+
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchRetryLogPageList,
   apiParams: {
@@ -29,7 +31,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     groupName: null,
     sceneName: null,
     idempotentId: null,
-    bizNo: null
+    bizNo: null,
+    retryStatus
   },
   columns: () => [
     {

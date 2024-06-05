@@ -21,7 +21,7 @@ export function useRouterPush(inSetup = true) {
   interface RouterPushOptions {
     query?: Record<string, string>;
     params?: Record<string, string>;
-    state?: Record<string, string>;
+    state?: Record<string, string | number>;
   }
 
   async function routerPushByKey(key: RouteKey, options?: RouterPushOptions) {

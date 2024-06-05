@@ -23,12 +23,6 @@ function reset() {
 function search() {
   emit('search');
 }
-
-const taskBatchStatus = history.state.taskBatchStatus;
-
-if (taskBatchStatus) {
-  model.value.taskBatchStatus = Number(taskBatchStatus) as Api.Common.TaskBatchStatus;
-}
 </script>
 
 <template>
