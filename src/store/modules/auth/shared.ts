@@ -31,6 +31,6 @@ export function getUserInfo() {
 export function clearAuthStorage() {
   localStg.remove('token');
   // localStg.remove('refreshToken');
-  localStg.remove('namespaceId');
+  // localStg.remove('namespaceId');
   localStg.remove('userInfo');
 }

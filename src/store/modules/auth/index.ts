@@ -88,7 +88,10 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', loginToken.token);
     // localStg.set('refreshToken', loginToken.refreshToken);
-    localStg.set('namespaceId', loginToken.namespaceIds[0].uniqueId);
+    const namespaceId = localStg.get('namespaceId');
+    if (!namespaceId || !loginToken.namespaceIds.map(item => item.uniqueId.includes(namespaceId))) {
+      localStg.set('namespaceId', loginToken.namespaceIds[0].uniqueId);
+    }
 
     const { data: info, error } = await fetchGetUserInfo();
 
