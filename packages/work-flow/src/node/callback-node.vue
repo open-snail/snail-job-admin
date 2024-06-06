@@ -5,6 +5,7 @@ import { useFlowStore } from '../stores';
 import { contentTypeRecord, taskBatchStatusEnum } from '../constants/business';
 import CallbackDrawer from '../drawer/callback-drawer.vue';
 import CallbackDetail from '../detail/callback-detail.vue';
+import DetailCard from '../components/detail-card.vue';
 import AddNode from './add-node.vue';
 
 defineOptions({
@@ -194,21 +195,19 @@ const getClass = (item: Flow.ConditionNodeType) => {
     <CallbackDetail v-if="store.type !== 0" v-model:open="detailDrawer" v-model="nodeConfig.conditionNodes![0]" />
     <CallbackDrawer v-model:open="drawer" v-model="form" @save="save" />
 
-    <!--
- <DetailCard v-if="store.TYPE !== 0 && cardDrawer" :id="detailId" v-model:show="cardDrawer" :ids="detailIds">
+    <DetailCard v-if="store.type !== 0" :id="detailId" v-model:show="cardDrawer" :ids="detailIds">
       <div style="margin: 20px 0; border-left: #1366ff 5px solid; font-size: medium; font-weight: bold">
         <span style="padding-left: 18px">回调节点详情</span>
       </div>
-      <ADescriptions :column="1" bordered :label-style="{ width: '120px' }">
-        <ADescriptionsItem label="节点名称">{{ nodeConfig.conditionNodes![0].nodeName }}</ADescriptionsItem>
-        <ADescriptionsItem label="webhook">{{ nodeConfig.conditionNodes![0].callback?.webhook }}</ADescriptionsItem>
-        <ADescriptionsItem label="请求类型">
-          {{ ContentTypeEnum[nodeConfig.conditionNodes![0].callback?.contentType!] }}
-        </ADescriptionsItem>
-        <ADescriptionsItem label="密钥">{{ nodeConfig.conditionNodes![0].callback?.secret }}</ADescriptionsItem>
-      </ADescriptions>
+      <NDescriptions :column="1" bordered :label-style="{ width: '120px' }">
+        <NDescriptionsItem label="节点名称">{{ nodeConfig.conditionNodes![0].nodeName }}</NDescriptionsItem>
+        <NDescriptionsItem label="webhook">{{ nodeConfig.conditionNodes![0].callback?.webhook }}</NDescriptionsItem>
+        <NDescriptionsItem label="请求类型">
+          {{ contentTypeRecord[nodeConfig.conditionNodes![0].callback?.contentType!] }}
+        </NDescriptionsItem>
+        <NDescriptionsItem label="密钥">{{ nodeConfig.conditionNodes![0].callback?.secret }}</NDescriptionsItem>
+      </NDescriptions>
     </DetailCard>
--->
   </div>
 </template>
 
