@@ -9,7 +9,7 @@ import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { roleTypeRecord } from '@/constants/business';
 import { useRouteStore } from '../route';
-import { clearAuthStorage, getToken, getUserInfo } from './shared';
+import { clearAuthStorage, getToken } from './shared';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const route = useRoute();
@@ -19,7 +19,17 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
-  const userInfo: Api.Auth.UserInfo = reactive(getUserInfo());
+  const userInfo: Api.Auth.UserInfo = reactive({
+    id: '',
+    userId: '',
+    mode: '',
+    role: 1,
+    username: '',
+    userName: '',
+    roles: [],
+    buttons: [],
+    namespaceIds: []
+  });
 
   /** is super role in static route */
   const isStaticSuper = computed(() => {
@@ -98,22 +108,32 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       localStg.set('userNamespace', userNamespace);
     }
 
+    // 2. get user info and update store
+    const pass = await updateUserInfo();
+
+    if (pass) {
+      token.value = loginToken.token;
+
+      return true;
+    }
+
+    return false;
+  }
+
+  async function updateUserInfo() {
     const { data: info, error } = await fetchGetUserInfo();
 
     if (!error) {
-      info!.userId = info?.id;
+      // update store
       info!.userName = info?.username;
       info!.roles = [roleTypeRecord[info.role]];
-      // 2. store user info
       localStg.set('userInfo', info);
-
-      // 3. update store
-      token.value = loginToken.token;
       Object.assign(userInfo, info);
 
       return true;
     }
 
+    await resetStore();
     return false;
   }
 
@@ -124,21 +144,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     localStg.set('namespaceId', namespaceId);
   }
 
-  async function getInfo() {
-    const { data: info, error } = await fetchGetUserInfo();
-
-    if (!error) {
-      info!.userName = info?.username;
-      info!.roles = [roleTypeRecord[info.role]];
-      localStg.set('userInfo', info);
-      Object.assign(userInfo, info);
-
-      return true;
-    }
-    resetStore();
-    return false;
-  }
-
   return {
     token,
     userInfo,
@@ -147,7 +152,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     loginLoading,
     resetStore,
     login,
-    getInfo,
+    updateUserInfo,
     setNamespaceId
   };
 });

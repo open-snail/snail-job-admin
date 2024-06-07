@@ -1,7 +1,11 @@
 const local: App.I18n.Schema = {
   system: {
     title: 'Snail Job',
-    desc: 'A flexible, reliable, and fast platform for distributed task retry and distributed task scheduling.'
+    desc: 'A flexible, reliable, and fast platform for distributed task retry and distributed task scheduling.',
+    updateTitle: 'System Version Update Notification',
+    updateContent: 'A new version of the system has been detected. Do you want to refresh the page immediately?',
+    updateConfirm: 'Refresh immediately',
+    updateCancel: 'Later'
   },
   common: {
     action: 'Action',

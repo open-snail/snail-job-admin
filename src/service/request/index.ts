@@ -73,6 +73,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
             content: $t('request.logoutWithModalMsg'),
             positiveText: $t('common.confirm'),
             maskClosable: false,
+            closeOnEsc: false,
             onPositiveClick() {
               request.state.isLogout = false;
               logoutAndCleanup();
