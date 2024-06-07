@@ -545,6 +545,14 @@ declare namespace App {
           devDep: string;
         };
         home: {
+          Greeting: string;
+          morningGreeting: string;
+          bthGreeting: string;
+          noonGreeting: string;
+          athGreeting: string;
+          duskGreeting: string;
+          eveningGreeting: string;
+          earlyMorningGreeting: string;
           retryTaskCount: string;
           jobTaskCount: string;
           userCount: string;
