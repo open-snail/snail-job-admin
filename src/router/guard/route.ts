@@ -10,7 +10,6 @@ import { useAuthStore } from '@/store/modules/auth';
 import { useRouteStore } from '@/store/modules/route';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
-import { fetchVersion } from '@/service/api';
 
 /**
  * create route guard
@@ -128,6 +127,11 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     return null;
   }
 
+  // the auth route is initialized
+  // it is not the "not-found" route, then it is allowed to access
+  if (routeStore.isInitAuthRoute && !isNotFoundRoute) {
+    return null;
+  }
   // it is captured by the "not-found" route, then check whether the route exists
   if (routeStore.isInitAuthRoute && isNotFoundRoute) {
     const exist = await routeStore.getIsAuthRouteExist(to.path as RoutePath);
@@ -161,18 +165,8 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     return location;
   }
 
-  // the auth route is initialized
-  // it is not the "not-found" route, then it is allowed to access
-  if (!routeStore.isInitAuthRoute && isLogin) {
-    // update user info
-    await authStore.updateUserInfo();
-    const { data, error } = await fetchVersion();
-    if (!error && data) {
-      localStg.set('version', data!);
-    } else {
-      localStg.remove('version');
-    }
-  }
+  await authStore.initAppVersion();
+  await authStore.initUserInfo();
 
   // initialize the auth route
   await routeStore.initAuthRoute();
