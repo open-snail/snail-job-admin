@@ -116,6 +116,7 @@ declare namespace Api {
     }
 
     interface UserInfo {
+      id: string;
       userId: string;
       username: string;
       userName: string;

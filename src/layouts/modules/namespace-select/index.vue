@@ -4,9 +4,11 @@ import { useRouter } from 'vue-router';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
 import { useAppStore } from '@/store/modules/app';
+import { useAuthStore } from '@/store/modules/auth';
 
 const router = useRouter();
 const appStore = useAppStore();
+const authStore = useAuthStore();
 const namespaceId = ref<string>(localStg.get('namespaceId')!);
 const userInfo = localStg.get('userInfo');
 const selectOptions = computed(() =>
@@ -22,7 +24,7 @@ const dropOptions = computed(() =>
 
 const onChange = (value: string) => {
   namespaceId.value = value;
-  localStg.set('namespaceId', value);
+  authStore.setNamespaceId(value);
   router.go(0);
 };
 </script>

@@ -88,14 +88,20 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', loginToken.token);
     // localStg.set('refreshToken', loginToken.refreshToken);
-    const namespaceId = localStg.get('namespaceId');
-    if (!namespaceId || !loginToken.namespaceIds.map(item => item.uniqueId.includes(namespaceId))) {
+    const userNamespace = localStg.get('userNamespace') || {};
+    const namespaceId = userNamespace[loginToken.id];
+    localStg.set('namespaceId', namespaceId);
+
+    if (!namespaceId || !loginToken.namespaceIds.map(item => item.uniqueId).includes(namespaceId)) {
+      userNamespace[loginToken.id] = loginToken.namespaceIds[0].uniqueId;
       localStg.set('namespaceId', loginToken.namespaceIds[0].uniqueId);
+      localStg.set('userNamespace', userNamespace);
     }
 
     const { data: info, error } = await fetchGetUserInfo();
 
     if (!error) {
+      info!.userId = info?.id;
       info!.userName = info?.username;
       info!.roles = [roleTypeRecord[info.role]];
       // 2. store user info
@@ -109,6 +115,13 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     }
 
     return false;
+  }
+
+  function setNamespaceId(namespaceId: string) {
+    const userNamespace = localStg.get('userNamespace') || {};
+    userNamespace[userInfo.userId] = namespaceId;
+    localStg.set('userNamespace', userNamespace);
+    localStg.set('namespaceId', namespaceId);
   }
 
   async function getInfo() {
@@ -134,6 +147,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     loginLoading,
     resetStore,
     login,
-    getInfo
+    getInfo,
+    setNamespaceId
   };
 });
