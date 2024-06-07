@@ -5,40 +5,12 @@ export const yesOrNoRecord: Record<Api.Common.YesOrNo, App.I18n.I18nKey> = {
   '1': 'common.yesOrNo.yes'
 };
 
-export const enableStatusRecord: Record<Api.Common.EnableStatus, App.I18n.I18nKey> = {
-  '1': 'page.manage.common.status.enable',
-  '2': 'page.manage.common.status.disable'
-};
-
-export const enableStatusOptions = transformRecordToOption(enableStatusRecord);
-
 export const enableStatusNumberRecord: Record<Api.Common.EnableStatusNumber, App.I18n.I18nKey> = {
-  0: 'page.manage.common.status.disable',
-  1: 'page.manage.common.status.enable'
+  0: 'common.status.disable',
+  1: 'common.status.enable'
 };
 
 export const enableStatusNumberOptions = transformRecordToNumberOption(enableStatusNumberRecord, true);
-
-export const userGenderRecord: Record<Api.SystemManage.UserGender, App.I18n.I18nKey> = {
-  '1': 'page.manage.user.gender.male',
-  '2': 'page.manage.user.gender.female'
-};
-
-export const userGenderOptions = transformRecordToOption(userGenderRecord);
-
-export const menuTypeRecord: Record<Api.SystemManage.MenuType, App.I18n.I18nKey> = {
-  '1': 'page.manage.menu.type.directory',
-  '2': 'page.manage.menu.type.menu'
-};
-
-export const menuTypeOptions = transformRecordToOption(menuTypeRecord);
-
-export const menuIconTypeRecord: Record<Api.SystemManage.IconType, App.I18n.I18nKey> = {
-  '1': 'page.manage.menu.iconType.iconify',
-  '2': 'page.manage.menu.iconType.local'
-};
-
-export const menuIconTypeOptions = transformRecordToOption(menuIconTypeRecord);
 
 export const roleTypeRecord: Record<number, string> = {
   1: 'R_USER',
@@ -96,8 +68,8 @@ export const workflowNotifyScene: Record<Api.NotifyConfig.WorkflowNotifyScene, A
 export const workflowNotifySceneOptions = transformRecordToNumberOption(workflowNotifyScene);
 
 export const groupConfigStatusRecord: Record<Api.GroupConfig.GroupStatusType, App.I18n.I18nKey> = {
-  0: 'page.manage.common.status.disable',
-  1: 'page.manage.common.status.enable'
+  0: 'common.status.disable',
+  1: 'common.status.enable'
 };
 export const groupConfigStatusOptions = transformRecordToNumberOption(groupConfigStatusRecord, true);
 

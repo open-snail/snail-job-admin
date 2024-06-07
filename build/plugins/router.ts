@@ -26,7 +26,6 @@ export function setupElegantRouter() {
       const key = routeName as RouteKey;
 
       if (key === 'login') {
-        // const modules: UnionKey.LoginModule[] = ['pwd-login', 'code-login', 'register', 'reset-pwd', 'bind-wechat'];
         const modules: UnionKey.LoginModule[] = ['pwd-login'];
 
         const moduleReg = modules.join('|');

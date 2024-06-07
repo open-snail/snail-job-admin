@@ -103,7 +103,7 @@ const createPanels = () => [
   },
   {
     name: 'retryTask',
-    tab: $t('page.home.retryTask')
+    tab: $t('page.home.retryTask.title')
   },
   {
     name: 'workflow',

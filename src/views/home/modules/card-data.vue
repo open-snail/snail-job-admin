@@ -129,7 +129,7 @@ const cardData = computed<CardData[]>(() => [
   },
   {
     key: 'retry_task',
-    title: $t('page.home.retryTask'),
+    title: $t('page.home.retryTask.title'),
     tip: $t('page.home.retryTaskTip'),
     value: props.modelValue?.retryTask.totalNum ?? 0,
     click: () => routerPushByKey('retry_task'),
@@ -151,12 +151,12 @@ const cardData = computed<CardData[]>(() => [
         click: () => routerPushByKey('retry_log', { state: { retryStatus: 0 } })
       },
       {
-        label: $t('page.manage.retryTask.status.maxRetryTimes'),
+        label: $t('page.home.retryTask.status.maxRetryTimes'),
         value: props.modelValue?.retryTask.maxCountNum ?? 0,
         click: () => routerPushByKey('retry_log', { state: { retryStatus: 2 } })
       },
       {
-        label: $t('page.manage.retryTask.status.pauseRetry'),
+        label: $t('page.home.retryTask.status.pauseRetry'),
         value: props.modelValue?.retryTask.suspendNum ?? 0,
         click: () => routerPushByKey('retry_log', { state: { retryStatus: 3 } })
       }
@@ -211,12 +211,12 @@ const cardData = computed<CardData[]>(() => [
     icon: 'ant-design:database-outlined',
     bottom: [
       {
-        label: $t('page.manage.machine.type.client'),
+        label: $t('page.home.machine.type.client'),
         value: props.modelValue?.onLineService.clientTotal ?? 0,
         click: () => routerPushByKey('pods')
       },
       {
-        label: $t('page.manage.machine.type.server'),
+        label: $t('page.home.machine.type.server'),
         value: props.modelValue?.onLineService.serverTotal ?? 0,
         click: () => routerPushByKey('pods')
       }
