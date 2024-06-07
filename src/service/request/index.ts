@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios';
-import { BACKEND_ERROR_CODE, createFlatRequest } from '@sa/axios';
+import { createFlatRequest } from '@sa/axios';
 import { useAuthStore } from '@/store/modules/auth';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
@@ -115,10 +115,8 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       let backendErrorCode = '';
 
       // get backend error message and code
-      if (error.code === BACKEND_ERROR_CODE) {
-        message = error.response?.data?.message || message;
-        backendErrorCode = error.response?.data?.status || '';
-      }
+      message = error.response?.data?.message || message;
+      backendErrorCode = error.response?.data?.status.toString() || '';
 
       // the error message is displayed in the modal
       const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
