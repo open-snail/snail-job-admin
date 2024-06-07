@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
 import { SetupStoreId } from '@/enum';
 import { useRouterPush } from '@/hooks/common/router';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { fetchGetUserInfo, fetchLogin, fetchVersion } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { roleTypeRecord } from '@/constants/business';
@@ -108,8 +108,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       localStg.set('userNamespace', userNamespace);
     }
 
-    // 2. get user info and update store
-    const pass = await updateUserInfo();
+    // 2. get user info
+    const pass = await getUserInfo();
 
     if (pass) {
       token.value = loginToken.token;
@@ -120,11 +120,13 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     return false;
   }
 
-  async function updateUserInfo() {
+  async function getUserInfo() {
+    // update user info
     const { data: info, error } = await fetchGetUserInfo();
 
     if (!error) {
       // update store
+      info!.userId = info.id;
       info!.userName = info?.username;
       info!.roles = [roleTypeRecord[info.role]];
       localStg.set('userInfo', info);
@@ -133,8 +135,28 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       return true;
     }
 
-    await resetStore();
     return false;
+  }
+
+  async function initUserInfo() {
+    const hasToken = getToken();
+
+    if (hasToken) {
+      const pass = await getUserInfo();
+
+      if (!pass) {
+        resetStore();
+      }
+    }
+  }
+
+  async function initAppVersion() {
+    const { data: version, error: versionError } = await fetchVersion();
+    if (!versionError && version) {
+      localStg.set('version', version!);
+    } else {
+      localStg.remove('version');
+    }
   }
 
   function setNamespaceId(namespaceId: string) {
@@ -152,7 +174,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     loginLoading,
     resetStore,
     login,
-    updateUserInfo,
+    initUserInfo,
+    initAppVersion,
     setNamespaceId
   };
 });
