@@ -128,20 +128,6 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     return null;
   }
 
-  // the auth route is initialized
-  // it is not the "not-found" route, then it is allowed to access
-  if (routeStore.isInitAuthRoute && !isNotFoundRoute) {
-    // update user info
-    await authStore.updateUserInfo();
-    const { data, error } = await fetchVersion();
-    if (!error && data) {
-      localStg.set('version', data!);
-    } else {
-      localStg.remove('version');
-    }
-
-    return null;
-  }
   // it is captured by the "not-found" route, then check whether the route exists
   if (routeStore.isInitAuthRoute && isNotFoundRoute) {
     const exist = await routeStore.getIsAuthRouteExist(to.path as RoutePath);
@@ -173,6 +159,19 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     };
 
     return location;
+  }
+
+  // the auth route is initialized
+  // it is not the "not-found" route, then it is allowed to access
+  if (!routeStore.isInitAuthRoute && isLogin) {
+    // update user info
+    await authStore.updateUserInfo();
+    const { data, error } = await fetchVersion();
+    if (!error && data) {
+      localStg.set('version', data!);
+    } else {
+      localStg.remove('version');
+    }
   }
 
   // initialize the auth route
