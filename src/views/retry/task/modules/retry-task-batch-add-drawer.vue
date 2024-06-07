@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue';
+import { reactive, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
-import { fetchBatchAddRetryTask, fetchGetAllGroupNameList } from '@/service/api';
-import { translateOptions, translateOptions2 } from '@/utils/common';
+import { fetchBatchAddRetryTask } from '@/service/api';
+import { translateOptions } from '@/utils/common';
 import { retryTaskStatusTypeOptions } from '@/constants/business';
+import SelectGroup from '@/components/common/select-group.vue';
 
 defineOptions({
   name: 'RetryTaskBatchAddDrawer'
@@ -27,9 +28,6 @@ const { defaultRequiredRule } = useFormRules();
 type Model = Pick<Api.RetryTask.RetryTaskBatchAdd, 'groupName' | 'retryStatus' | 'logStr'>;
 
 const model: Model = reactive(createDefaultModel());
-
-/** 组列表 */
-const groupNameList = ref<string[]>([]);
 
 function createDefaultModel(): Model {
   return {
@@ -63,19 +61,10 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-async function getGroupNameList() {
-  const res = await fetchGetAllGroupNameList();
-  groupNameList.value = res.data as string[];
-}
-
 watch(visible, () => {
   if (visible.value) {
     restoreValidation();
   }
-});
-
-onMounted(() => {
-  getGroupNameList();
 });
 </script>
 
@@ -83,13 +72,8 @@ onMounted(() => {
   <OperateDrawer v-model="visible" :title="$t('page.retryTask.batchAddRetryTask')" @handle-submit="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.retryTask.groupName')" path="groupName">
-        <NSelect
-          v-model:value="model.groupName"
-          :placeholder="$t('page.retryTask.form.groupName')"
-          :options="translateOptions2(groupNameList)"
-        />
+        <SelectGroup v-model:value="model.groupName" />
       </NFormItem>
-
       <NFormItem :label="$t('page.retryTask.retryStatus')" path="retryStatus">
         <NSelect
           v-model:value="model.retryStatus"

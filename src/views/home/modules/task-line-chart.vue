@@ -36,8 +36,8 @@ const { domRef, updateOptions } = useEcharts(() => ({
         ? [
             $t('common.success'),
             $t('common.running'),
-            $t('page.manage.retryTask.status.maxRetryTimes'),
-            $t('page.manage.retryTask.status.pauseRetry')
+            $t('page.home.retryTask.status.maxRetryTimes'),
+            $t('page.home.retryTask.status.pauseRetry')
           ]
         : [$t('common.success'), $t('common.fail'), $t('common.stop'), $t('common.cancel')]
   },
@@ -118,7 +118,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#b686d4',
-      name: props.type === 'RETRY' ? $t('page.manage.retryTask.status.maxRetryTimes') : $t('common.stop'),
+      name: props.type === 'RETRY' ? $t('page.home.retryTask.status.maxRetryTimes') : $t('common.stop'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -148,7 +148,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     },
     {
       color: '#ec6f6f',
-      name: props.type === 'RETRY' ? $t('page.manage.retryTask.status.pauseRetry') : $t('common.cancel'),
+      name: props.type === 'RETRY' ? $t('page.home.retryTask.status.pauseRetry') : $t('common.cancel'),
       type: 'line',
       smooth: true,
       stack: 'Total',

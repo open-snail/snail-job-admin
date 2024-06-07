@@ -48,7 +48,7 @@ export function createRouteGuard(router: Router) {
           next({ name: rootRoute });
         }
       },
-      // if is is constant route, then it is allowed to access directly
+      // if it is constant route, then it is allowed to access directly
       {
         condition: !needLogin,
         callback: () => {
@@ -97,6 +97,7 @@ export function createRouteGuard(router: Router) {
  * @param to to route
  */
 async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw | null> {
+  const authStore = useAuthStore();
   const routeStore = useRouteStore();
 
   const notFoundRoute: RouteKey = 'not-found';
@@ -127,11 +128,6 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     return null;
   }
 
-  // the auth route is initialized
-  // it is not the "not-found" route, then it is allowed to access
-  if (routeStore.isInitAuthRoute && !isNotFoundRoute) {
-    return null;
-  }
   // it is captured by the "not-found" route, then check whether the route exists
   if (routeStore.isInitAuthRoute && isNotFoundRoute) {
     const exist = await routeStore.getIsAuthRouteExist(to.path as RoutePath);
@@ -165,16 +161,16 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
     return location;
   }
 
-  if (isLogin) {
-    if (to.path !== '/pwd-login') {
-      const authStore = useAuthStore();
-      await authStore.getInfo();
-      const { data, error } = await fetchVersion();
-      if (!error && data) {
-        localStg.set('version', data!);
-      } else {
-        localStg.remove('version');
-      }
+  // the auth route is initialized
+  // it is not the "not-found" route, then it is allowed to access
+  if (!routeStore.isInitAuthRoute && isLogin) {
+    // update user info
+    await authStore.updateUserInfo();
+    const { data, error } = await fetchVersion();
+    if (!error && data) {
+      localStg.set('version', data!);
+    } else {
+      localStg.remove('version');
     }
   }
 

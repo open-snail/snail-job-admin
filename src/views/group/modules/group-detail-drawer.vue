@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from 'vue';
 import { groupConfigIdModeRecord, groupConfigStatusRecord, yesOrNoRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
@@ -13,19 +12,11 @@ interface Props {
   rowData?: Api.GroupConfig.GroupConfig | null;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 const visible = defineModel<boolean>('visible', {
   default: false
 });
-
-watch(
-  () => props.rowData,
-  () => {
-    console.log(props.rowData);
-  },
-  { immediate: true }
-);
 </script>
 
 <template>

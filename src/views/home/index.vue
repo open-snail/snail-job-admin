@@ -29,6 +29,6 @@ getCardData();
 
 <style scoped>
 .home-main {
-  max-height: calc(100vh - 148px);
+  max-height: calc(100vh - 155px);
 }
 </style>

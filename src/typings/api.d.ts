@@ -116,6 +116,7 @@ declare namespace Api {
     }
 
     interface UserInfo {
+      id: string;
       userId: string;
       username: string;
       userName: string;
@@ -1162,7 +1163,7 @@ declare namespace Api {
 
     /** retryLog search params */
     type RetryLogSearchParams = CommonType.RecordNullable<
-      Pick<Api.RetryLog.RetryLog, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo'> &
+      Pick<Api.RetryLog.RetryLog, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'retryStatus'> &
         CommonSearchParams
     >;
 

@@ -9,7 +9,7 @@ import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { roleTypeRecord } from '@/constants/business';
 import { useRouteStore } from '../route';
-import { clearAuthStorage, getToken, getUserInfo } from './shared';
+import { clearAuthStorage, getToken } from './shared';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const route = useRoute();
@@ -19,7 +19,17 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
-  const userInfo: Api.Auth.UserInfo = reactive(getUserInfo());
+  const userInfo: Api.Auth.UserInfo = reactive({
+    id: '',
+    userId: '',
+    mode: '',
+    role: 1,
+    username: '',
+    userName: '',
+    roles: [],
+    buttons: [],
+    namespaceIds: []
+  });
 
   /** is super role in static route */
   const isStaticSuper = computed(() => {
@@ -88,19 +98,21 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', loginToken.token);
     // localStg.set('refreshToken', loginToken.refreshToken);
-    localStg.set('namespaceId', loginToken.namespaceIds[0].uniqueId);
+    const userNamespace = localStg.get('userNamespace') || {};
+    const namespaceId = userNamespace[loginToken.id];
+    localStg.set('namespaceId', namespaceId);
 
-    const { data: info, error } = await fetchGetUserInfo();
+    if (!namespaceId || !loginToken.namespaceIds.map(item => item.uniqueId).includes(namespaceId)) {
+      userNamespace[loginToken.id] = loginToken.namespaceIds[0].uniqueId;
+      localStg.set('namespaceId', loginToken.namespaceIds[0].uniqueId);
+      localStg.set('userNamespace', userNamespace);
+    }
 
-    if (!error) {
-      info!.userName = info?.username;
-      info!.roles = [roleTypeRecord[info.role]];
-      // 2. store user info
-      localStg.set('userInfo', info);
+    // 2. get user info and update store
+    const pass = await updateUserInfo();
 
-      // 3. update store
+    if (pass) {
       token.value = loginToken.token;
-      Object.assign(userInfo, info);
 
       return true;
     }
@@ -108,10 +120,11 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     return false;
   }
 
-  async function getInfo() {
+  async function updateUserInfo() {
     const { data: info, error } = await fetchGetUserInfo();
 
     if (!error) {
+      // update store
       info!.userName = info?.username;
       info!.roles = [roleTypeRecord[info.role]];
       localStg.set('userInfo', info);
@@ -119,8 +132,16 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
       return true;
     }
-    resetStore();
+
+    await resetStore();
     return false;
+  }
+
+  function setNamespaceId(namespaceId: string) {
+    const userNamespace = localStg.get('userNamespace') || {};
+    userNamespace[userInfo.userId] = namespaceId;
+    localStg.set('userNamespace', userNamespace);
+    localStg.set('namespaceId', namespaceId);
   }
 
   return {
@@ -131,6 +152,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     loginLoading,
     resetStore,
     login,
-    getInfo
+    updateUserInfo,
+    setNamespaceId
   };
 });

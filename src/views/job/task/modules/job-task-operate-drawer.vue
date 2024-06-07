@@ -282,7 +282,7 @@ watch(visible, () => {
         />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.groupName')" path="groupName">
-        <SelectGroup v-model:value="model.groupName" />
+        <SelectGroup v-model:value="model.groupName" :disabled="props.operateType === 'edit'" />
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.jobStatus')" path="jobStatus">
         <NRadioGroup v-model:value="model.jobStatus" name="jobStatus">

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from 'vue';
 import { DelayLevel, backOffRecord, enableStatusNumberRecord, routeKeyRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
@@ -30,14 +29,6 @@ function maxRetryCountUpdate(maxRetryCount: number) {
   }
   return desc.substring(1, desc.length);
 }
-
-watch(
-  () => props.rowData,
-  () => {
-    console.log(props.rowData);
-  },
-  { immediate: true }
-);
 </script>
 
 <template>

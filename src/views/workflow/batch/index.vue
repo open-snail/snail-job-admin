@@ -16,6 +16,8 @@ const workflowId =
 
 const appStore = useAppStore();
 
+const taskBatchStatus = history.state.taskBatchStatus;
+
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetWorkflowBatchList,
   apiParams: {
@@ -25,7 +27,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     // the value can not be undefined, otherwise the property in Form will not be reactive
     workflowId,
     groupName: null,
-    taskBatchStatus: null
+    taskBatchStatus
   },
   columns: () => [
     {

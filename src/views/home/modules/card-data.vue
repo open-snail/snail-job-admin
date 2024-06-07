@@ -108,28 +108,28 @@ const cardData = computed<CardData[]>(() => [
       {
         label: $t('common.success'),
         value: props.modelValue?.jobTask.successNum ?? 0,
-        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '3' } })
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: 3 } })
       },
       {
         label: $t('common.fail'),
         value: props.modelValue?.jobTask.failNum ?? 0,
-        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '4' } })
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: 4 } })
       },
       {
         label: $t('common.stop'),
         value: props.modelValue?.jobTask.stopNum ?? 0,
-        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '5' } })
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: 5 } })
       },
       {
         label: $t('common.cancel'),
         value: props.modelValue?.jobTask.cancelNum ?? 0,
-        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: '6' } })
+        click: () => routerPushByKey('job_batch', { state: { taskBatchStatus: 6 } })
       }
     ]
   },
   {
     key: 'retry_task',
-    title: $t('page.home.retryTask'),
+    title: $t('page.home.retryTask.title'),
     tip: $t('page.home.retryTaskTip'),
     value: props.modelValue?.retryTask.totalNum ?? 0,
     click: () => routerPushByKey('retry_task'),
@@ -142,19 +142,23 @@ const cardData = computed<CardData[]>(() => [
     bottom: [
       {
         label: $t('common.success'),
-        value: props.modelValue?.retryTask.finishNum ?? 0
+        value: props.modelValue?.retryTask.finishNum ?? 0,
+        click: () => routerPushByKey('retry_log', { state: { retryStatus: 1 } })
       },
       {
         label: $t('common.running'),
-        value: props.modelValue?.retryTask.runningNum ?? 0
+        value: props.modelValue?.retryTask.runningNum ?? 0,
+        click: () => routerPushByKey('retry_log', { state: { retryStatus: 0 } })
       },
       {
-        label: $t('page.manage.retryTask.status.maxRetryTimes'),
-        value: props.modelValue?.retryTask.maxCountNum ?? 0
+        label: $t('page.home.retryTask.status.maxRetryTimes'),
+        value: props.modelValue?.retryTask.maxCountNum ?? 0,
+        click: () => routerPushByKey('retry_log', { state: { retryStatus: 2 } })
       },
       {
-        label: $t('page.manage.retryTask.status.pauseRetry'),
-        value: props.modelValue?.retryTask.suspendNum ?? 0
+        label: $t('page.home.retryTask.status.pauseRetry'),
+        value: props.modelValue?.retryTask.suspendNum ?? 0,
+        click: () => routerPushByKey('retry_log', { state: { retryStatus: 3 } })
       }
     ]
   },
@@ -173,19 +177,23 @@ const cardData = computed<CardData[]>(() => [
     bottom: [
       {
         label: $t('common.success'),
-        value: props.modelValue?.workFlowTask.successNum ?? 0
+        value: props.modelValue?.workFlowTask.successNum ?? 0,
+        click: () => routerPushByKey('workflow_batch', { state: { taskBatchStatus: 3 } })
       },
       {
         label: $t('common.fail'),
-        value: props.modelValue?.workFlowTask.failNum ?? 0
+        value: props.modelValue?.workFlowTask.failNum ?? 0,
+        click: () => routerPushByKey('workflow_batch', { state: { taskBatchStatus: 4 } })
       },
       {
         label: $t('common.stop'),
-        value: props.modelValue?.workFlowTask.stopNum ?? 0
+        value: props.modelValue?.workFlowTask.stopNum ?? 0,
+        click: () => routerPushByKey('workflow_batch', { state: { taskBatchStatus: 5 } })
       },
       {
         label: $t('common.cancel'),
-        value: props.modelValue?.workFlowTask.cancelNum ?? 0
+        value: props.modelValue?.workFlowTask.cancelNum ?? 0,
+        click: () => routerPushByKey('workflow_batch', { state: { taskBatchStatus: 6 } })
       }
     ]
   },
@@ -203,12 +211,14 @@ const cardData = computed<CardData[]>(() => [
     icon: 'ant-design:database-outlined',
     bottom: [
       {
-        label: $t('page.manage.machine.type.client'),
-        value: props.modelValue?.onLineService.clientTotal ?? 0
+        label: $t('page.home.machine.type.client'),
+        value: props.modelValue?.onLineService.clientTotal ?? 0,
+        click: () => routerPushByKey('pods')
       },
       {
-        label: $t('page.manage.machine.type.server'),
-        value: props.modelValue?.onLineService.serverTotal ?? 0
+        label: $t('page.home.machine.type.server'),
+        value: props.modelValue?.onLineService.serverTotal ?? 0,
+        click: () => routerPushByKey('pods')
       }
     ]
   }
@@ -238,7 +248,7 @@ function getGradientColor(color: CardData['color']) {
     <!-- define component end: GradientBg -->
 
     <NGrid :cols="gridCol" responsive="screen" :x-gap="16" :y-gap="16">
-      <NGi v-for="item in cardData" :key="item.key">
+      <NGi v-for="item in cardData" :key="item.key" class="home-card">
         <NSpin :show="false">
           <GradientBg :gradient-color="getGradientColor(item.color)" class="h-165px flex-1">
             <div :class="item.click ? 'cursor-pointer' : null" @click="item.click">
@@ -283,9 +293,9 @@ function getGradientColor(color: CardData['color']) {
             <NDivider />
             <template v-for="(bottomItem, bottomIndex) in item.bottom" :key="bottomIndex">
               <NDivider v-if="bottomIndex !== 0" vertical />
-              <span :class="bottomItem.click ? 'cursor-pointer' : null" @click="bottomItem.click">
+              <span :class="bottomItem.click ? 'cursor-pointer home-card-footer' : null" @click="bottomItem.click">
                 {{ bottomItem.label }}
-                <CountTo :start-value="0" :end-value="bottomItem.value" class="text-white" />
+                <CountTo :start-value="0" :end-value="bottomItem.value" />
               </span>
             </template>
           </GradientBg>
@@ -306,5 +316,26 @@ function getGradientColor(color: CardData['color']) {
 
 :deep(.n-progress-icon--as-text) {
   width: 60px !important;
+}
+
+.home-card {
+  transition: all 0.25s ease-in;
+}
+
+.home-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--n-box-shadow);
+  border-radius: 8px;
+}
+
+.home-card-footer:hover {
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.25s ease-in;
+}
+
+.home-card-footer:hover {
+  color: #1366ff !important;
+  font-size: 15px;
 }
 </style>

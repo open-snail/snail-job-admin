@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from 'vue';
 import { NTag } from 'naive-ui';
 import { roleRecord } from '@/constants/business';
 import { $t } from '@/locales';
@@ -14,19 +13,11 @@ interface Props {
   rowData?: Api.UserManager.UserManager | null;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 const visible = defineModel<boolean>('visible', {
   default: false
 });
-
-watch(
-  () => props.rowData,
-  () => {
-    console.log(props.rowData);
-  },
-  { immediate: true }
-);
 </script>
 
 <template>
@@ -44,7 +35,7 @@ watch(
         :span="2"
       >
         <NTag v-for="(item, index) in rowData?.permissions" :key="index" type="info">
-          <span style="font-weight: bolder">{{ item.groupName }}</span>
+          <span class="title">{{ item.groupName }}</span>
           ({{ item.namespaceName }})
         </NTag>
       </NDescriptionsItem>
@@ -58,4 +49,8 @@ watch(
   </OperateDrawer>
 </template>
 
-<style scoped></style>
+<style scoped>
+.title {
+  font-weight: bolder !important;
+}
+</style>

@@ -8,7 +8,7 @@ export function createServiceConfig(env: Env.ImportMeta) {
 
   let other = {} as Record<App.Service.OtherBaseURLKey, string>;
   try {
-    other = JSON.parse(VITE_OTHER_SERVICE_BASE_URL);
+    other = VITE_OTHER_SERVICE_BASE_URL ? JSON.parse(VITE_OTHER_SERVICE_BASE_URL) : {};
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('VITE_OTHER_SERVICE_BASE_URL is not a valid JSON string');

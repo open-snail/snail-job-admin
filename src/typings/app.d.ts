@@ -252,6 +252,10 @@ declare namespace App {
       system: {
         title: string;
         desc: string;
+        updateTitle: string;
+        updateContent: string;
+        updateConfirm: string;
+        updateCancel: string;
       };
       common: {
         action: string;
@@ -328,6 +332,10 @@ declare namespace App {
         yesOrNo: {
           yes: string;
           no: string;
+        };
+        status: {
+          enable: string;
+          disable: string;
         };
         systemTaskType: {
           retry: string;
@@ -519,25 +527,6 @@ declare namespace App {
             admin: string;
             user: string;
           };
-          codeLogin: {
-            title: string;
-            getCode: string;
-            reGetCode: string;
-            sendCodeSuccess: string;
-            imageCodePlaceholder: string;
-          };
-          register: {
-            title: string;
-            agreement: string;
-            protocol: string;
-            policy: string;
-          };
-          resetPwd: {
-            title: string;
-          };
-          bindWeChat: {
-            title: string;
-          };
         };
         about: {
           title: string;
@@ -556,19 +545,9 @@ declare namespace App {
           devDep: string;
         };
         home: {
-          Greeting: string;
-          morningGreeting: string;
-          bthGreeting: string;
-          noonGreeting: string;
-          athGreeting: string;
-          duskGreeting: string;
-          eveningGreeting: string;
-          earlyMorningGreeting: string;
-          weatherDesc: string;
           retryTaskCount: string;
           jobTaskCount: string;
           userCount: string;
-          retryTask: string;
           retryDeadLetter: string;
           retryTaskTip: string;
           jobTask: string;
@@ -578,19 +557,19 @@ declare namespace App {
           onlineServiceTip: string;
           workflow: string;
           workflowTip: string;
-          projectCount: string;
-          todo: string;
-          message: string;
-          downloadCount: string;
-          registerCount: string;
-          schedule: string;
-          study: string;
-          work: string;
-          rest: string;
-          entertainment: string;
-          visitCount: string;
-          turnover: string;
-          dealCount: string;
+          machine: {
+            type: {
+              client: string;
+              server: string;
+            };
+          };
+          retryTask: {
+            title: string;
+            status: {
+              maxRetryTimes: string;
+              pauseRetry: string;
+            };
+          };
           retryTab: {
             params: {
               day: string;
@@ -689,175 +668,6 @@ declare namespace App {
           addGroupConfig: string;
           editGroupConfig: string;
           generateToken: string;
-        };
-        function: {
-          tab: {
-            tabOperate: {
-              title: string;
-              addTab: string;
-              addTabDesc: string;
-              closeTab: string;
-              closeCurrentTab: string;
-              closeAboutTab: string;
-              addMultiTab: string;
-              addMultiTabDesc1: string;
-              addMultiTabDesc2: string;
-            };
-            tabTitle: {
-              title: string;
-              changeTitle: string;
-              change: string;
-              resetTitle: string;
-              reset: string;
-            };
-          };
-          multiTab: {
-            routeParam: string;
-            backTab: string;
-          };
-          toggleAuth: {
-            toggleAccount: string;
-            authHook: string;
-            superAdminVisible: string;
-            adminVisible: string;
-            adminOrUserVisible: string;
-          };
-          request: {
-            repeatedErrorOccurOnce: string;
-            repeatedError: string;
-            repeatedErrorMsg1: string;
-            repeatedErrorMsg2: string;
-          };
-        };
-        manage: {
-          common: {
-            status: {
-              enable: string;
-              disable: string;
-            };
-          };
-          machine: {
-            type: {
-              client: string;
-              server: string;
-            };
-          };
-          retryTask: {
-            status: {
-              maxRetryTimes: string;
-              pauseRetry: string;
-            };
-          };
-          role: {
-            title: string;
-            roleName: string;
-            roleCode: string;
-            roleStatus: string;
-            roleDesc: string;
-            form: {
-              roleName: string;
-              roleCode: string;
-              roleStatus: string;
-              roleDesc: string;
-            };
-            addRole: string;
-            editRole: string;
-            menuAuth: string;
-            buttonAuth: string;
-          };
-          user: {
-            title: string;
-            userName: string;
-            userGender: string;
-            nickName: string;
-            userPhone: string;
-            userEmail: string;
-            userStatus: string;
-            userRole: string;
-            form: {
-              userName: string;
-              userGender: string;
-              nickName: string;
-              userPhone: string;
-              userEmail: string;
-              userStatus: string;
-              userRole: string;
-            };
-            addUser: string;
-            editUser: string;
-            gender: {
-              male: string;
-              female: string;
-            };
-          };
-          menu: {
-            home: string;
-            title: string;
-            id: string;
-            parentId: string;
-            menuType: string;
-            menuName: string;
-            routeName: string;
-            routePath: string;
-            pathParam: string;
-            layout: string;
-            page: string;
-            i18nKey: string;
-            icon: string;
-            localIcon: string;
-            iconTypeTitle: string;
-            order: string;
-            constant: string;
-            keepAlive: string;
-            href: string;
-            hideInMenu: string;
-            activeMenu: string;
-            multiTab: string;
-            fixedIndexInTab: string;
-            query: string;
-            button: string;
-            buttonCode: string;
-            buttonDesc: string;
-            menuStatus: string;
-            form: {
-              home: string;
-              menuType: string;
-              menuName: string;
-              routeName: string;
-              routePath: string;
-              pathParam: string;
-              layout: string;
-              page: string;
-              i18nKey: string;
-              icon: string;
-              localIcon: string;
-              order: string;
-              keepAlive: string;
-              href: string;
-              hideInMenu: string;
-              activeMenu: string;
-              multiTab: string;
-              fixedInTab: string;
-              fixedIndexInTab: string;
-              queryKey: string;
-              queryValue: string;
-              button: string;
-              buttonCode: string;
-              buttonDesc: string;
-              menuStatus: string;
-            };
-            addMenu: string;
-            editMenu: string;
-            addChildMenu: string;
-            type: {
-              directory: string;
-              menu: string;
-            };
-            iconType: {
-              iconify: string;
-              local: string;
-            };
-          };
         };
         notifyConfig: {
           title: string;

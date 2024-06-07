@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
+import { translateOptions } from '@/utils/common';
+import { retryTaskStatusTypeOptions } from '@/constants/business';
 import SelectGroup from '@/components/common/select-group.vue';
 import SelectScene from '@/components/common/select-scene.vue';
 
@@ -41,6 +43,14 @@ function search() {
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.bizNo')" path="bizNo" class="pr-24px">
       <NInput v-model:value="model.bizNo" :placeholder="$t('page.retryLog.form.bizNo')" />
+    </NFormItemGi>
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.retryStatus')" path="taskBatchStatus" class="pr-24px">
+      <NSelect
+        v-model:value="model.retryStatus"
+        :placeholder="$t('page.retryTask.form.retryStatus')"
+        :options="translateOptions(retryTaskStatusTypeOptions)"
+        clearable
+      />
     </NFormItemGi>
   </SearchForm>
 </template>

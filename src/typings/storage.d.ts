@@ -22,6 +22,9 @@ declare namespace StorageType {
     version: string;
     /** The namespace id */
     namespaceId: string;
+    userNamespace: {
+      [key: string]: string;
+    };
     /** The user info */
     userInfo: Api.Auth.UserInfo;
     /** The theme color */

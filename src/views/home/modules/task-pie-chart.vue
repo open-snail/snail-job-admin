@@ -109,8 +109,8 @@ function updateLocale() {
       opts.series[0].data = [
         { name: $t('common.success'), value: retryTask.finishNum / retryTask.totalNum },
         { name: $t('common.running'), value: retryTask.runningNum / retryTask.totalNum },
-        { name: $t('page.manage.retryTask.status.maxRetryTimes'), value: retryTask.maxCountNum / retryTask.totalNum },
-        { name: $t('page.manage.retryTask.status.pauseRetry'), value: retryTask.suspendNum / retryTask.totalNum }
+        { name: $t('page.home.retryTask.status.maxRetryTimes'), value: retryTask.maxCountNum / retryTask.totalNum },
+        { name: $t('page.home.retryTask.status.pauseRetry'), value: retryTask.suspendNum / retryTask.totalNum }
       ];
     }
 

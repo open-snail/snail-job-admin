@@ -20,6 +20,8 @@ const detailData = ref<Api.JobBatch.JobBatch | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 
+const taskBatchStatus = history.state.taskBatchStatus;
+
 const { columnChecks, columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobBatchList,
   apiParams: {
@@ -27,7 +29,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     size: 10,
     groupName: null,
     jobName: null,
-    taskBatchStatus: null
+    taskBatchStatus
   },
   columns: () => [
     {

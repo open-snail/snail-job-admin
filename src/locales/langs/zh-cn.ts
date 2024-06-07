@@ -1,7 +1,11 @@
 const local: App.I18n.Schema = {
   system: {
     title: 'Snail Job',
-    desc: '灵活，可靠和快速的分布式任务重试和分布式任务调度平台'
+    desc: '灵活，可靠和快速的分布式任务重试和分布式任务调度平台',
+    updateTitle: '系统版本更新通知',
+    updateContent: '检测到系统有新版本发布，是否立即刷新页面？',
+    updateConfirm: '立即刷新',
+    updateCancel: '稍后再说'
   },
   common: {
     action: '操作',
@@ -78,6 +82,10 @@ const local: App.I18n.Schema = {
     yesOrNo: {
       yes: '是',
       no: '否'
+    },
+    status: {
+      enable: '启用',
+      disable: '禁用'
     },
     systemTaskType: {
       retry: '重试任务',
@@ -286,21 +294,9 @@ const local: App.I18n.Schema = {
     document_antd: 'Ant Design Vue文档',
     'user-center': '个人中心',
     about: '关于',
-    function: '系统功能',
-    function_tab: '标签页',
-    'function_multi-tab': '多标签页',
-    'function_hide-child': '隐藏子菜单',
-    'function_hide-child_one': '隐藏子菜单',
-    'function_hide-child_two': '菜单二',
-    'function_hide-child_three': '菜单三',
-    function_request: '请求',
-    'function_toggle-auth': '切换权限',
-    'function_super-page': '超级管理员可见',
     pods: '在线机器',
     namespace: '命名空间',
     group: '组管理',
-    manage: '系统管理',
-    manage_user: '用户管理',
     notify: '告警通知',
     notify_recipient: '通知人',
     notify_scene: '通知场景',
@@ -323,15 +319,6 @@ const local: App.I18n.Schema = {
     job: '定时任务',
     job_task: '任务管理',
     job_batch: '执行批次',
-    'manage_user-detail': '用户详情',
-    manage_role: '角色管理',
-    manage_menu: '菜单管理',
-    'multi-menu': '多级菜单',
-    'multi-menu_first': '菜单一',
-    'multi-menu_first_child': '菜单一子菜单',
-    'multi-menu_second': '菜单二',
-    'multi-menu_second_child': '菜单二子菜单',
-    'multi-menu_second_child_home': '菜单二子菜单首页',
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',
@@ -368,25 +355,6 @@ const local: App.I18n.Schema = {
         superAdmin: '超级管理员',
         admin: '管理员',
         user: '普通用户'
-      },
-      codeLogin: {
-        title: '验证码登录',
-        getCode: '获取验证码',
-        reGetCode: '{time}秒后重新获取',
-        sendCodeSuccess: '验证码发送成功',
-        imageCodePlaceholder: '请输入图片验证码'
-      },
-      register: {
-        title: '注册账号',
-        agreement: '我已经仔细阅读并接受',
-        protocol: '《用户协议》',
-        policy: '《隐私权政策》'
-      },
-      resetPwd: {
-        title: '重置密码'
-      },
-      bindWeChat: {
-        title: '绑定微信'
       }
     },
     about: {
@@ -418,19 +386,9 @@ const local: App.I18n.Schema = {
       devDep: '开发依赖'
     },
     home: {
-      Greeting: '{userName}，欢迎回来！',
-      morningGreeting: '早安，{userName}，今天又是充满活力的一天！',
-      bthGreeting: '上午好，{userName}，工作顺利吗，不要久坐，多起来走动走动哦！',
-      noonGreeting: '中午好，{userName}，工作了一个上午，现在是午餐时间！',
-      athGreeting: '下午好，{userName}，午后很容易犯困呢，是时候该打个盹了!',
-      duskGreeting: '{userName}，傍晚了，窗外夕阳的景色很美丽呢，最美不过夕阳红~',
-      eveningGreeting: '晚上好，{userName}，今天过得怎么样？请注意早点休息！',
-      earlyMorningGreeting: '{userName}，已经这么晚了呀，早点休息吧，晚安~',
-      weatherDesc: '今日多云转晴，20℃ - 25℃!',
       retryTaskCount: '重试任务',
       jobTaskCount: '定时任务',
       userCount: '用户',
-      retryTask: '重试任务',
       retryDeadLetter: '死信任务',
       retryTaskTip: '总任务量: 重试/回调任务量',
       jobTask: '定时任务',
@@ -440,19 +398,19 @@ const local: App.I18n.Schema = {
       onlineServiceTip: '总在线机器:注册到系统的客户端和服务端之和',
       workflow: '工作流',
       workflowTip: '成功率:总完成/总调度量',
-      projectCount: '项目数',
-      todo: '待办',
-      message: '消息',
-      downloadCount: '下载量',
-      registerCount: '注册量',
-      schedule: '作息安排',
-      study: '学习',
-      work: '工作',
-      rest: '休息',
-      entertainment: '娱乐',
-      visitCount: '访问量',
-      turnover: '成交额',
-      dealCount: '成交量',
+      machine: {
+        type: {
+          client: '客户端',
+          server: '服务端'
+        }
+      },
+      retryTask: {
+        title: '重试任务',
+        status: {
+          maxRetryTimes: '最大重试次数',
+          pauseRetry: '暂停重试'
+        }
+      },
       retryTab: {
         params: {
           day: '今日',
@@ -551,175 +509,6 @@ const local: App.I18n.Schema = {
       addGroupConfig: '新增组管理',
       editGroupConfig: '编辑组管理',
       generateToken: '随机生成'
-    },
-    function: {
-      tab: {
-        tabOperate: {
-          title: '标签页操作',
-          addTab: '添加标签页',
-          addTabDesc: '跳转到关于页面',
-          closeTab: '关闭标签页',
-          closeCurrentTab: '关闭当前标签页',
-          closeAboutTab: '关闭"关于"标签页',
-          addMultiTab: '添加多标签页',
-          addMultiTabDesc1: '跳转到多标签页页面',
-          addMultiTabDesc2: '跳转到多标签页页面(带有查询参数)'
-        },
-        tabTitle: {
-          title: '标签页标题',
-          changeTitle: '修改标题',
-          change: '修改',
-          resetTitle: '重置标题',
-          reset: '重置'
-        }
-      },
-      multiTab: {
-        routeParam: '路由参数',
-        backTab: '返回 function_tab'
-      },
-      toggleAuth: {
-        toggleAccount: '切换账号',
-        authHook: '权限钩子函数 `hasAuth`',
-        superAdminVisible: '超级管理员可见',
-        adminVisible: '管理员可见',
-        adminOrUserVisible: '管理员和用户可见'
-      },
-      request: {
-        repeatedErrorOccurOnce: '重复请求错误只出现一次',
-        repeatedError: '重复请求错误',
-        repeatedErrorMsg1: '自定义请求错误 1',
-        repeatedErrorMsg2: '自定义请求错误 2'
-      }
-    },
-    manage: {
-      common: {
-        status: {
-          enable: '启用',
-          disable: '禁用'
-        }
-      },
-      machine: {
-        type: {
-          client: '客户端',
-          server: '服务端'
-        }
-      },
-      retryTask: {
-        status: {
-          maxRetryTimes: '最大重试次数',
-          pauseRetry: '暂停重试'
-        }
-      },
-      role: {
-        title: '角色列表',
-        roleName: '角色名称',
-        roleCode: '角色编码',
-        roleStatus: '角色状态',
-        roleDesc: '角色描述',
-        menuAuth: '菜单权限',
-        buttonAuth: '按钮权限',
-        form: {
-          roleName: '请输入角色名称',
-          roleCode: '请输入角色编码',
-          roleStatus: '请选择角色状态',
-          roleDesc: '请输入角色描述'
-        },
-        addRole: '新增角色',
-        editRole: '编辑角色'
-      },
-      user: {
-        title: '用户列表',
-        userName: '用户名',
-        userGender: '性别',
-        nickName: '昵称',
-        userPhone: '手机号',
-        userEmail: '邮箱',
-        userStatus: '用户状态',
-        userRole: '用户角色',
-        form: {
-          userName: '请输入用户名',
-          userGender: '请选择性别',
-          nickName: '请输入昵称',
-          userPhone: '请输入手机号',
-          userEmail: '请输入邮箱',
-          userStatus: '请选择用户状态',
-          userRole: '请选择用户角色'
-        },
-        addUser: '新增用户',
-        editUser: '编辑用户',
-        gender: {
-          male: '男',
-          female: '女'
-        }
-      },
-      menu: {
-        home: '首页',
-        title: '菜单列表',
-        id: 'ID',
-        parentId: '父级菜单ID',
-        menuType: '菜单类型',
-        menuName: '菜单名称',
-        routeName: '路由名称',
-        routePath: '路由路径',
-        pathParam: '路径参数',
-        layout: '布局',
-        page: '页面组件',
-        i18nKey: '国际化key',
-        icon: '图标',
-        localIcon: '本地图标',
-        iconTypeTitle: '图标类型',
-        order: '排序',
-        constant: '常量路由',
-        keepAlive: '缓存路由',
-        href: '外链',
-        hideInMenu: '隐藏菜单',
-        activeMenu: '高亮的菜单',
-        multiTab: '支持多页签',
-        fixedIndexInTab: '固定在页签中的序号',
-        query: '路由参数',
-        button: '按钮',
-        buttonCode: '按钮编码',
-        buttonDesc: '按钮描述',
-        menuStatus: '菜单状态',
-        form: {
-          home: '请选择首页',
-          menuType: '请选择菜单类型',
-          menuName: '请输入菜单名称',
-          routeName: '请输入路由名称',
-          routePath: '请输入路由路径',
-          pathParam: '请输入路径参数',
-          page: '请选择页面组件',
-          layout: '请选择布局组件',
-          i18nKey: '请输入国际化key',
-          icon: '请输入图标',
-          localIcon: '请选择本地图标',
-          order: '请输入排序',
-          keepAlive: '请选择是否缓存路由',
-          href: '请输入外链',
-          hideInMenu: '请选择是否隐藏菜单',
-          activeMenu: '请选择高亮的菜单的路由名称',
-          multiTab: '请选择是否支持多标签',
-          fixedInTab: '请选择是否固定在页签中',
-          fixedIndexInTab: '请输入固定在页签中的序号',
-          queryKey: '请输入路由参数Key',
-          queryValue: '请输入路由参数Value',
-          button: '请选择是否按钮',
-          buttonCode: '请输入按钮编码',
-          buttonDesc: '请输入按钮描述',
-          menuStatus: '请选择菜单状态'
-        },
-        addMenu: '新增菜单',
-        editMenu: '编辑菜单',
-        addChildMenu: '新增子菜单',
-        type: {
-          directory: '目录',
-          menu: '菜单'
-        },
-        iconType: {
-          iconify: 'iconify图标',
-          local: '本地图标'
-        }
-      }
     },
     notifyConfig: {
       title: '告警通知列表',

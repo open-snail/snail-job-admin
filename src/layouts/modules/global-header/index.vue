@@ -92,6 +92,7 @@ onUnmounted(() => {
         @click="href('https://github.com/aizuda/snail-job')"
       />
       <ButtonIcon
+        v-if="!appStore.isMobile && state.width > 760"
         tooltip-content="Document"
         class="color-#272636 dark:color-#f0f2f5"
         icon="material-symbols:unknown-document-outline"

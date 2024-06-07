@@ -60,7 +60,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
 
         return (
           <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
-            {row.jobName}
+            {`${row.jobName}(${row.id})`}
           </n-button>
         );
       }

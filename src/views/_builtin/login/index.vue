@@ -10,10 +10,6 @@ import { loginModuleRecord } from '@/constants/app';
 import { localStg } from '@/utils/storage';
 import { fetchVersion } from '@/service/api';
 import PwdLogin from './modules/pwd-login.vue';
-// import CodeLogin from './modules/code-login.vue';
-// import Register from './modules/register.vue';
-// import ResetPwd from './modules/reset-pwd.vue';
-// import BindWechat from './modules/bind-wechat.vue';
 
 interface Props {
   /** The login module */
@@ -47,10 +43,6 @@ interface LoginModule {
 
 const moduleMap: Record<UnionKey.LoginModule, LoginModule> = {
   'pwd-login': { label: loginModuleRecord['pwd-login'], component: PwdLogin }
-  // 'code-login': { label: loginModuleRecord['code-login'], component: CodeLogin },
-  // register: { label: loginModuleRecord.register, component: Register },
-  // 'reset-pwd': { label: loginModuleRecord['reset-pwd'], component: ResetPwd },
-  // 'bind-wechat': { label: loginModuleRecord['bind-wechat'], component: BindWechat }
 };
 
 const activeModule = computed(() => moduleMap[props.module || 'pwd-login']);
@@ -99,7 +91,6 @@ const href = (url: string) => {
           </div>
         </header>
         <main class="pt-24px">
-          <!--<h3 class="text-18px text-primary font-medium">{{ $t(activeModule.label) }}</h3>-->
           <div class="pt-0px">
             <Transition :name="themeStore.page.animateMode" mode="out-in" appear>
               <component :is="activeModule.component" />
