@@ -85,7 +85,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id!)}>
+          <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
           {hasAuth('R_ADMIN') ? (

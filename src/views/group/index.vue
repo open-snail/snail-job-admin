@@ -75,8 +75,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           }
           callback();
         };
-
-        return <StatusSwitch v-model:value={row.groupStatus} onFetch={fetchFn} />;
+        return (
+          <StatusSwitch v-model:value={row.groupStatus} onFetch={fetchFn} disabled={hasAuth('R_USER') as boolean} />
+        );
       }
     },
     {
