@@ -41,6 +41,7 @@ const local: App.I18n.Schema = {
     keywordSearch: '请输入关键词搜索',
     logout: '退出登录',
     logoutConfirm: '确认退出登录吗？',
+    updatePassword: '修改密码',
     lookForward: '敬请期待',
     modify: '修改',
     modifySuccess: '修改成功',
@@ -838,13 +839,17 @@ const local: App.I18n.Schema = {
       password: '密码',
       updatePassword: '更新密码',
       permissionList: '权限列表',
+      oldPassword: '旧密码',
+      newPassword: '新密码',
       form: {
         role: '请输入角色',
         password: '请输入密码',
         username: '请输入用户名',
         checkPassword: '请输入确认密码',
         permissions: '请选择组',
-        namespaceIds: '请选择命名空间'
+        namespaceIds: '请选择命名空间',
+        oldPassword: '请输入旧密码',
+        newPassword: '请输入新密码'
       },
       addUser: '新增用户',
       editUser: '编辑用户',

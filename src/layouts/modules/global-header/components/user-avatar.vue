@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { VNode } from 'vue';
+import { useBoolean } from '@sa/hooks';
 import { useAuthStore } from '@/store/modules/auth';
 import { useRouterPush } from '@/hooks/common/router';
 import { useSvgIcon } from '@/hooks/common/icon';
 import { $t } from '@/locales';
+import ChangePassword from './change-password.vue';
 
 defineOptions({
   name: 'UserAvatar'
@@ -18,7 +20,7 @@ function loginOrRegister() {
   toLogin();
 }
 
-type DropdownKey = 'user-center' | 'logout';
+type DropdownKey = 'password' | 'logout';
 
 type DropdownOption =
   | {
@@ -34,9 +36,9 @@ type DropdownOption =
 const options = computed(() => {
   const opts: DropdownOption[] = [
     {
-      label: $t('common.userCenter'),
-      key: 'user-center',
-      icon: SvgIconVNode({ icon: 'ph:user-circle', fontSize: 18 })
+      label: $t('common.updatePassword'),
+      key: 'password',
+      icon: SvgIconVNode({ icon: 'ph:password', fontSize: 18 })
     },
     {
       type: 'divider',
@@ -51,6 +53,8 @@ const options = computed(() => {
 
   return opts;
 });
+
+const { bool: drawerVisible, setTrue: openDrawer } = useBoolean(false);
 
 function logout() {
   window.$dialog?.info({
@@ -67,9 +71,15 @@ function logout() {
 function handleDropdown(key: DropdownKey) {
   if (key === 'logout') {
     logout();
+  } else if (key === 'password') {
+    handleChangePassword();
   } else {
     routerPushByKey(key);
   }
+}
+
+function handleChangePassword() {
+  openDrawer();
 }
 </script>
 
@@ -85,6 +95,7 @@ function handleDropdown(key: DropdownKey) {
       </ButtonIcon>
     </div>
   </NDropdown>
+  <ChangePassword v-model:visible="drawerVisible"></ChangePassword>
 </template>
 
 <style scoped></style>

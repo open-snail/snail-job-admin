@@ -41,6 +41,7 @@ const local: App.I18n.Schema = {
     keywordSearch: 'Please enter keyword',
     logout: 'Logout',
     logoutConfirm: 'Are you sure you want to log out?',
+    updatePassword: 'Update password',
     lookForward: 'Coming soon',
     modify: 'Modify',
     modifySuccess: 'Modify Success',
@@ -830,13 +831,17 @@ const local: App.I18n.Schema = {
       password: 'Password',
       updatePassword: 'Update Password',
       permissionList: 'Permission List',
+      oldPassword: 'Old Password',
+      newPassword: 'New Password',
       form: {
         role: 'Please enter Role',
         password: 'Please enter Password',
         username: 'Please enter Username',
         checkPassword: 'Please enter Confirm Password',
         permissions: 'Please select Group',
-        namespaceIds: 'Please select Namespaces'
+        namespaceIds: 'Please select Namespaces',
+        oldPassword: 'Please enter old password',
+        newPassword: 'Please enter new password'
       },
       addUser: 'Add User',
       editUser: 'Add User',
