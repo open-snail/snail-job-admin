@@ -293,7 +293,6 @@ const local: App.I18n.Schema = {
     document_unocss: 'UnoCSS文档',
     document_naive: 'Naive UI文档',
     document_antd: 'Ant Design Vue文档',
-    'user-center': '个人中心',
     about: '关于',
     pods: '在线机器',
     namespace: '命名空间',
@@ -420,7 +419,8 @@ const local: App.I18n.Schema = {
           year: '全年'
         },
         rank: {
-          title: '失败总量排名'
+          title: '失败总量排名',
+          titleRetry: '任务量排名'
         },
         task: {
           title: '场景列表',

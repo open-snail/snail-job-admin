@@ -580,6 +580,7 @@ declare namespace App {
             };
             rank: {
               title: string;
+              titleRetry: string;
             };
             task: {
               title: string;
