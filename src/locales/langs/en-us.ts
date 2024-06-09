@@ -42,6 +42,7 @@ const local: App.I18n.Schema = {
     logout: 'Logout',
     logoutConfirm: 'Are you sure you want to log out?',
     updatePassword: 'Update password',
+    changePassword: 'Change password',
     lookForward: 'Coming soon',
     modify: 'Modify',
     modifySuccess: 'Modify Success',

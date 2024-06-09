@@ -42,6 +42,7 @@ const local: App.I18n.Schema = {
     logout: '退出登录',
     logoutConfirm: '确认退出登录吗？',
     updatePassword: '修改密码',
+    changePassword: '修改密码',
     lookForward: '敬请期待',
     modify: '修改',
     modifySuccess: '修改成功',

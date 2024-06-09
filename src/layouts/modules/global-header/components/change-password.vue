@@ -64,7 +64,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" title="修改密码">
+  <OperateDrawer v-model="visible" :title="$t('common.changePassword')">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.userManager.oldPassword')" path="oldPassword">
         <NInput

@@ -292,6 +292,7 @@ declare namespace App {
         logout: string;
         logoutConfirm: string;
         updatePassword: string;
+        changePassword: string;
         lookForward: string;
         modify: string;
         modifySuccess: string;

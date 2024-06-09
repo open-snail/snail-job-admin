@@ -68,7 +68,6 @@ type RuleKey = Extract<
 
 const rules = {
   groupName: [
-    defaultRequiredRule,
     {
       required: true,
       pattern: /^[A-Za-z0-9_-]{1,64}$/,

@@ -36,7 +36,7 @@ type DropdownOption =
 const options = computed(() => {
   const opts: DropdownOption[] = [
     {
-      label: $t('common.updatePassword'),
+      label: $t('common.changePassword'),
       key: 'password',
       icon: SvgIconVNode({ icon: 'ph:password', fontSize: 18 })
     },
