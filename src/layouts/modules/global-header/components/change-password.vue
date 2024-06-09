@@ -37,6 +37,7 @@ const rules = computed<RuleRecord>(() => {
   const { formRules, createConfirmPwdRule } = useFormRules();
 
   return {
+    oldPassword: formRules.pwd,
     newPassword: formRules.pwd,
     checkPassword: createConfirmPwdRule(model.newPassword!)
   };
