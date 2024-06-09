@@ -294,7 +294,6 @@ const local: App.I18n.Schema = {
     document_unocss: 'UnoCSS Document',
     document_naive: 'Naive UI Document',
     document_antd: 'Ant Design Vue Document',
-    'user-center': 'User Center',
     about: 'About',
     pods: 'Online Machine',
     namespace: 'namespace',
