@@ -420,10 +420,10 @@ const local: App.I18n.Schema = {
         },
         rank: {
           title: '失败总量排名',
-          titleRetry: '任务量排名'
+          titleRetry: '任务总量排名'
         },
         task: {
-          title: '场景列表',
+          title: '任务汇总',
           groupName: '组名称',
           run: '运行中任务数',
           total: '总任务数'

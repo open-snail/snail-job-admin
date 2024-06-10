@@ -412,7 +412,7 @@ const local: App.I18n.Schema = {
           titleRetry: 'Total Amount Ranking'
         },
         task: {
-          title: 'List of scenes',
+          title: 'Task Summary',
           groupName: 'Group Name',
           run: 'Running Task Total',
           total: 'Task Total'
