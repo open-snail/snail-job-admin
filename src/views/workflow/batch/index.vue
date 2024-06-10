@@ -16,8 +16,6 @@ const workflowId =
 
 const appStore = useAppStore();
 
-const taskBatchStatus = history.state.taskBatchStatus;
-
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetWorkflowBatchList,
   apiParams: {
@@ -27,7 +25,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     // the value can not be undefined, otherwise the property in Form will not be reactive
     workflowId,
     groupName: null,
-    taskBatchStatus
+    taskBatchStatus: null
   },
   columns: () => [
     {
@@ -157,6 +155,16 @@ async function handleStop(id: string) {
 function detail(id: string) {
   router.push({ path: '/workflow/form/batch', query: { id } });
 }
+
+function initParams() {
+  const taskBatchStatus = history.state.taskBatchStatus;
+  if (taskBatchStatus) {
+    searchParams.taskBatchStatus = taskBatchStatus;
+    getData();
+  }
+}
+
+initParams();
 </script>
 
 <template>
