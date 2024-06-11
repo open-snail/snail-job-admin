@@ -17,6 +17,7 @@ const appStore = useAppStore();
 const detailData = ref<Api.RetryLog.RetryLog | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
+const retryStatus = history.state.retryStatus;
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchRetryLogPageList,
@@ -31,6 +32,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     idempotentId: null,
     bizNo: null,
     retryStatus: null
+  },
+  searchParams: {
+    retryStatus
   },
   columns: () => [
     {
@@ -168,16 +172,6 @@ async function loadRetryInfo(row: Api.RetryLog.RetryLog) {
   const res = await fetchRetryLogById(row.id!);
   detailData.value = (res.data as Api.RetryLog.RetryLog) || null;
 }
-
-function initParams() {
-  const retryStatus = history.state.retryStatus;
-  if (retryStatus) {
-    searchParams.retryStatus = retryStatus;
-    getData();
-  }
-}
-
-initParams();
 </script>
 
 <template>

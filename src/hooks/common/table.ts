@@ -36,6 +36,7 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
   } = useHookTable<A, GetTableData<A>, TableColumn<NaiveUI.TableDataWithIndex<GetTableData<A>>>>({
     apiFn,
     apiParams,
+    searchParams: config.searchParams,
     columns: config.columns,
     transformer: res => {
       const { data: records = [], page: current = 1, size = 10, total = 0 } = res.data || {};

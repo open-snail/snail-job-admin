@@ -1,9 +1,8 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { fetchGetJobBatchList, fetchGetJobNameList, fetchJobBatchRetry, fetchJobBatchStop } from '@/service/api';
+import { ref } from 'vue';
+import { fetchGetJobBatchList, fetchJobBatchRetry, fetchJobBatchStop } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
@@ -13,12 +12,12 @@ import JobBatchSearch from './modules/job-batch-search.vue';
 import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
 
 const appStore = useAppStore();
-const route = useRoute();
-
 /** 详情页属性数据 */
 const detailData = ref<Api.JobBatch.JobBatch | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
+const jobName = history.state.jobName;
+const taskBatchStatus = history.state.taskBatchStatus;
 
 const { columnChecks, columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobBatchList,
@@ -28,6 +27,10 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     groupName: null,
     jobName: null,
     taskBatchStatus: null
+  },
+  searchParams: {
+    jobName,
+    taskBatchStatus
   },
   columns: () => [
     {
@@ -163,41 +166,6 @@ async function handleStopJob(id: string) {
     getData();
   }
 }
-
-/** 处理路由 query 参数变化 */
-async function handleQueryChanged(jobId: number) {
-  if (!jobId) {
-    searchParams.jobName = null;
-  } else {
-    const { data: jobList, error } = await fetchGetJobNameList({ jobId });
-    if (!error && jobList.length > 0) {
-      const jobName = jobList[0].jobName;
-      searchParams.jobName = jobName;
-    }
-  }
-  getData();
-}
-
-watch(
-  () => route.query,
-  () => {
-    if (route.name === 'job_batch' && route.query.jobId) {
-      const jobId = Number(route.query.jobId);
-      handleQueryChanged(jobId);
-    }
-  },
-  { immediate: true }
-);
-
-function initParams() {
-  const taskBatchStatus = history.state.taskBatchStatus;
-  if (taskBatchStatus) {
-    searchParams.taskBatchStatus = taskBatchStatus;
-    getData();
-  }
-}
-
-initParams();
 </script>
 
 <template>
