@@ -18,7 +18,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   },
   columns: () => [
     // {
-    //   key: 'index',
+    //   key: 'id',
     //   title: $t('common.index'),
     //   align: 'center',
     //   width: 64

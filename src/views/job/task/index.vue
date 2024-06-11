@@ -41,7 +41,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       width: 48
     },
     {
-      key: 'index',
+      key: 'id',
       title: $t('common.index'),
       align: 'center',
       width: 48

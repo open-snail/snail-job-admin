@@ -44,7 +44,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       disabled: row => row.retryStatus !== 1
     },
     {
-      key: 'index',
+      key: 'id',
       title: $t('common.index'),
       align: 'center',
       width: 64
