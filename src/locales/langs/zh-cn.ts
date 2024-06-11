@@ -911,7 +911,7 @@ const local: App.I18n.Schema = {
     expand: '展开菜单',
     pin: '固定',
     unpin: '取消固定',
-    namespace: '切换空间'
+    namespace: '切换命名空间'
   },
   datatable: {
     itemCount: '共 {total} 条'

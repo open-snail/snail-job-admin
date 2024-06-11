@@ -6,6 +6,10 @@ import { localStg } from '@/utils/storage';
 import { useAppStore } from '@/store/modules/app';
 import { useAuthStore } from '@/store/modules/auth';
 
+defineOptions({
+  name: 'NamespaceSelect'
+});
+
 const router = useRouter();
 const appStore = useAppStore();
 const authStore = useAuthStore();
@@ -37,13 +41,19 @@ const onChange = (value: string) => {
       </ButtonIcon>
     </div>
   </NDropdown>
-  <NSelect
-    v-else
-    v-model:value="namespaceId"
-    class="namespace-select"
-    :options="selectOptions"
-    @update:value="onChange"
-  />
+  <template v-else>
+    <NTooltip trigger="hover">
+      <template #trigger>
+        <NSelect
+          v-model:value="namespaceId"
+          class="namespace-select"
+          :options="selectOptions"
+          @update:value="onChange"
+        />
+      </template>
+      {{ $t('icon.namespace') }}
+    </NTooltip>
+  </template>
 </template>
 
 <style lang="scss" scoped>
