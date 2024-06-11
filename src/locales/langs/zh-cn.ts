@@ -41,6 +41,8 @@ const local: App.I18n.Schema = {
     keywordSearch: '请输入关键词搜索',
     logout: '退出登录',
     logoutConfirm: '确认退出登录吗？',
+    updatePassword: '修改密码',
+    changePassword: '修改密码',
     lookForward: '敬请期待',
     modify: '修改',
     modifySuccess: '修改成功',
@@ -56,7 +58,6 @@ const local: App.I18n.Schema = {
     update: '更新',
     updateSuccess: '更新成功',
     updateFailed: '更新失败',
-    userCenter: '个人中心',
     downloadFail: '文件下载失败',
     success: '成功',
     fail: '失败',
@@ -292,7 +293,6 @@ const local: App.I18n.Schema = {
     document_unocss: 'UnoCSS文档',
     document_naive: 'Naive UI文档',
     document_antd: 'Ant Design Vue文档',
-    'user-center': '个人中心',
     about: '关于',
     pods: '在线机器',
     namespace: '命名空间',
@@ -427,10 +427,11 @@ const local: App.I18n.Schema = {
           year: '全年'
         },
         rank: {
-          title: '失败总量排名'
+          title: '失败总量排名',
+          titleRetry: '任务总量排名'
         },
         task: {
-          title: '场景列表',
+          title: '任务汇总',
           groupName: '组名称',
           run: '运行中任务数',
           total: '总任务数'
@@ -846,13 +847,17 @@ const local: App.I18n.Schema = {
       password: '密码',
       updatePassword: '更新密码',
       permissionList: '权限列表',
+      oldPassword: '旧密码',
+      newPassword: '新密码',
       form: {
         role: '请输入角色',
         password: '请输入密码',
         username: '请输入用户名',
         checkPassword: '请输入确认密码',
         permissions: '请选择组',
-        namespaceIds: '请选择命名空间'
+        namespaceIds: '请选择命名空间',
+        oldPassword: '请输入旧密码',
+        newPassword: '请输入新密码'
       },
       addUser: '新增用户',
       editUser: '编辑用户',

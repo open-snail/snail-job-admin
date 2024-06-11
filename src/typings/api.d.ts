@@ -1209,6 +1209,15 @@ declare namespace Api {
 
     /** 1、user 2、admin */
     type Role = 1 | 2;
+
+    type UpdateUserPassword = Common.CommonRecord<{
+      /** 旧密码 */
+      oldPassword: string;
+      /** 新密码 */
+      newPassword: string;
+      /** 确认密码 */
+      checkPassword?: string;
+    }>;
   }
 
   /**

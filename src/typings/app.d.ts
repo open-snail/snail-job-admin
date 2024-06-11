@@ -291,6 +291,8 @@ declare namespace App {
         keywordSearch: string;
         logout: string;
         logoutConfirm: string;
+        updatePassword: string;
+        changePassword: string;
         lookForward: string;
         modify: string;
         modifySuccess: string;
@@ -306,7 +308,6 @@ declare namespace App {
         update: string;
         updateSuccess: string;
         updateFailed: string;
-        userCenter: string;
         downloadFail: string;
         success: string;
         fail: string;
@@ -587,6 +588,7 @@ declare namespace App {
             };
             rank: {
               title: string;
+              titleRetry: string;
             };
             task: {
               title: string;
@@ -1005,6 +1007,8 @@ declare namespace App {
           permissions: string;
           updatePassword: string;
           permissionList: string;
+          oldPassword: string;
+          newPassword: string;
           form: {
             role: string;
             password: string;
@@ -1012,6 +1016,8 @@ declare namespace App {
             checkPassword: string;
             permissions: string;
             namespaceIds: string;
+            oldPassword: string;
+            newPassword: string;
           };
           addUser: string;
           editUser: string;

@@ -164,7 +164,11 @@ getGroupNames();
           </NGi>
           <NGi span="24 s:24 m:8">
             <div class="task-tab-rank">
-              <h4 class="task-tab-title">{{ $t('page.home.retryTab.rank.title') }}</h4>
+              <h4 class="task-tab-title">
+                {{
+                  taskType === 'RETRY' ? $t('page.home.retryTab.rank.titleRetry') : $t('page.home.retryTab.rank.title')
+                }}
+              </h4>
               <ul class="task-tab-rank__list">
                 <li v-for="(item, index) in data?.rankList" :key="index" class="task-tab-rank__list--item">
                   <span>

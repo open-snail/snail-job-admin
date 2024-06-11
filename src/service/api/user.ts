@@ -34,3 +34,12 @@ export function fetchDelUser(id: number) {
     method: 'delete'
   });
 }
+
+/** update user password */
+export function fetchUpdateUserPassword(data: Api.UserManager.UpdateUserPassword) {
+  return request<boolean>({
+    url: '/update-user-password',
+    method: 'put',
+    data
+  });
+}

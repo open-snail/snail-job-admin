@@ -33,7 +33,6 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   retry_log: () => import("@/views/retry/log/index.vue"),
   retry_scene: () => import("@/views/retry/scene/index.vue"),
   retry_task: () => import("@/views/retry/task/index.vue"),
-  "user-center": () => import("@/views/user-center/index.vue"),
   user_manager: () => import("@/views/user/manager/index.vue"),
   workflow_batch: () => import("@/views/workflow/batch/index.vue"),
   workflow_form_add: () => import("@/views/workflow/form/add/index.vue"),

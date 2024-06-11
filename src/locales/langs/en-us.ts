@@ -41,6 +41,8 @@ const local: App.I18n.Schema = {
     keywordSearch: 'Please enter keyword',
     logout: 'Logout',
     logoutConfirm: 'Are you sure you want to log out?',
+    updatePassword: 'Update password',
+    changePassword: 'Change password',
     lookForward: 'Coming soon',
     modify: 'Modify',
     modifySuccess: 'Modify Success',
@@ -56,7 +58,6 @@ const local: App.I18n.Schema = {
     update: 'Update',
     updateSuccess: 'Update Success',
     updateFailed: 'Update Failed',
-    userCenter: 'User Center',
     downloadFail: 'File download failed',
     success: 'Success',
     fail: 'Fail',
@@ -88,13 +89,13 @@ const local: App.I18n.Schema = {
       disable: 'Disable'
     },
     systemTaskType: {
-      retry: 'Retry task',
-      callback: 'Callback task',
-      job: 'Job task',
+      retry: 'Retry Task',
+      callback: 'Callback Task',
+      job: 'Job Task',
       workflow: 'Workflow'
     },
     routeKey: {
-      routeLabel: 'Route key',
+      routeLabel: 'Route Key',
       routeForm: 'Please enter route key',
       items: {
         consistentHash: 'Consistent hash',
@@ -104,7 +105,7 @@ const local: App.I18n.Schema = {
       }
     },
     blockStrategy: {
-      label: 'Block strategy',
+      label: 'Block Strategy',
       form: 'Please enter block strategy',
       items: {
         discard: 'Discard',
@@ -113,14 +114,14 @@ const local: App.I18n.Schema = {
       }
     },
     executorType: {
-      label: 'Executor type',
+      label: 'Executor Type',
       form: 'Please enter executor type',
       items: {
         java: 'Java'
       }
     },
     taskType: {
-      label: 'Task type',
+      label: 'Task Type',
       form: 'Please enter task type',
       items: {
         cluster: 'Cluster',
@@ -138,7 +139,7 @@ const local: App.I18n.Schema = {
       }
     },
     taskBatchStatus: {
-      label: 'Task batch status',
+      label: 'Task Batch Status',
       form: 'Please enter task batch status',
       items: {
         waiting: 'Waiting',
@@ -150,7 +151,7 @@ const local: App.I18n.Schema = {
       }
     },
     taskStatus: {
-      label: 'Task status',
+      label: 'Task Status',
       form: 'Please enter task status',
       items: {
         running: 'Running',
@@ -161,7 +162,7 @@ const local: App.I18n.Schema = {
       }
     },
     jobOperationReason: {
-      label: 'Job operation reason',
+      label: 'Job Operation Reason',
       form: 'Please enter job operation reason',
       items: {
         none: 'None',
@@ -181,8 +182,8 @@ const local: App.I18n.Schema = {
         workflowDecisionFailed: 'Workflow decision failed'
       }
     },
-    updateDt: 'updated time',
-    createDt: 'created time'
+    updateDt: 'Updated Time',
+    createDt: 'Created Time'
   },
   request: {
     logout: 'Logout user after request failed',
@@ -292,16 +293,15 @@ const local: App.I18n.Schema = {
     document_unocss: 'UnoCSS Document',
     document_naive: 'Naive UI Document',
     document_antd: 'Ant Design Vue Document',
-    'user-center': 'User Center',
     about: 'About',
     pods: 'Online Machine',
-    namespace: 'namespace',
-    notify: 'notify',
-    notify_recipient: 'Notify recipient',
-    notify_scene: 'Notify scene',
-    retry: 'Retry task',
-    retry_task: 'Retry task',
-    retry_scene: 'Retry scene',
+    namespace: 'Namespace',
+    notify: 'Notify',
+    notify_recipient: 'Notify Recipient',
+    notify_scene: 'Notify Scene',
+    retry: 'Retry Task',
+    retry_task: 'Retry Task',
+    retry_scene: 'Retry Scene',
     retry_log: 'Retry Log',
     'retry_dead-letter': 'Retry Dead Letter',
     user: 'User',
@@ -331,7 +331,7 @@ const local: App.I18n.Schema = {
     },
     login: {
       common: {
-        loginOrRegister: 'Login / Register',
+        loginOrRegister: 'Login/Register',
         userNamePlaceholder: 'Please enter user name',
         phonePlaceholder: 'Please enter phone number',
         codePlaceholder: 'Please enter verification code',
@@ -347,8 +347,8 @@ const local: App.I18n.Schema = {
       },
       pwdLogin: {
         title: 'Password Login',
-        rememberMe: 'Remember me',
-        forgetPassword: 'Forget password?',
+        rememberMe: 'Remember Me',
+        forgetPassword: 'Forget Password?',
         register: 'Register',
         otherAccountLogin: 'Other Account Login',
         otherLoginMode: 'Other Login Mode',
@@ -417,10 +417,11 @@ const local: App.I18n.Schema = {
           year: 'Year Round'
         },
         rank: {
-          title: 'Failure ranking'
+          title: 'Failure Ranking',
+          titleRetry: 'Total Amount Ranking'
         },
         task: {
-          title: 'List of scenes',
+          title: 'Task Summary',
           groupName: 'Group Name',
           run: 'Running Task Total',
           total: 'Task Total'
@@ -491,11 +492,11 @@ const local: App.I18n.Schema = {
       retryConfig: 'RetryConfig',
       form: {
         groupName: 'Please enter group name',
-        token: 'Please enter Token',
+        token: 'Please enter token',
         groupStatus: 'Please select group status',
         description: 'Please enter description',
         idGeneratorMode: 'Please select ID generator mode',
-        groupPartition: 'Please select Group partition',
+        groupPartition: 'Please select group partition',
         initScene: 'Initialized scene',
         collapseCommon: 'Common config',
         collapseRetry: 'Retry config',
@@ -839,13 +840,17 @@ const local: App.I18n.Schema = {
       password: 'Password',
       updatePassword: 'Update Password',
       permissionList: 'Permission List',
+      oldPassword: 'Old Password',
+      newPassword: 'New Password',
       form: {
-        role: 'Please enter Role',
-        password: 'Please enter Password',
-        username: 'Please enter Username',
-        checkPassword: 'Please enter Confirm Password',
-        permissions: 'Please select Group',
-        namespaceIds: 'Please select Namespaces'
+        role: 'Please enter role',
+        password: 'Please enter password',
+        username: 'Please enter username',
+        checkPassword: 'Please enter confirm password',
+        permissions: 'Please select group',
+        namespaceIds: 'Please select namespaces',
+        oldPassword: 'Please enter old password',
+        newPassword: 'Please enter new password'
       },
       addUser: 'Add User',
       editUser: 'Add User',

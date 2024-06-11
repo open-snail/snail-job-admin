@@ -5,6 +5,10 @@ defineOptions({
   name: 'StatusSwitch'
 });
 
+const props = defineProps({
+  disabled: Boolean
+});
+
 const modelValue = defineModel<Api.Common.EnableStatusNumber>('value', { default: 0 });
 
 interface Emits {
@@ -31,6 +35,7 @@ const handleUpdateValue = (value: Api.Common.EnableStatusNumber) => {
     :rubber-band="false"
     :checked-value="1"
     :unchecked-value="0"
+    :disabled="props.disabled"
     @update:value="handleUpdateValue"
   />
 </template>
