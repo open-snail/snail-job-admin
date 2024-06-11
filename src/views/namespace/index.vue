@@ -1,13 +1,27 @@
 <script setup lang="tsx">
 import { NButton } from 'naive-ui';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { fetchGetNamespaceList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { localStg } from '@/utils/storage';
+import { useAuthStore } from '@/store/modules/auth';
+import SvgIcon from '@/components/custom/svg-icon.vue';
 import NamespaceOperateDrawer from './modules/namespace-operate-drawer.vue';
 import NamespaceSearch from './modules/namespace-search.vue';
 
+const router = useRouter();
 const appStore = useAppStore();
+const authStore = useAuthStore();
+const namespaceId = ref<string>(localStg.get('namespaceId')!);
+
+const handleChange = (uniqueId: string) => {
+  namespaceId.value = uniqueId;
+  authStore.setNamespaceId(uniqueId);
+  router.go(0);
+};
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetNamespaceList,
@@ -28,6 +42,23 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('page.namespace.name'),
       align: 'left',
       width: 120
+    },
+    {
+      key: 'status',
+      title: $t('common.active'),
+      align: 'center',
+      width: 40,
+      render: row => (
+        <>
+          {namespaceId.value === row.uniqueId! ? (
+            <div class="flex justify-center">
+              <SvgIcon icon="material-symbols:check-circle" class="text-20px color-success" />
+            </div>
+          ) : (
+            ''
+          )}
+        </>
+      )
     },
     {
       key: 'uniqueId',
@@ -57,6 +88,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
+          {namespaceId.value !== row.uniqueId! ? (
+            <>
+              <n-divider vertical />
+              <NButton type="warning" text ghost size="small" onClick={() => handleChange(row.uniqueId!)}>
+                {$t('common.switch')}
+              </NButton>
+            </>
+          ) : (
+            ''
+          )}
         </div>
       )
     }

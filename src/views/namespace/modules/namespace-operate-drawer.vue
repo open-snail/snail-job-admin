@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
+import { nanoid } from '@sa/utils';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
@@ -61,6 +62,10 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   }
 };
 
+function setUniqueId() {
+  model.uniqueId = nanoid(32);
+}
+
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
@@ -109,11 +114,21 @@ watch(visible, () => {
   <OperateDrawer v-model="visible" :title="title" @submitted="handleSubmit">
     <NForm ref="formRef" :model="model" :rules="rules">
       <NFormItem :label="$t('page.namespace.uniqueId')" path="uniqueId">
-        <NInput
-          v-model:value="model.uniqueId"
-          :disabled="props.operateType === 'edit'"
-          :placeholder="$t('page.namespace.form.uniqueId')"
-        />
+        <NInputGroup>
+          <NInput
+            v-model:value="model.uniqueId"
+            :disabled="props.operateType === 'edit'"
+            :placeholder="$t('page.namespace.form.uniqueId')"
+          />
+          <NTooltip trigger="hover">
+            <template #trigger>
+              <NButton type="default" ghost :disabled="props.operateType === 'edit'" @click="setUniqueId">
+                <icon-ic-round-refresh class="text-icon" />
+              </NButton>
+            </template>
+            {{ $t('common.generateRandomly') }}
+          </NTooltip>
+        </NInputGroup>
       </NFormItem>
       <NFormItem :label="$t('page.namespace.name')" path="name">
         <NInput v-model:value="model.name" :placeholder="$t('page.namespace.form.name')" />

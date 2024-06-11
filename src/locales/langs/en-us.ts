@@ -80,6 +80,8 @@ const local: App.I18n.Schema = {
     confirmPause: 'Are you sure you want to pause?',
     confirmFinish: 'Are you sure you want to finishe?',
     confirmRetry: 'Are you sure you want to retry?',
+    generateRandomly: 'Generate randomly',
+    active: 'Active',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'

@@ -80,6 +80,8 @@ const local: App.I18n.Schema = {
     confirmPause: '确认暂停吗？',
     confirmFinish: '确认完成吗？',
     confirmRetry: '确认重试吗？',
+    generateRandomly: '随机生成',
+    active: '活跃',
     yesOrNo: {
       yes: '是',
       no: '否'
