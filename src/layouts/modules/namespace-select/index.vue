@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
@@ -18,10 +18,28 @@ const authStore = useAuthStore();
 const namespaceId = ref<string>(localStg.get('namespaceId')!);
 const userInfo = localStg.get('userInfo');
 
+watch(
+  () => authStore.namespaceUniqueId,
+  val => {
+    namespaceId.value = val;
+    authStore.setNamespaceId(val);
+  }
+);
+
 const dropOptions = computed(() =>
   userInfo?.namespaceIds.map(item => {
     return {
-      label: () => <span class="block w-120px">{item.name}</span>,
+      label: () => {
+        if (item.uniqueId === namespaceId.value) {
+          return (
+            <div class="flex-center">
+              <span class="block w-113px">{item.name}</span>
+              <SvgIcon icon="ant-design:check-outlined" />
+            </div>
+          );
+        }
+        return <span class="block w-120px">{item.name}</span>;
+      },
       key: item.uniqueId
     };
   })
@@ -34,7 +52,7 @@ const onChange = (value: string) => {
 };
 
 const namespaceName = computed(() => {
-  return userInfo?.namespaceIds.filter(item => (item.id = namespaceId.value))[0].name || 'Default';
+  return userInfo?.namespaceIds.filter(item => item.uniqueId === namespaceId.value)[0].name || 'Default';
 });
 </script>
 
@@ -60,16 +78,19 @@ const namespaceName = computed(() => {
 
 <style lang="scss" scoped>
 .namespace-select {
-  width: 150px;
+  width: 158px;
   border: 1px solid rgb(224, 224, 230);
-  border-radius: 6px;
+  border-radius: 35px;
 
-  :deep(.n-button):hover {
+  :deep(.n-button):hover,
+  :deep(.n-button):focus {
     background-color: var(--n-color);
   }
 
   :deep(.n-ellipsis) {
-    max-width: 96px;
+    width: 100%;
+    text-align: left;
+    max-width: 88px;
   }
 
   :deep(.n-button) {

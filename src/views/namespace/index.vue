@@ -1,7 +1,6 @@
 <script setup lang="tsx">
 import { NButton } from 'naive-ui';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { fetchGetNamespaceList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -12,7 +11,6 @@ import SvgIcon from '@/components/custom/svg-icon.vue';
 import NamespaceOperateDrawer from './modules/namespace-operate-drawer.vue';
 import NamespaceSearch from './modules/namespace-search.vue';
 
-const router = useRouter();
 const appStore = useAppStore();
 const authStore = useAuthStore();
 const namespaceId = ref<string>(localStg.get('namespaceId')!);
@@ -20,7 +18,6 @@ const namespaceId = ref<string>(localStg.get('namespaceId')!);
 const handleChange = (uniqueId: string) => {
   namespaceId.value = uniqueId;
   authStore.setNamespaceId(uniqueId);
-  router.go(0);
 };
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({

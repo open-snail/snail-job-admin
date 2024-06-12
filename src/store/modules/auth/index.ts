@@ -19,6 +19,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
+  const namespaceUniqueId = ref('');
+
   const userInfo: Api.Auth.UserInfo = reactive({
     id: '',
     userId: '',
@@ -160,6 +162,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   }
 
   function setNamespaceId(namespaceId: string) {
+    namespaceUniqueId.value = namespaceId;
     const userNamespace = localStg.get('userNamespace') || {};
     userNamespace[userInfo.userId] = namespaceId;
     localStg.set('userNamespace', userNamespace);
@@ -169,6 +172,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   return {
     token,
     userInfo,
+    namespaceUniqueId,
     isStaticSuper,
     isLogin,
     loginLoading,
