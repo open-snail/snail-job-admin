@@ -46,15 +46,13 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       align: 'center',
       width: 40,
       render: row => (
-        <>
+        <div class="flex justify-center">
           {namespaceId.value === row.uniqueId! ? (
-            <div class="flex justify-center">
-              <SvgIcon icon="material-symbols:check-circle" class="text-20px color-success" />
-            </div>
+            <SvgIcon icon="material-symbols:check-circle" class="text-20px color-success" />
           ) : (
-            ''
+            <SvgIcon icon="material-symbols:cancel" class="text-20px color-gray400" />
           )}
-        </>
+        </div>
       )
     },
     {
