@@ -42,14 +42,14 @@ const dropOptions = computed(() =>
         if (item.uniqueId === namespaceId.value) {
           return (
             <div class="max-w-130px flex items-center justify-between">
-              <NEllipsis>{item.name}</NEllipsis>
+              <NEllipsis tooltip={{ placement: 'left' }}>{item.name}</NEllipsis>
               <SvgIcon class="ml-6px" icon="ant-design:check-outlined" />
             </div>
           );
         }
         return (
           <div class="max-w-130px flex items-center justify-between">
-            <NEllipsis>{item.name}</NEllipsis>
+            <NEllipsis tooltip={{ placement: 'left' }}>{item.name}</NEllipsis>
           </div>
         );
       },
