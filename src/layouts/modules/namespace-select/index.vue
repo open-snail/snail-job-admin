@@ -1,6 +1,7 @@
 <script lang="tsx" setup>
 import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { NEllipsis } from 'naive-ui';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
 import { useAppStore } from '@/store/modules/app';
@@ -16,7 +17,7 @@ const router = useRouter();
 const appStore = useAppStore();
 const authStore = useAuthStore();
 const namespaceId = ref<string>(localStg.get('namespaceId')!);
-const userInfo = localStg.get('userInfo');
+const namespaceIds = ref(localStg.get('userInfo')?.namespaceIds || []);
 
 watch(
   () => authStore.namespaceUniqueId,
@@ -26,19 +27,31 @@ watch(
   }
 );
 
+watch(
+  () => authStore.userInfo.namespaceIds,
+  val => {
+    namespaceIds.value = val;
+  },
+  { deep: true }
+);
+
 const dropOptions = computed(() =>
-  userInfo?.namespaceIds.map(item => {
+  namespaceIds.value.map(item => {
     return {
       label: () => {
         if (item.uniqueId === namespaceId.value) {
           return (
-            <div class="flex-center">
-              <span class="block w-113px">{item.name}</span>
-              <SvgIcon icon="ant-design:check-outlined" />
+            <div class="max-w-130px flex items-center justify-between">
+              <NEllipsis>{item.name}</NEllipsis>
+              <SvgIcon class="ml-6px" icon="ant-design:check-outlined" />
             </div>
           );
         }
-        return <span class="block w-120px">{item.name}</span>;
+        return (
+          <div class="max-w-130px flex items-center justify-between">
+            <NEllipsis>{item.name}</NEllipsis>
+          </div>
+        );
       },
       key: item.uniqueId
     };
@@ -52,7 +65,7 @@ const onChange = (value: string) => {
 };
 
 const namespaceName = computed(() => {
-  return userInfo?.namespaceIds.filter(item => item.uniqueId === namespaceId.value)[0].name || 'Default';
+  return namespaceIds.value.filter(item => item.uniqueId === namespaceId.value)[0].name || 'Default';
 });
 </script>
 
@@ -114,5 +127,16 @@ const namespaceName = computed(() => {
 
 .namespace-select:hover {
   border-color: rgb(var(--nprogress-color));
+}
+
+.namespace-select-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  :deep(.n-ellipsis) {
+    width: 100%;
+    max-width: 113px;
+  }
 }
 </style>

@@ -5,6 +5,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddNamespace, fetchEditNamespace } from '@/service/api';
+import { useAuthStore } from '@/store/modules/auth';
 
 defineOptions({
   name: 'NamespaceOperateDrawer'
@@ -25,6 +26,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
+const authStore = useAuthStore();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
@@ -98,6 +100,7 @@ async function handleSubmit() {
     window.$message?.success($t('common.updateSuccess'));
   }
 
+  await authStore.getUserInfo();
   closeDrawer();
   emit('submitted');
 }
