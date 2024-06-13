@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import { ref, watch } from 'vue';
 
 defineOptions({
@@ -39,18 +40,9 @@ watch(
 );
 
 function getDefaultDate(): [number, number] {
-  const today = new Date();
-  const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
-  const oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-  const startOfDayOneMonthAgo = new Date(
-    oneMonthAgo.getFullYear(),
-    oneMonthAgo.getMonth(),
-    oneMonthAgo.getDate(),
-    0,
-    0,
-    0
-  );
-  return [startOfDayOneMonthAgo.getTime(), endOfDay.getTime()];
+  const endOfDayTimestamp = dayjs().endOf('day').valueOf();
+  const startOfDayOneMonthAgoTimestamp = dayjs().subtract(1, 'month').startOf('day').valueOf();
+  return [endOfDayTimestamp, startOfDayOneMonthAgoTimestamp];
 }
 
 function initDefaultDate() {
