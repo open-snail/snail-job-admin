@@ -26,7 +26,7 @@ function search() {
 </script>
 
 <template>
-  <SearchForm :model="model" @search="search" @reset="reset">
+  <SearchForm btn-span="24 s:24 m:9 l:12 xl:15" :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.groupName')" path="groupName" class="pr-24px">
       <SelectGroup v-model:value="model.groupName" />
     </NFormItemGi>
@@ -35,6 +35,9 @@ function search() {
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.taskBatchStatus')" path="taskBatchStatus" class="pr-24px">
       <TaskBatchStatus v-model:value="model.taskBatchStatus" />
+    </NFormItemGi>
+    <NFormItemGi span="24 s:24 m:15 l:12 xl:9" :label="$t('page.common.createTime')" path="createTime" class="pr-24px">
+      <DatetimeRange v-model:begin-date="model.beginDate" v-model:end-date="model.endDate" />
     </NFormItemGi>
   </SearchForm>
 </template>

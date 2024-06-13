@@ -26,7 +26,9 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     size: 10,
     groupName: null,
     jobName: null,
-    taskBatchStatus: null
+    taskBatchStatus: null,
+    beginDate: null,
+    endDate: null
   },
   searchParams: {
     jobName,

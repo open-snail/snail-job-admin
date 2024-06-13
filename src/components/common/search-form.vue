@@ -10,6 +10,7 @@ defineOptions({
 
 interface Props {
   model: Record<string, any>;
+  btnSpan?: string;
 }
 
 const props = defineProps<Props>();
@@ -41,14 +42,14 @@ async function search() {
 
 const btnSpan = computed(() => {
   const keyNum = Object.keys(props.model).length - 2;
-  return `24 m:12 m:${(4 - (keyNum % 4)) * 6}`;
+  return props.btnSpan || `24 m:12 m:${(4 - (keyNum % 4)) * 6}`;
 });
 </script>
 
 <template>
   <NCard :title="title" :bordered="false" size="small" class="card-wrapper">
     <NForm ref="formRef" :model="model" label-placement="left" :label-width="80" :show-feedback="appStore.isMobile">
-      <NGrid responsive="screen" item-responsive :y-gap="5">
+      <NGrid responsive="screen" item-responsive :y-gap="8">
         <slot></slot>
         <NFormItemGi :y-gap="8" :span="btnSpan" class="pr-24px lg:p-t-0 md:p-t-16px">
           <NSpace class="min-w-172px w-full" justify="end">
