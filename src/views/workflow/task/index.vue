@@ -238,7 +238,7 @@ function copy(id: string) {
 }
 
 function batch(id: string) {
-  router.push({ path: '/workflow/batch', query: { workflowId: id } });
+  router.push({ path: '/workflow/batch', state: { workflowId: id } });
 }
 
 async function execute(id: string) {
