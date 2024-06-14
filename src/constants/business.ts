@@ -133,7 +133,9 @@ export const executorTypeRecordOptions = transformRecordToNumberOption(executorT
 export const taskTypeRecord: Record<Api.Common.TaskType, App.I18n.I18nKey> = {
   1: 'common.taskType.items.cluster',
   2: 'common.taskType.items.broadcast',
-  3: 'common.taskType.items.slice'
+  3: 'common.taskType.items.slice',
+  4: 'common.taskType.items.map',
+  5: 'common.taskType.items.mapreduce'
 };
 export const taskTypeRecordRecordOptions = transformRecordToNumberOption(taskTypeRecord);
 

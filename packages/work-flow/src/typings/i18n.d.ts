@@ -21,6 +21,7 @@ declare namespace FlowI18n {
       jobBatch: {
         groupName: string;
         jobName: string;
+        taskType: string;
         executorInfo: string;
         executorType: string;
         executionAt: string;

@@ -126,7 +126,9 @@ const local: App.I18n.Schema = {
       items: {
         cluster: '集群',
         broadcast: '广播',
-        slice: '切片'
+        slice: '静态切片',
+        map: 'Map',
+        mapreduce: 'MapReduce'
       }
     },
     triggerType: {
@@ -807,6 +809,7 @@ const local: App.I18n.Schema = {
       title: '任务批次列表',
       groupName: '组名称',
       jobName: '任务名称',
+      taskType: '任务类型',
       executorInfo: '执行器名称',
       executorType: '执行器类型',
       executionAt: '开始执行时间',

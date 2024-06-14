@@ -18,6 +18,7 @@ const local: FlowI18n.Schema = {
     jobBatch: {
       groupName: '组名称',
       jobName: '任务名称',
+      taskType: '任务类型',
       executorInfo: '执行器名称',
       executorType: '执行器类型',
       executionAt: '开始执行时间',

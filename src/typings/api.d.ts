@@ -82,8 +82,8 @@ declare namespace Api {
     /** 触发类型 2:固定时间 3:CRON 表达式 99:工作流 */
     type TriggerType = 2 | 3 | 99;
 
-    /** 任务类型 1:集群 2:广播 3:切片 */
-    type TaskType = 1 | 2 | 3;
+    /** 任务类型 1:集群 2:广播 3:切片 4:Map 5:MapReduce */
+    type TaskType = 1 | 2 | 3 | 4 | 5;
 
     /** 1、待处理 2、运行中 3、成功 4、失败 5、停止 6、取消 */
     type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6;
@@ -1045,6 +1045,7 @@ declare namespace Api {
    * backend api module: "jobBatch"
    */
   namespace JobBatch {
+    import TaskType = Api.Common.TaskType;
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
 
     /** JobBatch */
@@ -1053,6 +1054,8 @@ declare namespace Api {
       groupName: string;
       /** 任务名称 */
       jobName: string;
+      /** 任务类型 */
+      taskType: TaskType;
       /** 工作流节点名称 */
       nodeName: string;
       /** 任务信息id */
@@ -1079,7 +1082,7 @@ declare namespace Api {
 
     /** JobBatch search params */
     type JobBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.JobBatch.JobBatch, 'groupName' | 'jobName' | 'taskBatchStatus'> & CommonSearchParams
+      Pick<Api.JobBatch.JobBatch, 'groupName' | 'jobName' | 'taskBatchStatus' | 'taskType'> & CommonSearchParams
     >;
 
     /** JobBatch list */

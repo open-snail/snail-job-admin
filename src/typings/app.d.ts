@@ -377,6 +377,8 @@ declare namespace App {
             cluster: string;
             broadcast: string;
             slice: string;
+            map: string;
+            mapreduce: string;
           };
         };
         triggerType: {
@@ -967,6 +969,7 @@ declare namespace App {
           title: string;
           groupName: string;
           jobName: string;
+          taskType: string;
           executorInfo: string;
           executorType: string;
           executionAt: string;

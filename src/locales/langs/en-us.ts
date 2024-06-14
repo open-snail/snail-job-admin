@@ -126,7 +126,9 @@ const local: App.I18n.Schema = {
       items: {
         cluster: 'Cluster',
         broadcast: 'Broadcast',
-        slice: 'Slice'
+        slice: 'Static Slice',
+        map: 'Map',
+        mapreduce: 'MapReduce'
       }
     },
     triggerType: {
@@ -799,6 +801,7 @@ const local: App.I18n.Schema = {
       title: 'Job Batch List',
       groupName: 'Group name',
       jobName: 'Job name',
+      taskType: 'Task Type',
       executorInfo: 'Executor Name',
       executorType: 'Executor type',
       executionAt: 'Start execution time',

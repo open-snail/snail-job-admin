@@ -7,7 +7,7 @@ import { fetchGetJobBatchList, fetchGetJobNameList, fetchJobBatchRetry, fetchJob
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
-import { operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
+import { operationReasonRecord, taskBatchStatusRecord, taskTypeRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
 import JobBatchSearch from './modules/job-batch-search.vue';
 import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
@@ -53,6 +53,27 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       title: $t('page.jobBatch.groupName'),
       align: 'left',
       minWidth: 120
+    },
+    {
+      key: 'taskType',
+      title: $t('page.jobBatch.taskType'),
+      align: 'center',
+      width: 120,
+      render: row => {
+        if (row.taskType === null) {
+          return null;
+        }
+        const tagMap: Record<Api.Common.TaskType, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'success',
+          3: 'error',
+          4: 'primary',
+          5: 'warning'
+        };
+        const label = $t(taskTypeRecord[row.taskType!]);
+
+        return <NTag type={tagMap[row.taskType!]}>{label}</NTag>;
+      }
     },
     {
       key: 'jobName',

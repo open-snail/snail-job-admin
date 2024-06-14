@@ -18,6 +18,7 @@ const local: FlowI18n.Schema = {
     jobBatch: {
       groupName: 'Group name',
       jobName: 'Job name',
+      taskType: 'Task Type',
       executorInfo: 'Executor Name',
       executorType: 'Executor type',
       executionAt: 'Start execution time',
