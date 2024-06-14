@@ -34,10 +34,10 @@ const { formRef, validate } = useNaiveForm();
 type RuleRecord = Partial<Record<keyof Model, App.Global.FormRule[]>>;
 
 const rules = computed<RuleRecord>(() => {
-  const { formRules, createConfirmPwdRule } = useFormRules();
+  const { formRules, createConfirmPwdRule, defaultRequiredRule } = useFormRules();
 
   return {
-    oldPassword: formRules.pwd,
+    oldPassword: [defaultRequiredRule],
     newPassword: formRules.pwd,
     checkPassword: createConfirmPwdRule(model.newPassword!)
   };
