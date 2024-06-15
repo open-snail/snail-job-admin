@@ -13,6 +13,9 @@ const { baseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
 export const request = createFlatRequest<App.Service.Response, RequestInstanceState>(
   {
     baseURL,
+    'axios-retry': {
+      retries: 0
+    },
     headers: {
       timeout: 6000
     }
