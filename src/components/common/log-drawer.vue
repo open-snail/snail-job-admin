@@ -68,14 +68,14 @@ const onUpdateShow = (value: boolean) => {
 };
 
 function timestampToDate(timestamp: string): string {
-  const date = new Date(Number.parseInt(timestamp.toString(), 10));
+  const date = new Date(Number.parseInt(timestamp?.toString(), 10));
   const year = date.getFullYear();
   const month =
-    (date.getMonth() + 1).toString().length === 1 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1).toString();
-  const day = date.getDate().toString().length === 1 ? `0${date.getDate()}` : date.getDate().toString();
-  const hours = date.getHours().toString().length === 1 ? `0${date.getHours()}` : date.getHours().toString();
-  const minutes = date.getMinutes().toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes().toString();
-  const seconds = date.getSeconds().toString().length === 1 ? `0${date.getSeconds()}` : date.getSeconds().toString();
+    (date.getMonth() + 1)?.toString().length === 1 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1)?.toString();
+  const day = date.getDate()?.toString().length === 1 ? `0${date.getDate()}` : date.getDate()?.toString();
+  const hours = date.getHours()?.toString().length === 1 ? `0${date.getHours()}` : date.getHours()?.toString();
+  const minutes = date.getMinutes()?.toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes()?.toString();
+  const seconds = date.getSeconds()?.toString().length === 1 ? `0${date.getSeconds()}` : date.getSeconds()?.toString();
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${date.getMilliseconds()}`;
 }
 </script>

@@ -19,7 +19,7 @@ export function generateSpecifies(
   let index = 0;
 
   for (let specify = min; specify <= max; specify += 1) {
-    specifies.push({ value: specify, label: labels ? labels[index] : specify.toString() });
+    specifies.push({ value: specify, label: labels ? labels[index] : specify?.toString() });
     index += 1;
   }
 

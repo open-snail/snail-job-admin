@@ -27,7 +27,7 @@ export const request = createFlatRequest<Service.Response>(
     isBackendSuccess(response) {
       // when the backend response code is "0000"(default), it means the request is success
       // to change this logic by yourself, you can modify the `VITE_SERVICE_SUCCESS_CODE` in `.env` file
-      return response.data.status.toString() === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
+      return response.data.status?.toString() === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
     },
     transformBackendResponse(response) {
       return response.data.total ? response.data : response.data.data;
@@ -41,7 +41,7 @@ export const request = createFlatRequest<Service.Response>(
       // get backend error message and code
       if (error.code === BACKEND_ERROR_CODE) {
         msg = error.response?.data?.message || msg;
-        backendErrorCode = error.response?.data?.status.toString() || '';
+        backendErrorCode = error.response?.data?.status?.toString() || '';
       }
 
       // the error message is displayed in the modal

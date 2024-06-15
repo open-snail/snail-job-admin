@@ -52,14 +52,14 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
 
       // when the backend response code is in `logoutCodes`, it means the user will be logged out and redirected to login page
       const logoutCodes = import.meta.env.VITE_SERVICE_LOGOUT_CODES?.split(',') || [];
-      if (logoutCodes.includes(response.data.status.toString())) {
+      if (logoutCodes.includes(response.data.status?.toString())) {
         handleLogout();
         return null;
       }
 
       // when the backend response code is in `modalLogoutCodes`, it means the user will be logged out by displaying a modal
       const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
-      if (modalLogoutCodes.includes(response.data.status.toString())) {
+      if (modalLogoutCodes.includes(response.data.status?.toString())) {
         request.state.errMsgStack = [...(request.state.errMsgStack || []), response.data.message];
 
         // prevent the user from refreshing the page
@@ -116,7 +116,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
 
       // get backend error message and code
       message = error.response?.data?.message || message;
-      backendErrorCode = error.response?.data?.status.toString() || '';
+      backendErrorCode = error.response?.data?.status?.toString() || '';
 
       // the error message is displayed in the modal
       const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];

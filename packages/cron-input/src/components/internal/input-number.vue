@@ -31,7 +31,7 @@ const value = computed({
 });
 
 const formatter = (val: number) => {
-  return props.fieldValue === WEEK ? formatterWeek(val.toString(), props.locale!) : null;
+  return props.fieldValue === WEEK ? formatterWeek(val?.toString(), props.locale!) : null;
 };
 
 const parser = (val: string) => {

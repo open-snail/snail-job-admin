@@ -49,7 +49,7 @@ const fields = computed(() => {
 // });
 
 const previewLabel = computed(() => {
-  return Locales[props.lang].preview.join(previewTime.value.toString());
+  return Locales[props.lang].preview.join(previewTime.value?.toString());
 });
 
 const expression = computed(() => {
