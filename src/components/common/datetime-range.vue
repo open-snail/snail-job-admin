@@ -42,7 +42,7 @@ watch(
 function getDefaultDate(): [number, number] {
   const endOfDayTimestamp = dayjs().endOf('day').valueOf();
   const startOfDayOneMonthAgoTimestamp = dayjs().subtract(1, 'month').startOf('day').valueOf();
-  return [endOfDayTimestamp, startOfDayOneMonthAgoTimestamp];
+  return [startOfDayOneMonthAgoTimestamp, endOfDayTimestamp];
 }
 
 function initDefaultDate() {
