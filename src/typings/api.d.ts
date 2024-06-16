@@ -703,7 +703,7 @@ declare namespace Api {
         Api.RetryDeadLetter.DeadLetter,
         'id' | 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'taskType' | 'createDt'
       > &
-        CommonSearchParams
+        CommonSearchParams & { beginDate: number; endDate: number }
     >;
 
     /** DeadLetter list */
@@ -1115,7 +1115,8 @@ declare namespace Api {
 
     /** workflowBatch search params */
     type WorkflowBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus'> & CommonSearchParams
+      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus'> &
+        CommonSearchParams & { beginDate: number; endDate: number }
     >;
 
     /** workflowBatch list */
@@ -1165,7 +1166,7 @@ declare namespace Api {
     /** retryLog search params */
     type RetryLogSearchParams = CommonType.RecordNullable<
       Pick<Api.RetryLog.RetryLog, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'retryStatus'> &
-        CommonSearchParams
+        CommonSearchParams & { beginDate: number; endDate: number }
     >;
 
     /** retryLog list */

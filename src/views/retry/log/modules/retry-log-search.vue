@@ -52,6 +52,9 @@ function search() {
         clearable
       />
     </NFormItemGi>
+    <NFormItemGi span="24 s:24 m:15 l:12 xl:9" :label="$t('page.common.createTime')" path="createTime" class="pr-24px">
+      <DatetimeRange v-model:begin-date="model.beginDate" v-model:end-date="model.endDate" />
+    </NFormItemGi>
   </SearchForm>
 </template>
 

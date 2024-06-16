@@ -33,6 +33,9 @@ function search() {
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.sceneName')" path="sceneName" class="pr-24px">
       <SelectScene v-model:value="model.sceneName" :group-name="model.groupName as string" />
     </NFormItemGi>
+    <NFormItemGi span="24 s:24 m:15 l:12 xl:9" :label="$t('page.common.createTime')" path="createTime" class="pr-24px">
+      <DatetimeRange v-model:begin-date="model.beginDate" v-model:end-date="model.endDate" />
+    </NFormItemGi>
   </SearchForm>
 </template>
 

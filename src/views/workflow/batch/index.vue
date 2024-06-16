@@ -22,7 +22,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     // the value can not be undefined, otherwise the property in Form will not be reactive
     workflowId: null,
     groupName: null,
-    taskBatchStatus: null
+    taskBatchStatus: null,
+    beginDate: null,
+    endDate: null
   },
   searchParams: {
     workflowId,
