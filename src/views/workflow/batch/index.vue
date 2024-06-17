@@ -23,8 +23,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     workflowId: null,
     groupName: null,
     taskBatchStatus: null,
-    beginDate: null,
-    endDate: null
+    datetimeRange: null
   },
   searchParams: {
     workflowId,

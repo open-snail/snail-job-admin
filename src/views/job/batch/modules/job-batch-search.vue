@@ -36,8 +36,20 @@ function search() {
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.taskBatchStatus')" path="taskBatchStatus" class="pr-24px">
       <TaskBatchStatus v-model:value="model.taskBatchStatus" />
     </NFormItemGi>
-    <NFormItemGi span="24 s:24 m:15 l:12 xl:9" :label="$t('page.common.createTime')" path="createTime" class="pr-24px">
-      <DatetimeRange v-model:begin-date="model.beginDate" v-model:end-date="model.endDate" />
+    <NFormItemGi
+      span="24 s:24 m:15 l:12 xl:9"
+      :label="$t('page.common.createTime')"
+      path="datetimeRange"
+      class="pr-24px"
+    >
+      <NDatePicker
+        v-model:formatted-value="model.datetimeRange"
+        class="w-full"
+        type="datetimerange"
+        value-format="yyyy-MM-dd'T'HH:mm:ss"
+        :default-time="['00:00:00', '23:56:56']"
+        clearable
+      />
     </NFormItemGi>
   </SearchForm>
 </template>

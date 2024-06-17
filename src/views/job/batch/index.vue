@@ -27,8 +27,10 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     groupName: null,
     jobName: null,
     taskBatchStatus: null,
-    beginDate: null,
-    endDate: null
+    datetimeRange: null
+
+    // beginDate: null,
+    // endDate: null
   },
   searchParams: {
     jobName,

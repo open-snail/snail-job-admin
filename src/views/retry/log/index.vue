@@ -32,8 +32,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     idempotentId: null,
     bizNo: null,
     retryStatus: null,
-    beginDate: null,
-    endDate: null
+    datetimeRange: null
   },
   searchParams: {
     retryStatus

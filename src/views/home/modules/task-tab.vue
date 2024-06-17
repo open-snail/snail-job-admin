@@ -26,12 +26,9 @@ const tabParams = ref<Api.Dashboard.DashboardLineParams>({
   type: 'WEEK',
   page: 1,
   size: 6,
-  mode: 'JOB'
+  mode: 'JOB',
+  datetimeRange: null
 });
-const dateRange = ref<[number, number] | null>();
-const formattedValue = ref<[string, string] | null>(
-  tabParams.value.startTime && tabParams.value.endTime ? [tabParams.value.startTime, tabParams.value.endTime] : null
-);
 
 const getData = async () => {
   const { data: lineData, error } =
@@ -70,23 +67,16 @@ const onUpdateTab = (value: string) => {
 const onUpdateDate = (value: [string, string]) => {
   if (value) {
     tabParams.value.type = 'OTHERS';
-    tabParams.value.startTime = value[0];
-    tabParams.value.endTime = value[1];
   }
 };
 
 const onClearDate = () => {
   tabParams.value.type = 'WEEK';
-  tabParams.value.startTime = undefined;
-  tabParams.value.endTime = undefined;
 };
 
 const onUpdateType = (value: string) => {
   if (value !== 'OTHERS') {
-    dateRange.value = null;
-    formattedValue.value = null;
-    tabParams.value.startTime = undefined;
-    tabParams.value.endTime = undefined;
+    tabParams.value.datetimeRange = null;
   }
 };
 
@@ -214,12 +204,12 @@ getGroupNames();
         <NRadioButton value="YEAR" :label="$t('page.home.retryTab.params.year')" />
       </NRadioGroup>
       <NDatePicker
-        v-model:value="dateRange"
-        v-model:formatted-value="formattedValue"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        type="daterange"
-        class="w-300px lg:w-230px md:w-270px"
+        v-model:formatted-value="tabParams.datetimeRange"
+        type="datetimerange"
+        value-format="yyyy-MM-dd'T'HH:mm:ss"
+        class="w-400px"
         clearable
+        :default-time="['00:00:00', '23:56:56']"
         @update:formatted-value="onUpdateDate"
         @clear="onClearDate"
       />
