@@ -55,3 +55,62 @@ export function fetchStopWorkflowBatch(id: string) {
     method: 'post'
   });
 }
+
+export function fetchWorkflowNodeRetry(id: string, workflowNodeId: string) {
+  return request<null>({
+    url: `/workflow/node/retry/${workflowNodeId}/${id}`,
+    method: 'get'
+  });
+}
+
+export function fetchCheckNodeExpression(expression: Workflow.BrachNodeType) {
+  return request<{ key: number; value: string }>({
+    url: '/workflow/check-node-expression',
+    method: 'post',
+    data: expression
+  });
+}
+
+export function fetchAddWorkflow(data: Workflow.NodeDataType) {
+  return request<null>({
+    url: `/workflow`,
+    method: 'post',
+    data
+  });
+}
+
+export function fetchUpdateWorkflow(data: Workflow.NodeDataType) {
+  return request<null>({
+    url: `/workflow`,
+    method: 'put',
+    data
+  });
+}
+
+export function fetchWorkflowInfo(id: string) {
+  return request<Workflow.NodeDataType>({
+    url: `/workflow/${id}`,
+    method: 'get'
+  });
+}
+
+export function fetchWorkflowBatchInfo(id: string) {
+  return request<Workflow.NodeDataType>({
+    url: `/workflow/batch/${id}`,
+    method: 'get'
+  });
+}
+
+export function fetchNodeRetry(nodeId: string, taskBatchId: string) {
+  return request<null>({
+    url: `/workflow/node/retry/${nodeId}/${taskBatchId}`,
+    method: 'post'
+  });
+}
+
+export function fetchNodeStop(nodeId: string, taskBatchId: string) {
+  return request<null>({
+    url: `/workflow/node/stop/${nodeId}/${taskBatchId}`,
+    method: 'post'
+  });
+}

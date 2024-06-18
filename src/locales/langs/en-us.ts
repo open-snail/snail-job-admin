@@ -113,6 +113,18 @@ const local: App.I18n.Schema = {
         parallel: 'Parallel'
       }
     },
+    failStrategy: {
+      items: {
+        skip: 'Skip',
+        blockage: 'Blockage'
+      }
+    },
+    workFlowNodeStatus: {
+      items: {
+        open: 'Open',
+        close: 'Close'
+      }
+    },
     executorType: {
       label: 'Executor Type',
       form: 'Please enter executor type',
@@ -149,7 +161,9 @@ const local: App.I18n.Schema = {
         success: 'Success',
         fail: 'Fail',
         stop: 'Stop',
-        cancel: 'Cancel'
+        cancel: 'Cancel',
+        decisionFailed: 'Decision Failed',
+        skip: 'Skip'
       }
     },
     taskStatus: {
@@ -312,11 +326,6 @@ const local: App.I18n.Schema = {
     workflow_task: 'Workflow Task',
     workflow_batch: 'Workflow Batch',
     workflow_form: 'Workflow',
-    workflow_form_copy: 'Copy Workflow',
-    workflow_form_batch: 'Workflow Batch Detail',
-    workflow_form_detail: 'Workflow Detail',
-    workflow_form_edit: 'Edit Workflow',
-    workflow_form_add: 'Add Workflow',
     job: 'Schedule Task Management',
     job_task: 'Schedule Task List',
     job_batch: 'Schedule Task Batch List',
@@ -857,6 +866,48 @@ const local: App.I18n.Schema = {
       title: 'Log Detail',
       view: 'View Log',
       info: 'Info'
+    }
+  },
+  workflow: {
+    node: {
+      priority: 'Priority',
+      task: {
+        name: 'Task',
+        add: 'Add Task',
+        nodeName: 'Task Node',
+        conditionNodes: {
+          nodeName: 'Task 1'
+        }
+      },
+      condition: {
+        nodeName: 'Condition Node',
+        conditionNodes: {
+          nodeName: 'Condition 1',
+          otherNodeName: 'Other Situations',
+          otherTip:
+            'This branch is created by default and is mutually exclusive with other branches. It will only be run if none of the other branches can be run.',
+          priority: 'Priority',
+          conditionTip: 'Please set conditions',
+          logicalCondition: 'Logical Condition',
+          expressionType: 'Expression Type',
+          nodeExpression: 'Node Expression',
+          otherNodeTip:
+            'If there is a situation where the conditions of the other branches are not met, then go to this branch'
+        },
+        addBranch: 'Add Condition'
+      },
+      callback: {
+        nodeName: 'Callback Notice',
+        conditionNodes: {
+          nodeName: 'Callback Notice',
+          contentType: 'Content Type',
+          webhookTip: 'Please configure callback notifications'
+        }
+      },
+      endNode: 'End Node',
+      log: {
+        title: 'Log Detail'
+      }
     }
   },
   form: {

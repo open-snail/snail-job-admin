@@ -76,6 +76,21 @@ declare namespace Api {
     /** 阻塞策略 1:丢弃 2:覆盖 3:并行 */
     type BlockStrategy = 1 | 2 | 3;
 
+    /** 失败策略 1:跳过 2:阻塞 */
+    type FailStrategy = 1 | 2;
+
+    /** 判定逻辑 1:and 2:or */
+    type LogicalCondition = 1 | 2;
+
+    /** 表达式类型 1:SpEl 2:Aviator 3:QL */
+    type Expression = 1 | 2 | 3;
+
+    /** 请求类型 1:application/json 2:application/x-www-form-urlencoded */
+    type ContentType = 1 | 2;
+
+    /** 工作流节点状态 */
+    type WorkFlowNodeStatus = 0 | 1;
+
     /** 执行器类型 1:Java */
     type ExecutorType = 1;
 
@@ -86,7 +101,7 @@ declare namespace Api {
     type TaskType = 1 | 2 | 3 | 4 | 5;
 
     /** 1、待处理 2、运行中 3、成功 4、失败 5、停止 6、取消 */
-    type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6;
+    type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6 | 98 | 99;
 
     /** 2、处理中 3、处理成功 4、处理失败、5、任务停止 6、取消 */
     type TaskStatus = 2 | 3 | 4 | 5 | 6;

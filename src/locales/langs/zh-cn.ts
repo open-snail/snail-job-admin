@@ -113,6 +113,18 @@ const local: App.I18n.Schema = {
         parallel: '并行'
       }
     },
+    failStrategy: {
+      items: {
+        skip: '跳过',
+        blockage: '阻塞'
+      }
+    },
+    workFlowNodeStatus: {
+      items: {
+        open: '开启',
+        close: '关闭'
+      }
+    },
     executorType: {
       label: '执行器类型',
       form: '请选择执行器类型',
@@ -149,7 +161,9 @@ const local: App.I18n.Schema = {
         success: '处理成功',
         fail: '处理失败',
         stop: '任务停止',
-        cancel: '取消'
+        cancel: '取消',
+        decisionFailed: '判定未通过',
+        skip: '跳过'
       }
     },
     taskStatus: {
@@ -313,11 +327,6 @@ const local: App.I18n.Schema = {
     workflow_task: '任务管理',
     workflow_batch: '执行批次',
     workflow_form: '工作流',
-    workflow_form_copy: '复制工作流',
-    workflow_form_batch: '工作流批次详情',
-    workflow_form_detail: '工作流详情',
-    workflow_form_edit: '编辑工作流',
-    workflow_form_add: '新增工作流',
     job: '定时任务',
     job_task: '任务管理',
     job_batch: '执行批次',
@@ -865,6 +874,46 @@ const local: App.I18n.Schema = {
       title: '日志详情',
       view: '查看日志',
       info: '基本信息'
+    }
+  },
+  workflow: {
+    node: {
+      priority: '优先级',
+      task: {
+        name: '任务',
+        add: '添加任务',
+        nodeName: '任务节点',
+        conditionNodes: {
+          nodeName: '任务 1'
+        }
+      },
+      condition: {
+        nodeName: '决策节点',
+        conditionNodes: {
+          nodeName: '条件',
+          otherNodeName: '其他情况',
+          otherTip: '该分支为系统默认创建，与其他分支互斥。只有当其他分支都无法运行时，才会运行该分支。',
+          priority: '优先级',
+          conditionTip: '请设置条件',
+          logicalCondition: '判定逻辑',
+          expressionType: '表达式类型',
+          nodeExpression: '节点表达式',
+          otherNodeTip: '如存在未满足其他分支条件的情况，则进入此分支'
+        },
+        addBranch: '添加条件'
+      },
+      callback: {
+        nodeName: '回调通知',
+        conditionNodes: {
+          nodeName: '回调通知',
+          contentType: '请求类型',
+          webhookTip: '请配置回调通知'
+        }
+      },
+      endNode: '流程结束',
+      log: {
+        title: '日志详情'
+      }
     }
   },
   form: {

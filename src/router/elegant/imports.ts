@@ -35,10 +35,6 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   retry_task: () => import("@/views/retry/task/index.vue"),
   user_manager: () => import("@/views/user/manager/index.vue"),
   workflow_batch: () => import("@/views/workflow/batch/index.vue"),
-  workflow_form_add: () => import("@/views/workflow/form/add/index.vue"),
-  workflow_form_batch: () => import("@/views/workflow/form/batch/index.vue"),
-  workflow_form_copy: () => import("@/views/workflow/form/copy/index.vue"),
-  workflow_form_detail: () => import("@/views/workflow/form/detail/index.vue"),
-  workflow_form_edit: () => import("@/views/workflow/form/edit/index.vue"),
+  workflow_form: () => import("@/views/workflow/form/[type].vue"),
   workflow_task: () => import("@/views/workflow/task/index.vue"),
 };

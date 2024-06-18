@@ -1,3 +1,4 @@
+import { $t } from '@/locales';
 import { transformRecordToNumberOption, transformRecordToOption } from '@/utils/common';
 
 export const yesOrNoRecord: Record<Api.Common.YesOrNo, App.I18n.I18nKey> = {
@@ -123,6 +124,39 @@ export const blockStrategyRecord: Record<Api.Common.BlockStrategy, App.I18n.I18n
 };
 export const blockStrategyRecordOptions = transformRecordToNumberOption(blockStrategyRecord);
 
+/** 失败策略 */
+export const failStrategyRecord: Record<Api.Common.FailStrategy, App.I18n.I18nKey> = {
+  1: 'common.failStrategy.items.skip',
+  2: 'common.failStrategy.items.blockage'
+};
+
+export const failStrategyOptions = transformRecordToOption(failStrategyRecord);
+
+/** 判定逻辑 */
+export const logicalConditionRecord: Record<Api.Common.LogicalCondition, string> = {
+  1: 'and',
+  2: 'or'
+};
+
+export const logicalConditionOptions = transformRecordToOption(logicalConditionRecord);
+
+/** 表达式类型 */
+export const expressionRecord: Record<Api.Common.Expression, string> = {
+  1: 'SpEl',
+  2: 'Aviator',
+  3: 'QL'
+};
+
+export const expressionOptions = transformRecordToOption(expressionRecord);
+
+/** 请求类型 */
+export const contentTypeRecord: Record<Api.Common.ContentType, string> = {
+  1: 'application/json',
+  2: 'application/x-www-form-urlencoded'
+};
+
+export const contentTypeOptions = transformRecordToOption(contentTypeRecord);
+
 /** 执行器类型 */
 export const executorTypeRecord: Record<Api.Common.ExecutorType, App.I18n.I18nKey> = {
   1: 'common.executorType.items.java'
@@ -175,6 +209,7 @@ export const triggerTypeRecord: Record<Api.Job.TriggerType, App.I18n.I18nKey> = 
   // 只会在定时任务中使用
   99: 'page.jobTask.triggerTypeItem.workflow'
 };
+
 export const triggerTypeOptions = transformRecordToNumberOption(triggerTypeRecord);
 
 export const taskBatchStatusRecord: Record<Api.Common.TaskBatchStatus, App.I18n.I18nKey> = {
@@ -183,7 +218,9 @@ export const taskBatchStatusRecord: Record<Api.Common.TaskBatchStatus, App.I18n.
   3: 'common.taskBatchStatus.items.success',
   4: 'common.taskBatchStatus.items.fail',
   5: 'common.taskBatchStatus.items.stop',
-  6: 'common.taskBatchStatus.items.cancel'
+  6: 'common.taskBatchStatus.items.cancel',
+  98: 'common.taskBatchStatus.items.decisionFailed',
+  99: 'common.taskBatchStatus.items.skip'
 };
 export const taskBatchStatusRecordOptions = transformRecordToNumberOption(taskBatchStatusRecord);
 
@@ -215,8 +252,147 @@ export const operationReasonRecord: Record<Api.Common.OperationReason, App.I18n.
 };
 export const operationReasonOptions = transformRecordToNumberOption(operationReasonRecord);
 
+export const jobOperationReasonEnum: Workflow.JobTagType = {
+  0: {
+    name: operationReasonRecord[0],
+    color: '#f5f5f5'
+  },
+  1: {
+    name: operationReasonRecord[1],
+    color: '#64a6ea'
+  },
+  2: {
+    name: operationReasonRecord[2],
+    color: '#1b7ee5'
+  },
+  3: {
+    name: operationReasonRecord[3],
+    color: '#087da1'
+  },
+  4: {
+    name: operationReasonRecord[4],
+    color: '#3a2f81'
+  },
+  5: {
+    name: operationReasonRecord[5],
+    color: '#c2238a'
+  },
+  6: {
+    name: operationReasonRecord[6],
+    color: '#23c28a'
+  },
+  7: {
+    name: operationReasonRecord[7],
+    color: '#bdc223'
+  },
+  8: {
+    name: operationReasonRecord[8],
+    color: '#23c28a'
+  },
+  9: {
+    name: operationReasonRecord[9],
+    color: '#23c28a'
+  },
+  10: {
+    name: operationReasonRecord[10],
+    color: '#bdc223'
+  },
+  11: {
+    name: operationReasonRecord[11],
+    color: '#bdc223'
+  },
+  12: {
+    name: operationReasonRecord[12],
+    color: '#23c28a'
+  },
+  13: {
+    name: operationReasonRecord[13],
+    color: '#3a2f81'
+  },
+  14: {
+    name: operationReasonRecord[14],
+    color: '#b63f1a'
+  }
+};
+
 export const roleRecord: Record<Api.UserManager.Role, App.I18n.I18nKey> = {
   1: 'page.userManager.roleItem.user',
   2: 'page.userManager.roleItem.admin'
 };
 export const roleRecordOptions = transformRecordToNumberOption(roleRecord);
+
+export const workFlowNodeStatusRecord: Record<Api.Common.WorkFlowNodeStatus, App.I18n.I18nKey> = {
+  0: 'common.workFlowNodeStatus.items.close',
+  1: 'common.workFlowNodeStatus.items.open'
+};
+
+export const workFlowNodeStatusOptions = transformRecordToOption(workFlowNodeStatusRecord);
+
+export const jobStatusEnum: Workflow.JobTagType = {
+  0: {
+    name: 'common.workFlowNodeStatus.items.close',
+    color: '#dc3f41'
+  },
+  1: {
+    name: 'common.workFlowNodeStatus.items.open',
+    color: '#1b7ee5'
+  }
+};
+
+export const taskBatchStatusEnum: Record<Api.Common.TaskBatchStatus, Workflow.TaskBatchStatusType> = {
+  1: {
+    title: $t('common.taskBatchStatus.items.waiting'),
+    name: 'waiting',
+    color: '#64a6ea',
+    icon: 'ant-design:warning-outlined'
+  },
+  2: {
+    title: $t('common.taskBatchStatus.items.running'),
+    name: 'running',
+    color: '#1b7ee5',
+    icon: 'ant-design:clock-circle-outlined'
+  },
+  3: {
+    title: $t('common.taskBatchStatus.items.success'),
+    name: 'success',
+    color: '#087da1',
+    icon: 'ant-design:check-circle-outlined'
+  },
+  4: {
+    title: $t('common.taskBatchStatus.items.fail'),
+    name: 'fail',
+    color: '#f52d80',
+    icon: 'ant-design:close-circle-outlined'
+  },
+  5: {
+    title: $t('common.taskBatchStatus.items.stop'),
+    name: 'stop',
+    color: '#ac2df5',
+    icon: 'ant-design:stop-outlined'
+  },
+  6: {
+    title: $t('common.taskBatchStatus.items.cancel'),
+    name: 'cancel',
+    color: '#f5732d',
+    icon: 'mdi:cancel'
+  },
+  98: {
+    title: $t('common.taskBatchStatus.items.decisionFailed'),
+    name: 'decision-failed',
+    color: '#b63f1a',
+    icon: 'ant-design:close-circle-outlined'
+  },
+  99: {
+    title: $t('common.taskBatchStatus.items.skip'),
+    name: 'skip',
+    color: '#999999a6',
+    icon: 'mdi:transit-skip'
+  }
+};
+
+export const jobExecutorEnum: Workflow.JobTagType = {
+  1: {
+    name: 'common.executorType.items.java',
+    color: '#d06892'
+  }
+};

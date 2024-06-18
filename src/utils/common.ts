@@ -117,3 +117,7 @@ export function toggleHtmlClass(className: string) {
     remove
   };
 }
+
+export function isNotNull(value: any) {
+  return value !== undefined && value !== null && value !== '' && value !== 'undefined';
+}

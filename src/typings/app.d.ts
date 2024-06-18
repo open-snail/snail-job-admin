@@ -363,6 +363,18 @@ declare namespace App {
             parallel: string;
           };
         };
+        failStrategy: {
+          items: {
+            skip: string;
+            blockage: string;
+          };
+        };
+        workFlowNodeStatus: {
+          items: {
+            open: string;
+            close: string;
+          };
+        };
         executorType: {
           label: string;
           form: string;
@@ -400,6 +412,8 @@ declare namespace App {
             fail: string;
             stop: string;
             cancel: string;
+            decisionFailed: string;
+            skip: string;
           };
         };
         taskStatus: {
@@ -1025,6 +1039,46 @@ declare namespace App {
           title: string;
           view: string;
           info: string;
+        };
+      };
+      workflow: {
+        node: {
+          priority: string;
+          task: {
+            name: string;
+            add: string;
+            nodeName: string;
+            conditionNodes: {
+              nodeName: string;
+            };
+          };
+          condition: {
+            nodeName: string;
+            conditionNodes: {
+              nodeName: string;
+              otherNodeName: string;
+              otherTip: string;
+              priority: string;
+              conditionTip: string;
+              logicalCondition: string;
+              expressionType: string;
+              nodeExpression: string;
+              otherNodeTip: string;
+            };
+            addBranch: string;
+          };
+          callback: {
+            nodeName: string;
+            conditionNodes: {
+              nodeName: string;
+              contentType: string;
+              webhookTip: string;
+            };
+          };
+          endNode: string;
+          log: {
+            title: string;
+          };
         };
       };
       form: {

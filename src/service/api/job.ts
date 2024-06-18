@@ -18,6 +18,14 @@ export function fetchGetJobList(params?: Api.Job.JobSearchParams) {
   });
 }
 
+/** get Job list */
+export function fetchGetJobDetail(id: string) {
+  return request<Workflow.JobTaskType>({
+    url: `/job/${id}`,
+    method: 'get'
+  });
+}
+
 /** get Job Task list */
 export function fetchGetJobTaskList(params?: Api.Job.jobTaskSearchParams) {
   return request<Api.Job.JobTaskList>({

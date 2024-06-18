@@ -295,64 +295,13 @@ export const generatedRoutes: GeneratedRoute[] = [
       },
       {
         name: 'workflow_form',
-        path: '/workflow/form',
+        path: '/workflow/form/:type',
+        component: 'view.workflow_form',
         meta: {
           title: 'workflow_form',
           hideInMenu: true,
           i18nKey: 'route.workflow_form'
-        },
-        children: [
-          {
-            name: 'workflow_form_add',
-            path: '/workflow/form/add',
-            component: 'view.workflow_form_add',
-            meta: {
-              hideInMenu: true,
-              title: 'workflow_form_add',
-              i18nKey: 'route.workflow_form_add'
-            }
-          },
-          {
-            name: 'workflow_form_batch',
-            path: '/workflow/form/batch',
-            component: 'view.workflow_form_batch',
-            meta: {
-              hideInMenu: true,
-              title: 'workflow_form_batch',
-              i18nKey: 'route.workflow_form_batch'
-            }
-          },
-          {
-            name: 'workflow_form_copy',
-            path: '/workflow/form/copy',
-            component: 'view.workflow_form_copy',
-            meta: {
-              title: 'workflow_form_copy',
-              hideInMenu: true,
-              i18nKey: 'route.workflow_form_copy'
-            }
-          },
-          {
-            name: 'workflow_form_detail',
-            path: '/workflow/form/detail',
-            component: 'view.workflow_form_detail',
-            meta: {
-              title: 'workflow_form_detail',
-              hideInMenu: true,
-              i18nKey: 'route.workflow_form_detail'
-            }
-          },
-          {
-            name: 'workflow_form_edit',
-            path: '/workflow/form/edit',
-            component: 'view.workflow_form_edit',
-            meta: {
-              title: 'workflow_form_edit',
-              hideInMenu: true,
-              i18nKey: 'route.workflow_form_edit'
-            }
-          }
-        ]
+        }
       },
       {
         name: 'workflow_task',

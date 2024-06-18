@@ -1,23 +1,22 @@
 <script setup lang="tsx">
 import { NCollapse, NCollapseItem } from 'naive-ui';
-import { defineComponent, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 import { $t } from '@/locales';
+import { fetchJobLogList } from '@/service/api/log';
 
 defineOptions({
-  name: 'LogDrawer'
+  name: 'WorkflowLogDrawer'
 });
 
 interface Props {
   title?: string;
   show?: boolean;
-  drawer?: boolean;
-  modelValue?: Api.JobLog.JobMessage[];
+  taskData: Workflow.JobTaskType;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: $t('page.log.title'),
+  title: $t('workflow.node.log.title'),
   show: false,
-  drawer: true,
   modelValue: () => []
 });
 
@@ -26,6 +25,7 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>();
+
 const visible = defineModel<boolean>('visible', {
   default: true
 });
@@ -62,6 +62,9 @@ watch(
   () => props.show,
   val => {
     visible.value = val;
+    if (val) {
+      getLogList();
+    }
   },
   { immediate: true }
 );
@@ -70,33 +73,69 @@ const onUpdateShow = (value: boolean) => {
   emit('update:show', value);
 };
 
+const logList = ref<Api.JobLog.JobMessage[]>([]);
+const interval = ref<NodeJS.Timeout>();
+const controller = new AbortController();
+const finished = ref<boolean>(false);
+let startId = '0';
+let fromIndex: number = 0;
+
+async function getLogList() {
+  const { data: logData, error } = await fetchJobLogList({
+    taskBatchId: props.taskData.taskBatchId!,
+    jobId: props.taskData.jobId!,
+    taskId: props.taskData.id!,
+    startId,
+    fromIndex,
+    size: 50
+  });
+  if (!error) {
+    finished.value = logData.finished;
+    startId = logData.nextStartId;
+    fromIndex = logData.fromIndex;
+    if (logData.message) {
+      logList.value.push(...logData.message);
+      logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
+    }
+    if (!finished.value) {
+      clearTimeout(interval.value);
+      interval.value = setTimeout(getLogList, 1000);
+    }
+  }
+}
+
+const stopLog = () => {
+  finished.value = true;
+  controller.abort();
+  clearTimeout(interval.value);
+  interval.value = undefined;
+};
+
+onBeforeUnmount(() => {
+  stopLog();
+});
+
 function timestampToDate(timestamp: string): string {
-  const date = new Date(Number.parseInt(timestamp.toString(), 10));
+  const date = new Date(Number.parseInt(timestamp?.toString(), 10));
   const year = date.getFullYear();
   const month =
-    (date.getMonth() + 1).toString().length === 1 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1).toString();
-  const day = date.getDate().toString().length === 1 ? `0${date.getDate()}` : date.getDate().toString();
-  const hours = date.getHours().toString().length === 1 ? `0${date.getHours()}` : date.getHours().toString();
-  const minutes = date.getMinutes().toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes().toString();
-  const seconds = date.getSeconds().toString().length === 1 ? `0${date.getSeconds()}` : date.getSeconds().toString();
+    (date.getMonth() + 1)?.toString().length === 1 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1)?.toString();
+  const day = date.getDate()?.toString().length === 1 ? `0${date.getDate()}` : date.getDate()?.toString();
+  const hours = date.getHours()?.toString().length === 1 ? `0${date.getHours()}` : date.getHours()?.toString();
+  const minutes = date.getMinutes()?.toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes()?.toString();
+  const seconds = date.getSeconds()?.toString().length === 1 ? `0${date.getSeconds()}` : date.getSeconds()?.toString();
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${date.getMilliseconds()}`;
 }
 </script>
 
 <template>
-  <NDrawer
-    v-if="drawer && modelValue.length > 0"
-    v-model:show="visible"
-    width="100%"
-    display-directive="if"
-    @update:show="onUpdateShow"
-  >
+  <NDrawer v-model:show="visible" width="100%" display-directive="if" @update:show="onUpdateShow">
     <NDrawerContent :title="title" closable>
       <div class="snail-log bg-#fafafc p-16px dark:bg-#000">
         <div class="snail-log-scrollbar">
           <code>
             <pre
-              v-for="(message, index) in modelValue"
+              v-for="(message, index) in logList"
               :key="index"
             ><NDivider v-if="index !== 0" /><span class="log-hljs-time inline-block">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`" class="ml-12px mr-12px inline-block">{{`${message.level}`}}</span><span class="log-hljs-thread mr-12px inline-block">{{ `[${message.host}:${message.port}]` }}</span><span class="log-hljs-thread mr-12px inline-block">{{`[${message.thread}]`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
           </code>
@@ -104,16 +143,6 @@ function timestampToDate(timestamp: string): string {
       </div>
     </NDrawerContent>
   </NDrawer>
-  <div v-if="!drawer && modelValue.length > 0" class="snail-log">
-    <div class="snail-log-scrollbar">
-      <code>
-        <pre
-          v-for="(message, index) in modelValue"
-          :key="index"
-        ><NDivider v-if="index !== 0" /><span class="log-hljs-time">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`">{{`\t${message.level}\t`}}</span><span class="log-hljs-thread">{{ `[${message.host}:${message.port}]\t` }}</span><span class="log-hljs-thread">{{`[${message.thread}]\t`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}\n`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
-      </code>
-    </div>
-  </div>
 </template>
 
 <style scoped lang="scss">
