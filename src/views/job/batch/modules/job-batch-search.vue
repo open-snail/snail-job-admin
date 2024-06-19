@@ -28,13 +28,13 @@ function search() {
 <template>
   <SearchForm btn-span="24 s:24 m:9 l:12 xl:15" :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" />
+      <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.jobName')" path="jobName" class="pr-24px">
-      <NInput v-model:value="model.jobName" :placeholder="$t('page.jobBatch.form.jobName')" />
+      <NInput v-model:value="model.jobName" :placeholder="$t('page.jobBatch.form.jobName')" clearable />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.taskBatchStatus')" path="taskBatchStatus" class="pr-24px">
-      <TaskBatchStatus v-model:value="model.taskBatchStatus" />
+      <TaskBatchStatus v-model:value="model.taskBatchStatus" clearable />
     </NFormItemGi>
     <NFormItemGi
       span="24 s:24 m:15 l:12 xl:9"

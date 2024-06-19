@@ -40,7 +40,7 @@ groupNameUpdate('');
 <template>
   <SearchForm btn-span="24 s:24 m:9 l:12 xl:15" :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflowBatch.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" @update:value="groupNameUpdate" />
+      <SelectGroup v-model:value="model.groupName" clearable @update:value="groupNameUpdate" />
     </NFormItemGi>
     <NFormItemGi
       span="24 s:12 m:6"
@@ -65,7 +65,7 @@ groupNameUpdate('');
       path="taskBatchStatus"
       class="pr-24px"
     >
-      <TaskBatchStatus v-model:value="model.taskBatchStatus" />
+      <TaskBatchStatus v-model:value="model.taskBatchStatus" clearable />
     </NFormItemGi>
     <NFormItemGi
       span="24 s:24 m:15 l:12 xl:9"

@@ -29,16 +29,17 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobTask.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" />
+      <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobTask.jobName')" path="jobName" class="pr-24px">
-      <NInput v-model:value="model.jobName" :placeholder="$t('page.jobTask.form.jobName')" />
+      <NInput v-model:value="model.jobName" :placeholder="$t('page.jobTask.form.jobName')" clearable />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobTask.jobStatus')" path="jobStatus" class="pr-24px">
       <NSelect
         v-model:value="model.jobStatus"
         :placeholder="$t('page.jobTask.form.jobStatus')"
         :options="translateOptions(enableStatusNumberOptions)"
+        clearable
       />
     </NFormItemGi>
   </SearchForm>
