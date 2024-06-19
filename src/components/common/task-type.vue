@@ -25,7 +25,6 @@ const handleUpdate = (value: Api.Common.BlockStrategy) => {
     v-model:value="valueRef"
     :placeholder="$t('common.routeKey.routeForm')"
     :options="translateOptions(taskTypeRecordRecordOptions)"
-    clearable
     @update:value="handleUpdate"
   />
 </template>
