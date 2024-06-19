@@ -27,7 +27,7 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.pods.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" :placeholder="$t('page.pods.form.groupName')" />
+      <SelectGroup v-model:value="model.groupName" :placeholder="$t('page.pods.form.groupName')" clearable />
     </NFormItemGi>
   </SearchForm>
 </template>

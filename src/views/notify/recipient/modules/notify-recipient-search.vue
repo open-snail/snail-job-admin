@@ -35,7 +35,11 @@ function search() {
       path="recipientName"
       class="pr-24px"
     >
-      <NInput v-model:value="model.recipientName" :placeholder="$t('page.notifyRecipient.form.recipientName')" />
+      <NInput
+        v-model:value="model.recipientName"
+        :placeholder="$t('page.notifyRecipient.form.recipientName')"
+        clearable
+      />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyRecipient.notifyType')" path="notifyType" class="pr-24px">
       <NSelect

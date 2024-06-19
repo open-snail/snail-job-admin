@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
+import { translateOptions } from '@/utils/common';
+import { enableStatusNumberOptions } from '@/constants/business';
 
 defineOptions({
   name: 'NotifyConfigSearch'
@@ -26,13 +28,18 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.groupName')" path="groupName" class="pr-24px">
-      <NSelect v-model:value="model.groupName" :placeholder="$t('page.notifyConfig.groupName')" clearable />
-    </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus" class="pr-24px">
-      <NSelect v-model:value="model.notifyStatus" :placeholder="$t('page.notifyConfig.notifyStatus')" clearable />
+      <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.notifyScene')" path="notifyScene" class="pr-24px">
-      <NSelect v-model:value="model.notifyScene" :placeholder="$t('page.notifyConfig.notifyScene')" clearable />
+      <SelectScene v-model:value="model.notifyScene" :group-name="model.groupName as string" clearable />
+    </NFormItemGi>
+    <NFormItemGi span="24 s:12 m:6" :label="$t('page.notifyConfig.notifyStatus')" path="notifyStatus" class="pr-24px">
+      <NSelect
+        v-model:value="model.notifyStatus"
+        :placeholder="$t('page.notifyConfig.notifyStatus')"
+        :options="translateOptions(enableStatusNumberOptions)"
+        clearable
+      />
     </NFormItemGi>
   </SearchForm>
 </template>

@@ -28,10 +28,10 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" />
+      <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.sceneName')" path="sceneName" class="pr-24px">
-      <SelectScene v-model:value="model.sceneName" :group-name="model.groupName as string" />
+      <SelectScene v-model:value="model.sceneName" :group-name="model.groupName as string" clearable />
     </NFormItemGi>
     <NFormItemGi
       span="24 s:24 m:15 l:12 xl:9"
