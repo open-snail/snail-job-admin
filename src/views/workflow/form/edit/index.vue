@@ -2,13 +2,9 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Workflow from '@/components/workflow';
-import { useWorkflowStore } from '@/store/modules/workflow';
 import { $t } from '@/locales';
+import { useWorkflowStore } from '@/store/modules/workflow';
 import { fetchUpdateWorkflow, fetchWorkflowInfo } from '@/service/api';
-
-defineOptions({
-  name: 'WorkflowFormEdit'
-});
 
 const store = useWorkflowStore();
 const route = useRoute();

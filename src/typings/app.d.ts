@@ -167,6 +167,8 @@ declare namespace App {
       icon?: () => VNode;
       /** The menu children */
       children?: Menu[];
+      /** The menu show */
+      show?: boolean;
     }
 
     type Breadcrumb = Omit<Menu, 'children'> & {
@@ -608,16 +610,6 @@ declare namespace App {
               title: string;
             };
           };
-          projectNews: {
-            title: string;
-            moreNews: string;
-            desc1: string;
-            desc2: string;
-            desc3: string;
-            desc4: string;
-            desc5: string;
-          };
-          creativity: string;
         };
         pods: {
           title: string;

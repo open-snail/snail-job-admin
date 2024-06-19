@@ -2,12 +2,8 @@
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Workflow from '@/components/workflow';
-import { useWorkflowStore } from '@/store/modules/workflow';
 import { fetchWorkflowInfo } from '@/service/api';
-
-defineOptions({
-  name: 'WorkflowFormDetail'
-});
+import { useWorkflowStore } from '@/store/modules/workflow';
 
 const store = useWorkflowStore();
 const route = useRoute();

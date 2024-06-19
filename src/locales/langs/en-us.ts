@@ -301,14 +301,6 @@ const local: App.I18n.Schema = {
     500: 'Server Error',
     'iframe-page': 'Iframe',
     home: 'Home',
-    document: 'Document',
-    document_project: 'Project Document',
-    'document_project-link': 'Project Document(External Link)',
-    document_vue: 'Vue Document',
-    document_vite: 'Vite Document',
-    document_unocss: 'UnoCSS Document',
-    document_naive: 'Naive UI Document',
-    document_antd: 'Ant Design Vue Document',
     about: 'About',
     pods: 'Online Machine',
     namespace: 'Namespace',
@@ -326,13 +318,14 @@ const local: App.I18n.Schema = {
     workflow_task: 'Workflow Task',
     workflow_batch: 'Workflow Batch',
     workflow_form: 'Workflow',
+    workflow_form_copy: 'Copy Workflow',
+    workflow_form_batch: 'Workflow Batch Detail',
+    workflow_form_detail: 'Workflow Detail',
+    workflow_form_edit: 'Edit Workflow',
+    workflow_form_add: 'Add Workflow',
     job: 'Schedule Task Management',
     job_task: 'Schedule Task List',
     job_batch: 'Schedule Task Batch List',
-    exception: 'Exception',
-    exception_403: '403',
-    exception_404: '404',
-    exception_500: '500',
     group: 'Group Config'
   },
   page: {
@@ -431,17 +424,7 @@ const local: App.I18n.Schema = {
         pie: {
           title: 'Success scale chart'
         }
-      },
-      projectNews: {
-        title: 'Project News',
-        moreNews: 'More News',
-        desc1: 'Soybean created the open source project soybean-admin on May 28, 2021!',
-        desc2: 'Yanbowe submitted a bug to soybean-admin, the multi-tab bar will not adapt.',
-        desc3: 'Soybean is ready to do sufficient preparation for the release of soybean-admin!',
-        desc4: 'Soybean is busy writing project documentation for soybean-admin!',
-        desc5: 'Soybean just wrote some of the workbench pages casually, and it was enough to see!'
-      },
-      creativity: 'Creativity'
+      }
     },
     pods: {
       title: 'Online Machine',

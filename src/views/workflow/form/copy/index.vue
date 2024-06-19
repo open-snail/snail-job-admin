@@ -6,10 +6,6 @@ import { $t } from '@/locales';
 import { useWorkflowStore } from '@/store/modules/workflow';
 import { fetchAddWorkflow, fetchWorkflowInfo } from '@/service/api';
 
-defineOptions({
-  name: 'WorkflowFormCopy'
-});
-
 const store = useWorkflowStore();
 const route = useRoute();
 const router = useRouter();

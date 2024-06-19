@@ -5,10 +5,6 @@ import Workflow from '@/components/workflow';
 import { useWorkflowStore } from '@/store/modules/workflow';
 import { fetchWorkflowBatchInfo } from '@/service/api';
 
-defineOptions({
-  name: 'WorkflowFormBatch'
-});
-
 const store = useWorkflowStore();
 const route = useRoute();
 
