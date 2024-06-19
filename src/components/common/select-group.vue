@@ -10,10 +10,12 @@ defineOptions({
 
 interface Props {
   disabled?: boolean;
+  clearable?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  disabled: false
+  disabled: false,
+  clearable: false
 });
 
 const model = defineModel<string | null>();
@@ -45,6 +47,7 @@ getGroupNameList();
     :placeholder="$t('page.retryTask.form.groupName')"
     :options="translateOptions2(groupNameList)"
     :disabled="props.disabled"
+    :clearable="props.clearable"
     filterable
     @update:value="handleUpdate"
   />

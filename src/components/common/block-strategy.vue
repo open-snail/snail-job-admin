@@ -25,7 +25,6 @@ const handleUpdate = (value: Api.Common.BlockStrategy) => {
     v-model:value="valueRef"
     :placeholder="$t('common.blockStrategy.form')"
     :options="translateOptions(blockStrategyRecordOptions)"
-    clearable
     @update:value="handleUpdate"
   />
 </template>
