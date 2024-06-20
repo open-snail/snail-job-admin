@@ -1,5 +1,5 @@
 import { $t } from '@/locales';
-import { transformRecordToNumberOption, transformRecordToOption } from '@/utils/common';
+import { transformRecordToNumberOption } from '@/utils/common';
 
 export const yesOrNoRecord: Record<Api.Common.YesOrNo, App.I18n.I18nKey> = {
   '0': 'common.yesOrNo.no',
@@ -30,13 +30,13 @@ export const alarmTypeRecord: Record<Api.NotifyRecipient.AlarmType, App.I18n.I18
   4: 'page.notifyRecipient.lark',
   5: 'page.notifyRecipient.webhook'
 };
-export const alarmTypeRecordOptions = transformRecordToOption(alarmTypeRecord);
+export const alarmTypeRecordOptions = transformRecordToNumberOption(alarmTypeRecord);
 
 export const alarmWebhookTypeRecord: Record<Api.NotifyRecipient.AlarmTypeWebhook, App.I18n.I18nKey> = {
   1: 'page.notifyRecipient.form.applicationJson',
   2: 'page.notifyRecipient.form.applicationXWwwFormUrlencoded'
 };
-export const alarmWebhookTypeRecordOptions = transformRecordToOption(alarmWebhookTypeRecord);
+export const alarmWebhookTypeRecordOptions = transformRecordToNumberOption(alarmWebhookTypeRecord);
 
 export const systemTaskType: Record<Api.NotifyConfig.SystemTaskType, App.I18n.I18nKey> = {
   1: 'common.systemTaskType.retry',
@@ -130,7 +130,7 @@ export const failStrategyRecord: Record<Api.Common.FailStrategy, App.I18n.I18nKe
   2: 'common.failStrategy.items.blockage'
 };
 
-export const failStrategyOptions = transformRecordToOption(failStrategyRecord);
+export const failStrategyOptions = transformRecordToNumberOption(failStrategyRecord);
 
 /** 判定逻辑 */
 export const logicalConditionRecord: Record<Api.Common.LogicalCondition, string> = {
@@ -138,7 +138,7 @@ export const logicalConditionRecord: Record<Api.Common.LogicalCondition, string>
   2: 'or'
 };
 
-export const logicalConditionOptions = transformRecordToOption(logicalConditionRecord);
+export const logicalConditionOptions = transformRecordToNumberOption(logicalConditionRecord);
 
 /** 表达式类型 */
 export const expressionRecord: Record<Api.Common.Expression, string> = {
@@ -147,7 +147,7 @@ export const expressionRecord: Record<Api.Common.Expression, string> = {
   3: 'QL'
 };
 
-export const expressionOptions = transformRecordToOption(expressionRecord);
+export const expressionOptions = transformRecordToNumberOption(expressionRecord);
 
 /** 请求类型 */
 export const contentTypeRecord: Record<Api.Common.ContentType, string> = {
@@ -155,7 +155,7 @@ export const contentTypeRecord: Record<Api.Common.ContentType, string> = {
   2: 'application/x-www-form-urlencoded'
 };
 
-export const contentTypeOptions = transformRecordToOption(contentTypeRecord);
+export const contentTypeOptions = transformRecordToNumberOption(contentTypeRecord);
 
 /** 执行器类型 */
 export const executorTypeRecord: Record<Api.Common.ExecutorType, App.I18n.I18nKey> = {
@@ -211,6 +211,10 @@ export const triggerTypeRecord: Record<Api.Job.TriggerType, App.I18n.I18nKey> = 
 };
 
 export const triggerTypeOptions = transformRecordToNumberOption(triggerTypeRecord);
+
+export const workflowTriggerTypeOptions = transformRecordToNumberOption(triggerTypeRecord).filter(
+  item => item.value !== 99
+);
 
 export const taskBatchStatusRecord: Record<Api.Common.TaskBatchStatus, App.I18n.I18nKey> = {
   1: 'common.taskBatchStatus.items.waiting',
@@ -326,7 +330,7 @@ export const workFlowNodeStatusRecord: Record<Api.Common.WorkFlowNodeStatus, App
   1: 'common.workFlowNodeStatus.items.open'
 };
 
-export const workFlowNodeStatusOptions = transformRecordToOption(workFlowNodeStatusRecord);
+export const workFlowNodeStatusOptions = transformRecordToNumberOption(workFlowNodeStatusRecord);
 
 export const jobStatusEnum: Workflow.JobTagType = {
   0: {

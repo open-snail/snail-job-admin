@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { $t } from '@/locales';
 import NodeWrap from './modules/nodes/node-wrap.vue';
 import StartNode from './modules/nodes/start-node.vue';
@@ -57,12 +57,48 @@ watch(
 const onZoom = (n: number) => {
   zoom.value += 10 * n;
 
+  if (n > 0) {
+    const workflowBodyDom: HTMLDivElement | null = document.querySelector('.workflow-body');
+    if (workflowBodyDom) {
+      if (zoom.value <= 160) {
+        workflowBodyDom.scrollTo({ left: (280 * zoom.value) / 100, behavior: 'smooth' });
+      }
+
+      if (zoom.value > 160) {
+        workflowBodyDom.scrollTo({ left: (420 * zoom.value) / 100, behavior: 'smooth' });
+      }
+
+      if (zoom.value > 200) {
+        workflowBodyDom.scrollTo({ left: (520 * zoom.value) / 100, behavior: 'smooth' });
+      }
+    }
+  }
+
   if (zoom.value <= 10) {
     zoom.value = 10;
   } else if (zoom.value >= 300) {
     zoom.value = 300;
   }
 };
+
+const handleWeel = (e: WheelEvent) => {
+  e.preventDefault();
+  // @ts-expect-error ts-migrate(2339)
+  const wheelDelta = e.wheelDelta;
+
+  if (wheelDelta < 0) {
+    onZoom(-1);
+  } else {
+    onZoom(1);
+  }
+};
+
+onMounted(() => {
+  const workflowDom: HTMLDivElement | null = document.querySelector('.workflow');
+  if (workflowDom) {
+    workflowDom.onwheel = (ev: WheelEvent) => handleWeel(ev);
+  }
+});
 </script>
 
 <template>
@@ -73,7 +109,7 @@ const onZoom = (n: number) => {
           <div>
             <NTooltip>
               <template #trigger>
-                <NButton type="info" size="small" strong @click="onZoom(-1)">
+                <NButton size="small" strong circle @click="onZoom(-1)">
                   <icon-ant-design:minus-outlined />
                 </NButton>
               </template>
@@ -82,7 +118,7 @@ const onZoom = (n: number) => {
             <span class="ml-8px mr-8px text-18px text-#333639 dark:text-#d6d6d6">{{ zoom }}%</span>
             <NTooltip>
               <template #trigger>
-                <NButton type="info" size="small" strong @click="onZoom(1)">
+                <NButton size="small" strong circle @click="onZoom(1)">
                   <icon-ant-design:plus-outlined />
                 </NButton>
               </template>

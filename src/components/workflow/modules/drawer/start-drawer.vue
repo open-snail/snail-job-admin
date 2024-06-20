@@ -2,7 +2,11 @@
 import { ref, watch } from 'vue';
 import CronInput from '@sa/cron-input';
 import { type FormInst, type FormItemRule } from 'naive-ui';
-import { blockStrategyRecordOptions, triggerTypeOptions, workFlowNodeStatusOptions } from '@/constants/business';
+import {
+  blockStrategyRecordOptions,
+  workflowTriggerTypeOptions as triggerTypeOptions,
+  workFlowNodeStatusOptions
+} from '@/constants/business';
 import { $t } from '@/locales';
 import { fetchGetAllGroupNameList } from '@/service/api';
 import { isNotNull } from '@/utils/common';
@@ -165,6 +169,7 @@ const rules: Record<RuleKey, FormItemRule> = {
               <NInputNumber
                 v-else
                 v-model:value="form.triggerInterval as number"
+                :min="1"
                 class="w-full"
                 placeholder="请输入触发间隔"
               >
@@ -176,7 +181,7 @@ const rules: Record<RuleKey, FormItemRule> = {
         <NGrid :cols="24" x-gap="20">
           <NGi :span="8">
             <NFormItem path="executorTimeout" label="执行超时时间">
-              <NInputNumber v-model:value="form.executorTimeout" placeholder="请输入超时时间">
+              <NInputNumber v-model:value="form.executorTimeout" placeholder="请输入超时时间" :min="1">
                 <template #suffix>秒</template>
               </NInputNumber>
             </NFormItem>
