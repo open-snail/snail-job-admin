@@ -4,7 +4,7 @@ import type { DataTableColumn } from 'naive-ui';
 import { NButton, NCode, NPopover, NTag } from 'naive-ui';
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
-import { isNotNull, translateOptions } from '@/utils/common';
+import { isNotNull, parseArgsJson, translateOptions } from '@/utils/common';
 import {
   jobExecutorEnum,
   jobOperationReasonEnum,
@@ -236,19 +236,6 @@ const columns = ref<DataTableColumn<Workflow.JobBatchType>[]>([
     titleAlign: 'center',
     minWidth: 120,
     render: row => {
-      let argsJson = JSON.parse(row.argsStr!);
-
-      try {
-        if (argsJson.jobParams) {
-          argsJson.jobParams = JSON.parse(argsJson.jobParams.replaceAll('\\"', '"'));
-        }
-        if (argsJson.mapResult) {
-          argsJson.mapResult = JSON.parse(argsJson.mapResult.replaceAll('\\"', '"'));
-        }
-      } catch {}
-
-      argsJson = JSON.stringify(argsJson, null, '    ');
-
       return (
         <NPopover trigger="click">
           {{
@@ -258,7 +245,13 @@ const columns = ref<DataTableColumn<Workflow.JobBatchType>[]>([
               </NButton>
             ),
             default: () => (
-              <NCode class="max-h-300px overflow-auto" hljs={hljs} code={argsJson} language="json" show-line-numbers />
+              <NCode
+                class="max-h-300px overflow-auto"
+                hljs={hljs}
+                code={parseArgsJson(row.argsStr!)}
+                language="json"
+                show-line-numbers
+              />
             )
           }}
         </NPopover>

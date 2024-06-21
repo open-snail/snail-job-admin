@@ -10,7 +10,7 @@ import {
   taskStatusRecord
 } from '@/constants/business';
 import { $t } from '@/locales';
-import { tagColor } from '@/utils/common';
+import { parseArgsJson, tagColor } from '@/utils/common';
 import { useTable } from '@/hooks/common/table';
 import { fetchGetJobTaskList } from '@/service/api';
 import { fetchJobLogList } from '@/service/api/log';
@@ -121,19 +121,6 @@ const { columns, data, loading, mobilePagination } = useTable({
       titleAlign: 'center',
       minWidth: 120,
       render: row => {
-        let argsJson = JSON.parse(row.argsStr!);
-
-        try {
-          if (argsJson.jobParams) {
-            argsJson.jobParams = JSON.parse(argsJson.jobParams.replaceAll('\\"', '"'));
-          }
-          if (argsJson.mapResult) {
-            argsJson.mapResult = JSON.parse(argsJson.mapResult.replaceAll('\\"', '"'));
-          }
-        } catch {}
-
-        argsJson = JSON.stringify(argsJson, null, '    ');
-
         return (
           <NPopover trigger="click">
             {{
@@ -146,7 +133,7 @@ const { columns, data, loading, mobilePagination } = useTable({
                 <NCode
                   class="max-h-300px overflow-auto"
                   hljs={hljs}
-                  code={argsJson}
+                  code={parseArgsJson(row.argsStr)}
                   language="json"
                   show-line-numbers
                 />
