@@ -898,6 +898,18 @@ declare namespace Api {
       Pick<Api.Workflow.Workflow, 'workflowName' | 'groupName' | 'workflowStatus'> & CommonSearchParams
     >;
 
+    /** workflow name search params */
+    type WorkflowNameSearchParams = CommonType.RecordNullable<
+      Pick<
+        Common.CommonRecord<{
+          keywords: string;
+          workflowId: number;
+          groupName: string;
+        }>,
+        'keywords' | 'workflowId' | 'groupName'
+      >
+    >;
+
     type ExportWorkflow = Common.CommonRecord<{
       workflowIds: String[];
     }> &

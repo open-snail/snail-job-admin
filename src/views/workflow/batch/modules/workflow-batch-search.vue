@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { $t } from '@/locales';
 import SelectGroup from '@/components/common/select-group.vue';
 import TaskBatchStatus from '@/components/common/task-batch-status.vue';
@@ -14,6 +14,8 @@ interface Emits {
   (e: 'reset'): void;
   (e: 'search'): void;
 }
+const keywords = ref<string>('');
+const noSearchFlag = ref(false);
 
 const emit = defineEmits<Emits>();
 /** 组列表 */
@@ -34,7 +36,34 @@ async function groupNameUpdate(groupName: string) {
   workflowList.value = res.data as Api.Workflow.Workflow[];
 }
 
+async function keywordsUpdate() {
+  const res = await fetchGetWorkflowNameList({ keywords: keywords.value });
+  workflowList.value = res.data as Api.Workflow.Workflow[];
+}
+
+function handleSelect(value: number) {
+  model.value.workflowId = value;
+}
+
+watch(
+  () => keywords.value,
+  (value: string) => {
+    if (value.length !== 0) {
+      keywordsUpdate();
+    } else {
+      noSearchFlag.value = false;
+    }
+  }
+);
+
 groupNameUpdate('');
+
+function translateOptions(options: Api.Workflow.Workflow[]) {
+  return options.map(option => ({
+    value: option.id,
+    label: option.workflowName
+  }));
+}
 </script>
 
 <template>
@@ -49,14 +78,16 @@ groupNameUpdate('');
       path="workflowName"
       class="pr-24px"
     >
-      <NSelect
-        v-model:value="model.workflowId"
+      <NAutoComplete
+        v-model:value="keywords"
         :placeholder="$t('page.workflowBatch.form.workflowName')"
         value-field="id"
         label-field="workflowName"
-        :options="workflowList"
+        :options="translateOptions(workflowList)"
+        :empty-visible="noSearchFlag"
         clearable
         filterable
+        @select="handleSelect"
       />
     </NFormItemGi>
     <NFormItemGi
