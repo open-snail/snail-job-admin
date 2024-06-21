@@ -19,7 +19,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const { VITE_APP_VERSION } = import.meta.env;
-const version = ref<string>(`v${localStg.get('version') || VITE_APP_VERSION}`);
+const version = ref<string>(`${localStg.get('version') || VITE_APP_VERSION}`);
 
 const getVersion = async () => {
   const { data, error } = await fetchVersion();
@@ -73,7 +73,7 @@ const href = (url: string) => {
           <SystemLogo class="text-64px text-primary lt-sm:text-48px" />
           <h3 class="flex text-28px text-primary font-500 lt-sm:text-22px">
             {{ $t('system.title') }}
-            <span class="mt-3px pl-12px text-16px color-#00000072 font-600">{{ version }}</span>
+            <span class="mt-3px pl-12px text-16px color-#00000072 font-600">v{{ version }}</span>
           </h3>
           <div class="i-flex-col">
             <ThemeSchemaSwitch

@@ -24,7 +24,7 @@ const theme = ref({
     fontSize: '18px'
   },
   '.cm-scroller': {
-    height: '520px',
+    minHeight: '180px',
     overflowY: 'auto',
     overflowX: 'hidden'
   }
