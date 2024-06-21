@@ -6,7 +6,7 @@ import { oneDark } from '@codemirror/theme-one-dark';
 import { javascript } from '@codemirror/lang-javascript';
 import EditableInput from '@/components/common/editable-input.vue';
 import { fetchCheckNodeExpression } from '@/service/api';
-import { expressionOptions, logicalConditionOptions } from '@/constants/business';
+import { expressionOptions } from '@/constants/business';
 
 defineOptions({
   name: 'BranchDrawer'
@@ -131,18 +131,6 @@ const rules: FormRules = {
       </template>
 
       <NForm ref="formRef" :rules="rules" :model="form" label-align="left" label-width="100px">
-        <NFormItem path="decision.logicalCondition" label="判定逻辑">
-          <NRadioGroup v-model:value="form.decision!.logicalCondition">
-            <NSpace>
-              <NRadio
-                v-for="logical in logicalConditionOptions"
-                :key="logical.value"
-                :label="logical.label"
-                :value="logical.value"
-              />
-            </NSpace>
-          </NRadioGroup>
-        </NFormItem>
         <NFormItem path="decision.expressionType" label="表达式类型">
           <NRadioGroup v-model:value="form.decision!.expressionType">
             <NSpace>

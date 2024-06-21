@@ -189,3 +189,5 @@ declare namespace Workflow {
     };
   };
 }
+
+declare module 'vue-drag-resize/src';

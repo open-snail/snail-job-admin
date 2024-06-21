@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
+import VueDragResize from 'vue-drag-resize/src';
 import { $t } from '@/locales';
 import NodeWrap from './modules/nodes/node-wrap.vue';
 import StartNode from './modules/nodes/start-node.vue';
@@ -99,6 +100,20 @@ onMounted(() => {
     workflowDom.onwheel = (ev: WheelEvent) => handleWeel(ev);
   }
 });
+
+const onDragging = () => {
+  const workflowBodyDom: HTMLDivElement | null = document.querySelector('.workflow-design');
+  if (workflowBodyDom) {
+    workflowBodyDom.setAttribute('style', `cursor: grabbing; transform: scale(${zoom.value / 100})`);
+  }
+};
+
+const onDragstop = () => {
+  const workflowBodyDom: HTMLDivElement | null = document.querySelector('.workflow-design');
+  if (workflowBodyDom) {
+    workflowBodyDom.setAttribute('style', `cursor: grab; transform: scale(${zoom.value / 100})`);
+  }
+};
 </script>
 
 <template>
@@ -133,16 +148,24 @@ onMounted(() => {
       </NAffix>
       <div class="workflow-body">
         <NSpin :show="spinning">
-          <div class="workflow-design" :style="`transform: scale(${zoom / 100})`">
-            <div class="box-scale">
-              <StartNode v-model="nodeData" :disabled="disabled" />
-              <NodeWrap v-if="nodeData.nodeConfig" v-model="nodeData.nodeConfig" :disabled="disabled" />
-              <div class="end-node">
-                <div class="end-node-circle"></div>
-                <div class="end-node-text">{{ $t('workflow.node.endNode') }}</div>
+          <VueDragResize
+            class="vue-drag"
+            :is-draggable="true"
+            :is-resizable="false"
+            @dragging="onDragging"
+            @dragstop="onDragstop"
+          >
+            <div class="workflow-design" :style="`transform: scale(${zoom / 100})`">
+              <div class="box-scale">
+                <StartNode v-model="nodeData" :disabled="disabled" />
+                <NodeWrap v-if="nodeData.nodeConfig" v-model="nodeData.nodeConfig" :disabled="disabled" />
+                <div class="end-node">
+                  <div class="end-node-circle"></div>
+                  <div class="end-node-text">{{ $t('workflow.node.endNode') }}</div>
+                </div>
               </div>
             </div>
-          </div>
+          </VueDragResize>
         </NSpin>
       </div>
     </div>
@@ -168,13 +191,31 @@ onMounted(() => {
   }
 
   &-body {
-    overflow: auto;
-    height: calc(100vh - 198px);
+    overflow: hidden;
+    min-height: calc(100vh - 198px);
+
+    .active:before {
+      outline: none !important;
+    }
+
+    .vue-drag,
+    .content-container {
+      min-width: 100%;
+    }
+
+    .vue-drag .content-container {
+      width: unset !important;
+      height: unset !important;
+    }
   }
 
   &-design {
-    margin-top: 16px;
+    cursor: grab;
     transform-origin: 0 0 !important;
+    min-height: calc(100vh - 198px);
+    min-width: 100%;
+    padding: 16px;
+    outline: 1px dashed #d6d6d6;
   }
 }
 

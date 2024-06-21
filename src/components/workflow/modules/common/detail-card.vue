@@ -13,7 +13,6 @@ import { useWorkflowStore } from '@/store/modules/workflow';
 import { $t } from '@/locales';
 import { isNotNull } from '@/utils/common';
 import { fetchGetJobBatchDetail, fetchGetJobDetail, fetchGetJobTaskList, fetchWorkflowNodeRetry } from '@/service/api';
-import LogDrawer from '../common/log-drawer.vue';
 
 defineOptions({
   name: 'DetailCard'
@@ -362,7 +361,7 @@ const onUpdatePage = (page: number) => {
       </template>
     </NDrawerContent>
   </NDrawer>
-  <LogDrawer v-model:show="logOpen" title="日志详情" :task-data="record" />
+  <FlowLogDrawer v-model:show="logOpen" title="日志详情" :task-data="record" />
 </template>
 
 <style scoped lang="scss">

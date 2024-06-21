@@ -5,7 +5,7 @@ import { $t } from '@/locales';
 import { fetchJobLogList } from '@/service/api/log';
 
 defineOptions({
-  name: 'WorkflowLogDrawer'
+  name: 'FlowLogDrawer'
 });
 
 interface Props {
