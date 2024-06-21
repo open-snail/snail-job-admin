@@ -2,22 +2,18 @@
 import { nextTick, ref, useSlots, watch } from 'vue';
 import type { DataTableColumn } from 'naive-ui';
 import { NButton, NTag } from 'naive-ui';
+import { isNotNull, translateOptions } from '@/utils/common';
 import {
   jobExecutorEnum,
   jobOperationReasonEnum,
   jobStatusEnum,
   taskBatchStatusEnum,
-  taskBatchStatusRecord
+  taskBatchStatusRecord,
+  taskStatusRecordOptions
 } from '@/constants/business';
 import { useWorkflowStore } from '@/store/modules/workflow';
 import { $t } from '@/locales';
-import { isNotNull } from '@/utils/common';
-import {
-  fetchGetJobBatchDetail,
-  fetchGetJobDetail,
-  fetchGetJobTaskList
-  // fetchWorkflowNodeRetry
-} from '@/service/api';
+import { fetchGetJobBatchDetail, fetchGetJobDetail, fetchGetJobTaskList, fetchWorkflowNodeRetry } from '@/service/api';
 
 defineOptions({
   name: 'DetailCard'
@@ -49,6 +45,7 @@ const logOpen = ref(false);
 const spinning = ref(false);
 const loading = ref(false);
 const currentIndex = ref(1);
+const taskStatusSearch = ref();
 const jobData = ref<Workflow.JobTaskType>({});
 const dataSource = ref<Workflow.JobBatchType[]>([]);
 
@@ -110,6 +107,7 @@ async function getRows(id: string, page: number = 1) {
   const { data, error } = await fetchGetJobTaskList({
     groupName: store.groupName!,
     taskBatchId: id ?? '0',
+    taskStatus: taskStatusSearch.value,
     page,
     size: pagination.value.pageSize
   });
@@ -118,6 +116,11 @@ async function getRows(id: string, page: number = 1) {
     dataSource.value = data.data;
     loading.value = false;
   }
+}
+
+async function flushed(id: string) {
+  taskStatusSearch.value = null;
+  await getRows(id);
 }
 
 const idList = ref<string[]>([]);
@@ -144,16 +147,16 @@ const getLogRows = (task: Workflow.JobTaskType) => {
   logOpen.value = true;
 };
 
-// const retry = async (item: Workflow.JobTaskType) => {
-//   const { error } = await fetchWorkflowNodeRetry(store.id!, item.workflowNodeId!);
-//   if (!error) {
-//     window.$message?.success('执行重试成功');
-//   }
-// };
+const retry = async (item: Workflow.JobTaskType) => {
+  const { error } = await fetchWorkflowNodeRetry(store.id!, item.workflowNodeId!);
+  if (!error) {
+    window.$message?.success('执行重试成功');
+  }
+};
 
-// const isRetry = (taskBatchStatus: number) => {
-//   return taskBatchStatus === 4 || taskBatchStatus === 5 || taskBatchStatus === 6;
-// };
+const isRetry = (taskBatchStatus: number) => {
+  return taskBatchStatus === 4 || taskBatchStatus === 5 || taskBatchStatus === 6;
+};
 
 type ThemeColor = 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning';
 
@@ -323,26 +326,6 @@ const onUpdatePage = (page: number) => {
             <NTabPane name="task">
               <template #tab>
                 <span>任务项列表</span>
-                <!--
- <div class="absolute right-16px top-9px">
-                  <NTooltip trigger="hover">
-                    <template #trigger>
-                      <NButton text @click="getRows(item)">
-                        <icon-ant-design:sync-outlined class="mr-8px text-20px font-bold" />
-                      </NButton>
-                    </template>
-                    刷新
-                  </NTooltip>
-                  <NTooltip v-if="isRetry(jobData.taskBatchStatus!)" trigger="hover">
-                    <template #trigger>
-                      <NButton text>
-                        <icon-ant-design:redo-outlined class="text-20px font-bold" @click="retry(jobData)" />
-                      </NButton>
-                    </template>
-                    重试
-                  </NTooltip>
-                </div>
--->
               </template>
               <NCard
                 :bordered="false"
@@ -351,6 +334,30 @@ const onUpdatePage = (page: number) => {
                 :content-style="{ padding: 0 }"
                 :header-style="{ padding: 0 }"
               >
+                <template #header>
+                  <NSelect
+                    v-model:value="taskStatusSearch"
+                    clearable
+                    class="max-w-180px"
+                    :options="translateOptions(taskStatusRecordOptions)"
+                    placeholder="请选择状态"
+                    @update:value="getRows(item)"
+                  />
+                </template>
+                <template #header-extra>
+                  <NButton class="mr-16px" @click="flushed(item)">
+                    <template #icon>
+                      <icon-ant-design:sync-outlined class="text-icon" />
+                    </template>
+                    刷新
+                  </NButton>
+                  <NButton v-if="isRetry(jobData.taskBatchStatus!)" @click="retry(jobData)">
+                    <template #icon>
+                      <icon-ant-design:redo-outlined class="text-icon" />
+                    </template>
+                    重试
+                  </NButton>
+                </template>
                 <NDataTable
                   :columns="columns"
                   :data="dataSource"
@@ -359,7 +366,7 @@ const onUpdatePage = (page: number) => {
                   remote
                   :row-key="row => row.id"
                   :pagination="pagination"
-                  class="sm:h-full"
+                  class="pt-16px sm:h-full"
                 />
               </NCard>
             </NTabPane>

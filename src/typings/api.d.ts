@@ -1047,7 +1047,8 @@ declare namespace Api {
 
     /** jobTask search params */
     type jobTaskSearchParams = CommonType.RecordNullable<
-      Pick<Api.Job.JobTask, 'groupName' | 'taskBatchId'> & CommonSearchParams & { startId: number; fromIndex: number }
+      Pick<Api.Job.JobTask, 'groupName' | 'taskBatchId' | 'taskStatus'> &
+        CommonSearchParams & { startId: number; fromIndex: number }
     >;
 
     /** jobTask list */
