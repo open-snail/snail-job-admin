@@ -192,7 +192,6 @@ const onDragstop = () => {
 
   &-body {
     overflow: hidden;
-    min-height: calc(100vh - 198px);
 
     .active:before {
       outline: none !important;
@@ -228,5 +227,9 @@ const onDragstop = () => {
       }
     }
   }
+}
+
+#__SCROLL_EL_ID__ {
+  overflow: hidden;
 }
 </style>
