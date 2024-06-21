@@ -1,5 +1,7 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
+import { NButton, NCode, NPopover, NTag } from 'naive-ui';
+import hljs from 'highlight.js/lib/core';
+import json from 'highlight.js/lib/languages/json';
 import { onBeforeUnmount, ref } from 'vue';
 import {
   executorTypeRecord,
@@ -16,6 +18,8 @@ import { fetchJobLogList } from '@/service/api/log';
 defineOptions({
   name: 'JobBatchDetailDrawer'
 });
+
+hljs.registerLanguage('json', json);
 
 interface Props {
   /** row data */
@@ -73,7 +77,7 @@ const { columns, data, loading, mobilePagination } = useTable({
       key: 'groupName',
       title: $t('page.jobBatch.jobTask.groupName'),
       align: 'left',
-      minWidth: 120
+      minWidth: 180
     },
     {
       key: 'taskStatus',
@@ -100,7 +104,7 @@ const { columns, data, loading, mobilePagination } = useTable({
       key: 'clientInfo',
       title: $t('page.jobBatch.jobTask.clientInfo'),
       align: 'left',
-      minWidth: 120,
+      minWidth: 150,
       render: row => {
         if (row.clientInfo) {
           const parts = row.clientInfo?.split('@');
@@ -113,8 +117,44 @@ const { columns, data, loading, mobilePagination } = useTable({
     {
       key: 'argsStr',
       title: $t('page.jobBatch.jobTask.argsStr'),
-      align: 'left',
-      minWidth: 120
+      align: 'center',
+      titleAlign: 'center',
+      minWidth: 120,
+      render: row => {
+        let argsJson = JSON.parse(row.argsStr!);
+
+        try {
+          if (argsJson.jobParams) {
+            argsJson.jobParams = JSON.parse(argsJson.jobParams.replaceAll('\\"', '"'));
+          }
+          if (argsJson.mapResult) {
+            argsJson.mapResult = JSON.parse(argsJson.mapResult.replaceAll('\\"', '"'));
+          }
+        } catch {}
+
+        argsJson = JSON.stringify(argsJson, null, '    ');
+
+        return (
+          <NPopover trigger="click">
+            {{
+              trigger: () => (
+                <NButton type="primary" text>
+                  <span class="w-28px ws-break-spaces">{`查看\n参数`}</span>
+                </NButton>
+              ),
+              default: () => (
+                <NCode
+                  class="max-h-300px overflow-auto"
+                  hljs={hljs}
+                  code={argsJson}
+                  language="json"
+                  show-line-numbers
+                />
+              )
+            }}
+          </NPopover>
+        );
+      }
     },
     {
       key: 'resultMessage',

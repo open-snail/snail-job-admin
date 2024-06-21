@@ -103,7 +103,13 @@ const theme = computed(() => {
 watch(
   () => nodeExpression.value,
   val => {
-    emit('update:modelValue', val);
+    let value = val;
+    if (props.lang === 'json') {
+      try {
+        value = JSON.stringify(JSON.parse(val));
+      } catch {}
+    }
+    emit('update:modelValue', value);
   }
 );
 </script>

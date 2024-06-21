@@ -1,7 +1,9 @@
 <script setup lang="tsx">
 import { nextTick, ref, useSlots, watch } from 'vue';
 import type { DataTableColumn } from 'naive-ui';
-import { NButton, NTag } from 'naive-ui';
+import { NButton, NCode, NPopover, NTag } from 'naive-ui';
+import hljs from 'highlight.js/lib/core';
+import json from 'highlight.js/lib/languages/json';
 import { isNotNull, translateOptions } from '@/utils/common';
 import {
   jobExecutorEnum,
@@ -18,6 +20,8 @@ import { fetchGetJobBatchDetail, fetchGetJobDetail, fetchGetJobTaskList, fetchWo
 defineOptions({
   name: 'DetailCard'
 });
+
+hljs.registerLanguage('json', json);
 
 interface Props {
   id?: string;
@@ -168,7 +172,7 @@ const columns = ref<DataTableColumn<Workflow.JobBatchType>[]>([
     width: 64,
     render: row => {
       return (
-        <NButton type="info" text onClick={() => getLogRows(row)}>
+        <NButton type="primary" text onClick={() => getLogRows(row)}>
           <span class="w-28px ws-break-spaces">{`查看\n日志`}</span>
         </NButton>
       );
@@ -178,18 +182,21 @@ const columns = ref<DataTableColumn<Workflow.JobBatchType>[]>([
     key: 'id',
     title: $t('page.jobBatch.jobTask.id'),
     align: 'left',
+    titleAlign: 'center',
     minWidth: 64
   },
   {
     key: 'groupName',
     title: $t('page.jobBatch.jobTask.groupName'),
     align: 'left',
-    minWidth: 120
+    titleAlign: 'center',
+    minWidth: 180
   },
   {
     key: 'taskStatus',
     title: $t('page.jobBatch.jobTask.taskStatus'),
     align: 'left',
+    titleAlign: 'center',
     minWidth: 80,
     render: row => {
       if (row.taskStatus === null) {
@@ -211,7 +218,8 @@ const columns = ref<DataTableColumn<Workflow.JobBatchType>[]>([
     key: 'clientInfo',
     title: $t('page.jobBatch.jobTask.clientInfo'),
     align: 'left',
-    minWidth: 120,
+    titleAlign: 'center',
+    minWidth: 150,
     render: row => {
       if (row.clientInfo) {
         const parts = row.clientInfo?.split('@');
@@ -224,25 +232,58 @@ const columns = ref<DataTableColumn<Workflow.JobBatchType>[]>([
   {
     key: 'argsStr',
     title: $t('page.jobBatch.jobTask.argsStr'),
-    align: 'left',
-    minWidth: 120
+    align: 'center',
+    titleAlign: 'center',
+    minWidth: 120,
+    render: row => {
+      let argsJson = JSON.parse(row.argsStr!);
+
+      try {
+        if (argsJson.jobParams) {
+          argsJson.jobParams = JSON.parse(argsJson.jobParams.replaceAll('\\"', '"'));
+        }
+        if (argsJson.mapResult) {
+          argsJson.mapResult = JSON.parse(argsJson.mapResult.replaceAll('\\"', '"'));
+        }
+      } catch {}
+
+      argsJson = JSON.stringify(argsJson, null, '    ');
+
+      return (
+        <NPopover trigger="click">
+          {{
+            trigger: () => (
+              <NButton type="primary" text>
+                <span class="w-28px ws-break-spaces">{`查看\n参数`}</span>
+              </NButton>
+            ),
+            default: () => (
+              <NCode class="max-h-300px overflow-auto" hljs={hljs} code={argsJson} language="json" show-line-numbers />
+            )
+          }}
+        </NPopover>
+      );
+    }
   },
   {
     key: 'resultMessage',
     title: $t('page.jobBatch.jobTask.resultMessage'),
     align: 'left',
+    titleAlign: 'center',
     minWidth: 120
   },
   {
     key: 'retryCount',
     title: $t('page.jobBatch.jobTask.retryCount'),
     align: 'left',
+    titleAlign: 'center',
     minWidth: 64
   },
   {
     key: 'createDt',
     title: $t('page.jobBatch.jobTask.createDt'),
     align: 'left',
+    titleAlign: 'center',
     minWidth: 120
   }
 ]);
