@@ -146,8 +146,8 @@ const onDragstop = () => {
           </div>
         </div>
       </NAffix>
-      <div class="workflow-body">
-        <NSpin :show="spinning">
+      <NSpin :show="spinning">
+        <div class="workflow-body">
           <VueDragResize
             class="vue-drag"
             :is-draggable="true"
@@ -166,8 +166,8 @@ const onDragstop = () => {
               </div>
             </div>
           </VueDragResize>
-        </NSpin>
-      </div>
+        </div>
+      </NSpin>
     </div>
   </div>
 </template>

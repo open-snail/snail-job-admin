@@ -12,7 +12,12 @@ import {
 import { useWorkflowStore } from '@/store/modules/workflow';
 import { $t } from '@/locales';
 import { isNotNull } from '@/utils/common';
-import { fetchGetJobBatchDetail, fetchGetJobDetail, fetchGetJobTaskList, fetchWorkflowNodeRetry } from '@/service/api';
+import {
+  fetchGetJobBatchDetail,
+  fetchGetJobDetail,
+  fetchGetJobTaskList
+  // fetchWorkflowNodeRetry
+} from '@/service/api';
 
 defineOptions({
   name: 'DetailCard'
@@ -139,16 +144,16 @@ const getLogRows = (task: Workflow.JobTaskType) => {
   logOpen.value = true;
 };
 
-const retry = async (item: Workflow.JobTaskType) => {
-  const { error } = await fetchWorkflowNodeRetry(store.id!, item.workflowNodeId!);
-  if (!error) {
-    window.$message?.success('执行重试成功');
-  }
-};
+// const retry = async (item: Workflow.JobTaskType) => {
+//   const { error } = await fetchWorkflowNodeRetry(store.id!, item.workflowNodeId!);
+//   if (!error) {
+//     window.$message?.success('执行重试成功');
+//   }
+// };
 
-const isRetry = (taskBatchStatus: number) => {
-  return taskBatchStatus === 4 || taskBatchStatus === 5 || taskBatchStatus === 6;
-};
+// const isRetry = (taskBatchStatus: number) => {
+//   return taskBatchStatus === 4 || taskBatchStatus === 5 || taskBatchStatus === 6;
+// };
 
 type ThemeColor = 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning';
 
@@ -260,94 +265,105 @@ const onUpdatePage = (page: number) => {
     <NDrawerContent title="任务批次详情" closable>
       <NTabs v-if="idList && idList.length > 0" v-model:value="currentIndex" type="segment" animated>
         <NTabPane v-for="(item, index) in idList" :key="index" :name="index + 1" :tab="item">
-          <NSpin :show="spinning">
-            <NDescriptions label-placement="left" bordered :column="2">
-              <NDescriptionsItem :label="$t('page.jobBatch.groupName')">{{ jobData?.groupName }}</NDescriptionsItem>
+          <NTabs class="detail-tabs" type="segment" animated>
+            <NTabPane name="info" :tab="$t('page.log.info')">
+              <NSpin :show="spinning">
+                <NDescriptions class="pt-12px" label-placement="left" bordered :column="2">
+                  <NDescriptionsItem :label="$t('page.jobBatch.groupName')">{{ jobData?.groupName }}</NDescriptionsItem>
 
-              <NDescriptionsItem :label="$t('page.jobBatch.jobName')">{{ jobData?.jobName }}</NDescriptionsItem>
+                  <NDescriptionsItem :label="$t('page.jobBatch.jobName')">{{ jobData?.jobName }}</NDescriptionsItem>
 
-              <NDescriptionsItem :label="$t('page.jobBatch.taskBatchStatus')">
-                <NTag
-                  v-if="isNotNull(jobData.taskBatchStatus)"
-                  :color="getTagColor(taskBatchStatusEnum[jobData.taskBatchStatus!].color )"
-                >
-                  {{ taskBatchStatusEnum[jobData.taskBatchStatus!].title }}
-                </NTag>
-                <NTag v-if="isNotNull(jobData.jobStatus)" :color="getTagColor(jobStatusEnum[jobData.jobStatus!].color)">
-                  {{ $t(jobStatusEnum[jobData.jobStatus!].name) }}
-                </NTag>
-              </NDescriptionsItem>
+                  <NDescriptionsItem :label="$t('page.jobBatch.taskBatchStatus')">
+                    <NTag
+                      v-if="isNotNull(jobData.taskBatchStatus)"
+                      :color="getTagColor(taskBatchStatusEnum[jobData.taskBatchStatus!].color )"
+                    >
+                      {{ taskBatchStatusEnum[jobData.taskBatchStatus!].title }}
+                    </NTag>
+                    <NTag
+                      v-if="isNotNull(jobData.jobStatus)"
+                      :color="getTagColor(jobStatusEnum[jobData.jobStatus!].color)"
+                    >
+                      {{ $t(jobStatusEnum[jobData.jobStatus!].name) }}
+                    </NTag>
+                  </NDescriptionsItem>
 
-              <NDescriptionsItem :label="$t('page.jobBatch.executionAt')">
-                {{ jobData?.executionAt }}
-              </NDescriptionsItem>
+                  <NDescriptionsItem :label="$t('page.jobBatch.executionAt')">
+                    {{ jobData?.executionAt }}
+                  </NDescriptionsItem>
 
-              <NDescriptionsItem :label="$t('page.jobBatch.operationReason')">
-                <NTag
-                  v-if="isNotNull(jobData.operationReason)"
-                  :color="getTagColor(jobOperationReasonEnum[jobData.operationReason!].color)"
-                >
-                  {{ $t(jobOperationReasonEnum[jobData.operationReason!].name) }}
-                </NTag>
-              </NDescriptionsItem>
+                  <NDescriptionsItem :label="$t('page.jobBatch.operationReason')">
+                    <NTag
+                      v-if="isNotNull(jobData.operationReason)"
+                      :color="getTagColor(jobOperationReasonEnum[jobData.operationReason!].color)"
+                    >
+                      {{ $t(jobOperationReasonEnum[jobData.operationReason!].name) }}
+                    </NTag>
+                  </NDescriptionsItem>
 
-              <NDescriptionsItem v-if="!slots.default" :label="$t('page.jobBatch.executorType')">
-                <NTag
-                  v-if="isNotNull(jobData.executorType)"
-                  :color="getTagColor(jobExecutorEnum[jobData.executorType!].color)"
-                >
-                  {{ $t(jobExecutorEnum[jobData.executorType!].name) }}
-                </NTag>
-              </NDescriptionsItem>
+                  <NDescriptionsItem v-if="!slots.default" :label="$t('page.jobBatch.executorType')">
+                    <NTag
+                      v-if="isNotNull(jobData.executorType)"
+                      :color="getTagColor(jobExecutorEnum[jobData.executorType!].color)"
+                    >
+                      {{ $t(jobExecutorEnum[jobData.executorType!].name) }}
+                    </NTag>
+                  </NDescriptionsItem>
 
-              <NDescriptionsItem :label="$t('page.jobBatch.executorInfo')" :span="2">
-                {{ jobData?.executorInfo }}
-              </NDescriptionsItem>
-              <NDescriptionsItem :label="$t('common.createDt')" :span="2">
-                {{ jobData?.createDt }}
-              </NDescriptionsItem>
-            </NDescriptions>
-          </NSpin>
-          <slot></slot>
-          <NCard
-            :bordered="false"
-            size="small"
-            class="sm:flex-1-hidden card-wrapper"
-            :content-style="{ padding: 0 }"
-            :header-style="{ padding: 0 }"
-          >
-            <template #header>
-              <div class="header-border"><span class="pl-12px">任务项列表</span></div>
-            </template>
-            <template #header-extra>
-              <NTooltip trigger="hover">
-                <template #trigger>
-                  <NButton text @click="getRows(item)">
-                    <icon-ant-design:sync-outlined class="mr-16px text-20px font-bold" />
-                  </NButton>
-                </template>
-                刷新
-              </NTooltip>
-              <NTooltip v-if="isRetry(jobData.taskBatchStatus!)" trigger="hover">
-                <template #trigger>
-                  <NButton text>
-                    <icon-ant-design:redo-outlined class="text-20px font-bold" @click="retry(jobData)" />
-                  </NButton>
-                </template>
-                重试
-              </NTooltip>
-            </template>
-            <NDataTable
-              :columns="columns"
-              :data="dataSource"
-              :loading="loading"
-              :scroll="{ x: 1200 }"
-              remote
-              :row-key="row => row.id"
-              :pagination="pagination"
-              class="sm:h-full"
-            />
-          </NCard>
+                  <NDescriptionsItem :label="$t('page.jobBatch.executorInfo')" :span="2">
+                    {{ jobData?.executorInfo }}
+                  </NDescriptionsItem>
+                  <NDescriptionsItem :label="$t('common.createDt')" :span="2">
+                    {{ jobData?.createDt }}
+                  </NDescriptionsItem>
+                </NDescriptions>
+              </NSpin>
+              <slot></slot>
+            </NTabPane>
+            <NTabPane name="task">
+              <template #tab>
+                <span>任务项列表</span>
+                <!--
+ <div class="absolute right-16px top-9px">
+                  <NTooltip trigger="hover">
+                    <template #trigger>
+                      <NButton text @click="getRows(item)">
+                        <icon-ant-design:sync-outlined class="mr-8px text-20px font-bold" />
+                      </NButton>
+                    </template>
+                    刷新
+                  </NTooltip>
+                  <NTooltip v-if="isRetry(jobData.taskBatchStatus!)" trigger="hover">
+                    <template #trigger>
+                      <NButton text>
+                        <icon-ant-design:redo-outlined class="text-20px font-bold" @click="retry(jobData)" />
+                      </NButton>
+                    </template>
+                    重试
+                  </NTooltip>
+                </div>
+-->
+              </template>
+              <NCard
+                :bordered="false"
+                size="small"
+                class="sm:flex-1-hidden card-wrapper pt-16px"
+                :content-style="{ padding: 0 }"
+                :header-style="{ padding: 0 }"
+              >
+                <NDataTable
+                  :columns="columns"
+                  :data="dataSource"
+                  :loading="loading"
+                  :scroll="{ x: 1200 }"
+                  remote
+                  :row-key="row => row.id"
+                  :pagination="pagination"
+                  class="sm:h-full"
+                />
+              </NCard>
+            </NTabPane>
+          </NTabs>
         </NTabPane>
       </NTabs>
       <template v-if="ids && ids.length > 1" #footer>
@@ -385,5 +401,16 @@ const onUpdatePage = (page: number) => {
 
 :deep(.n-tab-pane) {
   padding-top: 0 !important;
+}
+
+.detail-tabs {
+  :deep(.n-tabs-nav) {
+    display: flex !important;
+  }
+
+  :deep(.n-tabs-tab__label) {
+    width: 100%;
+    justify-content: center;
+  }
 }
 </style>
