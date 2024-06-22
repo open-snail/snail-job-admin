@@ -126,40 +126,8 @@ export function parseArgsJson(value: string) {
   let argsJson;
 
   try {
-    argsJson = JSON.parse(value);
-
-    // A helper function to safely parse JSON strings that might contain escaped quotes
-    const safelyParseJson = (jsonString: string) => {
-      try {
-        return JSON.parse(jsonString.replaceAll('\\"', '"'));
-      } catch (error) {
-        return jsonString; // Return original string if it's not valid JSON
-      }
-    };
-
-    // Process jobParams if it exists
-    if (typeof argsJson.jobParams === 'string') {
-      argsJson.jobParams = safelyParseJson(argsJson.jobParams);
-    }
-
-    // Process mapResult if it exists
-    if (typeof argsJson.mapResult === 'string') {
-      argsJson.mapResult = safelyParseJson(argsJson.mapResult);
-    }
-
-    // Process maps if it exists
-    if (typeof argsJson.maps === 'string') {
-      argsJson.maps = safelyParseJson(argsJson.maps);
-
-      // If maps is a string that represents an array, parse it as JSON
-      if (argsJson.maps.startsWith('"[') && argsJson.maps.endsWith('"]')) {
-        argsJson.maps = safelyParseJson(argsJson.maps.slice(1, -1));
-      }
-    }
+    argsJson = JSON.stringify(JSON.parse(value), null, 4);
   } catch {}
-
-  // Convert the object back to a pretty-printed JSON string
-  argsJson = JSON.stringify(argsJson, null, 4);
 
   return argsJson;
 }

@@ -1043,7 +1043,14 @@ declare namespace Api {
       taskBatchId: string;
       /** 任务状态 ID */
       taskStatus: Common.TaskStatus;
+      /** 任务类型 */
+      taskType: Common.TaskType;
     }>;
+
+    type JobTaskTree = {
+      parentId: string;
+      children: JobTaskTree[];
+    } & JobTask;
 
     /** jobTask search params */
     type jobTaskSearchParams = CommonType.RecordNullable<
@@ -1053,6 +1060,8 @@ declare namespace Api {
 
     /** jobTask list */
     type JobTaskList = Common.PaginatingQueryRecord<JobTask>;
+    /** jobTask tree list */
+    type JobTaskTreeList = Common.PaginatingQueryRecord<JobTaskTree>;
   }
 
   /**

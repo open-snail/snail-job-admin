@@ -1,168 +1,37 @@
 <script setup lang="tsx">
-import { NButton, NCode, NPopover, NTag } from 'naive-ui';
-import hljs from 'highlight.js/lib/core';
-import json from 'highlight.js/lib/languages/json';
 import { onBeforeUnmount, ref } from 'vue';
-import {
-  executorTypeRecord,
-  operationReasonRecord,
-  taskBatchStatusRecord,
-  taskStatusRecord
-} from '@/constants/business';
+import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
-import { parseArgsJson, tagColor } from '@/utils/common';
-import { useTable } from '@/hooks/common/table';
-import { fetchGetJobTaskList } from '@/service/api';
+import { tagColor } from '@/utils/common';
 import { fetchJobLogList } from '@/service/api/log';
+import JobTaskListTable from './job-task-list-table.vue';
+import JobTaskTreeTable from './job-task-tree-table.vue';
 
 defineOptions({
   name: 'JobBatchDetailDrawer'
 });
-
-hljs.registerLanguage('json', json);
 
 interface Props {
   /** row data */
   rowData?: Api.JobBatch.JobBatch | null;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
-const taskData = ref<Api.Job.JobTask>();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
+
+const taskData = ref<Api.Job.JobTask>();
 const logShow = defineModel<boolean>('logShow', {
   default: false
 });
 
-const { columns, data, loading, mobilePagination } = useTable({
-  apiFn: fetchGetJobTaskList,
-  apiParams: {
-    page: 1,
-    size: 10,
-    groupName: props.rowData?.groupName,
-    taskBatchId: props.rowData?.id,
-    startId: 0,
-    fromIndex: 0
-    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
-    // the value can not be undefined, otherwise the property in Form will not be reactive
-  },
-  columns: () => [
-    {
-      key: 'index',
-      title: $t('common.index'),
-      align: 'center',
-      width: 64,
-      render: row => {
-        async function openLog() {
-          logShow.value = true;
-          taskData.value = row;
-          await getLogList();
-        }
-        return (
-          <NButton type="info" text onClick={openLog}>
-            <span class="w-28px ws-break-spaces">{$t('page.log.view')}</span>
-          </NButton>
-        );
-      }
-    },
-    {
-      key: 'id',
-      title: $t('page.jobBatch.jobTask.id'),
-      align: 'left',
-      minWidth: 64
-    },
-    {
-      key: 'groupName',
-      title: $t('page.jobBatch.jobTask.groupName'),
-      align: 'left',
-      minWidth: 180
-    },
-    {
-      key: 'taskStatus',
-      title: $t('page.jobBatch.jobTask.taskStatus'),
-      align: 'left',
-      minWidth: 80,
-      render: row => {
-        if (row.taskStatus === null) {
-          return null;
-        }
-        const label = $t(taskStatusRecord[row.taskStatus!]);
-        const tagMap: Record<number, NaiveUI.ThemeColor> = {
-          1: 'info',
-          2: 'info',
-          3: 'info',
-          4: 'error',
-          5: 'error',
-          6: 'error'
-        };
-        return <NTag type={tagMap[row.taskStatus!]}>{label}</NTag>;
-      }
-    },
-    {
-      key: 'clientInfo',
-      title: $t('page.jobBatch.jobTask.clientInfo'),
-      align: 'left',
-      minWidth: 150,
-      render: row => {
-        if (row.clientInfo) {
-          const parts = row.clientInfo?.split('@');
-          const result = parts.length > 1 ? parts[1] : '';
-          return <div>{result}</div>;
-        }
-        return <div>{row.clientInfo}</div>;
-      }
-    },
-    {
-      key: 'argsStr',
-      title: $t('page.jobBatch.jobTask.argsStr'),
-      align: 'center',
-      titleAlign: 'center',
-      minWidth: 120,
-      render: row => {
-        return (
-          <NPopover trigger="click">
-            {{
-              trigger: () => (
-                <NButton type="primary" text>
-                  <span class="w-28px ws-break-spaces">{`查看\n参数`}</span>
-                </NButton>
-              ),
-              default: () => (
-                <NCode
-                  class="max-h-300px overflow-auto"
-                  hljs={hljs}
-                  code={parseArgsJson(row.argsStr)}
-                  language="json"
-                  show-line-numbers
-                />
-              )
-            }}
-          </NPopover>
-        );
-      }
-    },
-    {
-      key: 'resultMessage',
-      title: $t('page.jobBatch.jobTask.resultMessage'),
-      align: 'left',
-      minWidth: 120
-    },
-    {
-      key: 'retryCount',
-      title: $t('page.jobBatch.jobTask.retryCount'),
-      align: 'left',
-      minWidth: 64
-    },
-    {
-      key: 'createDt',
-      title: $t('page.jobBatch.jobTask.createDt'),
-      align: 'left',
-      minWidth: 120
-    }
-  ]
-});
+async function openLog(row: Api.Job.JobTask) {
+  logShow.value = true;
+  taskData.value = row;
+  await getLogList();
+}
 
 const logList = ref<Api.JobLog.JobMessage[]>([]);
 const interval = ref<NodeJS.Timeout>();
@@ -237,19 +106,16 @@ onBeforeUnmount(() => {
         </NDescriptions>
       </NTabPane>
       <NTabPane :name="1" :tab="$t('page.log.title')" display-directive="if">
-        <NDataTable
-          :columns="columns"
-          :data="data"
-          :loading="loading"
-          remote
-          :row-key="row => row.id"
-          :pagination="mobilePagination"
-          class="sm:h-full"
+        <JobTaskTreeTable
+          v-if="rowData?.taskType && [4, 5].includes(Number(rowData.taskType))"
+          :row-data="rowData"
+          @show-log="openLog"
         />
+        <JobTaskListTable v-else :row-data="rowData" @show-log="openLog" />
       </NTabPane>
     </NTabs>
-    <LogDrawer v-model="logList" v-model:show="logShow" :title="$t('page.log.title')" />
   </DetailDrawer>
+  <LogDrawer v-model="logList" v-model:show="logShow" :title="$t('page.log.title')" />
 </template>
 
 <style scoped></style>

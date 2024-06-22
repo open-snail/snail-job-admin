@@ -35,6 +35,15 @@ export function fetchGetJobTaskList(params?: Api.Job.jobTaskSearchParams) {
   });
 }
 
+/** get Job Task Tree */
+export function fetchGetJobTaskTree(params?: Api.Job.jobTaskSearchParams) {
+  return request<Api.Job.JobTaskTreeList>({
+    url: '/job/task/tree/list',
+    method: 'get',
+    params
+  });
+}
+
 /** add Job */
 export function fetchAddJob(data: Api.Job.Job) {
   return request<boolean>({
