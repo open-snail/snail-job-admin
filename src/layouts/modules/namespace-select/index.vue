@@ -65,7 +65,7 @@ const onChange = (value: string) => {
 };
 
 const namespaceName = computed(() => {
-  return namespaceIds.value.filter(item => item.uniqueId === namespaceId.value)[0].name || 'Default';
+  return namespaceIds.value.filter(item => item.uniqueId === namespaceId.value)[0]?.name || 'Default';
 });
 </script>
 
