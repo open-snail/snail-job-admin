@@ -2,6 +2,7 @@
 import { $t } from '@/locales';
 import SelectGroup from '@/components/common/select-group.vue';
 import SelectScene from '@/components/common/select-scene.vue';
+import DatetimeRange from '@/components/common/datetime-range.vue';
 
 defineOptions({
   name: 'RetryDeadLetterSearch'
@@ -39,14 +40,7 @@ function search() {
       path="datetimeRange"
       class="pr-24px"
     >
-      <NDatePicker
-        v-model:formatted-value="model.datetimeRange"
-        class="w-full"
-        type="datetimerange"
-        value-format="yyyy-MM-dd'T'HH:mm:ss"
-        :default-time="['00:00:00', '23:56:56']"
-        clearable
-      />
+      <DatetimeRange v-model:value="model.datetimeRange!" />
     </NFormItemGi>
   </SearchForm>
 </template>

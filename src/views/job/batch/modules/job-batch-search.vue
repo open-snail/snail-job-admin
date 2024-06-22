@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SelectGroup from '@/components/common/select-group.vue';
 import TaskBatchStatus from '@/components/common/task-batch-status.vue';
+import DatetimeRange from '@/components/common/datetime-range.vue';
 import { $t } from '@/locales';
 
 defineOptions({
@@ -42,14 +43,7 @@ function search() {
       path="datetimeRange"
       class="pr-24px"
     >
-      <NDatePicker
-        v-model:formatted-value="model.datetimeRange"
-        class="w-full"
-        type="datetimerange"
-        value-format="yyyy-MM-dd'T'HH:mm:ss"
-        :default-time="['00:00:00', '23:56:56']"
-        clearable
-      />
+      <DatetimeRange v-model:value="model.datetimeRange!" />
     </NFormItemGi>
   </SearchForm>
 </template>

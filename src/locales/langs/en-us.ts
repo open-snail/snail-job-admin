@@ -185,7 +185,10 @@ const local: App.I18n.Schema = {
       }
     },
     updateDt: 'Updated Time',
-    createDt: 'Created Time'
+    createDt: 'Created Time',
+    currentMonth: 'Current Month',
+    lastMonth: 'Last Month',
+    lastTwoMonth: 'Last 2 Month'
   },
   request: {
     logout: 'Logout user after request failed',

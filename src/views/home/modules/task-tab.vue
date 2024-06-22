@@ -4,6 +4,7 @@ import type { DataTableColumns } from 'naive-ui';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { fetchAllGroupName, fetchJobLine, fetchRetryLine } from '@/service/api';
+import DatetimeRange from '@/components/common/datetime-range.vue';
 import TaskLineChart from './task-line-chart.vue';
 import TaskPieChart from './task-pie-chart.vue';
 
@@ -64,7 +65,7 @@ const onUpdateTab = (value: string) => {
   }
 };
 
-const onUpdateDate = (value: [string, string]) => {
+const onUpdateDate = (value: [string, string] | null) => {
   if (value) {
     tabParams.value.type = 'OTHERS';
   }
@@ -203,14 +204,10 @@ getGroupNames();
         <NRadioButton value="MONTH" :label="$t('page.home.retryTab.params.month')" />
         <NRadioButton value="YEAR" :label="$t('page.home.retryTab.params.year')" />
       </NRadioGroup>
-      <NDatePicker
-        v-model:formatted-value="tabParams.datetimeRange"
-        type="datetimerange"
-        value-format="yyyy-MM-dd'T'HH:mm:ss"
-        class="w-400px"
-        clearable
-        :default-time="['00:00:00', '23:56:56']"
-        @update:formatted-value="onUpdateDate"
+      <DatetimeRange
+        v-model:value="tabParams.datetimeRange"
+        no-default
+        @update:value="onUpdateDate"
         @clear="onClearDate"
       />
       <NSelect v-model:value="tabParams.groupName" :options="groupOptions" class="w-200px lg:w-150px md:w-170px" />

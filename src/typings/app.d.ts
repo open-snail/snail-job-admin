@@ -436,6 +436,9 @@ declare namespace App {
         };
         updateDt: string;
         createDt: string;
+        currentMonth: string;
+        lastMonth: string;
+        lastTwoMonth: string;
       };
       request: {
         logout: string;
