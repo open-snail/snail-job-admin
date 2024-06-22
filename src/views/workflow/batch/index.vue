@@ -13,6 +13,7 @@ const router = useRouter();
 
 const appStore = useAppStore();
 const workflowId = history.state.workflowId;
+const workflowName = history.state.workflowName;
 const taskBatchStatus = history.state.taskBatchStatus;
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
@@ -23,12 +24,14 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     workflowId: null,
+    workflowName: null,
     groupName: null,
     taskBatchStatus: null,
     datetimeRange: monthRangeISO8601()
   },
   searchParams: {
     workflowId,
+    workflowName,
     taskBatchStatus
   },
   columns: () => [

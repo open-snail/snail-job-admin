@@ -15,7 +15,6 @@ interface Emits {
   (e: 'reset'): void;
   (e: 'search'): void;
 }
-const keywords = ref<string>('');
 const noSearchFlag = ref(false);
 
 const emit = defineEmits<Emits>();
@@ -23,6 +22,7 @@ const emit = defineEmits<Emits>();
 const workflowList = ref<Api.Workflow.Workflow[]>([]);
 
 const model = defineModel<Api.WorkflowBatch.WorkflowBatchSearchParams>('model', { required: true });
+const keywords = ref<string>(model.value.workflowName as any);
 
 function reset() {
   keywords.value = '';

@@ -1126,7 +1126,7 @@ declare namespace Api {
 
     /** workflowBatch search params */
     type WorkflowBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus'> &
+      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'workflowName' | 'taskBatchStatus'> &
         CommonSearchParams & { datetimeRange?: [string, string] }
     >;
 
