@@ -304,7 +304,7 @@ const local: App.I18n.Schema = {
     group: '组管理',
     notify: '告警通知',
     notify_recipient: '通知人',
-    notify_scene: '通知场景',
+    notify_config: '通知配置',
     retry: '重试任务',
     retry_task: '任务管理',
     'retry_dead-letter': '死信任务',

@@ -303,7 +303,7 @@ const local: App.I18n.Schema = {
     namespace: 'Namespace',
     notify: 'Notify',
     notify_recipient: 'Notify Recipient',
-    notify_scene: 'Notify Scene',
+    notify_config: 'Notify Config',
     retry: 'Retry Task',
     retry_task: 'Retry Task',
     retry_scene: 'Retry Scene',

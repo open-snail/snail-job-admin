@@ -6,9 +6,9 @@ import { fetchBatchDeleteNotify, fetchGetNotifyConfigList, fetchUpdateNotifyStat
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import NotifyConfigOperateDrawer from '@/views/notify/scene/modules/notify-config-operate-drawer.vue';
-import NotifyConfigSearch from '@/views/notify/scene/modules/notify-config-search.vue';
-import NotifyConfigDetailDrawer from '@/views/notify/scene/modules/notify-config-detail-drawer.vue';
+import NotifyConfigOperateDrawer from '@/views/notify/config/modules/notify-config-operate-drawer.vue';
+import NotifyConfigSearch from '@/views/notify/config/modules/notify-config-search.vue';
+import NotifyConfigDetailDrawer from '@/views/notify/config/modules/notify-config-detail-drawer.vue';
 import StatusSwitch from '@/components/common/status-switch.vue';
 import { jobNotifyScene, retryNotifyScene, systemTaskType, workflowNotifyScene } from '@/constants/business';
 import { tagColor } from '@/utils/common';
