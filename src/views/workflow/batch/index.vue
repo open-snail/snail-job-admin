@@ -6,7 +6,9 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
+import { monthRangeISO8601 } from '@/utils/common';
 import WorkflowBatchSearch from './modules/workflow-batch-search.vue';
+
 const router = useRouter();
 
 const appStore = useAppStore();
@@ -23,7 +25,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     workflowId: null,
     groupName: null,
     taskBatchStatus: null,
-    datetimeRange: null
+    datetimeRange: monthRangeISO8601()
   },
   searchParams: {
     workflowId,

@@ -7,7 +7,7 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
-import { tagColor } from '@/utils/common';
+import { monthRangeISO8601, tagColor } from '@/utils/common';
 import JobBatchSearch from './modules/job-batch-search.vue';
 import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
 
@@ -27,10 +27,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     groupName: null,
     jobName: null,
     taskBatchStatus: null,
-    datetimeRange: null
-
-    // beginDate: null,
-    // endDate: null
+    datetimeRange: monthRangeISO8601()
   },
   searchParams: {
     jobName,

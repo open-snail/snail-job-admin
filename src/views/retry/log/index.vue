@@ -7,7 +7,7 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
-import { tagColor } from '@/utils/common';
+import { monthRangeISO8601, tagColor } from '@/utils/common';
 import RetryLogSearch from './modules/retry-log-search.vue';
 import RetryLogDetailDrawer from './modules/retry-log-detail-drawer.vue';
 
@@ -32,7 +32,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     idempotentId: null,
     bizNo: null,
     retryStatus: null,
-    datetimeRange: null
+    datetimeRange: monthRangeISO8601()
   },
   searchParams: {
     retryStatus
