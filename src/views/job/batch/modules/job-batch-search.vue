@@ -15,8 +15,6 @@ interface Emits {
   (e: 'search'): void;
 }
 
-const keywords = ref<string>('');
-
 const noSearchFlag = ref(false);
 
 const emit = defineEmits<Emits>();
@@ -25,6 +23,7 @@ const emit = defineEmits<Emits>();
 const jobList = ref<Api.Job.Job[]>([]);
 
 const model = defineModel<Api.JobBatch.JobBatchSearchParams>('model', { required: true });
+const keywords = ref<string>(model.value.jobName as string);
 
 function reset() {
   keywords.value = '';

@@ -251,7 +251,7 @@ async function handleTriggerJob(id: string) {
 
 function goToBatch(jobId: string) {
   const findItem = data.value.find(item => item.id === jobId)!;
-  routerPushByKey('job_batch', { state: { jobName: findItem.jobName } });
+  routerPushByKey('job_batch', { state: { jobId, jobName: findItem.jobName } });
 }
 
 function body(): Api.Job.ExportJob {

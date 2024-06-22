@@ -17,6 +17,7 @@ const detailData = ref<Api.JobBatch.JobBatch | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
 const jobName = history.state.jobName;
+const jobId = history.state.jobId;
 const taskBatchStatus = history.state.taskBatchStatus;
 
 const { columnChecks, columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
@@ -27,9 +28,11 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     groupName: null,
     jobName: null,
     taskBatchStatus: null,
+    jobId: null,
     datetimeRange: monthRangeISO8601()
   },
   searchParams: {
+    jobId,
     jobName,
     taskBatchStatus
   },
