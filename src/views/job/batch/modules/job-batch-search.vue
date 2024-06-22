@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import type { SelectOption } from 'naive-ui';
 import SelectGroup from '@/components/common/select-group.vue';
 import TaskBatchStatus from '@/components/common/task-batch-status.vue';
 import DatetimeRange from '@/components/common/datetime-range.vue';
@@ -57,8 +58,12 @@ watch(
 function translateOptions(options: Api.Job.Job[]) {
   return options.map(option => ({
     value: option.id,
-    label: `${option.jobName}(${option.id})`
+    label: option.jobName
   }));
+}
+
+function renderLabel(option: SelectOption) {
+  return [option.label as string, `(${option.value})`];
 }
 </script>
 
@@ -71,12 +76,11 @@ function translateOptions(options: Api.Job.Job[]) {
       <NAutoComplete
         v-model:value="keywords"
         :placeholder="$t('page.jobBatch.form.jobName')"
-        value-field="id"
-        label-field="workflowName"
         :options="translateOptions(jobList)"
         :empty-visible="noSearchFlag"
         clearable
         filterable
+        :render-label="renderLabel"
         @select="handleSelect"
       />
     </NFormItemGi>

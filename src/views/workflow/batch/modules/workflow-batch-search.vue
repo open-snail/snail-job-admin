@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import type { SelectOption } from 'naive-ui';
 import { $t } from '@/locales';
 import SelectGroup from '@/components/common/select-group.vue';
 import TaskBatchStatus from '@/components/common/task-batch-status.vue';
@@ -56,8 +57,12 @@ watch(
 function translateOptions(options: Api.Workflow.Workflow[]) {
   return options.map(option => ({
     value: option.id,
-    label: `${option.workflowName}(${option.id})`
+    label: option.workflowName
   }));
+}
+
+function renderLabel(option: SelectOption) {
+  return [option.label as string, `(${option.value})`];
 }
 </script>
 
@@ -80,6 +85,7 @@ function translateOptions(options: Api.Workflow.Workflow[]) {
         :empty-visible="noSearchFlag"
         clearable
         filterable
+        :render-label="renderLabel"
         @select="handleSelect"
       />
     </NFormItemGi>
