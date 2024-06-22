@@ -19,12 +19,13 @@ const keywords = ref<string>('');
 const noSearchFlag = ref(false);
 
 const emit = defineEmits<Emits>();
-/** 组列表 */
+/** 工作流列表 */
 const workflowList = ref<Api.Workflow.Workflow[]>([]);
 
 const model = defineModel<Api.WorkflowBatch.WorkflowBatchSearchParams>('model', { required: true });
 
 function reset() {
+  keywords.value = '';
   emit('reset');
 }
 
@@ -52,12 +53,10 @@ watch(
   }
 );
 
-// groupNameUpdate('');
-
 function translateOptions(options: Api.Workflow.Workflow[]) {
   return options.map(option => ({
     value: option.id,
-    label: option.workflowName
+    label: `${option.workflowName}(${option.id})`
   }));
 }
 </script>
@@ -77,8 +76,6 @@ function translateOptions(options: Api.Workflow.Workflow[]) {
       <NAutoComplete
         v-model:value="keywords"
         :placeholder="$t('page.workflowBatch.form.workflowName')"
-        value-field="id"
-        label-field="workflowName"
         :options="translateOptions(workflowList)"
         :empty-visible="noSearchFlag"
         clearable
