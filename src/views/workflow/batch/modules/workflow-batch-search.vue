@@ -32,13 +32,8 @@ function search() {
   emit('search');
 }
 
-async function groupNameUpdate(groupName: string) {
-  const res = await fetchGetWorkflowNameList({ groupName });
-  workflowList.value = res.data as Api.Workflow.Workflow[];
-}
-
 async function keywordsUpdate() {
-  const res = await fetchGetWorkflowNameList({ keywords: keywords.value });
+  const res = await fetchGetWorkflowNameList({ keywords: keywords.value, groupName: model.value.groupName });
   workflowList.value = res.data as Api.Workflow.Workflow[];
 }
 
@@ -57,7 +52,7 @@ watch(
   }
 );
 
-groupNameUpdate('');
+// groupNameUpdate('');
 
 function translateOptions(options: Api.Workflow.Workflow[]) {
   return options.map(option => ({
@@ -70,7 +65,7 @@ function translateOptions(options: Api.Workflow.Workflow[]) {
 <template>
   <SearchForm btn-span="24 s:24 m:9 l:12 xl:15" :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflowBatch.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" clearable @update:value="groupNameUpdate" />
+      <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
     <NFormItemGi
       span="24 s:12 m:6"
