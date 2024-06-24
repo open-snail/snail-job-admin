@@ -332,6 +332,8 @@ declare namespace App {
         confirmPause: string;
         confirmFinish: string;
         confirmRetry: string;
+        log: string;
+        idDetailTip: string;
         yesOrNo: {
           yes: string;
           no: string;
@@ -534,6 +536,7 @@ declare namespace App {
             validateSuccess: string;
             loginSuccess: string;
             welcomeBack: string;
+            codeTip: string;
           };
           pwdLogin: {
             title: string;

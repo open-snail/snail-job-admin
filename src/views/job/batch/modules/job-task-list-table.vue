@@ -55,7 +55,7 @@ const { columns, data, loading, mobilePagination } = useTable({
     },
     {
       key: 'index',
-      title: $t('common.index'),
+      title: $t('common.log'),
       align: 'center',
       width: 64,
       render: row => (

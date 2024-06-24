@@ -80,6 +80,8 @@ const local: App.I18n.Schema = {
     confirmPause: '确认暂停吗？',
     confirmFinish: '确认完成吗？',
     confirmRetry: '确认重试吗？',
+    log: '日志',
+    idDetailTip: '点击 ID 查看详情',
     yesOrNo: {
       yes: '是',
       no: '否'
@@ -347,7 +349,8 @@ const local: App.I18n.Schema = {
         back: '返回',
         validateSuccess: '验证成功',
         loginSuccess: '登录成功',
-        welcomeBack: '欢迎回来，{userName} ！'
+        welcomeBack: '欢迎回来，{userName} ！',
+        codeTip: '拖动滑块完成拼图'
       },
       pwdLogin: {
         title: '密码登录',

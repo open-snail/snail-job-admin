@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag, NTooltip } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -9,6 +9,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { operationReasonRecord, taskBatchStatusRecord, taskTypeRecord } from '@/constants/business';
 import { tagColor } from '@/utils/common';
+import SvgIcon from '@/components/custom/svg-icon.vue';
 import JobBatchSearch from './modules/job-batch-search.vue';
 import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
 
@@ -32,9 +33,25 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
   columns: () => [
     {
       key: 'id',
-      title: $t('common.index'),
       align: 'center',
       width: 120,
+      title: () => {
+        return (
+          <div class="flex-center">
+            <span>{$t('page.jobBatch.jobTask.id')}</span>
+            <NTooltip trigger="hover">
+              {{
+                trigger: () => (
+                  <span class="mb-2px ml-5px text-16px">
+                    <SvgIcon icon="ant-design:info-circle-outlined" />
+                  </span>
+                ),
+                default: () => <span>{$t('common.idDetailTip')}</span>
+              }}
+            </NTooltip>
+          </div>
+        );
+      },
       render: row => {
         function showDetailDrawer() {
           detailData.value = row;

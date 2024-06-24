@@ -80,6 +80,8 @@ const local: App.I18n.Schema = {
     confirmPause: 'Are you sure you want to pause?',
     confirmFinish: 'Are you sure you want to finishe?',
     confirmRetry: 'Are you sure you want to retry?',
+    idDetailTip: 'Click on ID for details',
+    log: 'Log',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
@@ -347,7 +349,8 @@ const local: App.I18n.Schema = {
         back: 'Back',
         validateSuccess: 'Verification passed',
         loginSuccess: 'Login successfully',
-        welcomeBack: 'Welcome back, {userName} !'
+        welcomeBack: 'Welcome back, {userName} !',
+        codeTip: 'Drag the sliders to complete the puzzle'
       },
       pwdLogin: {
         title: 'Password Login',
