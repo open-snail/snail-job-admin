@@ -1,7 +1,9 @@
 <script setup lang="tsx">
+import type { DataTableRowKey } from 'naive-ui';
 import { NButton, NCode, NPopover, NTag } from 'naive-ui';
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
+import { ref } from 'vue';
 import { taskStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { parseArgsJson } from '@/utils/common';
@@ -27,6 +29,8 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
+const expandedRowKeys = ref<DataTableRowKey[]>([]);
+
 const { columns, data, loading, mobilePagination } = useTable({
   apiFn: fetchGetJobTaskList,
   apiParams: {
@@ -44,7 +48,10 @@ const { columns, data, loading, mobilePagination } = useTable({
       key: 'id',
       title: $t('page.jobBatch.jobTask.id'),
       align: 'left',
-      minWidth: 120
+      minWidth: 100,
+      ellipsis: {
+        tooltip: true
+      }
     },
     {
       key: 'index',
@@ -60,6 +67,12 @@ const { columns, data, loading, mobilePagination } = useTable({
     {
       key: 'groupName',
       title: $t('page.jobBatch.jobTask.groupName'),
+      align: 'left',
+      minWidth: 180
+    },
+    {
+      key: 'taskName',
+      title: $t('page.jobBatch.jobName'),
       align: 'left',
       minWidth: 180
     },
@@ -158,13 +171,21 @@ const onLoad = (row: Record<string, any>) => {
       parentId: row.id
     })
       .then(res => {
-        row.children = res.data?.data || [];
+        row.children = res.data || [];
         resolve();
       })
       .catch(e => {
         reject(e);
       });
   });
+};
+
+const onExpandedRowKeys = (keys: DataTableRowKey[]) => {
+  expandedRowKeys.value = keys;
+};
+
+const onUpdatePage = (_: number) => {
+  expandedRowKeys.value = [];
 };
 </script>
 
@@ -180,7 +201,10 @@ const onLoad = (row: Record<string, any>) => {
     :indent="16"
     :cascade="false"
     allow-checking-not-loaded
+    :expanded-row-keys="expandedRowKeys"
     class="sm:h-full"
+    @update:expanded-row-keys="onExpandedRowKeys"
+    @update:page="onUpdatePage"
     @load="onLoad"
   />
 </template>

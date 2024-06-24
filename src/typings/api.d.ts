@@ -1029,6 +1029,8 @@ declare namespace Api {
       jobId: string;
       /** 组名称 */
       groupName: string;
+      /** 任务名称 */
+      taskName: string;
       /** 地址 */
       clientInfo: string;
       /** 参数 */
@@ -1065,7 +1067,7 @@ declare namespace Api {
     /** jobTask list */
     type JobTaskList = Common.PaginatingQueryRecord<JobTask>;
     /** jobTask tree list */
-    type JobTaskTreeList = Common.PaginatingQueryRecord<JobTaskTree>;
+    type JobTaskTreeList = JobTask[];
   }
 
   /**
