@@ -19,6 +19,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
+  const namespaceUniqueId = ref('');
+
   const userInfo: Api.Auth.UserInfo = reactive({
     id: '',
     userId: '',
@@ -35,7 +37,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const isStaticSuper = computed(() => {
     const { VITE_AUTH_ROUTE_MODE, VITE_STATIC_SUPER_ROLE } = import.meta.env;
     return (
-      VITE_AUTH_ROUTE_MODE === 'static' && userInfo.roles.map(role => role.toString()).includes(VITE_STATIC_SUPER_ROLE)
+      VITE_AUTH_ROUTE_MODE === 'static' && userInfo.roles.map(role => role?.toString()).includes(VITE_STATIC_SUPER_ROLE)
     );
   });
 
@@ -160,6 +162,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   }
 
   function setNamespaceId(namespaceId: string) {
+    namespaceUniqueId.value = namespaceId;
     const userNamespace = localStg.get('userNamespace') || {};
     userNamespace[userInfo.userId] = namespaceId;
     localStg.set('userNamespace', userNamespace);
@@ -169,11 +172,13 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   return {
     token,
     userInfo,
+    namespaceUniqueId,
     isStaticSuper,
     isLogin,
     loginLoading,
     resetStore,
     login,
+    getUserInfo,
     initUserInfo,
     initAppVersion,
     setNamespaceId

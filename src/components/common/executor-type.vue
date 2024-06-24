@@ -25,7 +25,6 @@ const handleUpdate = (value: Api.Common.TriggerType) => {
     v-model:value="valueRef"
     :placeholder="$t('common.executorType.form')"
     :options="translateOptions(executorTypeRecordOptions)"
-    clearable
     @update:value="handleUpdate"
   />
 </template>

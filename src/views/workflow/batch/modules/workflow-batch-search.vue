@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import type { SelectOption } from 'naive-ui';
 import { $t } from '@/locales';
 import SelectGroup from '@/components/common/select-group.vue';
 import TaskBatchStatus from '@/components/common/task-batch-status.vue';
+import DatetimeRange from '@/components/common/datetime-range.vue';
 
 import { fetchGetWorkflowNameList } from '@/service/api';
 
@@ -14,14 +16,17 @@ interface Emits {
   (e: 'reset'): void;
   (e: 'search'): void;
 }
+const noSearchFlag = ref(false);
 
 const emit = defineEmits<Emits>();
-/** 组列表 */
+/** 工作流列表 */
 const workflowList = ref<Api.Workflow.Workflow[]>([]);
 
 const model = defineModel<Api.WorkflowBatch.WorkflowBatchSearchParams>('model', { required: true });
+const keywords = ref<string>(model.value.workflowName as any);
 
 function reset() {
+  keywords.value = '';
   emit('reset');
 }
 
@@ -29,18 +34,42 @@ function search() {
   emit('search');
 }
 
-async function groupNameUpdate(groupName: string) {
-  const res = await fetchGetWorkflowNameList({ groupName });
+async function keywordsUpdate() {
+  const res = await fetchGetWorkflowNameList({ keywords: keywords.value, groupName: model.value.groupName });
   workflowList.value = res.data as Api.Workflow.Workflow[];
 }
 
-groupNameUpdate('');
+function handleSelect(value: number) {
+  model.value.workflowId = value;
+}
+
+watch(
+  () => keywords.value,
+  (value: string) => {
+    if (value.length !== 0) {
+      keywordsUpdate();
+    } else {
+      noSearchFlag.value = false;
+    }
+  }
+);
+
+function translateOptions(options: Api.Workflow.Workflow[]) {
+  return options.map(option => ({
+    value: option.id,
+    label: option.workflowName
+  }));
+}
+
+function renderLabel(option: SelectOption) {
+  return [option.label as string, `(${option.value})`];
+}
 </script>
 
 <template>
-  <SearchForm :model="model" @search="search" @reset="reset">
+  <SearchForm btn-span="24 s:24 m:9 l:12 xl:15" :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflowBatch.groupName')" path="groupName" class="pr-24px">
-      <SelectGroup v-model:value="model.groupName" @update:value="groupNameUpdate" />
+      <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
     <NFormItemGi
       span="24 s:12 m:6"
@@ -49,14 +78,15 @@ groupNameUpdate('');
       path="workflowName"
       class="pr-24px"
     >
-      <NSelect
-        v-model:value="model.workflowId"
+      <NAutoComplete
+        v-model:value="keywords"
         :placeholder="$t('page.workflowBatch.form.workflowName')"
-        value-field="id"
-        label-field="workflowName"
-        :options="workflowList"
+        :options="translateOptions(workflowList)"
+        :empty-visible="noSearchFlag"
         clearable
         filterable
+        :render-label="renderLabel"
+        @select="handleSelect"
       />
     </NFormItemGi>
     <NFormItemGi
@@ -65,7 +95,15 @@ groupNameUpdate('');
       path="taskBatchStatus"
       class="pr-24px"
     >
-      <TaskBatchStatus v-model:value="model.taskBatchStatus" />
+      <TaskBatchStatus v-model:value="model.taskBatchStatus" clearable />
+    </NFormItemGi>
+    <NFormItemGi
+      span="24 s:24 m:15 l:12 xl:9"
+      :label="$t('page.common.createTime')"
+      path="datetimeRange"
+      class="pr-24px"
+    >
+      <DatetimeRange v-model:value="model.datetimeRange!" />
     </NFormItemGi>
   </SearchForm>
 </template>

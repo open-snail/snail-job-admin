@@ -92,7 +92,7 @@ const showDetail = (item: Flow.ConditionNodeType, index: number) => {
       if (job.id) {
         detailIds.value?.push(job.id);
       } else if (job.jobId) {
-        detailId.value = job.jobId.toString();
+        detailId.value = job.jobId?.toString();
       }
     });
     if (detailIds.value.length === 0) {

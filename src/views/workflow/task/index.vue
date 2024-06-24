@@ -15,11 +15,13 @@ import StatusSwitch from '@/components/common/status-switch.vue';
 import { tagColor } from '@/utils/common';
 import { useAuth } from '@/hooks/business/auth';
 import { downloadFetch } from '@/utils/download';
+import { useRouterPush } from '@/hooks/common/router';
 import WorkflowSearch from './modules/workflow-search.vue';
 const { hasAuth } = useAuth();
 
 const router = useRouter();
 const appStore = useAppStore();
+const { routerPushByKey } = useRouterPush();
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetWorkflowPageList,
@@ -152,7 +154,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           {
             label: $t('common.batchList'),
             key: 'batchList',
-            click: () => batch(row.id!)
+            click: () => goToBatch(row.id!)
           }
         ];
 
@@ -237,9 +239,9 @@ function copy(id: string) {
   router.push({ path: '/workflow/form/copy', query: { id } });
 }
 
-function batch(id: string) {
-  router.push({ path: '/workflow/batch', query: { workflowId: id } });
-}
+// function batch(id: string) {
+//   router.push({ path: '/workflow/batch', state: { workflowId: id } });
+// }
 
 async function execute(id: string) {
   const { error } = await fetchTriggerWorkflow(id);
@@ -260,6 +262,10 @@ function body(): Api.Workflow.ExportWorkflow {
 
 function handleExport() {
   downloadFetch('/workflow/export', body(), $t('page.workflow.title'));
+}
+function goToBatch(workflowId: string) {
+  const findItem = data.value.find(item => item.id === workflowId)!;
+  routerPushByKey('workflow_batch', { state: { workflowId, workflowName: findItem.workflowName } });
 }
 </script>
 

@@ -7,7 +7,7 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
-import { tagColor } from '@/utils/common';
+import { monthRangeISO8601, tagColor } from '@/utils/common';
 import RetryLogSearch from './modules/retry-log-search.vue';
 import RetryLogDetailDrawer from './modules/retry-log-detail-drawer.vue';
 
@@ -17,6 +17,7 @@ const appStore = useAppStore();
 const detailData = ref<Api.RetryLog.RetryLog | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
+const retryStatus = history.state.retryStatus;
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchRetryLogPageList,
@@ -30,7 +31,11 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     sceneName: null,
     idempotentId: null,
     bizNo: null,
-    retryStatus: null
+    retryStatus: null,
+    datetimeRange: monthRangeISO8601()
+  },
+  searchParams: {
+    retryStatus
   },
   columns: () => [
     {
@@ -40,7 +45,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       disabled: row => row.retryStatus !== 1
     },
     {
-      key: 'index',
+      key: 'id',
       title: $t('common.index'),
       align: 'center',
       width: 64
@@ -168,16 +173,6 @@ async function loadRetryInfo(row: Api.RetryLog.RetryLog) {
   const res = await fetchRetryLogById(row.id!);
   detailData.value = (res.data as Api.RetryLog.RetryLog) || null;
 }
-
-function initParams() {
-  const retryStatus = history.state.retryStatus;
-  if (retryStatus) {
-    searchParams.retryStatus = retryStatus;
-    getData();
-  }
-}
-
-initParams();
 </script>
 
 <template>

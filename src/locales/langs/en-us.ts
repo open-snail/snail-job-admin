@@ -80,6 +80,8 @@ const local: App.I18n.Schema = {
     confirmPause: 'Are you sure you want to pause?',
     confirmFinish: 'Are you sure you want to finishe?',
     confirmRetry: 'Are you sure you want to retry?',
+    generateRandomly: 'Generate randomly',
+    active: 'Active',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
@@ -183,7 +185,10 @@ const local: App.I18n.Schema = {
       }
     },
     updateDt: 'Updated Time',
-    createDt: 'Created Time'
+    createDt: 'Created Time',
+    currentMonth: 'Current Month',
+    lastMonth: 'Last Month',
+    lastTwoMonth: 'Last 2 Month'
   },
   request: {
     logout: 'Logout user after request failed',
@@ -298,7 +303,7 @@ const local: App.I18n.Schema = {
     namespace: 'Namespace',
     notify: 'Notify',
     notify_recipient: 'Notify Recipient',
-    notify_scene: 'Notify Scene',
+    notify_config: 'Notify Config',
     retry: 'Retry Task',
     retry_task: 'Retry Task',
     retry_scene: 'Retry Scene',
@@ -877,7 +882,7 @@ const local: App.I18n.Schema = {
     },
     pwd: {
       required: 'Please enter password',
-      invalid: '6-18 characters, including letters, numbers, and underscores'
+      invalid: 'Letters, numbers, and special characters, combination of two, 6 to 20 characters'
     },
     confirmPwd: {
       required: 'Please enter password again',

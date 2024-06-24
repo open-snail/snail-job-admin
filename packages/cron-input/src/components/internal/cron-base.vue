@@ -15,7 +15,7 @@ interface Props {
     min: number;
     max: number;
   };
-  locale: I18n.LocaleType;
+  locale?: I18n.LocaleType;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -106,7 +106,9 @@ const value = computed(() => {
       return props.field.value === DATE ? type.value : `${lastDayOfWeek.value}${type.value}`;
     case TYPE.SPECIFY: {
       const specifyValue = specify.value;
-      return specifyValue.length ? specifyValue.sort((a, b) => a - b).join(type.value) : `${specifyValue[0] || 0}`;
+      return specifyValue.length
+        ? specifyValue.sort((a, b) => a - b).join(type.value)
+        : `${specifyValue[0] || specifies.value[0].value}`;
     }
     default:
       return '';
@@ -144,7 +146,8 @@ watch(
       specify.value =
         data !== 'undefined' && data !== 'NaN' ? data.split(TYPE.SPECIFY).map(i => Number.parseInt(i, 10)) : [];
     }
-  }
+  },
+  { immediate: true }
 );
 
 watch(

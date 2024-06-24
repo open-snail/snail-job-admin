@@ -58,6 +58,12 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       }
     },
     {
+      key: 'id',
+      title: $t('common.index'),
+      align: 'left',
+      minWidth: 50
+    },
+    {
       key: 'username',
       title: $t('page.userManager.username'),
       align: 'left',
@@ -92,6 +98,12 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 
         return <NTag type={tagMap[row.role!]}>{label}</NTag>;
       }
+    },
+    {
+      key: 'createDt',
+      title: $t('common.createDt'),
+      align: 'left',
+      minWidth: 50
     },
     {
       key: 'updateDt',

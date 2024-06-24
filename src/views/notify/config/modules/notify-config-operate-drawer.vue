@@ -115,12 +115,20 @@ function createDefaultModel(): Model {
 
 type RuleKey = Extract<
   keyof Model,
-  'groupName' | 'businessId' | 'recipientIds' | 'notifyStatus' | 'notifyScene' | 'rateLimiterStatus' | 'notifyThreshold'
+  | 'groupName'
+  | 'businessId'
+  | 'systemTaskType'
+  | 'recipientIds'
+  | 'notifyStatus'
+  | 'notifyScene'
+  | 'rateLimiterStatus'
+  | 'notifyThreshold'
 >;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   groupName: defaultRequiredRule,
   businessId: defaultRequiredRule,
+  systemTaskType: defaultRequiredRule,
   notifyStatus: defaultRequiredRule,
   notifyScene: defaultRequiredRule,
   recipientIds: defaultRequiredRule,
@@ -277,7 +285,6 @@ watch(visible, () => {
           v-model:value="model.systemTaskType"
           :placeholder="$t('page.notifyConfig.form.systemTaskType')"
           :options="translateOptions(systemTaskTypeOptions)"
-          clearable
           @update:value="systemTaskTypeChange"
         />
       </NFormItem>
@@ -288,7 +295,6 @@ watch(visible, () => {
           :options="retryScenes"
           label-field="sceneName"
           value-field="sceneName"
-          clearable
         />
       </NFormItem>
       <NFormItem v-if="model.systemTaskType === 3" :label="$t('page.notifyConfig.job')" path="businessId">
@@ -298,7 +304,6 @@ watch(visible, () => {
           :options="jobs"
           label-field="jobName"
           value-field="id"
-          clearable
         />
       </NFormItem>
       <NFormItem v-if="model.systemTaskType === 4" :label="$t('page.notifyConfig.workflow')" path="businessId">
@@ -308,7 +313,6 @@ watch(visible, () => {
           :options="workflows"
           label-field="workflowName"
           value-field="id"
-          clearable
         />
       </NFormItem>
       <NFormItem :label="$t('page.notifyConfig.notifyScene')" path="notifyScene">
@@ -316,7 +320,6 @@ watch(visible, () => {
           v-model:value="model.notifyScene"
           :placeholder="$t('page.notifyConfig.form.notifyScene')"
           :options="notifySceneOptions"
-          clearable
           @update:value="retrySceneChange"
         />
       </NFormItem>

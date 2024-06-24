@@ -330,6 +330,8 @@ declare namespace App {
         confirmPause: string;
         confirmFinish: string;
         confirmRetry: string;
+        generateRandomly: string;
+        active: string;
         yesOrNo: {
           yes: string;
           no: string;
@@ -434,6 +436,9 @@ declare namespace App {
         };
         updateDt: string;
         createDt: string;
+        currentMonth: string;
+        lastMonth: string;
+        lastTwoMonth: string;
       };
       request: {
         logout: string;

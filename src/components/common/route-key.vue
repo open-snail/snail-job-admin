@@ -36,12 +36,7 @@ const selectOptions = computed(() => {
 </script>
 
 <template>
-  <NSelect
-    v-model:value="modelValue"
-    :placeholder="$t('common.routeKey.routeForm')"
-    :options="selectOptions"
-    clearable
-  />
+  <NSelect v-model:value="modelValue" :placeholder="$t('common.routeKey.routeForm')" :options="selectOptions" />
 </template>
 
 <style scoped></style>

@@ -272,8 +272,7 @@ declare namespace Api {
       groupName?: string;
       type: DashboardLineType;
       mode?: DashboardLineMode;
-      startTime?: string;
-      endTime?: string;
+      datetimeRange?: [string, string] | null;
     } & CommonSearchParams;
 
     /**
@@ -703,7 +702,7 @@ declare namespace Api {
         Api.RetryDeadLetter.DeadLetter,
         'id' | 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'taskType' | 'createDt'
       > &
-        CommonSearchParams
+        CommonSearchParams & { datetimeRange?: [string, string] }
     >;
 
     /** DeadLetter list */
@@ -899,6 +898,18 @@ declare namespace Api {
       Pick<Api.Workflow.Workflow, 'workflowName' | 'groupName' | 'workflowStatus'> & CommonSearchParams
     >;
 
+    /** workflow name search params */
+    type WorkflowNameSearchParams = CommonType.RecordNullable<
+      Pick<
+        Common.CommonRecord<{
+          keywords: string;
+          workflowId: number;
+          groupName: string;
+        }>,
+        'keywords' | 'workflowId' | 'groupName'
+      >
+    >;
+
     type ExportWorkflow = Common.CommonRecord<{
       workflowIds: String[];
     }> &
@@ -1079,7 +1090,8 @@ declare namespace Api {
 
     /** JobBatch search params */
     type JobBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.JobBatch.JobBatch, 'groupName' | 'jobName' | 'taskBatchStatus'> & CommonSearchParams
+      Pick<Api.JobBatch.JobBatch, 'groupName' | 'jobName' | 'taskBatchStatus' | 'jobId'> &
+        CommonSearchParams & { datetimeRange?: [string, string] }
     >;
 
     /** JobBatch list */
@@ -1114,7 +1126,8 @@ declare namespace Api {
 
     /** workflowBatch search params */
     type WorkflowBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'taskBatchStatus'> & CommonSearchParams
+      Pick<Api.WorkflowBatch.WorkflowBatch, 'workflowId' | 'groupName' | 'workflowName' | 'taskBatchStatus'> &
+        CommonSearchParams & { datetimeRange?: [string, string] }
     >;
 
     /** workflowBatch list */
@@ -1164,7 +1177,7 @@ declare namespace Api {
     /** retryLog search params */
     type RetryLogSearchParams = CommonType.RecordNullable<
       Pick<Api.RetryLog.RetryLog, 'uniqueId' | 'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'retryStatus'> &
-        CommonSearchParams
+        CommonSearchParams & { datetimeRange?: [string, string] }
     >;
 
     /** retryLog list */

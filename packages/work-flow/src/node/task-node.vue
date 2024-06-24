@@ -141,11 +141,11 @@ const showDetail = (node: Flow.ConditionNodeType, detailIndex: number) => {
         if (item.id) {
           detailIds.value?.push(item.id);
         } else if (item.jobId) {
-          detailId.value = item.jobId.toString();
+          detailId.value = item.jobId?.toString();
         }
       });
     if (node.jobTask?.jobId) {
-      detailId.value = node.jobTask?.jobId.toString();
+      detailId.value = node.jobTask?.jobId?.toString();
     }
     cardDrawer.value = true;
   } else if (store.type === 1) {
