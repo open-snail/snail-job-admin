@@ -1045,6 +1045,10 @@ declare namespace Api {
       taskStatus: Common.TaskStatus;
       /** 任务类型 */
       taskType: Common.TaskType;
+      /** 子节点 */
+      children: JobTaskTree[];
+      /** 是否存在下级 */
+      isLeaf: boolean;
     }>;
 
     type JobTaskTree = {
@@ -1055,7 +1059,7 @@ declare namespace Api {
     /** jobTask search params */
     type jobTaskSearchParams = CommonType.RecordNullable<
       Pick<Api.Job.JobTask, 'groupName' | 'taskBatchId' | 'taskStatus'> &
-        CommonSearchParams & { startId: number; fromIndex: number }
+        CommonSearchParams & { startId: number; fromIndex: number; parentId: string }
     >;
 
     /** jobTask list */

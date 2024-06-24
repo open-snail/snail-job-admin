@@ -5,7 +5,6 @@ import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
 import { fetchJobLogList } from '@/service/api/log';
 import JobTaskListTable from './job-task-list-table.vue';
-import JobTaskTreeTable from './job-task-tree-table.vue';
 
 defineOptions({
   name: 'JobBatchDetailDrawer'
@@ -106,12 +105,7 @@ onBeforeUnmount(() => {
         </NDescriptions>
       </NTabPane>
       <NTabPane :name="1" :tab="$t('page.log.title')" display-directive="if">
-        <JobTaskTreeTable
-          v-if="rowData?.taskType && [4, 5].includes(Number(rowData.taskType))"
-          :row-data="rowData"
-          @show-log="openLog"
-        />
-        <JobTaskListTable v-else :row-data="rowData" @show-log="openLog" />
+        <JobTaskListTable :row-data="rowData" @show-log="openLog" />
       </NTabPane>
     </NTabs>
   </DetailDrawer>

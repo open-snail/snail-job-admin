@@ -6,7 +6,7 @@ import { taskStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { parseArgsJson } from '@/utils/common';
 import { useTable } from '@/hooks/common/table';
-import { fetchGetJobTaskList } from '@/service/api';
+import { fetchGetJobTaskList, fetchGetJobTaskTree } from '@/service/api';
 
 defineOptions({
   name: 'JobTaskListTable'
@@ -41,6 +41,12 @@ const { columns, data, loading, mobilePagination } = useTable({
   },
   columns: () => [
     {
+      key: 'id',
+      title: $t('page.jobBatch.jobTask.id'),
+      align: 'left',
+      minWidth: 120
+    },
+    {
       key: 'index',
       title: $t('common.index'),
       align: 'center',
@@ -50,12 +56,6 @@ const { columns, data, loading, mobilePagination } = useTable({
           <span class="w-28px ws-break-spaces">{$t('page.log.view')}</span>
         </NButton>
       )
-    },
-    {
-      key: 'id',
-      title: $t('page.jobBatch.jobTask.id'),
-      align: 'left',
-      minWidth: 64
     },
     {
       key: 'groupName',
@@ -147,6 +147,25 @@ const { columns, data, loading, mobilePagination } = useTable({
     }
   ]
 });
+
+const onLoad = (row: Record<string, any>) => {
+  return new Promise<void>((resolve, reject) => {
+    fetchGetJobTaskTree({
+      groupName: row.groupName,
+      taskBatchId: row.taskBatchId,
+      startId: 0,
+      fromIndex: 0,
+      parentId: row.id
+    })
+      .then(res => {
+        row.children = res.data?.data || [];
+        resolve();
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+};
 </script>
 
 <template>
@@ -158,7 +177,11 @@ const { columns, data, loading, mobilePagination } = useTable({
     :scroll-x="962"
     :row-key="row => row.id"
     :pagination="mobilePagination"
+    :indent="16"
+    :cascade="false"
+    allow-checking-not-loaded
     class="sm:h-full"
+    @load="onLoad"
   />
 </template>
 
