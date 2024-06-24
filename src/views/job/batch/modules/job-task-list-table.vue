@@ -48,7 +48,7 @@ const { columns, data, loading, mobilePagination } = useTable({
       key: 'id',
       title: $t('page.jobBatch.jobTask.id'),
       align: 'left',
-      minWidth: 100,
+      width: 100,
       ellipsis: {
         tooltip: true
       }

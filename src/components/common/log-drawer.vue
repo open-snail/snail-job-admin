@@ -1,7 +1,9 @@
 <script setup lang="tsx">
 import { NCollapse, NCollapseItem } from 'naive-ui';
 import { defineComponent, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { $t } from '@/locales';
+import { useLogStore } from '@/store/modules/log';
 
 defineOptions({
   name: 'LogDrawer'
@@ -66,7 +68,12 @@ watch(
   { immediate: true }
 );
 
+const store = useLogStore();
+
 const onUpdateShow = (value: boolean) => {
+  if (!value) {
+    store.clear();
+  }
   emit('update:show', value);
 };
 
@@ -81,6 +88,14 @@ function timestampToDate(timestamp: string): string {
   const seconds = date.getSeconds().toString().length === 1 ? `0${date.getSeconds()}` : date.getSeconds().toString();
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${date.getMilliseconds()}`;
 }
+
+const router = useRouter();
+
+function openNewTab() {
+  const url = router.resolve('/log');
+  store.setData(props.modelValue);
+  window.open(url.href);
+}
 </script>
 
 <template>
@@ -91,7 +106,13 @@ function timestampToDate(timestamp: string): string {
     display-directive="if"
     @update:show="onUpdateShow"
   >
-    <NDrawerContent :title="title" closable>
+    <NDrawerContent closable>
+      <template #header>
+        <div class="flex-center">
+          <span>{{ title }}</span>
+          <ButtonIcon icon="hugeicons:share-01" tooltip-content="在新标签页打开" class="ml-3px" @click="openNewTab" />
+        </div>
+      </template>
       <div class="snail-log bg-#fafafc p-16px dark:bg-#000">
         <div class="snail-log-scrollbar">
           <code>

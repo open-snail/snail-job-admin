@@ -4,6 +4,7 @@ import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
 import { fetchJobLogList } from '@/service/api/log';
+import { useLogStore } from '@/store/modules/log';
 import JobTaskListTable from './job-task-list-table.vue';
 
 defineOptions({
@@ -13,20 +14,24 @@ defineOptions({
 interface Props {
   /** row data */
   rowData?: Api.JobBatch.JobBatch | null;
+  log?: boolean;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  log: false,
+  rowData: null
+});
 
 const visible = defineModel<boolean>('visible', {
   default: false
 });
 
 const taskData = ref<Api.Job.JobTask>();
-const logShow = defineModel<boolean>('logShow', {
-  default: false
-});
+const logShow = ref(false);
+const store = useLogStore();
 
 async function openLog(row: Api.Job.JobTask) {
+  store.setTaskInfo(props.rowData!.jobName, row.taskBatchId);
   logShow.value = true;
   taskData.value = row;
   await getLogList();
@@ -77,7 +82,7 @@ onBeforeUnmount(() => {
 
 <template>
   <DetailDrawer v-model="visible" :title="$t('page.jobBatch.detail')" :width="['50%', '90%']">
-    <NTabs type="segment" animated>
+    <NTabs type="segment" animated :default-value="log ? 1 : 0">
       <NTabPane :name="0" :tab="$t('page.log.info')">
         <NDescriptions label-placement="top" bordered :column="2">
           <NDescriptionsItem :label="$t('page.jobBatch.groupName')">{{ rowData?.groupName }}</NDescriptionsItem>

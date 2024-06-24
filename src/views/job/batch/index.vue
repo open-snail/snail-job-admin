@@ -20,6 +20,7 @@ const route = useRoute();
 const detailData = ref<Api.JobBatch.JobBatch | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
+const { bool: detailLog, setBool: setDetailLog } = useBoolean(false);
 
 const { columnChecks, columns, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetJobBatchList,
@@ -55,6 +56,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       render: row => {
         function showDetailDrawer() {
           detailData.value = row;
+          setDetailLog(false);
           openDetail();
         }
 
@@ -152,6 +154,9 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
+          <NButton type="primary" text ghost size="small" onClick={handleLog}>
+            {$t('common.log')}
+          </NButton>
           {row.taskBatchStatus === 1 || row.taskBatchStatus === 2 ? (
             <NPopconfirm onPositiveClick={() => handleStopJob(row.id!)}>
               {{
@@ -185,6 +190,11 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     }
   ]
 });
+
+function handleLog() {
+  setDetailLog(true);
+  openDetail();
+}
 
 async function handleRetryJob(id: string) {
   const { error } = await fetchJobBatchRetry(id);
@@ -269,7 +279,12 @@ initParams();
         class="sm:h-full"
       />
     </NCard>
-    <JobBatchDetailDrawer v-if="detailVisible" v-model:visible="detailVisible" :row-data="detailData" />
+    <JobBatchDetailDrawer
+      v-if="detailVisible"
+      v-model:visible="detailVisible"
+      v-model:log="detailLog"
+      :row-data="detailData"
+    />
   </div>
 </template>
 

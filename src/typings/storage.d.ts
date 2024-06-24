@@ -44,5 +44,10 @@ declare namespace StorageType {
       layout: UnionKey.ThemeLayoutMode;
       siderCollapse: boolean;
     };
+    log: {
+      taskName: string;
+      taskBatchId: string;
+      data: Api.JobLog.JobMessage[];
+    };
   }
 }

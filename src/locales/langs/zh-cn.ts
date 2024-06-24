@@ -302,6 +302,7 @@ const local: App.I18n.Schema = {
     404: '页面不存在',
     500: '服务器错误',
     'iframe-page': '外链页面',
+    log: '日志',
     home: '首页',
     about: '关于',
     pods: '在线机器',

@@ -121,6 +121,17 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'log',
+    path: '/log',
+    component: 'layout.blank$view.log',
+    meta: {
+      title: 'log',
+      i18nKey: 'route.log',
+      icon: 'carbon:batch-job',
+      hideInMenu: true
+    }
+  },
+  {
     name: 'login',
     path: '/login/:module(pwd-login)?',
     component: 'layout.blank$view.login',
