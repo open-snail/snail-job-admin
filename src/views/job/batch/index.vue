@@ -159,41 +159,61 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
-        <div class="flex-center gap-8px">
-          <NButton type="primary" text ghost size="small" onClick={handleLog}>
-            {$t('common.log')}
-          </NButton>
-          {row.taskBatchStatus === 1 || row.taskBatchStatus === 2 ? (
-            <NPopconfirm onPositiveClick={() => handleStopJob(row.id!)}>
-              {{
-                default: () => $t('common.confirmStop'),
-                trigger: () => (
-                  <NButton type="error" text ghost size="small">
-                    {$t('common.stop')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
-          ) : (
-            ''
-          )}
-          {row.taskBatchStatus === 4 || row.taskBatchStatus === 5 || row.taskBatchStatus === 6 ? (
-            <NPopconfirm onPositiveClick={() => handleRetryJob(row.id!)}>
-              {{
-                default: () => $t('common.confirmRetry'),
-                trigger: () => (
-                  <NButton type="error" text ghost size="small">
-                    {$t('common.retry')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
-          ) : (
-            ''
-          )}
-        </div>
-      )
+      render: row => {
+        const stopBtn = () => {
+          if (row.taskBatchStatus === 1 || row.taskBatchStatus === 2) {
+            return (
+              <>
+                <n-divider vertical />
+                <NPopconfirm onPositiveClick={() => handleStopJob(row.id!)}>
+                  {{
+                    default: () => $t('common.confirmStop'),
+                    trigger: () => (
+                      <>
+                        <n-divider vertical />
+                        <NButton type="error" text ghost size="small">
+                          {$t('common.stop')}
+                        </NButton>
+                      </>
+                    )
+                  }}
+                </NPopconfirm>
+              </>
+            );
+          }
+          return null;
+        };
+
+        const retryBtn = () => {
+          if (row.taskBatchStatus === 4 || row.taskBatchStatus === 5 || row.taskBatchStatus === 6) {
+            return (
+              <>
+                <n-divider vertical />
+                <NPopconfirm onPositiveClick={() => handleRetryJob(row.id!)}>
+                  {{
+                    default: () => $t('common.confirmRetry'),
+                    trigger: () => (
+                      <NButton type="error" text ghost size="small">
+                        {$t('common.retry')}
+                      </NButton>
+                    )
+                  }}
+                </NPopconfirm>
+              </>
+            );
+          }
+          return null;
+        };
+        return (
+          <div class="flex-center gap-8px">
+            <NButton type="primary" text ghost size="small" onClick={handleLog}>
+              {$t('common.log')}
+            </NButton>
+            {stopBtn()}
+            {retryBtn()}
+          </div>
+        );
+      }
     }
   ]
 });
