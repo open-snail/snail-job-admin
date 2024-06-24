@@ -24,17 +24,12 @@ export const useLogStore = defineStore('log', () => {
     localStg.remove('log');
   }
 
-  function getLogStg() {
-    return localStg.get('log');
-  }
-
   return {
     taskName,
     taskBatchId,
     data,
     clear,
     setTaskInfo,
-    setData,
-    getLogStg
+    setData
   };
 });

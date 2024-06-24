@@ -67,12 +67,12 @@ function renderLabel(option: SelectOption) {
 </script>
 
 <template>
-  <SearchForm btn-span="24 s:24 m:9 l:12 xl:15" :model="model" @search="search" @reset="reset">
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.workflowBatch.groupName')" path="groupName" class="pr-24px">
+  <SearchForm btn-span="12 s:24 m:10 l:12 xl:16" :model="model" @search="search" @reset="reset">
+    <NFormItemGi span="24 s:12 m:8" :label="$t('page.workflowBatch.groupName')" path="groupName" class="pr-24px">
       <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
     <NFormItemGi
-      span="24 s:12 m:6"
+      span="24 s:12 m:8"
       :label="$t('page.workflowBatch.workflowName')"
       :label-width="100"
       path="workflowName"
@@ -90,7 +90,7 @@ function renderLabel(option: SelectOption) {
       />
     </NFormItemGi>
     <NFormItemGi
-      span="24 s:12 m:6"
+      span="24 s:12 m:8"
       :label="$t('page.workflowBatch.taskBatchStatus')"
       path="taskBatchStatus"
       class="pr-24px"
@@ -98,7 +98,7 @@ function renderLabel(option: SelectOption) {
       <TaskBatchStatus v-model:value="model.taskBatchStatus" clearable />
     </NFormItemGi>
     <NFormItemGi
-      span="24 s:24 m:15 l:12 xl:9"
+      span="24 s:24 m:14 l:12 xl:8"
       :label="$t('page.common.createTime')"
       path="datetimeRange"
       class="pr-24px"
