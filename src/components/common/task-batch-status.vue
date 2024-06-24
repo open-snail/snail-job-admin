@@ -1,28 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { $t } from '@/locales';
 import { translateOptions } from '@/utils/common';
 import { taskBatchStatusRecordOptions } from '@/constants/business';
 
-interface Emits {
-  (e: 'update:value', value: Api.Common.TaskBatchStatus): void;
+defineOptions({
+  name: 'TaskBatchStatus'
+});
+
+interface Props {
+  disabled?: boolean;
+  clearable?: boolean;
 }
-const emit = defineEmits<Emits>();
 
-const taskBatchStatusRef = ref<Api.Common.TaskBatchStatus>();
-
-const handleUpdate = (taskBatchStatus: Api.Common.TaskBatchStatus) => {
-  emit('update:value', taskBatchStatus);
-};
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
+  clearable: false
+});
+const modelValue = defineModel<Api.Common.TaskBatchStatus>();
 </script>
 
 <template>
   <NSelect
-    v-model:value="taskBatchStatusRef"
+    v-model:value="modelValue"
     :placeholder="$t('common.taskBatchStatus.form')"
     :options="translateOptions(taskBatchStatusRecordOptions)"
-    clearable
-    @update:value="handleUpdate"
+    :disabled="props.disabled"
+    :clearable="props.clearable"
   />
 </template>
 

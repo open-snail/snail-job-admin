@@ -162,6 +162,7 @@ async function handleSubmit() {
       groupName,
       jobName,
       argsType,
+      argsStr,
       jobStatus,
       routeKey,
       executorType,
@@ -179,7 +180,7 @@ async function handleSubmit() {
     const { error } = await fetchAddJob({
       groupName,
       jobName,
-      argsStr: parseArgsStr(),
+      argsStr,
       argsType,
       jobStatus,
       routeKey,
@@ -204,6 +205,7 @@ async function handleSubmit() {
       id,
       groupName,
       jobName,
+      argsStr,
       argsType,
       jobStatus,
       routeKey,
@@ -223,7 +225,7 @@ async function handleSubmit() {
       id,
       groupName,
       jobName,
-      argsStr: parseArgsStr(),
+      argsStr,
       argsType,
       jobStatus,
       routeKey,
@@ -249,7 +251,8 @@ async function handleSubmit() {
 
 function parseArgsStr() {
   if (model.taskType === 3 && dynamicForm.args) {
-    return JSON.stringify(dynamicForm.args.map(item => item.arg));
+    const slices = dynamicForm.args.map(item => item.arg.trim()).filter(item => Boolean(item));
+    model.argsStr = slices.length > 0 ? JSON.stringify(slices) : '';
   }
   return model.argsStr;
 }
@@ -268,6 +271,26 @@ watch(visible, () => {
     restoreValidation();
   }
 });
+
+/** 分片参数变化, 解析并序列化到model.argsStr */
+watch(dynamicForm, () => {
+  if (visible.value && model.taskType === 3) {
+    parseArgsStr();
+  }
+});
+
+/** 任务类型变化, 清理分片参数/方法参数 */
+watch(
+  () => model.taskType,
+  taskType => {
+    if (visible.value) {
+      if (taskType !== 3) {
+        dynamicForm.args = [];
+      }
+      model.argsStr = '';
+    }
+  }
+);
 </script>
 
 <template>

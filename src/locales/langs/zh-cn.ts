@@ -82,6 +82,8 @@ const local: App.I18n.Schema = {
     confirmRetry: '确认重试吗？',
     log: '日志',
     idDetailTip: '点击 ID 查看详情',
+    generateRandomly: '随机生成',
+    active: '活跃',
     yesOrNo: {
       yes: '是',
       no: '否'
@@ -201,7 +203,10 @@ const local: App.I18n.Schema = {
       }
     },
     updateDt: '更新时间',
-    createDt: '创建时间'
+    createDt: '创建时间',
+    currentMonth: '当月',
+    lastMonth: '最近一月',
+    lastTwoMonth: '最近两月'
   },
   request: {
     logout: '请求失败后登出用户',
@@ -310,7 +315,7 @@ const local: App.I18n.Schema = {
     group: '组管理',
     notify: '告警通知',
     notify_recipient: '通知人',
-    notify_scene: '通知场景',
+    notify_config: '通知配置',
     retry: '重试任务',
     retry_task: '任务管理',
     'retry_dead-letter': '死信任务',
@@ -915,7 +920,7 @@ const local: App.I18n.Schema = {
     },
     pwd: {
       required: '请输入密码',
-      invalid: '密码格式不正确，6-18位字符，包含字母、数字、下划线'
+      invalid: '由字母、数字、特殊字符，任意2种组成，6-20位'
     },
     confirmPwd: {
       required: '请输入确认密码',
@@ -950,7 +955,7 @@ const local: App.I18n.Schema = {
     expand: '展开菜单',
     pin: '固定',
     unpin: '取消固定',
-    namespace: '切换空间'
+    namespace: '切换命名空间'
   },
   datatable: {
     itemCount: '共 {total} 条'

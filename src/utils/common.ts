@@ -1,4 +1,5 @@
 import { Md5 } from 'ts-md5';
+import dayjs from 'dayjs';
 import { $t } from '@/locales';
 
 /**
@@ -116,6 +117,34 @@ export function toggleHtmlClass(className: string) {
     add,
     remove
   };
+}
+
+/**
+ * 创建 `最近n个自然月` timestamp时间区间
+ *
+ * @param months 月数
+ * @param startOf 时间的开始类型
+ * @returns timestamp时间区间
+ */
+export function monthRange(months: number = 1, startOf: dayjs.OpUnitType = 'day') {
+  return [dayjs().subtract(months, 'month').startOf(startOf).valueOf(), dayjs().endOf('day').valueOf()] as [
+    number,
+    number
+  ];
+}
+
+/**
+ * 创建 `最近n个自然月` 字符串时间区间
+ *
+ * @param months 月数
+ * @param startOf 时间的开始类型
+ * @returns 字符串时间区间
+ */
+export function monthRangeISO8601(months: number = 1, startOf: dayjs.OpUnitType = 'day') {
+  return [
+    dayjs().subtract(months, 'month').startOf(startOf).format('YYYY-MM-DDTHH:mm:ss'),
+    dayjs().endOf('day').format('YYYY-MM-DDTHH:mm:ss')
+  ] as [string, string];
 }
 
 export function isNotNull(value: any) {

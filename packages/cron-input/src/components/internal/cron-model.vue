@@ -49,7 +49,7 @@ const fields = computed(() => {
 // });
 
 const previewLabel = computed(() => {
-  return Locales[props.lang].preview.join(previewTime.value.toString());
+  return Locales[props.lang].preview.join(previewTime.value?.toString());
 });
 
 const expression = computed(() => {
@@ -81,7 +81,7 @@ const previews = computed(() => {
   try {
     previewList = parserCron(expression.value);
   } catch (error) {
-    previewList = ['此表达式暂时无法解析！'];
+    previewList = [Locales[props.lang].previewError];
   }
 
   return previewList;

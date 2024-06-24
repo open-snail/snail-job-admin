@@ -70,7 +70,7 @@ const href = (url: string) => {
     <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
       <div class="w-400px lt-sm:w-300px">
         <header class="flex-y-center justify-between">
-          <SystemLogo class="text-64px text-primary lt-sm:text-48px" />
+          <SystemLogo class="fill-primary text-64px lt-sm:text-48px" />
           <h3 class="flex text-28px text-primary font-500 lt-sm:text-22px">
             {{ $t('system.title') }}
             <span class="mt-3px pl-12px text-16px color-#00000072 font-600">v{{ version }}</span>

@@ -4,6 +4,7 @@ import type { DataTableColumns } from 'naive-ui';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { fetchAllGroupName, fetchJobLine, fetchRetryLine } from '@/service/api';
+import DatetimeRange from '@/components/common/datetime-range.vue';
 import TaskLineChart from './task-line-chart.vue';
 import TaskPieChart from './task-pie-chart.vue';
 
@@ -26,12 +27,9 @@ const tabParams = ref<Api.Dashboard.DashboardLineParams>({
   type: 'WEEK',
   page: 1,
   size: 6,
-  mode: 'JOB'
+  mode: 'JOB',
+  datetimeRange: null
 });
-const dateRange = ref<[number, number] | null>();
-const formattedValue = ref<[string, string] | null>(
-  tabParams.value.startTime && tabParams.value.endTime ? [tabParams.value.startTime, tabParams.value.endTime] : null
-);
 
 const getData = async () => {
   const { data: lineData, error } =
@@ -67,26 +65,19 @@ const onUpdateTab = (value: string) => {
   }
 };
 
-const onUpdateDate = (value: [string, string]) => {
+const onUpdateDate = (value: [string, string] | null) => {
   if (value) {
     tabParams.value.type = 'OTHERS';
-    tabParams.value.startTime = value[0];
-    tabParams.value.endTime = value[1];
   }
 };
 
 const onClearDate = () => {
   tabParams.value.type = 'WEEK';
-  tabParams.value.startTime = undefined;
-  tabParams.value.endTime = undefined;
 };
 
 const onUpdateType = (value: string) => {
   if (value !== 'OTHERS') {
-    dateRange.value = null;
-    formattedValue.value = null;
-    tabParams.value.startTime = undefined;
-    tabParams.value.endTime = undefined;
+    tabParams.value.datetimeRange = null;
   }
 };
 
@@ -213,16 +204,7 @@ getGroupNames();
         <NRadioButton value="MONTH" :label="$t('page.home.retryTab.params.month')" />
         <NRadioButton value="YEAR" :label="$t('page.home.retryTab.params.year')" />
       </NRadioGroup>
-      <NDatePicker
-        v-model:value="dateRange"
-        v-model:formatted-value="formattedValue"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        type="daterange"
-        class="w-300px lg:w-230px md:w-270px"
-        clearable
-        @update:formatted-value="onUpdateDate"
-        @clear="onClearDate"
-      />
+      <DatetimeRange v-model:value="tabParams.datetimeRange" @update:value="onUpdateDate" @clear="onClearDate" />
       <NSelect v-model:value="tabParams.groupName" :options="groupOptions" class="w-200px lg:w-150px md:w-170px" />
     </div>
   </div>

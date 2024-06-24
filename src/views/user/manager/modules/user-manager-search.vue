@@ -26,7 +26,7 @@ function search() {
 <template>
   <SearchForm :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.userManager.username')" path="username" class="pr-24px">
-      <NInput v-model:value="model.username" :placeholder="$t('page.userManager.form.username')" />
+      <NInput v-model:value="model.username" :placeholder="$t('page.userManager.form.username')" clearable />
     </NFormItemGi>
   </SearchForm>
 </template>

@@ -18,7 +18,7 @@ export function fetchTriggerWorkflow(id: string) {
 }
 
 /** get namespace list */
-export function fetchGetWorkflowNameList(params?: Api.WorkflowBatch.WorkflowBatchSearchParams) {
+export function fetchGetWorkflowNameList(params?: Api.Workflow.WorkflowNameSearchParams) {
   return request<Api.Workflow.Workflow[]>({
     url: '/workflow/workflow-name/list',
     method: 'get',

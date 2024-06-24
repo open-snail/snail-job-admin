@@ -12,9 +12,12 @@ const emit = defineEmits<Emits>();
 
 interface Props {
   groupName: string | null;
+  clearable?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  clearable: false
+});
 
 /** 场景列表 */
 const sceneNameList = ref<string[]>([]);
@@ -55,7 +58,7 @@ watch(
     v-model:value="sceneNameRef"
     :placeholder="$t('page.retryTask.form.sceneName')"
     :options="translateOptions2(sceneNameList)"
-    clearable
+    :clearable="props.clearable"
   />
 </template>
 

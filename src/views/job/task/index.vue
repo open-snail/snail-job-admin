@@ -41,7 +41,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       width: 48
     },
     {
-      key: 'index',
+      key: 'id',
       title: $t('common.index'),
       align: 'center',
       width: 48
@@ -252,7 +252,8 @@ async function handleTriggerJob(id: string) {
 }
 
 function goToBatch(jobId: string) {
-  routerPushByKey('job_batch', { query: { jobId } });
+  const findItem = data.value.find(item => item.id === jobId)!;
+  routerPushByKey('job_batch', { state: { jobId, jobName: findItem.jobName } });
 }
 
 function body(): Api.Job.ExportJob {

@@ -167,6 +167,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'notify_config',
+        path: '/notify/config',
+        component: 'view.notify_config',
+        meta: {
+          title: 'notify_config',
+          i18nKey: 'route.notify_config',
+          icon: 'cbi:scene-dynamic'
+        }
+      },
+      {
         name: 'notify_recipient',
         path: '/notify/recipient',
         component: 'view.notify_recipient',
@@ -174,16 +184,6 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'notify_recipient',
           i18nKey: 'route.notify_recipient',
           icon: 'fluent:people-call-20-filled'
-        }
-      },
-      {
-        name: 'notify_scene',
-        path: '/notify/scene',
-        component: 'view.notify_scene',
-        meta: {
-          title: 'notify_scene',
-          i18nKey: 'route.notify_scene',
-          icon: 'cbi:scene-dynamic'
         }
       }
     ]

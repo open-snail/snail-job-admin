@@ -29,6 +29,8 @@ export type TableConfig<A extends ApiFn, T, C> = {
   apiFn: A;
   /** api params */
   apiParams?: Parameters<A>[0];
+  /** search params */
+  searchParams?: Parameters<A>[0];
   /** transform api response to table data */
   transformer: Transformer<T, Awaited<ReturnType<A>>>;
   /** columns factory */
@@ -133,6 +135,9 @@ export default function useHookTable<A extends ApiFn, T, C>(config: TableConfig<
   }
 
   if (immediate) {
+    if (config.searchParams) {
+      updateSearchParams(config.searchParams);
+    }
     getData();
   }
 

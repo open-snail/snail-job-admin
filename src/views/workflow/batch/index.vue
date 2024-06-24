@@ -1,20 +1,20 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { fetchGetWorkflowBatchList, fetchStopWorkflowBatch } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
+import { monthRangeISO8601 } from '@/utils/common';
 import WorkflowBatchSearch from './modules/workflow-batch-search.vue';
-const router = useRouter();
-const route = useRoute();
 
-// 此处可能有问题
-const workflowId =
-  route.query?.workflowId === undefined ? null : Number.parseInt(route.query?.workflowId as string, 10);
+const router = useRouter();
 
 const appStore = useAppStore();
+const workflowId = history.state.workflowId;
+const workflowName = history.state.workflowName;
+const taskBatchStatus = history.state.taskBatchStatus;
 
 const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetWorkflowBatchList,
@@ -23,9 +23,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    workflowId,
+    workflowId: null,
+    workflowName: null,
     groupName: null,
-    taskBatchStatus: null
+    taskBatchStatus: null,
+    datetimeRange: monthRangeISO8601()
+  },
+  searchParams: {
+    workflowId,
+    workflowName,
+    taskBatchStatus
   },
   columns: () => [
     {
@@ -155,16 +162,6 @@ async function handleStop(id: string) {
 function detail(id: string) {
   router.push({ path: '/workflow/form/batch', query: { id } });
 }
-
-function initParams() {
-  const taskBatchStatus = history.state.taskBatchStatus;
-  if (taskBatchStatus) {
-    searchParams.taskBatchStatus = taskBatchStatus;
-    getData();
-  }
-}
-
-initParams();
 </script>
 
 <template>

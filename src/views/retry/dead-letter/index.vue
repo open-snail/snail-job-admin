@@ -13,7 +13,7 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { retryTaskTypeRecord } from '@/constants/business';
-import { tagColor } from '@/utils/common';
+import { monthRangeISO8601, tagColor } from '@/utils/common';
 import RetryDeadLetterSearch from './modules/dead-letter-search.vue';
 import RetryDeadLetterDetailDrawer from './modules/retry-letter-detail-drawer.vue';
 
@@ -30,7 +30,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     page: 1,
     size: 10,
     groupName: null,
-    sceneName: null
+    sceneName: null,
+    datetimeRange: monthRangeISO8601()
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
   },
@@ -41,7 +42,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 48
     },
     {
-      key: 'index',
+      key: 'id',
       title: $t('common.index'),
       align: 'center',
       width: 64

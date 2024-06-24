@@ -11,7 +11,7 @@ export class Crypto<T extends object> {
   encrypt(data: T): string {
     const dataString = JSON.stringify(data);
     const encrypted = CryptoJS.AES.encrypt(dataString, this.secret);
-    return encrypted.toString();
+    return encrypted?.toString();
   }
 
   decrypt(encrypted: string) {
