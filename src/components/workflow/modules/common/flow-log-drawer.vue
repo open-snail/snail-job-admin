@@ -1,6 +1,5 @@
 <script setup lang="tsx">
-import { NCollapse, NCollapseItem } from 'naive-ui';
-import { defineComponent, onBeforeUnmount, ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import { $t } from '@/locales';
 import { fetchJobLogList } from '@/service/api/log';
 
@@ -10,68 +9,27 @@ defineOptions({
 
 interface Props {
   title?: string;
-  show?: boolean;
   taskData: Workflow.JobTaskType;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   title: $t('workflow.node.log.title'),
-  show: false,
   modelValue: () => []
 });
 
-interface Emits {
-  (e: 'update:show', show: boolean): void;
-}
-
-const emit = defineEmits<Emits>();
-
-const visible = defineModel<boolean>('visible', {
+const show = defineModel<boolean>('show', {
   default: true
 });
 
-const ThrowableComponent = defineComponent({
-  props: {
-    throwable: {
-      type: String,
-      default: ''
-    }
-  },
-  setup(thProps) {
-    return () => {
-      if (!thProps.throwable) {
-        return <></>;
-      }
-      const firstLine = thProps.throwable.match(/^.+/m);
-      if (!firstLine) {
-        return <></>;
-      }
-      const restOfText = thProps.throwable.replace(/^.+(\n|$)/m, '');
-      return (
-        <NCollapse>
-          <NCollapseItem title={firstLine[0]} name="1">
-            {`${restOfText}`}
-          </NCollapseItem>
-        </NCollapse>
-      );
-    };
-  }
-});
-
 watch(
-  () => props.show,
+  () => show.value,
   val => {
-    visible.value = val;
     if (val) {
       getLogList();
     }
   },
   { immediate: true }
 );
-
-const onUpdateShow = (value: boolean) => {
-  emit('update:show', value);
-};
 
 const logList = ref<Api.JobLog.JobMessage[]>([]);
 const interval = ref<NodeJS.Timeout>();
@@ -114,35 +72,10 @@ const stopLog = () => {
 onBeforeUnmount(() => {
   stopLog();
 });
-
-function timestampToDate(timestamp: string): string {
-  const date = new Date(Number.parseInt(timestamp?.toString(), 10));
-  const year = date.getFullYear();
-  const month =
-    (date.getMonth() + 1)?.toString().length === 1 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1)?.toString();
-  const day = date.getDate()?.toString().length === 1 ? `0${date.getDate()}` : date.getDate()?.toString();
-  const hours = date.getHours()?.toString().length === 1 ? `0${date.getHours()}` : date.getHours()?.toString();
-  const minutes = date.getMinutes()?.toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes()?.toString();
-  const seconds = date.getSeconds()?.toString().length === 1 ? `0${date.getSeconds()}` : date.getSeconds()?.toString();
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${date.getMilliseconds()}`;
-}
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" width="100%" display-directive="if" @update:show="onUpdateShow">
-    <NDrawerContent :title="title" closable>
-      <div class="snail-log bg-#fafafc p-16px dark:bg-#000">
-        <div class="snail-log-scrollbar">
-          <code>
-            <pre
-              v-for="(message, index) in logList"
-              :key="index"
-            ><NDivider v-if="index !== 0" /><span class="log-hljs-time inline-block">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`" class="ml-12px mr-12px inline-block">{{`${message.level}`}}</span><span class="log-hljs-thread mr-12px inline-block">{{ `[${message.host}:${message.port}]` }}</span><span class="log-hljs-thread mr-12px inline-block">{{`[${message.thread}]`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
-          </code>
-        </div>
-      </div>
-    </NDrawerContent>
-  </NDrawer>
+  <LogDrawer v-model="logList" v-model:show="show" :title="title" />
 </template>
 
 <style scoped lang="scss">

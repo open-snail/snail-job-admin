@@ -169,12 +169,9 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
                   {{
                     default: () => $t('common.confirmStop'),
                     trigger: () => (
-                      <>
-                        <n-divider vertical />
-                        <NButton type="error" text ghost size="small">
-                          {$t('common.stop')}
-                        </NButton>
-                      </>
+                      <NButton type="error" text ghost size="small">
+                        {$t('common.stop')}
+                      </NButton>
                     )
                   }}
                 </NPopconfirm>
@@ -206,7 +203,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
         };
         return (
           <div class="flex-center gap-8px">
-            <NButton type="primary" text ghost size="small" onClick={handleLog}>
+            <NButton type="primary" text ghost size="small" onClick={() => handleLog(row)}>
               {$t('common.log')}
             </NButton>
             {stopBtn()}
@@ -218,7 +215,8 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-function handleLog() {
+function handleLog(row: Api.JobBatch.JobBatch) {
+  detailData.value = row;
   setDetailLog(true);
   openDetail();
 }

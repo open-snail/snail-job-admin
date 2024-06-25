@@ -31,7 +31,7 @@ const logShow = ref(false);
 const store = useLogStore();
 
 async function openLog(row: Api.Job.JobTask) {
-  store.setTaskInfo(props.rowData!.jobName, row.taskBatchId);
+  store.setTaskInfo(props.rowData?.jobName || '', row.taskBatchId);
   logShow.value = true;
   taskData.value = row;
   await getLogList();

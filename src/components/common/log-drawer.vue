@@ -99,13 +99,7 @@ function openNewTab() {
 </script>
 
 <template>
-  <NDrawer
-    v-if="drawer && modelValue.length > 0"
-    v-model:show="visible"
-    width="100%"
-    display-directive="if"
-    @update:show="onUpdateShow"
-  >
+  <NDrawer v-if="drawer" v-model:show="visible" width="100%" display-directive="if" @update:show="onUpdateShow">
     <NDrawerContent closable>
       <template #header>
         <div class="flex-center">
@@ -116,22 +110,24 @@ function openNewTab() {
       <div class="snail-log bg-#fafafc p-16px dark:bg-#000">
         <div class="snail-log-scrollbar">
           <code>
-            <pre
-              v-for="(message, index) in modelValue"
-              :key="index"
-            ><NDivider v-if="index !== 0" /><span class="log-hljs-time inline-block">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`" class="ml-12px mr-12px inline-block">{{`${message.level}`}}</span><span class="log-hljs-thread mr-12px inline-block">{{ `[${message.host}:${message.port}]` }}</span><span class="log-hljs-thread mr-12px inline-block">{{`[${message.thread}]`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
+            <NVirtualList class="virtual-list" :item-size="42" :items="modelValue">
+              <template #default="{ item: message, index }">
+                <pre><NDivider v-if="index !== 0" /><span class="log-hljs-time inline-block">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`" class="ml-12px mr-12px inline-block">{{`${message.level}`}}</span><span class="log-hljs-thread mr-12px inline-block">{{ `[${message.host}:${message.port}]` }}</span><span class="log-hljs-thread mr-12px inline-block">{{`[${message.thread}]`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
+              </template>
+            </NVirtualList>
           </code>
         </div>
       </div>
     </NDrawerContent>
   </NDrawer>
-  <div v-if="!drawer && modelValue.length > 0" class="snail-log">
+  <div v-if="!drawer" class="snail-log">
     <div class="snail-log-scrollbar">
       <code>
-        <pre
-          v-for="(message, index) in modelValue"
-          :key="index"
-        ><NDivider v-if="index !== 0" /><span class="log-hljs-time">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`">{{`\t${message.level}\t`}}</span><span class="log-hljs-thread">{{ `[${message.host}:${message.port}]\t` }}</span><span class="log-hljs-thread">{{`[${message.thread}]\t`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}\n`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
+        <NVirtualList class="virtual-list" :item-size="42" :items="modelValue">
+          <template #default="{ item: message, index }">
+            <pre><NDivider v-if="index !== 0" /><span class="log-hljs-time inline-block">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`" class="ml-12px mr-12px inline-block">{{`${message.level}`}}</span><span class="log-hljs-thread mr-12px inline-block">{{ `[${message.host}:${message.port}]` }}</span><span class="log-hljs-thread mr-12px inline-block">{{`[${message.thread}]`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
+          </template>
+        </NVirtualList>
       </code>
     </div>
   </div>
@@ -141,6 +137,10 @@ function openNewTab() {
 .snail-log {
   width: 100%;
   height: 100%;
+
+  .virtual-list {
+    max-height: calc(100vh - 101px);
+  }
 
   &-scrollbar {
     padding: 0;
