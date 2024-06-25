@@ -296,7 +296,7 @@ watch(
           dynamicForm.args = [];
         }
         if (taskType !== 5) {
-          shardNum.value = 0;
+          shardNum.value = 1;
         }
         model.argsStr = '';
       }
@@ -341,7 +341,7 @@ watch(
         <TaskType v-model:value="model.taskType" :placeholder="$t('page.jobTask.form.taskType')" />
       </NFormItem>
       <NFormItem v-if="model.taskType === 5" :label="$t('page.jobTask.shardNum')">
-        <NInputNumber v-model:value="shardNum" :min="0" :placeholder="$t('page.jobTask.form.shardNum')" />
+        <NInputNumber v-model:value="shardNum" :min="1" :placeholder="$t('page.jobTask.form.shardNum')" />
       </NFormItem>
       <NFormItem
         :label="$t('page.jobTask.argsStr')"
