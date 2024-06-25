@@ -759,6 +759,7 @@ const local: App.I18n.Schema = {
       groupName: '组名称',
       jobName: '任务名称',
       argsStr: '方法参数',
+      shardNum: 'reduce 分片数',
       argsType: '参数类型',
       nextTriggerAt: '触发时间',
       jobStatus: '状态',
@@ -794,6 +795,7 @@ const local: App.I18n.Schema = {
         blockStrategy: '请输入阻塞策略',
         argsType: '请输入参数类型',
         argsStr: '请输入方法参数',
+        shardNum: '请输入 reduce 分片数',
         groupName: '请输入组名称',
         retryInterval: '请输入重试间隔'
       },

@@ -6,13 +6,11 @@ import { localStg } from '@/utils/storage';
 
 const store = useLogStore();
 
-const data = ref();
+const data = ref(localStg.get('log'));
 const { routerPushByKey } = useRouterPush();
 
 function init() {
-  const logData = localStg.get('log');
-  if (!logData?.data) {
-    data.value = logData;
+  if (!data.value) {
     routerPushByKey('404');
   }
 }

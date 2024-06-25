@@ -751,6 +751,7 @@ const local: App.I18n.Schema = {
       groupName: 'Group name',
       jobName: 'Mission name',
       argsStr: 'Method parameters',
+      shardNum: 'Reduce shard num',
       argsType: 'Parameter Type',
       nextTriggerAt: 'Next trigger time',
       jobStatus: 'State',
@@ -786,6 +787,7 @@ const local: App.I18n.Schema = {
         blockStrategy: 'Please enter Blocking strategy',
         argsType: 'Please enter Parameter Type',
         argsStr: 'Please enter executor arguments',
+        shardNum: 'Please enter reduce shard num',
         groupName: 'Please enter Group name',
         retryInterval: 'Please enter retry interval'
       },

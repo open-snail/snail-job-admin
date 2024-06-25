@@ -14,18 +14,12 @@ interface Props {
 
 const props = defineProps<Props>();
 
-interface Emits {
-  (e: 'update:value', value: Api.Common.RouteKey): void;
-}
-const emit = defineEmits<Emits>();
-
-const modelValue = defineModel<Api.Common.RouteKey>('value');
+const modelValue = defineModel<Api.Common.RouteKey>('value', {
+  default: 4
+});
 
 /** select 下拉选项 */
 const selectOptions = computed(() => {
-  // 默认选中轮询
-  emit('update:value', 4);
-
   // 2:广播, 3:切片 ==> 只能选择`轮询`
   if (props.taskType === 2 || props.taskType === 3) {
     return translateOptions(routeKeyRecordOptions.filter(o => o.value === 4));

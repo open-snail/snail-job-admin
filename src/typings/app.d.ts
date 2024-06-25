@@ -932,6 +932,7 @@ declare namespace App {
           groupName: string;
           jobName: string;
           argsStr: string;
+          shardNum: string;
           argsType: string;
           nextTriggerAt: string;
           jobStatus: string;
@@ -967,6 +968,7 @@ declare namespace App {
             blockStrategy: string;
             argsType: string;
             argsStr: string;
+            shardNum: string;
             groupName: string;
             retryInterval: string;
           };
