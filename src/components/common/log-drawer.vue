@@ -166,9 +166,13 @@ function openNewTab() {
 
 const handleSyncSelect = async (time: number) => {
   if (time === -1) {
-    finished.value = false;
-    await getLogList();
+    if (finished.value) {
+      finished.value = false;
+      await getLogList();
+    }
+    return;
   }
+
   if (time === 0) {
     stopLog();
     return;
@@ -282,12 +286,14 @@ const SnailLogComponent = defineComponent({
           <span class="ml-6px">{{ title }}</span>
           <ButtonIcon icon="hugeicons:share-01" tooltip-content="在新标签页打开" class="ml-6px" @click="openNewTab" />
           <NDropdown trigger="hover" :options="syncOptions" @select="handleSyncSelect">
-            <NTooltip>
+            <NTooltip placement="right">
               <template #trigger>
-                <NButton quaternary class="ml-3px" @click="handleSyncSelect(-1)">
+                <NButton quaternary class="ml-3px w-136px" @click="handleSyncSelect(-1)">
                   <template #icon>
                     <div class="flex-center gap-8px">
                       <icon-solar:refresh-outline class="text-18px" />
+                      {{ syncOptions.filter(item => item.key === syncTime)[0].label }}
+                      <SvgIcon icon="material-symbols:expand-more-rounded" />
                     </div>
                   </template>
                 </NButton>
@@ -304,12 +310,14 @@ const SnailLogComponent = defineComponent({
     <template #header-extra>
       <div class="flex items-center">
         <NDropdown trigger="hover" :options="syncOptions" @select="handleSyncSelect">
-          <NTooltip>
+          <NTooltip placement="right">
             <template #trigger>
-              <NButton quaternary class="ml-3px" @click="handleSyncSelect(-1)">
+              <NButton quaternary class="ml-3px w-136px" @click="handleSyncSelect(-1)">
                 <template #icon>
                   <div class="flex-center gap-8px">
                     <icon-solar:refresh-outline class="text-18px" />
+                    {{ syncOptions.filter(item => item.key === syncTime)[0].label }}
+                    <SvgIcon icon="material-symbols:expand-more-rounded" />
                   </div>
                 </template>
               </NButton>
