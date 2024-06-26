@@ -120,7 +120,8 @@ export const routeKeyRecordOptions = transformRecordToNumberOption(routeKeyRecor
 export const blockStrategyRecord: Record<Api.Common.BlockStrategy, App.I18n.I18nKey> = {
   1: 'common.blockStrategy.items.discard',
   2: 'common.blockStrategy.items.overwrite',
-  3: 'common.blockStrategy.items.parallel'
+  3: 'common.blockStrategy.items.parallel',
+  4: 'common.blockStrategy.items.recovery'
 };
 export const blockStrategyRecordOptions = transformRecordToNumberOption(blockStrategyRecord);
 

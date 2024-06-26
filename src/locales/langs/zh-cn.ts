@@ -115,7 +115,8 @@ const local: App.I18n.Schema = {
       items: {
         discard: '丢弃',
         overwrite: '覆盖',
-        parallel: '并行'
+        parallel: '并行',
+        recovery: '恢复'
       }
     },
     failStrategy: {

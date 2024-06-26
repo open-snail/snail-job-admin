@@ -73,8 +73,8 @@ declare namespace Api {
     /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
     type RouteKey = 1 | 2 | 3 | 4;
 
-    /** 阻塞策略 1:丢弃 2:覆盖 3:并行 */
-    type BlockStrategy = 1 | 2 | 3;
+    /** 阻塞策略 1:丢弃 2:覆盖 3:并行 4:恢复 */
+    type BlockStrategy = 1 | 2 | 3 | 4;
 
     /** 失败策略 1:跳过 2:阻塞 */
     type FailStrategy = 1 | 2;

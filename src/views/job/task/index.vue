@@ -153,7 +153,8 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
         const tagMap: Record<Api.Common.BlockStrategy, NaiveUI.ThemeColor> = {
           1: 'info',
           2: 'success',
-          3: 'error'
+          3: 'error',
+          4: 'warning'
         };
         const label = $t(blockStrategyRecord[row.blockStrategy!]);
 

@@ -368,6 +368,7 @@ declare namespace App {
             discard: string;
             overwrite: string;
             parallel: string;
+            recovery: string;
           };
         };
         failStrategy: {
