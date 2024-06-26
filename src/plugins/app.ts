@@ -13,7 +13,7 @@ export function setupAppVersionNotification() {
     const buildTime = await getHtmlBuildTime();
 
     const { VITE_UPDATE_NOTIFY } = import.meta.env;
-    if (buildTime === BUILD_TIME && VITE_UPDATE_NOTIFY !== 'Y') {
+    if (buildTime === BUILD_TIME || VITE_UPDATE_NOTIFY !== 'Y') {
       return;
     }
 
