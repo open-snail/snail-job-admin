@@ -417,7 +417,7 @@ watch(
           <NFormItem :label="$t('page.jobTask.maxRetryTimes')" path="maxRetryTimes">
             <NInputNumber
               v-model:value="model.maxRetryTimes"
-              :min="1"
+              :min="0"
               :max="999"
               :placeholder="$t('page.jobTask.form.maxRetryTimes')"
               clearable
