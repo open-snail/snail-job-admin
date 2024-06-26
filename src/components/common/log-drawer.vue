@@ -1,9 +1,9 @@
 <script setup lang="tsx">
-import { NCollapse, NCollapseItem } from 'naive-ui';
-import { defineComponent, watch } from 'vue';
+import { NButton, NCard, NCollapse, NCollapseItem, NDivider, NDropdown, NEmpty, NSpin, NVirtualList } from 'naive-ui';
+import { defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { $t } from '@/locales';
-import { useLogStore } from '@/store/modules/log';
+import { fetchJobLogList, fetchRetryLogList } from '@/service/api/log';
+import ButtonIcon from '@/components/custom/button-icon.vue';
 
 defineOptions({
   name: 'LogDrawer'
@@ -13,13 +13,17 @@ interface Props {
   title?: string;
   show?: boolean;
   drawer?: boolean;
+  type?: 'job' | 'retry';
+  taskData?: Api.Job.JobTask | Api.RetryLog.RetryLog | Api.RetryTask.RetryTask;
   modelValue?: Api.JobLog.JobMessage[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: $t('page.log.title'),
+  title: undefined,
   show: false,
   drawer: true,
+  type: 'job',
+  taskData: undefined,
   modelValue: () => []
 });
 
@@ -32,48 +36,95 @@ const visible = defineModel<boolean>('visible', {
   default: true
 });
 
-const ThrowableComponent = defineComponent({
-  props: {
-    throwable: {
-      type: String,
-      default: ''
-    }
-  },
-  setup(thProps) {
-    return () => {
-      if (!thProps.throwable) {
-        return <></>;
-      }
-      const firstLine = thProps.throwable.match(/^.+/m);
-      if (!firstLine) {
-        return <></>;
-      }
-      const restOfText = thProps.throwable.replace(/^.+(\n|$)/m, '');
-      return (
-        <NCollapse>
-          <NCollapseItem title={firstLine[0]} name="1">
-            {`${restOfText}`}
-          </NCollapseItem>
-        </NCollapse>
-      );
-    };
+const syncTime = ref(1);
+const logList = ref<Api.JobLog.JobMessage[]>([]);
+const interval = ref<NodeJS.Timeout>();
+const controller = new AbortController();
+const finished = ref<boolean>(false);
+let startId = '0';
+let fromIndex: number = 0;
+
+const stopLog = () => {
+  finished.value = true;
+  controller.abort();
+  clearTimeout(interval.value);
+  interval.value = undefined;
+};
+
+async function getLogList() {
+  let logData = null;
+  let logError;
+  if (props.type === 'job') {
+    const taskData = props.taskData! as Api.Job.JobTask;
+    const { data, error } = await fetchJobLogList({
+      taskBatchId: taskData.taskBatchId,
+      jobId: taskData.jobId,
+      taskId: taskData.id,
+      startId,
+      fromIndex,
+      size: 50
+    });
+    logData = data;
+    logError = error;
   }
+
+  if (props.type === 'retry') {
+    const taskData = props.taskData! as Api.RetryLog.RetryLog | Api.RetryTask.RetryTask;
+    const { data, error } = await fetchRetryLogList({
+      groupName: taskData.groupName,
+      uniqueId: taskData.uniqueId!,
+      startId,
+      fromIndex,
+      size: 50
+    });
+    logData = data;
+    logError = error;
+  }
+
+  if (!logError && logData) {
+    finished.value = logData.finished;
+    startId = logData.nextStartId;
+    fromIndex = logData.fromIndex;
+    if (logData.message) {
+      logList.value.push(...logData.message);
+      logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
+    }
+    if (!finished.value) {
+      clearTimeout(interval.value);
+      interval.value = setTimeout(getLogList, syncTime.value * 1000);
+    }
+  } else {
+    stopLog();
+  }
+}
+
+onBeforeUnmount(() => {
+  stopLog();
 });
 
 watch(
   () => props.show,
-  val => {
+  async val => {
     visible.value = val;
+    if (val) {
+      if (props.modelValue) {
+        logList.value = props.modelValue;
+      }
+    }
+
+    if ((val || !props.drawer) && props.type && props.taskData) {
+      finished.value = false;
+      await getLogList();
+    }
+
+    if (!val && props.drawer) {
+      stopLog();
+    }
   },
   { immediate: true }
 );
 
-const store = useLogStore();
-
 const onUpdateShow = (value: boolean) => {
-  if (!value) {
-    store.clear();
-  }
   emit('update:show', value);
 };
 
@@ -92,10 +143,119 @@ function timestampToDate(timestamp: string): string {
 const router = useRouter();
 
 function openNewTab() {
-  const url = router.resolve('/log');
-  store.setData(props.modelValue);
+  let query;
+  if (props.type === 'job') {
+    query = {
+      type: props.type,
+      taskBatchId: (props.taskData as Api.Job.JobTask).taskBatchId,
+      jobId: (props.taskData as Api.Job.JobTask).jobId,
+      taskId: (props.taskData as Api.Job.JobTask).id
+    };
+  }
+
+  if (props.type === 'retry') {
+    query = {
+      type: props.type,
+      groupName: (props.taskData as Api.RetryLog.RetryLog | Api.RetryTask.RetryTask).groupName,
+      uniqueId: (props.taskData as Api.RetryLog.RetryLog | Api.RetryTask.RetryTask).uniqueId
+    };
+  }
+  const url = router.resolve({ path: '/log', query });
   window.open(url.href);
 }
+
+const handleSyncSelect = async (time: number) => {
+  if (time === -1) {
+    finished.value = false;
+    await getLogList();
+  }
+  if (time === 0) {
+    stopLog();
+    return;
+  }
+
+  syncTime.value = time;
+  finished.value = false;
+  await getLogList();
+};
+
+const syncOptions = ref([
+  {
+    label: 'Off',
+    key: 0
+  },
+  {
+    label: 'Auto(1s)',
+    key: 1
+  },
+  {
+    label: '5s',
+    key: 5
+  },
+  {
+    label: '10s',
+    key: 10
+  },
+  {
+    label: '30s',
+    key: 30
+  },
+  {
+    label: '1m',
+    key: 60
+  },
+  {
+    label: '5m',
+    key: 300
+  }
+]);
+
+const SnailLogComponent = defineComponent({
+  setup() {
+    if (finished.value && logList.value.length === 0) {
+      return () => <NEmpty class="h-full flex-center" size="huge" />;
+    }
+
+    const throwableComponent = (throwable: string) => {
+      if (!throwable) {
+        return <></>;
+      }
+      const firstLine = throwable.match(/^.+/m);
+      if (!firstLine) {
+        return <></>;
+      }
+      const restOfText = throwable.replace(/^.+(\n|$)/m, '');
+      return (
+        <NCollapse>
+          <NCollapseItem title={firstLine[0]} name="1">
+            {`${restOfText}`}
+          </NCollapseItem>
+        </NCollapse>
+      );
+    };
+
+    return () => (
+      <code class="snail-log">
+        <NVirtualList class="virtual-list" itemSize={65} items={logList.value}>
+          {{
+            default: ({ item: message }: { item: Api.JobLog.JobMessage }) => (
+              <pre>
+                <span class="log-hljs-time inline-block">{timestampToDate(message.time_stamp)}</span>
+                <span class={`log-hljs-level-${message.level} ml-12px mr-12px inline-block`}>{`${message.level}`}</span>
+                <span class="log-hljs-thread mr-12px inline-block">{`[${message.host}:${message.port}]`}</span>
+                <span class="log-hljs-thread mr-12px inline-block">{`[${message.thread}]`}</span>
+                <span class="log-hljs-location">{`${message.location}: \n`}</span> -
+                <span class="pl-6px">{`${message.message}`}</span>
+                {throwableComponent(message.throwable)}
+                <NDivider />
+              </pre>
+            )
+          }}
+        </NVirtualList>
+      </code>
+    );
+  }
+});
 </script>
 
 <template>
@@ -103,63 +263,132 @@ function openNewTab() {
     <NDrawerContent closable>
       <template #header>
         <div class="flex-center">
-          <span>{{ title }}</span>
-          <ButtonIcon icon="hugeicons:share-01" tooltip-content="在新标签页打开" class="ml-3px" @click="openNewTab" />
+          <NTooltip v-if="finished">
+            <template #trigger>
+              <icon-material-symbols:check-circle class="text-20px color-success" />
+            </template>
+            日志加载完成
+          </NTooltip>
+          <NTooltip v-else>
+            <template #trigger>
+              <NSpin size="small">
+                <template #icon>
+                  <icon-nonicons:loading-16 />
+                </template>
+              </NSpin>
+            </template>
+            日志正在加载
+          </NTooltip>
+          <span class="ml-6px">{{ title }}</span>
+          <ButtonIcon icon="hugeicons:share-01" tooltip-content="在新标签页打开" class="ml-6px" @click="openNewTab" />
+          <NDropdown trigger="hover" :options="syncOptions" @select="handleSyncSelect">
+            <NTooltip>
+              <template #trigger>
+                <NButton quaternary class="ml-3px" @click="handleSyncSelect(-1)">
+                  <template #icon>
+                    <div class="flex-center gap-8px">
+                      <icon-solar:refresh-outline class="text-18px" />
+                    </div>
+                  </template>
+                </NButton>
+              </template>
+              自动刷新频率
+            </NTooltip>
+          </NDropdown>
         </div>
       </template>
-      <div class="snail-log bg-#fafafc p-16px dark:bg-#000">
-        <div class="snail-log-scrollbar">
-          <code>
-            <NVirtualList class="virtual-list" :item-size="42" :items="modelValue">
-              <template #default="{ item: message, index }">
-                <pre><NDivider v-if="index !== 0" /><span class="log-hljs-time inline-block">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`" class="ml-12px mr-12px inline-block">{{`${message.level}`}}</span><span class="log-hljs-thread mr-12px inline-block">{{ `[${message.host}:${message.port}]` }}</span><span class="log-hljs-thread mr-12px inline-block">{{`[${message.thread}]`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
-              </template>
-            </NVirtualList>
-          </code>
-        </div>
-      </div>
+      <SnailLogComponent />
     </NDrawerContent>
   </NDrawer>
-  <div v-if="!drawer" class="snail-log">
-    <div class="snail-log-scrollbar">
-      <code>
-        <NVirtualList class="virtual-list" :item-size="42" :items="modelValue">
-          <template #default="{ item: message, index }">
-            <pre><NDivider v-if="index !== 0" /><span class="log-hljs-time inline-block">{{timestampToDate(message.time_stamp)}}</span><span :class="`log-hljs-level-${message.level}`" class="ml-12px mr-12px inline-block">{{`${message.level}`}}</span><span class="log-hljs-thread mr-12px inline-block">{{ `[${message.host}:${message.port}]` }}</span><span class="log-hljs-thread mr-12px inline-block">{{`[${message.thread}]`}}</span><span class="log-hljs-location">{{`${message.location}: \n`}}</span> -<span class="pl-6px">{{`${message.message}`}}</span><ThrowableComponent :throwable="message.throwable" /></pre>
+  <NCard v-else :bordered="false" :title="title" size="small" class="h-full sm:flex-1-hidden card-wrapper">
+    <template #header-extra>
+      <div class="flex items-center">
+        <NDropdown trigger="hover" :options="syncOptions" @select="handleSyncSelect">
+          <NTooltip>
+            <template #trigger>
+              <NButton quaternary class="ml-3px" @click="handleSyncSelect(-1)">
+                <template #icon>
+                  <div class="flex-center gap-8px">
+                    <icon-solar:refresh-outline class="text-18px" />
+                  </div>
+                </template>
+              </NButton>
+            </template>
+            自动刷新频率
+          </NTooltip>
+        </NDropdown>
+        <NTooltip v-if="finished">
+          <template #trigger>
+            <icon-material-symbols:check-circle class="text-20px color-success" />
           </template>
-        </NVirtualList>
-      </code>
-    </div>
-  </div>
+          日志加载完成
+        </NTooltip>
+        <NTooltip v-else>
+          <template #trigger>
+            <NSpin size="small">
+              <template #icon>
+                <icon-nonicons:loading-16 />
+              </template>
+            </NSpin>
+          </template>
+          日志正在加载
+        </NTooltip>
+      </div>
+    </template>
+    <SnailLogComponent />
+  </NCard>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .snail-log {
-  width: 100%;
-  height: 100%;
+  padding: 0;
 
   .virtual-list {
     max-height: calc(100vh - 101px);
   }
 
-  &-scrollbar {
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    @include scrollbar();
+  .n-divider:not(.n-divider--vertical) {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
 
-    .n-divider:not(.n-divider--vertical) {
-      margin-top: 6px;
-      margin-bottom: 6px;
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+    font-size: 16px;
+    color: #333639;
+  }
+
+  .log-hljs {
+    &-time {
+      color: #2db7f5;
     }
 
-    pre {
-      white-space: pre-wrap;
-      word-break: break-word;
-      margin: 0;
-      font-size: 16px;
-      color: #333639;
+    &-level {
+      &-DEBUG {
+        color: #2647cc;
+      }
+
+      &-INFO {
+        color: #5c962c;
+      }
+
+      &-WARN {
+        color: #da9816;
+      }
+
+      &-ERROR {
+        color: #dc3f41;
+      }
+    }
+
+    &-thread {
+      color: #00a3a3;
+    }
+
+    &-location {
+      color: #a771bf;
     }
   }
 }
@@ -173,36 +402,13 @@ function openNewTab() {
     }
   }
 }
+</style>
 
-.log-hljs {
-  &-time {
-    color: #2db7f5;
-  }
-
-  &-level {
-    &-DEBUG {
-      color: #2647cc;
-    }
-
-    &-INFO {
-      color: #5c962c;
-    }
-
-    &-WARN {
-      color: #da9816;
-    }
-
-    &-ERROR {
-      color: #dc3f41;
-    }
-  }
-
-  &-thread {
-    color: #00a3a3;
-  }
-
-  &-location {
-    color: #a771bf;
-  }
+<style scoped>
+:deep(.n-spin) {
+  height: 18px !important;
+  width: 18px !important;
+  font-size: 18px !important;
+  margin-right: 6px;
 }
 </style>

@@ -1,38 +1,53 @@
 <script setup lang="ts">
-import { onUnmounted, ref } from 'vue';
-import { useLogStore } from '@/store/modules/log';
+import { useRoute } from 'vue-router';
+import { computed, ref } from 'vue';
 import { useRouterPush } from '@/hooks/common/router';
-import { localStg } from '@/utils/storage';
+import { $t } from '@/locales';
 
-const store = useLogStore();
-
-const data = ref(localStg.get('log'));
+const route = useRoute();
 const { routerPushByKey } = useRouterPush();
 
+const type = ref<'job' | 'retry'>(route.query.type as 'job' | 'retry');
+const taskData = ref();
+const { taskBatchId, jobId, taskId, groupName, uniqueId } = route.query as { [key: string]: string };
+
 function init() {
-  if (!data.value) {
+  if (!['job', 'retry'].includes(type.value)) {
     routerPushByKey('404');
+  }
+
+  if (type.value === 'job') {
+    taskData.value = { taskBatchId, jobId, id: taskId };
+  }
+
+  if (type.value === 'retry') {
+    taskData.value = { groupName, uniqueId };
   }
 }
 
 init();
 
-onUnmounted(() => {
-  store.clear();
+const title = computed(() => {
+  if (type.value === 'job') {
+    return `${$t('common.systemTaskType.job') + $t('page.log.title')} ------ JobId: ${jobId}, TaskId: ${taskId}, TaskBatchId: ${taskBatchId}`;
+  }
+
+  if (type.value === 'retry') {
+    return `${$t('common.systemTaskType.retry') + $t('page.log.title')} ------ ${$t('page.retryLog.groupName')}: ${groupName}, ${$t('page.retryLog.UniqueId')}: ${uniqueId}`;
+  }
+
+  return $t('page.log.title');
 });
 </script>
 
 <template>
-  <NCard :bordered="false" size="small" class="h-full sm:flex-1-hidden card-wrapper" header-class="view-card-header">
-    <template #header>
-      <span v-if="data?.taskName">
-        {{
-          `${$t('page.log.title')} ------ ${$t('page.jobBatch.jobName')}: ${data?.taskName}, ${$t('common.batchList')} ID: ${data?.taskBatchId}`
-        }}
-      </span>
-    </template>
-    <LogDrawer :model-value="data?.data" :drawer="false" />
-  </NCard>
+  <div>
+    <LogDrawer :drawer="false" :title="title" :type="type" :task-data="taskData" />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.virtual-list) {
+  max-height: calc(100vh - 66px);
+}
+</style>

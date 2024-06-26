@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from 'vue';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
 import { retryTaskStatusTypeRecord, retryTaskTypeRecord } from '@/constants/business';
-import { fetchRetryLogList } from '@/service/api/log';
 
 defineOptions({
   name: 'SceneDetailDrawer'
@@ -14,63 +12,16 @@ interface Props {
   rowData?: Api.RetryLog.RetryLog | null;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 const visible = defineModel<boolean>('visible', {
   default: false
-});
-
-const logList = ref<Api.JobLog.JobMessage[]>([]);
-const interval = ref<NodeJS.Timeout>();
-const controller = new AbortController();
-const finished = ref<boolean>(false);
-let startId = '0';
-let fromIndex: number = 0;
-
-async function getLogList() {
-  const { data: logData, error } = await fetchRetryLogList({
-    groupName: props.rowData!.groupName,
-    uniqueId: props.rowData!.uniqueId,
-    startId,
-    fromIndex,
-    size: 50
-  });
-  if (!error) {
-    finished.value = logData.finished;
-    startId = logData.nextStartId;
-    fromIndex = logData.fromIndex;
-    if (logData.message) {
-      logList.value.push(...logData.message);
-      logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
-    }
-    if (!finished.value) {
-      clearTimeout(interval.value);
-      interval.value = setTimeout(getLogList, 1000);
-    }
-  }
-}
-
-const handleUpdateTab = async (value: number) => {
-  if (value === 1 && logList.value.length === 0) {
-    await getLogList();
-  }
-};
-
-const stopLog = () => {
-  finished.value = true;
-  controller.abort();
-  clearTimeout(interval.value);
-  interval.value = undefined;
-};
-
-onBeforeUnmount(() => {
-  stopLog();
 });
 </script>
 
 <template>
   <DetailDrawer v-model="visible" :title="$t('page.retryLog.detail')" :width="['50%', '90%']">
-    <NTabs type="segment" animated @update:value="handleUpdateTab">
+    <NTabs type="segment" animated>
       <NTabPane :name="0" :tab="$t('page.log.info')">
         <NDescriptions label-placement="top" bordered :column="2">
           <NDescriptionsItem :label="$t('page.retryLog.UniqueId')" :span="2">
@@ -102,8 +53,7 @@ onBeforeUnmount(() => {
         </NDescriptions>
       </NTabPane>
       <NTabPane :name="1" :tab="$t('page.log.title')" display-directive="if">
-        <LogDrawer v-if="logList.length > 0" v-model="logList" :drawer="false" />
-        <NEmpty v-else class="h-full" />
+        <LogDrawer :drawer="false" type="retry" :task-data="rowData!" />
       </NTabPane>
     </NTabs>
   </DetailDrawer>

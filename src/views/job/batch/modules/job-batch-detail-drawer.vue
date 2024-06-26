@@ -1,10 +1,8 @@
 <script setup lang="tsx">
-import { onBeforeUnmount, ref } from 'vue';
+import { ref } from 'vue';
 import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
-import { fetchJobLogList } from '@/service/api/log';
-import { useLogStore } from '@/store/modules/log';
 import JobTaskListTable from './job-task-list-table.vue';
 
 defineOptions({
@@ -17,7 +15,7 @@ interface Props {
   log?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   log: false,
   rowData: null
 });
@@ -28,56 +26,11 @@ const visible = defineModel<boolean>('visible', {
 
 const taskData = ref<Api.Job.JobTask>();
 const logShow = ref(false);
-const store = useLogStore();
 
 async function openLog(row: Api.Job.JobTask) {
-  store.setTaskInfo(props.rowData?.jobName || '', row.taskBatchId);
   logShow.value = true;
   taskData.value = row;
-  await getLogList();
 }
-
-const logList = ref<Api.JobLog.JobMessage[]>([]);
-const interval = ref<NodeJS.Timeout>();
-const controller = new AbortController();
-const finished = ref<boolean>(false);
-let startId = '0';
-let fromIndex: number = 0;
-
-async function getLogList() {
-  const { data: logData, error } = await fetchJobLogList({
-    taskBatchId: taskData.value!.taskBatchId,
-    jobId: taskData.value!.jobId,
-    taskId: taskData.value!.id,
-    startId,
-    fromIndex,
-    size: 50
-  });
-  if (!error) {
-    finished.value = logData.finished;
-    startId = logData.nextStartId;
-    fromIndex = logData.fromIndex;
-    if (logData.message) {
-      logList.value.push(...logData.message);
-      logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
-    }
-    if (!finished.value) {
-      clearTimeout(interval.value);
-      interval.value = setTimeout(getLogList, 1000);
-    }
-  }
-}
-
-const stopLog = () => {
-  finished.value = true;
-  controller.abort();
-  clearTimeout(interval.value);
-  interval.value = undefined;
-};
-
-onBeforeUnmount(() => {
-  stopLog();
-});
 </script>
 
 <template>
@@ -114,7 +67,7 @@ onBeforeUnmount(() => {
       </NTabPane>
     </NTabs>
   </DetailDrawer>
-  <LogDrawer v-model="logList" v-model:show="logShow" :title="$t('page.log.title')" />
+  <LogDrawer v-model:show="logShow" :title="$t('page.log.title')" :task-data="taskData" />
 </template>
 
 <style scoped></style>
