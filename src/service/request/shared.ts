@@ -36,15 +36,19 @@ export function showErrorMsg(state: RequestInstanceState, message: string) {
     state.errMsgStack = [];
   }
 
-  state.errMsgStack.push(message);
+  const isExist = state.errMsgStack.includes(message);
 
-  window.$message?.error(message, {
-    onLeave: () => {
-      state.errMsgStack = state.errMsgStack.filter(msg => msg !== message);
+  if (!isExist) {
+    state.errMsgStack.push(message);
 
-      setTimeout(() => {
-        state.errMsgStack = [];
-      }, 5000);
-    }
-  });
+    window.$message?.error(message, {
+      onLeave: () => {
+        state.errMsgStack = state.errMsgStack.filter(msg => msg !== message);
+
+        setTimeout(() => {
+          state.errMsgStack = [];
+        }, 5000);
+      }
+    });
+  }
 }

@@ -36,6 +36,7 @@ const local: App.I18n.Schema = {
     exportAll: 'Are you sure to export all?',
     exportPar: 'Are you sure to export {num} pieces of data?',
     edit: 'Edit',
+    error: 'Error',
     detail: 'Detail',
     index: 'Index',
     keywordSearch: 'Please enter keyword',

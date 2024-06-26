@@ -36,6 +36,7 @@ const local: App.I18n.Schema = {
     exportAll: '确认导出列表中全部数据吗?',
     exportPar: '确认导出{num}条数据吗?',
     edit: '编辑',
+    error: '错误',
     detail: '详情',
     index: '序号',
     keywordSearch: '请输入关键词搜索',

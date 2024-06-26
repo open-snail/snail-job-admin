@@ -288,6 +288,7 @@ declare namespace App {
         exportAll: string;
         exportPar: string;
         edit: string;
+        error: string;
         detail: string;
         index: string;
         keywordSearch: string;

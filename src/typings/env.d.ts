@@ -108,3 +108,7 @@ declare namespace Env {
     readonly VITE_LOGIN_CODE?: string;
   }
 }
+
+interface ImportMeta {
+  readonly env: Env.ImportMeta;
+}
