@@ -119,6 +119,7 @@ watch(
 
     if (!val && props.drawer) {
       stopLog();
+      logList.value = [];
     }
   },
   { immediate: true }
