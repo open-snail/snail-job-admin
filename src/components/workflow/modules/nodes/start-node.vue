@@ -36,7 +36,7 @@ watch(
   val => {
     nodeData.value = val;
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 watch(

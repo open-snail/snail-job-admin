@@ -39,7 +39,7 @@ watch(
   val => {
     nodeConfig.value = val;
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 const addTerm = () => {

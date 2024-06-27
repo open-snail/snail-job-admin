@@ -42,7 +42,7 @@ watch(
   val => {
     form.value = val;
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 const formRef = ref<FormInst>();

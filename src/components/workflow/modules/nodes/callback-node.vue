@@ -37,7 +37,7 @@ watch(
   val => {
     nodeConfig.value = val;
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 const reData = (data: Workflow.NodeModelType, addData: Workflow.NodeModelType) => {
