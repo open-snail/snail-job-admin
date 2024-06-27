@@ -19,7 +19,8 @@ const node = ref<Workflow.NodeDataType>({
   workflowStatus: 1,
   blockStrategy: 1,
   description: undefined,
-  executorTimeout: 60
+  executorTimeout: 60,
+  wfContext: '{"init":""}'
 });
 
 const save = async () => {

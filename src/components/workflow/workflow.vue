@@ -119,7 +119,7 @@ const onDragstop = () => {
 <template>
   <div class="workflow">
     <div class="workflow-affix">
-      <NAffix :trigger-top="0">
+      <NAffix :trigger-top="0" class="position-sticky z-2">
         <div class="header">
           <div>
             <NTooltip>
@@ -152,6 +152,7 @@ const onDragstop = () => {
             class="vue-drag"
             :is-draggable="true"
             :is-resizable="false"
+            :z="1"
             @dragging="onDragging"
             @dragstop="onDragstop"
           >

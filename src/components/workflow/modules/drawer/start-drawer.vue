@@ -63,8 +63,11 @@ watch(
     } else {
       title = '请选择组';
     }
+    if (val.wfContext) {
+      form.value.wfContext = JSON.parse(val.wfContext).init;
+    }
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 const formRef = ref<FormInst>();
@@ -78,6 +81,7 @@ const save = () => {
   formRef.value
     ?.validate(errors => {
       if (!errors) {
+        form.value.wfContext = JSON.stringify({ init: form.value.wfContext });
         close();
         emit('save', form.value);
       }
@@ -201,6 +205,9 @@ const rules: Record<RuleKey, FormItemRule> = {
             </NFormItem>
           </NGi>
         </NGrid>
+        <NFormItem path="wfContext" label="工作流上下文">
+          <CodeMirror v-model="form.wfContext" lang="json" placeholder="请输入工作流上下文" />
+        </NFormItem>
         <NFormItem path="workflowStatus" label="节点状态">
           <NRadioGroup v-model:value="form.workflowStatus">
             <NSpace>

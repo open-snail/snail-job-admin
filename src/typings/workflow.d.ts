@@ -15,6 +15,8 @@ declare namespace Workflow {
     blockStrategy?: Api.Common.BlockStrategy;
     /** 执行超时时间 */
     executorTimeout?: number;
+    /** 方法参数 */
+    wfContext?: string;
     /** 工作流状态 */
     workflowStatus?: Api.Common.WorkFlowNodeStatus;
     /** 描述 */
