@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
-import JobTaskListTable from './job-task-list-table.vue';
 
 defineOptions({
   name: 'JobBatchDetailDrawer'

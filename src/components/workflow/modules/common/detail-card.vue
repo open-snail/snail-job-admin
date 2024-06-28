@@ -1,16 +1,14 @@
 <script setup lang="tsx">
 import { nextTick, ref, useSlots, watch } from 'vue';
-import type { DataTableColumn } from 'naive-ui';
-import { NButton, NCode, NPopover, NTag } from 'naive-ui';
+import { NButton, NTag } from 'naive-ui';
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
-import { isNotNull, parseArgsJson, translateOptions } from '@/utils/common';
+import { isNotNull, translateOptions } from '@/utils/common';
 import {
   jobExecutorEnum,
   jobOperationReasonEnum,
   jobStatusEnum,
   taskBatchStatusEnum,
-  taskBatchStatusRecord,
   taskStatusRecordOptions
 } from '@/constants/business';
 import { useWorkflowStore } from '@/store/modules/workflow';
@@ -162,125 +160,6 @@ const isRetry = (taskBatchStatus: number) => {
   return taskBatchStatus === 4 || taskBatchStatus === 5 || taskBatchStatus === 6;
 };
 
-type ThemeColor = 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning';
-
-const columns = ref<DataTableColumn<Workflow.JobBatchType>[]>([
-  {
-    key: 'index',
-    title: '日志',
-    align: 'center',
-    width: 64,
-    render: row => {
-      return (
-        <NButton type="primary" text onClick={() => getLogRows(row)}>
-          <span class="w-28px ws-break-spaces">{`查看\n日志`}</span>
-        </NButton>
-      );
-    }
-  },
-  {
-    key: 'id',
-    title: $t('page.jobBatch.jobTask.id'),
-    align: 'left',
-    titleAlign: 'center',
-    minWidth: 64
-  },
-  {
-    key: 'groupName',
-    title: $t('page.jobBatch.jobTask.groupName'),
-    align: 'left',
-    titleAlign: 'center',
-    minWidth: 180
-  },
-  {
-    key: 'taskStatus',
-    title: $t('page.jobBatch.jobTask.taskStatus'),
-    align: 'left',
-    titleAlign: 'center',
-    minWidth: 80,
-    render: row => {
-      if (row.taskStatus === null) {
-        return undefined;
-      }
-      const label = $t(taskBatchStatusRecord[row.taskStatus!]);
-      const tagMap: Record<number, ThemeColor> = {
-        1: 'info',
-        2: 'info',
-        3: 'info',
-        4: 'error',
-        5: 'error',
-        6: 'error'
-      };
-      return <NTag type={tagMap[row.taskStatus!]}>{label}</NTag>;
-    }
-  },
-  {
-    key: 'clientInfo',
-    title: $t('page.jobBatch.jobTask.clientInfo'),
-    align: 'left',
-    titleAlign: 'center',
-    minWidth: 150,
-    render: row => {
-      if (row.clientInfo) {
-        const parts = row.clientInfo?.split('@');
-        const result = parts.length > 1 ? parts[1] : '';
-        return <div>{result}</div>;
-      }
-      return <div>{row.clientInfo}</div>;
-    }
-  },
-  {
-    key: 'argsStr',
-    title: $t('page.jobBatch.jobTask.argsStr'),
-    align: 'center',
-    titleAlign: 'center',
-    minWidth: 120,
-    render: row => {
-      return (
-        <NPopover trigger="click">
-          {{
-            trigger: () => (
-              <NButton type="primary" text>
-                <span class="w-28px ws-break-spaces">{`查看\n参数`}</span>
-              </NButton>
-            ),
-            default: () => (
-              <NCode
-                class="max-h-300px overflow-auto"
-                hljs={hljs}
-                code={parseArgsJson(row.argsStr!)}
-                language="json"
-                show-line-numbers
-              />
-            )
-          }}
-        </NPopover>
-      );
-    }
-  },
-  {
-    key: 'resultMessage',
-    title: $t('page.jobBatch.jobTask.resultMessage'),
-    align: 'left',
-    titleAlign: 'center',
-    minWidth: 120
-  },
-  {
-    key: 'retryCount',
-    title: $t('page.jobBatch.jobTask.retryCount'),
-    align: 'left',
-    titleAlign: 'center',
-    minWidth: 64
-  },
-  {
-    key: 'createDt',
-    title: $t('page.jobBatch.jobTask.createDt'),
-    align: 'left',
-    titleAlign: 'center',
-    minWidth: 120
-  }
-]);
-
 function getTagColor(color: string) {
   return {
     color: `${color}18`,
@@ -392,16 +271,7 @@ const onUpdatePage = (page: number) => {
                     重试
                   </NButton>
                 </template>
-                <NDataTable
-                  :columns="columns"
-                  :data="dataSource"
-                  :loading="loading"
-                  :scroll="{ x: 1200 }"
-                  remote
-                  :row-key="row => row.id"
-                  :pagination="pagination"
-                  class="pt-16px sm:h-full"
-                />
+                <JobTaskListTable class="mt-16px" :row-data="jobData as Api.JobBatch.JobBatch" @show-log="getLogRows" />
               </NCard>
             </NTabPane>
           </NTabs>

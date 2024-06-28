@@ -200,9 +200,11 @@ const isShow = (taskBatchStatus: number) => {
                   </span>
                 </NButton>
                 <NDivider v-if="isStop(item.taskBatchStatus!) && isRetry(item.taskBatchStatus!)" vertical />
-                <NButton v-if="isStop(item.taskBatchStatus!)" text class="popover-item" @click="stop(item!)">
-                  <icon-ant-design:stop-outlined />
-                  <span>{{ $t('common.stop') }}</span>
+                <NButton v-if="isStop(item.taskBatchStatus!)" text @click="stop(item!)">
+                  <span class="popover-item">
+                    <icon-ant-design:stop-outlined />
+                    {{ $t('common.stop') }}
+                  </span>
                 </NButton>
               </div>
               <template #trigger>

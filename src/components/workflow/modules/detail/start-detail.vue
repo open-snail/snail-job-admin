@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { $t } from '@/locales';
 import { blockStrategyRecord, triggerTypeRecord, workFlowNodeStatusRecord } from '@/constants/business';
 
@@ -36,6 +36,14 @@ watch(
 const onClose = () => {
   emit('update:open', false);
 };
+
+const wfContext = computed(() => {
+  try {
+    return JSON.parse(props.modelValue?.wfContext || '{}').init;
+  } catch {
+    return props.modelValue.wfContext;
+  }
+});
 </script>
 
 <template>
@@ -52,6 +60,7 @@ const onClose = () => {
 
         <NDescriptionsItem label="执行超时时间">{{ modelValue.executorTimeout }} 秒</NDescriptionsItem>
         <NDescriptionsItem label="阻塞策略">{{ $t(blockStrategyRecord[modelValue.blockStrategy!]) }}</NDescriptionsItem>
+        <NDescriptionsItem label="工作流上下文">{{ wfContext }}</NDescriptionsItem>
         <NDescriptionsItem label="工作流状态">
           {{ $t(workFlowNodeStatusRecord[modelValue.workflowStatus!]) }}
         </NDescriptionsItem>

@@ -31,7 +31,7 @@ const emit = defineEmits<Emits>();
 
 const expandedRowKeys = ref<DataTableRowKey[]>([]);
 
-const { columns, data, loading, mobilePagination } = useTable({
+const { columns, columnChecks, data, loading, mobilePagination } = useTable({
   apiFn: fetchGetJobTaskList,
   apiParams: {
     page: 1,
@@ -187,6 +187,18 @@ const onExpandedRowKeys = (keys: DataTableRowKey[]) => {
 const onUpdatePage = (_: number) => {
   expandedRowKeys.value = [];
 };
+
+const init = () => {
+  columnChecks.value = columnChecks.value.filter(column => {
+    if (!['4', '5'].includes(String(props.rowData?.taskType) || '-1')) {
+      return column.key !== 'taskName';
+    }
+
+    return true;
+  });
+};
+
+init();
 </script>
 
 <template>
