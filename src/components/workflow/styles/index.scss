@@ -1,5 +1,9 @@
 .workflow-design {
   width: 100%;
+
+  .content {
+    color: #000;
+  }
 }
 
 .workflow-design .box-scale {
@@ -348,19 +352,19 @@
   .top-left-cover-line,
   .top-right-cover-line {
     position: absolute;
-    height: 5px;
+    height: 13px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    top: -3px;
+    top: -7px;
   }
 
   .bottom-left-cover-line,
   .bottom-right-cover-line {
     position: absolute;
-    height: 5px;
+    height: 13px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    bottom: -3px;
+    bottom: -7px;
   }
 
   .top-left-cover-line {
