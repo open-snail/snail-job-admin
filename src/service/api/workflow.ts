@@ -1,3 +1,4 @@
+import { parseContent } from '@/utils/common';
 import { request } from '../request';
 
 /** get workflow page list */
@@ -67,7 +68,10 @@ export function fetchCheckNodeExpression(expression: Workflow.BrachNodeType) {
   return request<{ key: number; value: string }>({
     url: '/workflow/check-node-expression',
     method: 'post',
-    data: expression
+    data: {
+      ...expression,
+      checkContent: JSON.stringify(parseContent(expression.checkContent))
+    }
   });
 }
 

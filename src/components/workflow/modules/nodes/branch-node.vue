@@ -44,7 +44,7 @@ watch(
 const addTerm = () => {
   const len = nodeConfig.value.conditionNodes!.length;
   nodeConfig.value.conditionNodes!.splice(-1, 0, {
-    nodeName: `${$t('workflow.node.condition.nodeName')} ${len}`,
+    nodeName: `${$t('workflow.node.condition.conditionNodes.nodeName')} ${len}`,
     priorityLevel: len,
     decision: {
       expressionType: 1,

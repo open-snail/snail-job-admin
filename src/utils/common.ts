@@ -160,3 +160,22 @@ export function parseArgsJson(value: string) {
 
   return argsJson;
 }
+
+export function parseContent(value?: { key: string; value: string | number | boolean; type: string }[]) {
+  if (!value) return undefined;
+  return value.reduce<{ [key: string]: string | number | boolean }>((obj, item) => {
+    if (item.type === 'string') {
+      obj[item.key] = String(item.value);
+    }
+
+    if (item.type === 'boolean') {
+      obj[item.key] = item.value === 0;
+    }
+
+    if (item.type === 'number') {
+      obj[item.key] = Number(item.value);
+    }
+
+    return obj;
+  }, {});
+}

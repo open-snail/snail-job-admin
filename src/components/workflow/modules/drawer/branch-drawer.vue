@@ -35,7 +35,8 @@ const drawer = ref<boolean>(false);
 const form = ref<Workflow.ConditionNodeType>({
   decision: {
     logicalCondition: 1,
-    expressionType: 1
+    expressionType: 1,
+    checkContent: []
   }
 });
 
@@ -93,6 +94,8 @@ const checkNodeExpression = async () => {
     if (data.key !== 1) {
       return Promise.reject(data.value ?? '请检查条件表达式');
     }
+  } else {
+    return Promise.reject(new Error('接口请求失败'));
   }
   return Promise.resolve();
 };
@@ -152,6 +155,9 @@ const rules: FormRules = {
             :lang="javascript()"
             :extensions="[oneDark]"
           />
+        </NFormItem>
+        <NFormItem path="decision.checkContent" label="模拟上下文">
+          <DynamicInput v-model:value="form.decision!.checkContent!" path="decision.checkContent" />
         </NFormItem>
       </NForm>
 
