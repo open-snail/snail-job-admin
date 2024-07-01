@@ -352,19 +352,19 @@
   .top-left-cover-line,
   .top-right-cover-line {
     position: absolute;
-    height: 13px;
+    height: 5px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    top: -7px;
+    top: -3px;
   }
 
   .bottom-left-cover-line,
   .bottom-right-cover-line {
     position: absolute;
-    height: 13px;
+    height: 5px;
     width: 50%;
     background-color: rgb(var(--layout-bg-color) / var(--un-bg-opacity));
-    bottom: -7px;
+    bottom: -2px;
   }
 
   .top-left-cover-line {
