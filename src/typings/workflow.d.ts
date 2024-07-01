@@ -86,7 +86,8 @@ declare namespace Workflow {
     /** 条件节点表达式 */
     nodeExpression?: string;
     /** 模拟上下文 */
-    checkContent?: { key: string; value: string | number | boolean; type: string }[];
+    checkContent?: string;
+    checkContents?: { key: string; value: string | number | boolean; type: string }[];
     /** 表达式类型 */
     expressionType?: Api.Common.Expression;
     /** 判定逻辑 */

@@ -206,6 +206,11 @@ const getClass = (item: Workflow.ConditionNodeType) => {
                   <span class="node-title">
                     <NBadge dot processing color="#52c41a" />
                     &nbsp;{{ item.nodeName }}
+                    <span
+                      v-if="item.id && item.nodeName !== $t('workflow.node.condition.conditionNodes.otherNodeName')"
+                    >
+                      &nbsp;({{ item.id }})
+                    </span>
                     <NTooltip v-if="item.nodeName === $t('workflow.node.condition.conditionNodes.otherNodeName')">
                       <template #trigger>
                         <icon-ant-design:info-circle-outlined class="ml-3px text-16px" />

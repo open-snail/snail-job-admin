@@ -70,7 +70,7 @@ export function fetchCheckNodeExpression(expression: Workflow.BrachNodeType) {
     method: 'post',
     data: {
       ...expression,
-      checkContent: JSON.stringify(parseContent(expression.checkContent))
+      checkContent: JSON.stringify(parseContent(expression.checkContents))
     }
   });
 }

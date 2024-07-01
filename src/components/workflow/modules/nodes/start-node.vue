@@ -83,7 +83,11 @@ const show = () => {
       <div class="title">
         <span class="text">
           <NBadge dot :color="nodeData.workflowStatus === 1 ? '#52c41a' : '#ff000d'" />
-          <span class="text-#ff943e">&nbsp;{{ nodeData.workflowName ? nodeData.workflowName : '请选择组' }}</span>
+          <span class="text-#ff943e">
+            &nbsp;{{
+              nodeData.workflowName ? `${nodeData.workflowName} ${nodeData.id ? ` (${nodeData.id})` : ''}` : '请选择组'
+            }}
+          </span>
         </span>
       </div>
       <div v-if="nodeData.groupName" class="content">

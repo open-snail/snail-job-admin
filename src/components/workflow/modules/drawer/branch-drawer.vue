@@ -36,7 +36,7 @@ const form = ref<Workflow.ConditionNodeType>({
   decision: {
     logicalCondition: 1,
     expressionType: 1,
-    checkContent: []
+    checkContents: []
   }
 });
 
@@ -156,8 +156,8 @@ const rules: FormRules = {
             :extensions="[oneDark]"
           />
         </NFormItem>
-        <NFormItem path="decision.checkContent" label="模拟上下文">
-          <DynamicInput v-model:value="form.decision!.checkContent!" path="decision.checkContent" />
+        <NFormItem path="decision.checkContents" label="模拟上下文">
+          <DynamicInput v-model:value="form.decision!.checkContents!" path="decision.checkContents" />
         </NFormItem>
       </NForm>
 

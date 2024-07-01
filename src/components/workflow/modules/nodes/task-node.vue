@@ -216,6 +216,7 @@ const isShow = (taskBatchStatus: number) => {
                     <span class="text color-#3296fa">
                       <NBadge processing dot :color="item.workflowNodeStatus === 1 ? '#52c41a' : '#ff4d4f'" />
                       &nbsp;{{ item.nodeName }}
+                      <span v-if="item.id">&nbsp;({{ item.id }})</span>
                     </span>
                     <span class="priority-title">{{ $t('workflow.node.priority') }}{{ item.priorityLevel }}</span>
                     <icon-ant-design:close-outlined v-if="!disabled" class="close" @click.stop="delTerm(i)" />
