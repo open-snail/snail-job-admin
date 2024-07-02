@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import type { FormInst, FormRules } from 'naive-ui';
-import CodeMirror from 'vue-codemirror6';
-import { oneDark } from '@codemirror/theme-one-dark';
-import { javascript } from '@codemirror/lang-javascript';
 import EditableInput from '@/components/common/editable-input.vue';
 import { fetchCheckNodeExpression } from '@/service/api';
 import { expressionOptions } from '@/constants/business';
@@ -36,18 +33,8 @@ const form = ref<Workflow.ConditionNodeType>({
   decision: {
     logicalCondition: 1,
     expressionType: 1,
+    nodeExpression: '',
     checkContents: []
-  }
-});
-
-const theme = ref({
-  '.cm-line': {
-    fontSize: '18px'
-  },
-  '.cm-scroller': {
-    height: '500px',
-    overflowY: 'auto',
-    overflowX: 'hidden'
   }
 });
 
@@ -147,14 +134,7 @@ const rules: FormRules = {
           </NRadioGroup>
         </NFormItem>
         <NFormItem path="decision.nodeExpression" label="条件表达式">
-          <CodeMirror
-            v-model="form.decision!.nodeExpression"
-            class="sj-code-mirror"
-            :theme="theme"
-            basic
-            :lang="javascript()"
-            :extensions="[oneDark]"
-          />
+          <CodeMirror v-model="form.decision!.nodeExpression" placeholder="请输入条件表达式" />
         </NFormItem>
         <NFormItem path="decision.checkContents" label="模拟上下文">
           <DynamicInput v-model:value="form.decision!.checkContents!" path="decision.checkContents" />

@@ -11,7 +11,7 @@ defineOptions({
 });
 
 interface Props {
-  modelValue: string;
+  modelValue?: string;
   lang?: NaiveUI.CodeMirrorLang;
   height?: string;
   fontSize?: string;
@@ -25,7 +25,8 @@ const props = withDefaults(defineProps<Props>(), {
   readonly: false,
   disabled: false,
   height: 'auto',
-  fontSize: '13px'
+  fontSize: '13px',
+  modelValue: ''
 });
 
 interface Emits {

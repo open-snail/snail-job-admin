@@ -51,6 +51,20 @@ const boolenOptions = [
     value: 1
   }
 ];
+
+const handleUpdateType = (index: number) => {
+  if (content.value[index].type === 'string') {
+    content.value[index].value = '';
+  }
+
+  if (content.value[index].type === 'boolean') {
+    content.value[index].value = 1;
+  }
+
+  if (content.value[index].type === 'number') {
+    content.value[index].value = 0;
+  }
+};
 </script>
 
 <template>
@@ -86,7 +100,7 @@ const boolenOptions = [
           @keydown.enter.prevent
         />
         <NSelect
-          v-if="content[index].type === 'boolen'"
+          v-if="content[index].type === 'boolean'"
           v-model:value="content[index].value as number"
           :options="boolenOptions"
           placeholder="value"
@@ -106,6 +120,7 @@ const boolenOptions = [
           :options="typeOptions"
           placeholder="字段类型"
           @keydown.enter.prevent
+          @update:value="handleUpdateType(index)"
         />
       </NFormItem>
       <div class="ml-3px h-34px lh-34px">)</div>

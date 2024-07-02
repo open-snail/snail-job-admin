@@ -11,7 +11,6 @@ defineOptions({
 
 interface Props {
   title?: string;
-  show?: boolean;
   drawer?: boolean;
   type?: 'job' | 'retry';
   taskData?: Api.Job.JobTask | Api.RetryLog.RetryLog | Api.RetryTask.RetryTask;
@@ -20,20 +19,14 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   title: undefined,
-  show: false,
   drawer: true,
   type: 'job',
   taskData: undefined,
   modelValue: () => []
 });
 
-interface Emits {
-  (e: 'update:show', show: boolean): void;
-}
-
-const emit = defineEmits<Emits>();
-const visible = defineModel<boolean>('visible', {
-  default: true
+const visible = defineModel<boolean>('show', {
+  default: false
 });
 
 const syncTime = ref(1);
@@ -103,9 +96,8 @@ onBeforeUnmount(() => {
 });
 
 watch(
-  () => props.show,
+  () => visible.value,
   async val => {
-    visible.value = val;
     if (val) {
       if (props.modelValue) {
         logList.value = props.modelValue;
@@ -124,10 +116,6 @@ watch(
   },
   { immediate: true }
 );
-
-const onUpdateShow = (value: boolean) => {
-  emit('update:show', value);
-};
 
 function timestampToDate(timestamp: string): string {
   const date = new Date(Number.parseInt(timestamp?.toString(), 10));
@@ -264,7 +252,7 @@ const SnailLogComponent = defineComponent({
 </script>
 
 <template>
-  <NDrawer v-if="drawer" v-model:show="visible" width="100%" display-directive="if" @update:show="onUpdateShow">
+  <NDrawer v-if="drawer" v-model:show="visible" width="100%" display-directive="if">
     <NDrawerContent closable>
       <template #header>
         <div class="flex-center">

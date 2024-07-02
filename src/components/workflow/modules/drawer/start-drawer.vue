@@ -9,7 +9,7 @@ import {
 } from '@/constants/business';
 import { $t } from '@/locales';
 import { fetchGetAllGroupNameList } from '@/service/api';
-import { isNotNull } from '@/utils/common';
+import { isNotNull, parseContent, stringToContent } from '@/utils/common';
 import { useWorkflowStore } from '@/store/modules/workflow';
 import EditableInput from '@/components/common/editable-input.vue';
 
@@ -24,7 +24,9 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   open: false,
-  modelValue: () => ({})
+  modelValue: () => ({
+    wfContexts: []
+  })
 });
 
 interface Emits {
@@ -38,7 +40,9 @@ const store = useWorkflowStore();
 
 let title: string = '';
 const drawer = ref<boolean>(false);
-const form = ref<Workflow.NodeDataType>({});
+const form = ref<Workflow.NodeDataType>({
+  wfContexts: []
+});
 const groupNameList = ref<string[]>([]);
 
 watch(
@@ -64,7 +68,8 @@ watch(
       title = '请选择组';
     }
     if (val.wfContext) {
-      form.value.wfContext = JSON.parse(val.wfContext).init;
+      form.value.wfContext = JSON.parse(val.wfContext);
+      form.value.wfContexts = stringToContent(val.wfContext);
     }
   },
   { immediate: true }
@@ -81,7 +86,7 @@ const save = () => {
   formRef.value
     ?.validate(errors => {
       if (!errors) {
-        form.value.wfContext = JSON.stringify({ init: form.value.wfContext });
+        form.value.wfContext = JSON.stringify(parseContent(form.value.wfContexts) || {});
         close();
         emit('save', form.value);
       }
@@ -206,7 +211,7 @@ const rules: Record<RuleKey, FormItemRule> = {
           </NGi>
         </NGrid>
         <NFormItem path="wfContext" label="工作流上下文">
-          <CodeMirror v-model="form.wfContext" lang="json" placeholder="请输入工作流上下文" />
+          <DynamicInput v-model:value="form.wfContexts!" path="wfContexts" />
         </NFormItem>
         <NFormItem path="workflowStatus" label="节点状态">
           <NRadioGroup v-model:value="form.workflowStatus">

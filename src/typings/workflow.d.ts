@@ -17,6 +17,7 @@ declare namespace Workflow {
     executorTimeout?: number;
     /** 方法参数 */
     wfContext?: string;
+    wfContexts?: { key: string; value: string | number | boolean; type: string }[];
     /** 工作流状态 */
     workflowStatus?: Api.Common.WorkFlowNodeStatus;
     /** 描述 */
