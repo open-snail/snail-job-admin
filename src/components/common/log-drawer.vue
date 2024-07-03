@@ -165,8 +165,6 @@ function openNewTab() {
 }
 
 const handleSyncSelect = async (time: number) => {
-  syncTime.value = time;
-
   if (time === -1) {
     if (finished.value) {
       finished.value = false;
@@ -174,6 +172,8 @@ const handleSyncSelect = async (time: number) => {
     }
     return;
   }
+
+  syncTime.value = time;
 
   if (time === 0) {
     pauseLog();
