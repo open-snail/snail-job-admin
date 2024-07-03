@@ -33,30 +33,43 @@ const syncTime = ref(1);
 const logList = ref<Api.JobLog.JobMessage[]>([]);
 const interval = ref<NodeJS.Timeout>();
 const controller = new AbortController();
-const finished = ref<boolean>(false);
+const finished = ref<boolean>(true);
 let startId = '0';
 let fromIndex: number = 0;
+let axiosController = new AbortController();
 
-const stopLog = () => {
+const pauseLog = () => {
   finished.value = true;
   controller.abort();
   clearTimeout(interval.value);
   interval.value = undefined;
 };
 
+const stopLog = () => {
+  if (!finished.value) axiosController.abort();
+  pauseLog();
+  startId = '0';
+  fromIndex = 0;
+  logList.value = [];
+};
+
 async function getLogList() {
   let logData = null;
   let logError;
+
   if (props.type === 'job') {
     const taskData = props.taskData! as Api.Job.JobTask;
-    const { data, error } = await fetchJobLogList({
-      taskBatchId: taskData.taskBatchId,
-      jobId: taskData.jobId,
-      taskId: taskData.id,
-      startId,
-      fromIndex,
-      size: 50
-    });
+    const { data, error } = await fetchJobLogList(
+      {
+        taskBatchId: taskData.taskBatchId,
+        jobId: taskData.jobId,
+        taskId: taskData.id,
+        startId,
+        fromIndex,
+        size: 50
+      },
+      axiosController
+    );
     logData = data;
     logError = error;
   }
@@ -86,7 +99,7 @@ async function getLogList() {
       clearTimeout(interval.value);
       interval.value = setTimeout(getLogList, syncTime.value * 1000);
     }
-  } else {
+  } else if (logError?.code !== 'ERR_CANCELED') {
     stopLog();
   }
 }
@@ -100,18 +113,18 @@ watch(
   async val => {
     if (val) {
       if (props.modelValue) {
-        logList.value = props.modelValue;
+        logList.value = [...props.modelValue];
       }
     }
 
     if ((val || !props.drawer) && props.type && props.taskData) {
       finished.value = false;
+      axiosController = new AbortController();
       await getLogList();
     }
 
     if (!val && props.drawer) {
       stopLog();
-      logList.value = [];
     }
   },
   { immediate: true }
@@ -163,7 +176,7 @@ const handleSyncSelect = async (time: number) => {
   }
 
   if (time === 0) {
-    stopLog();
+    pauseLog();
     return;
   }
 

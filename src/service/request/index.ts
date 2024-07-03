@@ -135,6 +135,10 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
         return;
       }
 
+      if (error.code === 'ERR_CANCELED') {
+        return;
+      }
+
       showErrorMsg(request.state, message);
     }
   }
