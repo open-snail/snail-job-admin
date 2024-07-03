@@ -2,7 +2,7 @@
 import { nextTick, ref, watch } from 'vue';
 import { $t } from '@/locales';
 import { useWorkflowStore } from '@/store/modules/workflow';
-import { expressionRecord, logicalConditionRecord, taskBatchStatusEnum } from '@/constants/business';
+import { expressionRecord, taskBatchStatusEnum } from '@/constants/business';
 import BranchDrawer from '../drawer/branch-drawer.vue';
 import BranchDetail from '../detail/branch-detail.vue';
 import DetailCard from '../common/detail-card.vue';
@@ -92,12 +92,10 @@ const arrTransfer = (index: number, type: number = 1) => {
 
 const toText = (node: Workflow.NodeModelType, currentIndex: number) => {
   const { nodeName, decision } = node.conditionNodes![currentIndex];
-  const { logicalCondition, expressionType, nodeExpression } = decision!;
+  const { expressionType, nodeExpression } = decision!;
   if (nodeExpression) {
     if (nodeName !== $t('workflow.node.condition.conditionNodes.otherNodeName')) {
-      const text = `<span class="content_label">${$t('workflow.node.condition.conditionNodes.logicalCondition')}: </span>${
-        logicalConditionRecord[logicalCondition!]
-      }\n<span class="content_label">${$t('workflow.node.condition.conditionNodes.expressionType')}: </span>${
+      const text = `<span class="content_label">${$t('workflow.node.condition.conditionNodes.expressionType')}: </span>${
         expressionRecord[expressionType!]
       }\n<span class="content_label">${$t('workflow.node.condition.conditionNodes.nodeExpression')}: </span><span style="display: inline-block; vertical-align: bottom; width: 120px; overflow: hidden; text-overflow: ellipsis">${nodeExpression}<span/>`;
       return text;

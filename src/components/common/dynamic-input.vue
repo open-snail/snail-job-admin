@@ -19,8 +19,8 @@ const onCreate = () => {
 const dynamicInputRule = [
   {
     trigger: ['input', 'blur'],
-    validator(_: unknown, value: string) {
-      if (!value) return new Error('不能为空');
+    validator(_: unknown, value: string | number) {
+      if (!value && value !== 0) return new Error('不能为空');
       return true;
     }
   }
@@ -44,11 +44,11 @@ const typeOptions = [
 const boolenOptions = [
   {
     label: 'true',
-    value: 0
+    value: 1
   },
   {
     label: 'false',
-    value: 1
+    value: 0
   }
 ];
 
@@ -58,7 +58,7 @@ const handleUpdateType = (index: number) => {
   }
 
   if (content.value[index].type === 'boolean') {
-    content.value[index].value = 1;
+    content.value[index].value = 0;
   }
 
   if (content.value[index].type === 'number') {
@@ -69,21 +69,21 @@ const handleUpdateType = (index: number) => {
 
 <template>
   <NDynamicInput v-model:value="content" item-style="margin-bottom: 0;" :on-create="onCreate" #="{ index }">
-    <div class="flex">
-      <NFormItem
+    <NGrid :x-gap="16">
+      <NFormItemGi
+        :span="8"
         ignore-path-change
         :show-label="false"
-        :show-feedback="false"
         :rule="dynamicInputRule"
         :path="`${path}[${index}].key`"
       >
         <NInput v-model:value="content[index].key" placeholder="key" @keydown.enter.prevent />
-      </NFormItem>
-      <div class="mx-8px h-34px lh-34px">=</div>
-      <NFormItem
+      </NFormItemGi>
+      <NGi :span="1" class="h-34px lh-34px">=</NGi>
+      <NFormItemGi
+        :span="8"
         ignore-path-change
         :show-label="false"
-        :show-feedback="false"
         :rule="dynamicInputRule"
         :path="`${path}[${index}].value`"
       >
@@ -96,35 +96,32 @@ const handleUpdateType = (index: number) => {
         <NInputNumber
           v-if="content[index].type === 'number'"
           v-model:value="content[index].value as number"
+          class="w-full"
           placeholder="value"
           @keydown.enter.prevent
         />
         <NSelect
           v-if="content[index].type === 'boolean'"
           v-model:value="content[index].value as number"
+          class="w-full"
           :options="boolenOptions"
           placeholder="value"
           @keydown.enter.prevent
         />
-      </NFormItem>
-      <div class="mx-3px h-34px lh-34px">(</div>
-      <NFormItem
-        class="w-170px"
-        ignore-path-change
-        :show-label="false"
-        :show-feedback="false"
-        :path="`${path}[${index}].type`"
-      >
+      </NFormItemGi>
+      <NFormItemGi :span="3" class="w-130px" ignore-path-change :show-label="false" :path="`${path}[${index}].type`">
+        <div :span="1" class="h-34px lh-34px">(</div>
         <NSelect
           v-model:value="content[index].type"
+          class="mx-3px"
           :options="typeOptions"
           placeholder="字段类型"
           @keydown.enter.prevent
           @update:value="handleUpdateType(index)"
         />
-      </NFormItem>
-      <div class="ml-3px h-34px lh-34px">)</div>
-    </div>
+        <div :span="1" class="h-34px lh-34px">)</div>
+      </NFormItemGi>
+    </NGrid>
   </NDynamicInput>
 </template>
 

@@ -89,7 +89,6 @@ const checkNodeExpression = async () => {
 
 const rules: FormRules = {
   decision: {
-    logicalCondition: [{ required: true, message: '请选择判定逻辑', trigger: 'change', type: 'number' }],
     expressionType: [{ required: true, message: '请选择表达式类型', trigger: 'change', type: 'number' }],
     nodeExpression: [{ required: true, validator: checkNodeExpression, trigger: 'blur' }]
   }

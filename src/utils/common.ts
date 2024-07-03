@@ -169,7 +169,7 @@ export function parseContent(value?: { key: string; value: string | number | boo
     }
 
     if (item.type === 'boolean') {
-      obj[item.key] = item.value === 0;
+      obj[item.key] = item.value === 1;
     }
 
     if (item.type === 'number') {

@@ -3,7 +3,7 @@ import { nextTick, onMounted, ref } from 'vue';
 import CodeMirror from 'vue-codemirror6';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { javascript } from '@codemirror/lang-javascript';
-import { expressionRecord, logicalConditionRecord } from '@/constants/business';
+import { expressionRecord } from '@/constants/business';
 
 defineOptions({
   name: 'BranchDesc'
@@ -66,9 +66,6 @@ onMounted(() => {
 <template>
   <NDescriptions id="branch-desc" :column="2" label-placement="left" bordered :label-style="{ width: '120px' }">
     <NDescriptionsItem label="节点名称" :span="2">{{ modelValue.nodeName }}</NDescriptionsItem>
-    <NDescriptionsItem label="判定逻辑">
-      {{ logicalConditionRecord[modelValue.decision?.logicalCondition!] }}
-    </NDescriptionsItem>
     <NDescriptionsItem label="表达式类型">
       {{ expressionRecord[modelValue.decision?.expressionType!] }}
     </NDescriptionsItem>
