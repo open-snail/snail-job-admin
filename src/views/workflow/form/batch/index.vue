@@ -82,8 +82,8 @@ const syncOptions = ref([
     key: 0
   },
   {
-    label: 'Auto(1s)',
-    key: 1
+    label: 'Auto(3s)',
+    key: 3
   },
   {
     label: '5s',
@@ -109,7 +109,7 @@ const syncOptions = ref([
 </script>
 
 <template>
-  <Workflow v-model="node" :spinning="spinning" disabled>
+  <Workflow v-model="node" :spinning="false" disabled>
     <template #buttons>
       <div class="flex-center">
         <NDropdown trigger="hover" width="trigger" :options="syncOptions" @select="handleSyncSelect">
