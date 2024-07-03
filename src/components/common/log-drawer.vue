@@ -86,14 +86,14 @@ async function getLogList() {
   }
 
   if (!logError && logData) {
-    finished.value = logData.finished;
+    finished.value = logData.finished || syncTime.value === 0;
     startId = logData.nextStartId;
     fromIndex = logData.fromIndex;
     if (logData.message) {
       logList.value.push(...logData.message);
       logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
     }
-    if (!finished.value) {
+    if (!finished.value && syncTime.value !== 0) {
       clearTimeout(interval.value);
       interval.value = setTimeout(getLogList, syncTime.value * 1000);
     }
@@ -165,6 +165,8 @@ function openNewTab() {
 }
 
 const handleSyncSelect = async (time: number) => {
+  syncTime.value = time;
+
   if (time === -1) {
     if (finished.value) {
       finished.value = false;
@@ -178,7 +180,6 @@ const handleSyncSelect = async (time: number) => {
     return;
   }
 
-  syncTime.value = time;
   finished.value = false;
   await getLogList();
 };

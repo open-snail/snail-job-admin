@@ -35,7 +35,7 @@ const getBatchDetail = async () => {
   const { data, error } = await fetchWorkflowBatchInfo(id);
   if (!error) {
     node.value = data;
-    finished.value = !(data.workflowBatchStatus && [1, 2].includes(data.workflowBatchStatus));
+    finished.value = !(data.workflowBatchStatus && [1, 2].includes(data.workflowBatchStatus)) || syncTime.value === 0;
     if (!finished.value && syncTime.value !== 0) {
       clearTimeout(interval.value);
       interval.value = setTimeout(getBatchDetail, syncTime.value * 1000);
@@ -47,6 +47,8 @@ const getBatchDetail = async () => {
 };
 
 const handleSyncSelect = async (time: number) => {
+  syncTime.value = time;
+
   if (time === -1) {
     if (finished.value) {
       finished.value = false;
@@ -60,7 +62,6 @@ const handleSyncSelect = async (time: number) => {
     return;
   }
 
-  syncTime.value = time;
   finished.value = false;
   await getBatchDetail();
 };
@@ -115,7 +116,7 @@ const syncOptions = ref([
         <NDropdown trigger="hover" width="trigger" :options="syncOptions" @select="handleSyncSelect">
           <NTooltip placement="left">
             <template #trigger>
-              <NButton dashed class="mr-16px w-136px" @click="handleSyncSelect(-1)">
+              <NButton dashed class="w-136px" :class="finished ? 'mr-16px' : 'mr-42px'" @click="handleSyncSelect(-1)">
                 <template #icon>
                   <div class="flex-center gap-8px">
                     <icon-solar:refresh-outline class="text-18px" />
@@ -130,7 +131,7 @@ const syncOptions = ref([
         </NDropdown>
         <NTooltip v-if="finished" placement="top">
           <template #trigger>
-            <icon-material-symbols:check-circle class="text-20px color-success" />
+            <icon-material-symbols:check-circle class="text-26px color-success" />
           </template>
           流程批次加载完成
         </NTooltip>
@@ -149,4 +150,9 @@ const syncOptions = ref([
   </Workflow>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.n-spin-body) {
+  right: 0 !important;
+  left: unset !important;
+}
+</style>
