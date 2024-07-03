@@ -36,7 +36,7 @@ const getBatchDetail = async () => {
   if (!error) {
     node.value = data;
     finished.value = !(data.workflowBatchStatus && [1, 2].includes(data.workflowBatchStatus));
-    if (!finished.value) {
+    if (!finished.value && syncTime.value !== 0) {
       clearTimeout(interval.value);
       interval.value = setTimeout(getBatchDetail, syncTime.value * 1000);
     }
@@ -78,12 +78,12 @@ onBeforeUnmount(() => {
 
 const syncOptions = ref([
   {
-    label: 'Off',
+    label: 'Auto(off)',
     key: 0
   },
   {
-    label: 'Auto(3s)',
-    key: 3
+    label: '1s',
+    key: 1
   },
   {
     label: '5s',
