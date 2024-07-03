@@ -32,21 +32,19 @@ const visible = defineModel<boolean>('show', {
 const syncTime = ref(1);
 const logList = ref<Api.JobLog.JobMessage[]>([]);
 const interval = ref<NodeJS.Timeout>();
-const controller = new AbortController();
+let controller = new AbortController();
 const finished = ref<boolean>(true);
 let startId = '0';
 let fromIndex: number = 0;
-let axiosController = new AbortController();
 
 const pauseLog = () => {
   finished.value = true;
-  controller.abort();
   clearTimeout(interval.value);
   interval.value = undefined;
 };
 
 const stopLog = () => {
-  if (!finished.value) axiosController.abort();
+  if (!finished.value) controller.abort();
   pauseLog();
   startId = '0';
   fromIndex = 0;
@@ -68,7 +66,7 @@ async function getLogList() {
         fromIndex,
         size: 50
       },
-      axiosController
+      controller
     );
     logData = data;
     logError = error;
@@ -119,7 +117,7 @@ watch(
 
     if ((val || !props.drawer) && props.type && props.taskData) {
       finished.value = false;
-      axiosController = new AbortController();
+      controller = new AbortController();
       await getLogList();
     }
 
@@ -265,7 +263,7 @@ const SnailLogComponent = defineComponent({
 </script>
 
 <template>
-  <NDrawer v-if="drawer" v-model:show="visible" width="100%" display-directive="if">
+  <NDrawer v-if="drawer" v-model:show="visible" width="100%" display-directive="if" :auto-focus="false">
     <NDrawerContent closable>
       <template #header>
         <div class="flex-center">
@@ -287,10 +285,10 @@ const SnailLogComponent = defineComponent({
           </NTooltip>
           <span class="ml-6px">{{ title }}</span>
           <ButtonIcon icon="hugeicons:share-01" tooltip-content="在新标签页打开" class="ml-6px" @click="openNewTab" />
-          <NDropdown trigger="hover" :options="syncOptions" @select="handleSyncSelect">
+          <NDropdown trigger="hover" :options="syncOptions" width="trigger" @select="handleSyncSelect">
             <NTooltip placement="right">
               <template #trigger>
-                <NButton quaternary class="ml-3px w-136px" @click="handleSyncSelect(-1)">
+                <NButton dashed class="ml-3px w-136px" @click="handleSyncSelect(-1)">
                   <template #icon>
                     <div class="flex-center gap-8px">
                       <icon-solar:refresh-outline class="text-18px" />
@@ -311,10 +309,10 @@ const SnailLogComponent = defineComponent({
   <NCard v-else :bordered="false" :title="title" size="small" class="h-full sm:flex-1-hidden card-wrapper">
     <template #header-extra>
       <div class="flex items-center">
-        <NDropdown trigger="hover" :options="syncOptions" @select="handleSyncSelect">
+        <NDropdown trigger="hover" :options="syncOptions" width="trigger" @select="handleSyncSelect">
           <NTooltip placement="right">
             <template #trigger>
-              <NButton quaternary class="ml-3px w-136px" @click="handleSyncSelect(-1)">
+              <NButton dashed class="ml-3px w-136px" @click="handleSyncSelect(-1)">
                 <template #icon>
                   <div class="flex-center gap-8px">
                     <icon-solar:refresh-outline class="text-18px" />

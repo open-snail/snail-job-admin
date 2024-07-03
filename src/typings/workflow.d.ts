@@ -20,6 +20,8 @@ declare namespace Workflow {
     wfContexts?: { key: string; value: string | number | boolean; type: string }[];
     /** 工作流状态 */
     workflowStatus?: Api.Common.WorkFlowNodeStatus;
+    /** 工作流批次状态 */
+    workflowBatchStatus?: Api.Common.TaskBatchStatus;
     /** 描述 */
     description?: string;
     /** 流程配置 */

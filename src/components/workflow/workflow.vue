@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, useSlots, watch } from 'vue';
 import VueDragResize from 'vue-drag-resize/src';
 import { $t } from '@/locales';
 import NodeWrap from './modules/nodes/node-wrap.vue';
@@ -28,6 +28,8 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>();
+
+const slots = useSlots();
 
 const zoom = ref<number>(100);
 const nodeData = ref<Workflow.NodeDataType>({});
@@ -143,6 +145,9 @@ const onDragstop = () => {
           <div v-if="!disabled" class="buttons">
             <NButton type="info" @click="save">保存</NButton>
             <NButton class="ml-16px" @click="cancel">取消</NButton>
+          </div>
+          <div v-if="disabled && slots.buttons" class="buttons">
+            <slot name="buttons"></slot>
           </div>
         </div>
       </NAffix>
