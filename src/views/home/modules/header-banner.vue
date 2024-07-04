@@ -53,7 +53,7 @@ const href = (url: string) => {
           </div>
         </div>
       </NGi>
-      <NGi class="flex-center" span="24 s:24 m:6">
+      <NGi class="flex-center" span="24 s:12 m:6">
         <div class="float-right max-w-250px w-full flex flex-col-reverse">
           <div class="order-9999 m-6px max-w-240px text-13px color-gray">
             <span>官号</span>
@@ -75,7 +75,7 @@ const href = (url: string) => {
           </NButton>
         </div>
       </NGi>
-      <NGi class="flex-center" span="24 s:24 m:6">
+      <NGi class="flex-center" span="24 s:12 m:6">
         <div class="float-right max-w-250px w-full flex flex-col-reverse">
           <div class="order-9999 m-6px max-w-240px text-13px color-gray">
             <span>广告</span>
