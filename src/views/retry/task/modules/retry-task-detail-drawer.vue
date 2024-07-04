@@ -109,8 +109,7 @@ onBeforeUnmount(() => {
         </NDescriptions>
       </NTabPane>
       <NTabPane :name="1" :tab="$t('page.log.title')" display-directive="if">
-        <LogDrawer v-if="logList.length > 0" v-model="logList" :drawer="false" />
-        <NEmpty v-else class="h-full" />
+        <LogDrawer :drawer="false" type="retry" :task-data="rowData!" />
       </NTabPane>
     </NTabs>
   </OperateDrawer>

@@ -167,6 +167,8 @@ declare namespace App {
       icon?: () => VNode;
       /** The menu children */
       children?: Menu[];
+      /** The menu show */
+      show?: boolean;
     }
 
     type Breadcrumb = Omit<Menu, 'children'> & {
@@ -286,6 +288,7 @@ declare namespace App {
         exportAll: string;
         exportPar: string;
         edit: string;
+        error: string;
         detail: string;
         index: string;
         keywordSearch: string;
@@ -332,6 +335,8 @@ declare namespace App {
         confirmRetry: string;
         generateRandomly: string;
         active: string;
+        log: string;
+        idDetailTip: string;
         yesOrNo: {
           yes: string;
           no: string;
@@ -363,6 +368,19 @@ declare namespace App {
             discard: string;
             overwrite: string;
             parallel: string;
+            recovery: string;
+          };
+        };
+        failStrategy: {
+          items: {
+            skip: string;
+            blockage: string;
+          };
+        };
+        workFlowNodeStatus: {
+          items: {
+            open: string;
+            close: string;
           };
         };
         executorType: {
@@ -379,6 +397,8 @@ declare namespace App {
             cluster: string;
             broadcast: string;
             slice: string;
+            map: string;
+            mapreduce: string;
           };
         };
         triggerType: {
@@ -400,6 +420,8 @@ declare namespace App {
             fail: string;
             stop: string;
             cancel: string;
+            decisionFailed: string;
+            skip: string;
           };
         };
         taskStatus: {
@@ -521,6 +543,7 @@ declare namespace App {
             validateSuccess: string;
             loginSuccess: string;
             welcomeBack: string;
+            codeTip: string;
           };
           pwdLogin: {
             title: string;
@@ -605,16 +628,6 @@ declare namespace App {
               title: string;
             };
           };
-          projectNews: {
-            title: string;
-            moreNews: string;
-            desc1: string;
-            desc2: string;
-            desc3: string;
-            desc4: string;
-            desc5: string;
-          };
-          creativity: string;
         };
         pods: {
           title: string;
@@ -929,6 +942,7 @@ declare namespace App {
           groupName: string;
           jobName: string;
           argsStr: string;
+          shardNum: string;
           argsType: string;
           nextTriggerAt: string;
           jobStatus: string;
@@ -964,6 +978,7 @@ declare namespace App {
             blockStrategy: string;
             argsType: string;
             argsStr: string;
+            shardNum: string;
             groupName: string;
             retryInterval: string;
           };
@@ -980,6 +995,7 @@ declare namespace App {
           title: string;
           groupName: string;
           jobName: string;
+          taskType: string;
           executorInfo: string;
           executorType: string;
           executionAt: string;
@@ -1035,6 +1051,46 @@ declare namespace App {
           title: string;
           view: string;
           info: string;
+        };
+      };
+      workflow: {
+        node: {
+          priority: string;
+          task: {
+            name: string;
+            add: string;
+            nodeName: string;
+            conditionNodes: {
+              nodeName: string;
+            };
+          };
+          condition: {
+            nodeName: string;
+            conditionNodes: {
+              nodeName: string;
+              otherNodeName: string;
+              otherTip: string;
+              priority: string;
+              conditionTip: string;
+              logicalCondition: string;
+              expressionType: string;
+              nodeExpression: string;
+              otherNodeTip: string;
+            };
+            addBranch: string;
+          };
+          callback: {
+            nodeName: string;
+            conditionNodes: {
+              nodeName: string;
+              contentType: string;
+              webhookTip: string;
+            };
+          };
+          endNode: string;
+          log: {
+            title: string;
+          };
         };
       };
       form: {

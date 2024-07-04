@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Workflow, { flowFetch, flowStores } from '@sa/workflow';
+import Workflow from '@/components/workflow';
 import { $t } from '@/locales';
+import { useWorkflowStore } from '@/store/modules/workflow';
+import { fetchAddWorkflow, fetchWorkflowInfo } from '@/service/api';
 
-const store = flowStores.useFlowStore();
+const store = useWorkflowStore();
 const route = useRoute();
 const router = useRouter();
 
@@ -12,7 +14,7 @@ const spinning = ref(false);
 
 const id: string = String(route.query.id);
 
-const node = ref<Flow.NodeDataType>({
+const node = ref<Workflow.NodeDataType>({
   workflowName: `Workflow ${new Date().getTime()}`,
   workflowStatus: 1,
   blockStrategy: 1,
@@ -22,7 +24,7 @@ const node = ref<Flow.NodeDataType>({
 
 const getDetail = async () => {
   spinning.value = true;
-  const { data, error } = await flowFetch.fetchWorkflowInfo(id);
+  const { data, error } = await fetchWorkflowInfo(id);
   if (!error) {
     node.value = data;
   }
@@ -36,7 +38,7 @@ onMounted(() => {
 });
 
 const save = async () => {
-  const { error } = await flowFetch.fetchAddWorkflow(node.value);
+  const { error } = await fetchAddWorkflow(node.value);
   if (!error) {
     window.$message?.info($t('common.addSuccess'));
     router.push('/workflow/task');

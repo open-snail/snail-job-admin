@@ -134,15 +134,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => {
         const options = [
           {
-            label: $t('common.execute'),
-            key: 'execute',
-            click: () => execute(row.id!)
-          },
-          {
-            type: 'divider',
-            key: 'd1'
-          },
-          {
             label: $t('common.copy'),
             key: 'copy',
             click: () => copy(row.id!)
@@ -155,35 +146,48 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
             label: $t('common.batchList'),
             key: 'batchList',
             click: () => goToBatch(row.id!)
+          },
+          {
+            type: 'divider',
+            key: 'd2'
+          },
+          {
+            show: hasAuth('R_ADMIN'),
+            type: 'render',
+            key: 'delete',
+            render: () => (
+              <div class="flex-center">
+                <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+                  {{
+                    default: () => $t('common.confirmDelete'),
+                    trigger: () => (
+                      <NButton quaternary size="small">
+                        {$t('common.delete')}
+                      </NButton>
+                    )
+                  }}
+                </NPopconfirm>
+              </div>
+            )
           }
         ];
 
-        function onSelect(key: string) {
-          options.filter(o => o.key === key)[0].click!();
-        }
+        const onSelect = (key: string) => {
+          const fun = options.filter(o => o.key === key)[0].click;
+          if (fun) fun();
+        };
 
         return (
           <div class="flex-center gap-8px">
             <NButton text type="warning" ghost size="small" onClick={() => edit(row.id!)}>
               {$t('common.edit')}
             </NButton>
-            {hasAuth('R_ADMIN') ? (
-              <>
-                <n-divider vertical />
-                <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-                  {{
-                    default: () => $t('common.confirmDelete'),
-                    trigger: () => (
-                      <NButton text type="error" ghost size="small">
-                        {$t('common.delete')}
-                      </NButton>
-                    )
-                  }}
-                </NPopconfirm>
-              </>
-            ) : (
-              ''
-            )}
+
+            <n-divider vertical />
+
+            <NButton text type="error" ghost size="small" onClick={() => execute(row.id!)}>
+              {$t('common.execute')}
+            </NButton>
 
             <n-divider vertical />
 

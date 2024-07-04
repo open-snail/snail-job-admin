@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import Vcode from 'vue3-puzzle-vcode';
 import { md5 } from '@/utils/common';
 import { $t } from '@/locales';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
@@ -31,10 +32,29 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 };
 
 async function handleSubmit() {
-  await validate();
   const password = md5(model.password);
   await authStore.login(model.userName, password);
 }
+
+const codeShow = ref(false);
+
+const validateCode = async () => {
+  const { VITE_LOGIN_CODE } = import.meta.env;
+  await validate();
+  if (VITE_LOGIN_CODE === 'Y') {
+    codeShow.value = true;
+    return;
+  }
+  handleSubmit();
+};
+
+const onClose = () => {
+  codeShow.value = false;
+};
+
+const onSuccess = () => {
+  handleSubmit();
+};
 </script>
 
 <template>
@@ -51,9 +71,23 @@ async function handleSubmit() {
       />
     </NFormItem>
     <NSpace vertical :size="24">
-      <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="handleSubmit">
-        {{ $t('page.login.common.login') }}
-      </NButton>
+      <NPopover :show="codeShow" row style="padding: 0">
+        <template #trigger>
+          <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="validateCode">
+            {{ $t('page.login.common.login') }}
+          </NButton>
+        </template>
+        <NCard :title="$t('page.login.common.codeTip')" :header-style="{ padding: '10px 24px' }">
+          <template #header-extra>
+            <NButton text @click="onClose">
+              <template #icon>
+                <SvgIcon local-icon="close" />
+              </template>
+            </NButton>
+          </template>
+          <Vcode type="inside" show @success="onSuccess" @close="onClose" />
+        </NCard>
+      </NPopover>
     </NSpace>
   </NForm>
 </template>

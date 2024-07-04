@@ -60,7 +60,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
 
         return (
           <n-button text tag="a" type="primary" onClick={showDetailDrawer} class="ws-normal">
-            {`${row.jobName}(${row.id})`}
+            {`${row.jobName}`}
           </n-button>
         );
       }
@@ -107,7 +107,9 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
         const tagMap: Record<Api.Common.TaskType, NaiveUI.ThemeColor> = {
           1: 'info',
           2: 'success',
-          3: 'error'
+          3: 'error',
+          4: 'primary',
+          5: 'warning'
         };
         const label = $t(taskTypeRecord[row.taskType!]);
 
@@ -151,7 +153,8 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
         const tagMap: Record<Api.Common.BlockStrategy, NaiveUI.ThemeColor> = {
           1: 'info',
           2: 'success',
-          3: 'error'
+          3: 'error',
+          4: 'warning'
         };
         const label = $t(blockStrategyRecord[row.blockStrategy!]);
 

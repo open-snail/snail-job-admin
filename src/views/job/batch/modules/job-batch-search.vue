@@ -68,11 +68,11 @@ function renderLabel(option: SelectOption) {
 </script>
 
 <template>
-  <SearchForm btn-span="24 s:24 m:9 l:12 xl:15" :model="model" @search="search" @reset="reset">
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.groupName')" path="groupName" class="pr-24px">
+  <SearchForm btn-span="12 s:24 m:10 l:12 xl:16" :model="model" @search="search" @reset="reset">
+    <NFormItemGi span="24 s:12 m:8" :label="$t('page.jobBatch.groupName')" path="groupName" class="pr-24px">
       <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.jobName')" path="jobName" class="pr-24px">
+    <NFormItemGi span="24 s:12 m:8" :label="$t('page.jobBatch.jobName')" path="jobName" class="pr-24px">
       <NAutoComplete
         v-model:value="keywords"
         :placeholder="$t('page.jobBatch.form.jobName')"
@@ -84,11 +84,11 @@ function renderLabel(option: SelectOption) {
         @select="handleSelect"
       />
     </NFormItemGi>
-    <NFormItemGi span="24 s:12 m:6" :label="$t('page.jobBatch.taskBatchStatus')" path="taskBatchStatus" class="pr-24px">
+    <NFormItemGi span="24 s:12 m:8" :label="$t('page.jobBatch.taskBatchStatus')" path="taskBatchStatus" class="pr-24px">
       <TaskBatchStatus v-model:value="model.taskBatchStatus" clearable />
     </NFormItemGi>
     <NFormItemGi
-      span="24 s:24 m:15 l:12 xl:9"
+      span="24 s:24 m:14 l:12 xl:8"
       :label="$t('page.common.createTime')"
       path="datetimeRange"
       class="pr-24px"

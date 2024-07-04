@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Workflow, { flowFetch, flowStores } from '@sa/workflow';
+import Workflow from '@/components/workflow';
 import { $t } from '@/locales';
+import { useWorkflowStore } from '@/store/modules/workflow';
+import { fetchUpdateWorkflow, fetchWorkflowInfo } from '@/service/api';
 
-const store = flowStores.useFlowStore();
+const store = useWorkflowStore();
 const route = useRoute();
 const router = useRouter();
 
@@ -12,11 +14,11 @@ const spinning = ref(false);
 
 const id: string = String(route.query.id);
 
-const node = ref<Flow.NodeDataType>({});
+const node = ref<Workflow.NodeDataType>({});
 
 const getDetail = async () => {
   spinning.value = true;
-  const { data, error } = await flowFetch.fetchWorkflowInfo(id);
+  const { data, error } = await fetchWorkflowInfo(id);
   if (!error) {
     node.value = data;
   }
@@ -31,7 +33,7 @@ onMounted(() => {
 });
 
 const update = async () => {
-  const { error } = await flowFetch.fetchUpdateWorkflow(node.value);
+  const { error } = await fetchUpdateWorkflow(node.value);
   if (!error) {
     window.$message?.info($t('common.updateSuccess'));
     router.push({ path: '/workflow/task' });

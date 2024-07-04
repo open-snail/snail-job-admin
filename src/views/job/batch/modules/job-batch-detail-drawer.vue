@@ -1,17 +1,8 @@
 <script setup lang="tsx">
-import { NButton, NTag } from 'naive-ui';
-import { onBeforeUnmount, ref } from 'vue';
-import {
-  executorTypeRecord,
-  operationReasonRecord,
-  taskBatchStatusRecord,
-  taskStatusRecord
-} from '@/constants/business';
+import { ref } from 'vue';
+import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
-import { useTable } from '@/hooks/common/table';
-import { fetchGetJobTaskList } from '@/service/api';
-import { fetchJobLogList } from '@/service/api/log';
 
 defineOptions({
   name: 'JobBatchDetailDrawer'
@@ -20,169 +11,30 @@ defineOptions({
 interface Props {
   /** row data */
   rowData?: Api.JobBatch.JobBatch | null;
+  log?: boolean;
 }
 
-const props = defineProps<Props>();
+withDefaults(defineProps<Props>(), {
+  log: false,
+  rowData: null
+});
 
-const taskData = ref<Api.Job.JobTask>();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
-const logShow = defineModel<boolean>('logShow', {
-  default: false
-});
 
-const { columns, data, loading, mobilePagination } = useTable({
-  apiFn: fetchGetJobTaskList,
-  apiParams: {
-    page: 1,
-    size: 10,
-    groupName: props.rowData?.groupName,
-    taskBatchId: props.rowData?.id,
-    startId: 0,
-    fromIndex: 0
-    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
-    // the value can not be undefined, otherwise the property in Form will not be reactive
-  },
-  columns: () => [
-    {
-      key: 'index',
-      title: $t('common.index'),
-      align: 'center',
-      width: 64,
-      render: row => {
-        async function openLog() {
-          logShow.value = true;
-          taskData.value = row;
-          await getLogList();
-        }
-        return (
-          <NButton type="info" text onClick={openLog}>
-            <span class="w-28px ws-break-spaces">{$t('page.log.view')}</span>
-          </NButton>
-        );
-      }
-    },
-    {
-      key: 'id',
-      title: $t('page.jobBatch.jobTask.id'),
-      align: 'left',
-      minWidth: 64
-    },
-    {
-      key: 'groupName',
-      title: $t('page.jobBatch.jobTask.groupName'),
-      align: 'left',
-      minWidth: 120
-    },
-    {
-      key: 'taskStatus',
-      title: $t('page.jobBatch.jobTask.taskStatus'),
-      align: 'left',
-      minWidth: 80,
-      render: row => {
-        if (row.taskStatus === null) {
-          return null;
-        }
-        const label = $t(taskStatusRecord[row.taskStatus!]);
-        const tagMap: Record<number, NaiveUI.ThemeColor> = {
-          1: 'info',
-          2: 'info',
-          3: 'info',
-          4: 'error',
-          5: 'error',
-          6: 'error'
-        };
-        return <NTag type={tagMap[row.taskStatus!]}>{label}</NTag>;
-      }
-    },
-    {
-      key: 'clientInfo',
-      title: $t('page.jobBatch.jobTask.clientInfo'),
-      align: 'left',
-      minWidth: 120,
-      render: row => {
-        if (row.clientInfo) {
-          const parts = row.clientInfo?.split('@');
-          const result = parts.length > 1 ? parts[1] : '';
-          return <div>{result}</div>;
-        }
-        return <div>{row.clientInfo}</div>;
-      }
-    },
-    {
-      key: 'argsStr',
-      title: $t('page.jobBatch.jobTask.argsStr'),
-      align: 'left',
-      minWidth: 120
-    },
-    {
-      key: 'resultMessage',
-      title: $t('page.jobBatch.jobTask.resultMessage'),
-      align: 'left',
-      minWidth: 120
-    },
-    {
-      key: 'retryCount',
-      title: $t('page.jobBatch.jobTask.retryCount'),
-      align: 'left',
-      minWidth: 64
-    },
-    {
-      key: 'createDt',
-      title: $t('page.jobBatch.jobTask.createDt'),
-      align: 'left',
-      minWidth: 120
-    }
-  ]
-});
+const taskData = ref<Api.Job.JobTask>();
+const logShow = ref(false);
 
-const logList = ref<Api.JobLog.JobMessage[]>([]);
-const interval = ref<NodeJS.Timeout>();
-const controller = new AbortController();
-const finished = ref<boolean>(false);
-let startId = '0';
-let fromIndex: number = 0;
-
-async function getLogList() {
-  const { data: logData, error } = await fetchJobLogList({
-    taskBatchId: taskData.value!.taskBatchId,
-    jobId: taskData.value!.jobId,
-    taskId: taskData.value!.id,
-    startId,
-    fromIndex,
-    size: 50
-  });
-  if (!error) {
-    finished.value = logData.finished;
-    startId = logData.nextStartId;
-    fromIndex = logData.fromIndex;
-    if (logData.message) {
-      logList.value.push(...logData.message);
-      logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
-    }
-    if (!finished.value) {
-      clearTimeout(interval.value);
-      interval.value = setTimeout(getLogList, 1000);
-    }
-  }
+async function openLog(row: Api.Job.JobTask) {
+  logShow.value = true;
+  taskData.value = row;
 }
-
-const stopLog = () => {
-  finished.value = true;
-  controller.abort();
-  clearTimeout(interval.value);
-  interval.value = undefined;
-};
-
-onBeforeUnmount(() => {
-  stopLog();
-});
 </script>
 
 <template>
   <DetailDrawer v-model="visible" :title="$t('page.jobBatch.detail')" :width="['50%', '90%']">
-    <NTabs type="segment" animated>
+    <NTabs type="segment" animated :default-value="log ? 1 : 0">
       <NTabPane :name="0" :tab="$t('page.log.info')">
         <NDescriptions label-placement="top" bordered :column="2">
           <NDescriptionsItem :label="$t('page.jobBatch.groupName')">{{ rowData?.groupName }}</NDescriptionsItem>
@@ -210,19 +62,11 @@ onBeforeUnmount(() => {
         </NDescriptions>
       </NTabPane>
       <NTabPane :name="1" :tab="$t('page.log.title')" display-directive="if">
-        <NDataTable
-          :columns="columns"
-          :data="data"
-          :loading="loading"
-          remote
-          :row-key="row => row.id"
-          :pagination="mobilePagination"
-          class="sm:h-full"
-        />
+        <JobTaskListTable :row-data="rowData" @show-log="openLog" />
       </NTabPane>
     </NTabs>
-    <LogDrawer v-model="logList" v-model:show="logShow" :title="$t('page.log.title')" />
   </DetailDrawer>
+  <LogDrawer v-model:show="logShow" :title="$t('page.log.title')" :task-data="taskData" />
 </template>
 
 <style scoped></style>

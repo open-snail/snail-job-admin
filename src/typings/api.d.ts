@@ -73,8 +73,23 @@ declare namespace Api {
     /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
     type RouteKey = 1 | 2 | 3 | 4;
 
-    /** 阻塞策略 1:丢弃 2:覆盖 3:并行 */
-    type BlockStrategy = 1 | 2 | 3;
+    /** 阻塞策略 1:丢弃 2:覆盖 3:并行 4:恢复 */
+    type BlockStrategy = 1 | 2 | 3 | 4;
+
+    /** 失败策略 1:跳过 2:阻塞 */
+    type FailStrategy = 1 | 2;
+
+    /** 判定逻辑 1:and 2:or */
+    type LogicalCondition = 1 | 2;
+
+    /** 表达式类型 1:SpEl 2:Aviator 3:QL */
+    type Expression = 1 | 2 | 3;
+
+    /** 请求类型 1:application/json 2:application/x-www-form-urlencoded */
+    type ContentType = 1 | 2;
+
+    /** 工作流节点状态 */
+    type WorkFlowNodeStatus = 0 | 1;
 
     /** 执行器类型 1:Java */
     type ExecutorType = 1;
@@ -82,11 +97,11 @@ declare namespace Api {
     /** 触发类型 2:固定时间 3:CRON 表达式 99:工作流 */
     type TriggerType = 2 | 3 | 99;
 
-    /** 任务类型 1:集群 2:广播 3:切片 */
-    type TaskType = 1 | 2 | 3;
+    /** 任务类型 1:集群 2:广播 3:切片 4:Map 5:MapReduce */
+    type TaskType = 1 | 2 | 3 | 4 | 5;
 
     /** 1、待处理 2、运行中 3、成功 4、失败 5、停止 6、取消 */
-    type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6;
+    type TaskBatchStatus = 1 | 2 | 3 | 4 | 5 | 6 | 98 | 99;
 
     /** 2、处理中 3、处理成功 4、处理失败、5、任务停止 6、取消 */
     type TaskStatus = 2 | 3 | 4 | 5 | 6;
@@ -1025,6 +1040,8 @@ declare namespace Api {
       jobId: string;
       /** 组名称 */
       groupName: string;
+      /** 任务名称 */
+      taskName: string;
       /** 地址 */
       clientInfo: string;
       /** 参数 */
@@ -1039,15 +1056,29 @@ declare namespace Api {
       taskBatchId: string;
       /** 任务状态 ID */
       taskStatus: Common.TaskStatus;
+      /** 任务类型 */
+      taskType: Common.TaskType;
+      /** 子节点 */
+      children: JobTaskTree[];
+      /** 是否存在下级 */
+      isLeaf: boolean;
     }>;
+
+    type JobTaskTree = {
+      parentId: string;
+      children: JobTaskTree[];
+    } & JobTask;
 
     /** jobTask search params */
     type jobTaskSearchParams = CommonType.RecordNullable<
-      Pick<Api.Job.JobTask, 'groupName' | 'taskBatchId'> & CommonSearchParams & { startId: number; fromIndex: number }
+      Pick<Api.Job.JobTask, 'groupName' | 'taskBatchId' | 'taskStatus'> &
+        CommonSearchParams & { startId: number; fromIndex: number; parentId: string }
     >;
 
     /** jobTask list */
     type JobTaskList = Common.PaginatingQueryRecord<JobTask>;
+    /** jobTask tree list */
+    type JobTaskTreeList = JobTask[];
   }
 
   /**
@@ -1056,6 +1087,7 @@ declare namespace Api {
    * backend api module: "jobBatch"
    */
   namespace JobBatch {
+    import TaskType = Api.Common.TaskType;
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'size'>;
 
     /** JobBatch */
@@ -1064,6 +1096,8 @@ declare namespace Api {
       groupName: string;
       /** 任务名称 */
       jobName: string;
+      /** 任务类型 */
+      taskType: TaskType;
       /** 工作流节点名称 */
       nodeName: string;
       /** 任务信息id */
@@ -1090,7 +1124,7 @@ declare namespace Api {
 
     /** JobBatch search params */
     type JobBatchSearchParams = CommonType.RecordNullable<
-      Pick<Api.JobBatch.JobBatch, 'groupName' | 'jobName' | 'taskBatchStatus' | 'jobId'> &
+      Pick<Api.JobBatch.JobBatch, 'groupName' | 'jobName' | 'taskBatchStatus' | 'jobId' | 'taskType'> &
         CommonSearchParams & { datetimeRange?: [string, string] }
     >;
 

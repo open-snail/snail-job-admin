@@ -36,6 +36,7 @@ const local: App.I18n.Schema = {
     exportAll: 'Are you sure to export all?',
     exportPar: 'Are you sure to export {num} pieces of data?',
     edit: 'Edit',
+    error: 'Error',
     detail: 'Detail',
     index: 'Index',
     keywordSearch: 'Please enter keyword',
@@ -80,6 +81,8 @@ const local: App.I18n.Schema = {
     confirmPause: 'Are you sure you want to pause?',
     confirmFinish: 'Are you sure you want to finishe?',
     confirmRetry: 'Are you sure you want to retry?',
+    idDetailTip: 'Click on ID for details',
+    log: 'Log',
     generateRandomly: 'Generate randomly',
     active: 'Active',
     yesOrNo: {
@@ -112,7 +115,20 @@ const local: App.I18n.Schema = {
       items: {
         discard: 'Discard',
         overwrite: 'Overwrite',
-        parallel: 'Parallel'
+        parallel: 'Parallel',
+        recovery: 'Recovery'
+      }
+    },
+    failStrategy: {
+      items: {
+        skip: 'Skip',
+        blockage: 'Blockage'
+      }
+    },
+    workFlowNodeStatus: {
+      items: {
+        open: 'Open',
+        close: 'Close'
       }
     },
     executorType: {
@@ -128,7 +144,9 @@ const local: App.I18n.Schema = {
       items: {
         cluster: 'Cluster',
         broadcast: 'Broadcast',
-        slice: 'Slice'
+        slice: 'Static Slice',
+        map: 'Map',
+        mapreduce: 'MapReduce'
       }
     },
     triggerType: {
@@ -149,7 +167,9 @@ const local: App.I18n.Schema = {
         success: 'Success',
         fail: 'Fail',
         stop: 'Stop',
-        cancel: 'Cancel'
+        cancel: 'Cancel',
+        decisionFailed: 'Decision Failed',
+        skip: 'Skip'
       }
     },
     taskStatus: {
@@ -289,15 +309,8 @@ const local: App.I18n.Schema = {
     404: 'Page Not Found',
     500: 'Server Error',
     'iframe-page': 'Iframe',
+    log: 'Log',
     home: 'Home',
-    document: 'Document',
-    document_project: 'Project Document',
-    'document_project-link': 'Project Document(External Link)',
-    document_vue: 'Vue Document',
-    document_vite: 'Vite Document',
-    document_unocss: 'UnoCSS Document',
-    document_naive: 'Naive UI Document',
-    document_antd: 'Ant Design Vue Document',
     about: 'About',
     pods: 'Online Machine',
     namespace: 'Namespace',
@@ -323,10 +336,6 @@ const local: App.I18n.Schema = {
     job: 'Schedule Task Management',
     job_task: 'Schedule Task List',
     job_batch: 'Schedule Task Batch List',
-    exception: 'Exception',
-    exception_403: '403',
-    exception_404: '404',
-    exception_500: '500',
     group: 'Group Config'
   },
   page: {
@@ -348,7 +357,8 @@ const local: App.I18n.Schema = {
         back: 'Back',
         validateSuccess: 'Verification passed',
         loginSuccess: 'Login successfully',
-        welcomeBack: 'Welcome back, {userName} !'
+        welcomeBack: 'Welcome back, {userName} !',
+        codeTip: 'Drag the sliders to complete the puzzle'
       },
       pwdLogin: {
         title: 'Password Login',
@@ -434,17 +444,7 @@ const local: App.I18n.Schema = {
         pie: {
           title: 'Success scale chart'
         }
-      },
-      projectNews: {
-        title: 'Project News',
-        moreNews: 'More News',
-        desc1: 'Soybean created the open source project soybean-admin on May 28, 2021!',
-        desc2: 'Yanbowe submitted a bug to soybean-admin, the multi-tab bar will not adapt.',
-        desc3: 'Soybean is ready to do sufficient preparation for the release of soybean-admin!',
-        desc4: 'Soybean is busy writing project documentation for soybean-admin!',
-        desc5: 'Soybean just wrote some of the workbench pages casually, and it was enough to see!'
-      },
-      creativity: 'Creativity'
+      }
     },
     pods: {
       title: 'Online Machine',
@@ -762,6 +762,7 @@ const local: App.I18n.Schema = {
       groupName: 'Group name',
       jobName: 'Mission name',
       argsStr: 'Method parameters',
+      shardNum: 'Reduce shard num',
       argsType: 'Parameter Type',
       nextTriggerAt: 'Next trigger time',
       jobStatus: 'State',
@@ -797,6 +798,7 @@ const local: App.I18n.Schema = {
         blockStrategy: 'Please enter Blocking strategy',
         argsType: 'Please enter Parameter Type',
         argsStr: 'Please enter executor arguments',
+        shardNum: 'Please enter reduce shard num',
         groupName: 'Please enter Group name',
         retryInterval: 'Please enter retry interval'
       },
@@ -813,6 +815,7 @@ const local: App.I18n.Schema = {
       title: 'Job Batch List',
       groupName: 'Group name',
       jobName: 'Job name',
+      taskType: 'Task Type',
       executorInfo: 'Executor Name',
       executorType: 'Executor type',
       executionAt: 'Start execution time',
@@ -868,6 +871,48 @@ const local: App.I18n.Schema = {
       title: 'Log Detail',
       view: 'View Log',
       info: 'Info'
+    }
+  },
+  workflow: {
+    node: {
+      priority: 'Priority',
+      task: {
+        name: 'Task',
+        add: 'Add Task',
+        nodeName: 'Task Node',
+        conditionNodes: {
+          nodeName: 'Task 1'
+        }
+      },
+      condition: {
+        nodeName: 'Condition Node',
+        conditionNodes: {
+          nodeName: 'Condition 1',
+          otherNodeName: 'Other Situations',
+          otherTip:
+            'This branch is created by default and is mutually exclusive with other branches. It will only be run if none of the other branches can be run.',
+          priority: 'Priority',
+          conditionTip: 'Please set conditions',
+          logicalCondition: 'Logical Condition',
+          expressionType: 'Expression Type',
+          nodeExpression: 'Node Expression',
+          otherNodeTip:
+            'If there is a situation where the conditions of the other branches are not met, then go to this branch'
+        },
+        addBranch: 'Add Condition'
+      },
+      callback: {
+        nodeName: 'Callback Notice',
+        conditionNodes: {
+          nodeName: 'Callback Notice',
+          contentType: 'Content Type',
+          webhookTip: 'Please configure callback notifications'
+        }
+      },
+      endNode: 'End Node',
+      log: {
+        title: 'Log Detail'
+      }
     }
   },
   form: {

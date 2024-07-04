@@ -1,13 +1,14 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NTag, NTooltip } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { ref } from 'vue';
 import { fetchGetJobBatchList, fetchJobBatchRetry, fetchJobBatchStop } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
-import { operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
+import { operationReasonRecord, taskBatchStatusRecord, taskTypeRecord } from '@/constants/business';
 import { monthRangeISO8601, tagColor } from '@/utils/common';
+import SvgIcon from '@/components/custom/svg-icon.vue';
 import JobBatchSearch from './modules/job-batch-search.vue';
 import JobBatchDetailDrawer from './modules/job-batch-detail-drawer.vue';
 
@@ -16,6 +17,7 @@ const appStore = useAppStore();
 const detailData = ref<Api.JobBatch.JobBatch | null>();
 /** 详情页可见状态 */
 const { bool: detailVisible, setTrue: openDetail } = useBoolean(false);
+const { bool: detailLog, setBool: setDetailLog } = useBoolean(false);
 const jobName = history.state.jobName;
 const jobId = history.state.jobId;
 const taskBatchStatus = history.state.taskBatchStatus;
@@ -39,12 +41,29 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
   columns: () => [
     {
       key: 'id',
-      title: $t('common.index'),
       align: 'center',
       width: 120,
+      title: () => {
+        return (
+          <div class="flex-center">
+            <span>{$t('page.jobBatch.jobTask.id')}</span>
+            <NTooltip trigger="hover">
+              {{
+                trigger: () => (
+                  <span class="mb-2px ml-5px text-16px">
+                    <SvgIcon icon="ant-design:info-circle-outlined" />
+                  </span>
+                ),
+                default: () => <span>{$t('common.idDetailTip')}</span>
+              }}
+            </NTooltip>
+          </div>
+        );
+      },
       render: row => {
         function showDetailDrawer() {
           detailData.value = row;
+          setDetailLog(false);
           openDetail();
         }
 
@@ -60,6 +79,27 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       title: $t('page.jobBatch.groupName'),
       align: 'left',
       minWidth: 120
+    },
+    {
+      key: 'taskType',
+      title: $t('page.jobBatch.taskType'),
+      align: 'center',
+      width: 120,
+      render: row => {
+        if (row.taskType === null) {
+          return null;
+        }
+        const tagMap: Record<Api.Common.TaskType, NaiveUI.ThemeColor> = {
+          1: 'info',
+          2: 'success',
+          3: 'error',
+          4: 'primary',
+          5: 'warning'
+        };
+        const label = $t(taskTypeRecord[row.taskType!]);
+
+        return <NTag type={tagMap[row.taskType!]}>{label}</NTag>;
+      }
     },
     {
       key: 'jobName',
@@ -119,41 +159,67 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
-        <div class="flex-center gap-8px">
-          {row.taskBatchStatus === 1 || row.taskBatchStatus === 2 ? (
-            <NPopconfirm onPositiveClick={() => handleStopJob(row.id!)}>
-              {{
-                default: () => $t('common.confirmStop'),
-                trigger: () => (
-                  <NButton type="error" text ghost size="small">
-                    {$t('common.stop')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
-          ) : (
-            ''
-          )}
-          {row.taskBatchStatus === 4 || row.taskBatchStatus === 5 || row.taskBatchStatus === 6 ? (
-            <NPopconfirm onPositiveClick={() => handleRetryJob(row.id!)}>
-              {{
-                default: () => $t('common.confirmRetry'),
-                trigger: () => (
-                  <NButton type="error" text ghost size="small">
-                    {$t('common.retry')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
-          ) : (
-            ''
-          )}
-        </div>
-      )
+      render: row => {
+        const stopBtn = () => {
+          if (row.taskBatchStatus === 1 || row.taskBatchStatus === 2) {
+            return (
+              <>
+                <n-divider vertical />
+                <NPopconfirm onPositiveClick={() => handleStopJob(row.id!)}>
+                  {{
+                    default: () => $t('common.confirmStop'),
+                    trigger: () => (
+                      <NButton type="error" text ghost size="small">
+                        {$t('common.stop')}
+                      </NButton>
+                    )
+                  }}
+                </NPopconfirm>
+              </>
+            );
+          }
+          return null;
+        };
+
+        const retryBtn = () => {
+          if (row.taskBatchStatus === 4 || row.taskBatchStatus === 5 || row.taskBatchStatus === 6) {
+            return (
+              <>
+                <n-divider vertical />
+                <NPopconfirm onPositiveClick={() => handleRetryJob(row.id!)}>
+                  {{
+                    default: () => $t('common.confirmRetry'),
+                    trigger: () => (
+                      <NButton type="error" text ghost size="small">
+                        {$t('common.retry')}
+                      </NButton>
+                    )
+                  }}
+                </NPopconfirm>
+              </>
+            );
+          }
+          return null;
+        };
+        return (
+          <div class="flex-center gap-8px">
+            <NButton type="primary" text ghost size="small" onClick={() => handleLog(row)}>
+              {$t('common.log')}
+            </NButton>
+            {stopBtn()}
+            {retryBtn()}
+          </div>
+        );
+      }
     }
   ]
 });
+
+function handleLog(row: Api.JobBatch.JobBatch) {
+  detailData.value = row;
+  setDetailLog(true);
+  openDetail();
+}
 
 async function handleRetryJob(id: string) {
   const { error } = await fetchJobBatchRetry(id);
@@ -203,7 +269,12 @@ async function handleStopJob(id: string) {
         class="sm:h-full"
       />
     </NCard>
-    <JobBatchDetailDrawer v-if="detailVisible" v-model:visible="detailVisible" :row-data="detailData" />
+    <JobBatchDetailDrawer
+      v-if="detailVisible"
+      v-model:visible="detailVisible"
+      v-model:log="detailLog"
+      :row-data="detailData"
+    />
   </div>
 </template>
 

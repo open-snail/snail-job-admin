@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
@@ -37,6 +37,7 @@ const visible = defineModel<boolean>('visible', {
 const dynamicForm = reactive({
   args: [{ arg: '' }]
 });
+const shardNum = ref(0);
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
@@ -80,7 +81,7 @@ function createDefaultModel(): Model {
     argsStr: '',
     argsType: 1,
     jobStatus: 1,
-    routeKey: 1,
+    routeKey: 4,
     executorType: 1,
     triggerType: 2,
     executorInfo: '',
@@ -147,6 +148,12 @@ function handleUpdateModelWhenEdit() {
         })
       });
     }
+
+    if (model.taskType === 5 && model.argsStr) {
+      const argsJson = JSON.parse(model.argsStr);
+      shardNum.value = argsJson.shardNum;
+      model.argsStr = argsJson.argsStr;
+    }
   }
 }
 
@@ -180,7 +187,7 @@ async function handleSubmit() {
     const { error } = await fetchAddJob({
       groupName,
       jobName,
-      argsStr,
+      argsStr: taskType === 5 ? JSON.stringify({ shardNum: shardNum.value, argsStr }) : argsStr,
       argsType,
       jobStatus,
       routeKey,
@@ -225,7 +232,7 @@ async function handleSubmit() {
       id,
       groupName,
       jobName,
-      argsStr,
+      argsStr: taskType === 5 ? JSON.stringify({ shardNum: shardNum.value, argsStr }) : argsStr,
       argsType,
       jobStatus,
       routeKey,
@@ -283,11 +290,16 @@ watch(dynamicForm, () => {
 watch(
   () => model.taskType,
   taskType => {
-    if (visible.value) {
-      if (taskType !== 3) {
-        dynamicForm.args = [];
+    if (props.operateType === 'add') {
+      if (visible.value) {
+        if (taskType !== 3) {
+          dynamicForm.args = [];
+        }
+        if (taskType !== 5) {
+          shardNum.value = 1;
+        }
+        model.argsStr = '';
       }
-      model.argsStr = '';
     }
   }
 );
@@ -327,6 +339,9 @@ watch(
       </NFormItem>
       <NFormItem :label="$t('page.jobTask.taskType')" path="taskType">
         <TaskType v-model:value="model.taskType" :placeholder="$t('page.jobTask.form.taskType')" />
+      </NFormItem>
+      <NFormItem v-if="model.taskType === 5" :label="$t('page.jobTask.shardNum')">
+        <NInputNumber v-model:value="shardNum" :min="1" :placeholder="$t('page.jobTask.form.shardNum')" />
       </NFormItem>
       <NFormItem
         :label="$t('page.jobTask.argsStr')"
@@ -402,7 +417,7 @@ watch(
           <NFormItem :label="$t('page.jobTask.maxRetryTimes')" path="maxRetryTimes">
             <NInputNumber
               v-model:value="model.maxRetryTimes"
-              :min="1"
+              :min="0"
               :max="999"
               :placeholder="$t('page.jobTask.form.maxRetryTimes')"
               clearable

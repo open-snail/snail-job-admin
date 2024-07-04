@@ -36,6 +36,7 @@ const local: App.I18n.Schema = {
     exportAll: '确认导出列表中全部数据吗?',
     exportPar: '确认导出{num}条数据吗?',
     edit: '编辑',
+    error: '错误',
     detail: '详情',
     index: '序号',
     keywordSearch: '请输入关键词搜索',
@@ -80,6 +81,8 @@ const local: App.I18n.Schema = {
     confirmPause: '确认暂停吗？',
     confirmFinish: '确认完成吗？',
     confirmRetry: '确认重试吗？',
+    log: '日志',
+    idDetailTip: '点击 ID 查看详情',
     generateRandomly: '随机生成',
     active: '活跃',
     yesOrNo: {
@@ -112,7 +115,20 @@ const local: App.I18n.Schema = {
       items: {
         discard: '丢弃',
         overwrite: '覆盖',
-        parallel: '并行'
+        parallel: '并行',
+        recovery: '恢复'
+      }
+    },
+    failStrategy: {
+      items: {
+        skip: '跳过',
+        blockage: '阻塞'
+      }
+    },
+    workFlowNodeStatus: {
+      items: {
+        open: '开启',
+        close: '关闭'
       }
     },
     executorType: {
@@ -128,7 +144,9 @@ const local: App.I18n.Schema = {
       items: {
         cluster: '集群',
         broadcast: '广播',
-        slice: '切片'
+        slice: '静态切片',
+        map: 'Map',
+        mapreduce: 'MapReduce'
       }
     },
     triggerType: {
@@ -149,7 +167,9 @@ const local: App.I18n.Schema = {
         success: '处理成功',
         fail: '处理失败',
         stop: '任务停止',
-        cancel: '取消'
+        cancel: '取消',
+        decisionFailed: '判定未通过',
+        skip: '跳过'
       }
     },
     taskStatus: {
@@ -289,15 +309,8 @@ const local: App.I18n.Schema = {
     404: '页面不存在',
     500: '服务器错误',
     'iframe-page': '外链页面',
+    log: '日志',
     home: '首页',
-    document: '文档',
-    document_project: '项目文档',
-    'document_project-link': '项目文档(外链)',
-    document_vue: 'Vue文档',
-    document_vite: 'Vite文档',
-    document_unocss: 'UnoCSS文档',
-    document_naive: 'Naive UI文档',
-    document_antd: 'Ant Design Vue文档',
     about: '关于',
     pods: '在线机器',
     namespace: '命名空间',
@@ -323,11 +336,7 @@ const local: App.I18n.Schema = {
     workflow_form_add: '新增工作流',
     job: '定时任务',
     job_task: '任务管理',
-    job_batch: '执行批次',
-    exception: '异常页',
-    exception_403: '403',
-    exception_404: '404',
-    exception_500: '500'
+    job_batch: '执行批次'
   },
   page: {
     common: {
@@ -348,7 +357,8 @@ const local: App.I18n.Schema = {
         back: '返回',
         validateSuccess: '验证成功',
         loginSuccess: '登录成功',
-        welcomeBack: '欢迎回来，{userName} ！'
+        welcomeBack: '欢迎回来，{userName} ！',
+        codeTip: '拖动滑块完成拼图'
       },
       pwdLogin: {
         title: '密码登录',
@@ -444,17 +454,7 @@ const local: App.I18n.Schema = {
         pie: {
           title: '成功比例图'
         }
-      },
-      projectNews: {
-        title: '项目动态',
-        moreNews: '更多动态',
-        desc1: 'Soybean 在2021年5月28日创建了开源项目 soybean-admin!',
-        desc2: 'Yanbowe 向 soybean-admin 提交了一个bug，多标签栏不会自适应。',
-        desc3: 'Soybean 准备为 soybean-admin 的发布做充分的准备工作!',
-        desc4: 'Soybean 正在忙于为soybean-admin写项目说明文档！',
-        desc5: 'Soybean 刚才把工作台页面随便写了一些，凑合能看了！'
-      },
-      creativity: '创意'
+      }
     },
     pods: {
       title: '在线机器',
@@ -769,6 +769,7 @@ const local: App.I18n.Schema = {
       groupName: '组名称',
       jobName: '任务名称',
       argsStr: '方法参数',
+      shardNum: 'reduce 分片数',
       argsType: '参数类型',
       nextTriggerAt: '触发时间',
       jobStatus: '状态',
@@ -804,6 +805,7 @@ const local: App.I18n.Schema = {
         blockStrategy: '请输入阻塞策略',
         argsType: '请输入参数类型',
         argsStr: '请输入方法参数',
+        shardNum: '请输入 reduce 分片数',
         groupName: '请输入组名称',
         retryInterval: '请输入重试间隔'
       },
@@ -820,6 +822,7 @@ const local: App.I18n.Schema = {
       title: '任务批次列表',
       groupName: '组名称',
       jobName: '任务名称',
+      taskType: '任务类型',
       executorInfo: '执行器名称',
       executorType: '执行器类型',
       executionAt: '开始执行时间',
@@ -875,6 +878,46 @@ const local: App.I18n.Schema = {
       title: '日志详情',
       view: '查看日志',
       info: '基本信息'
+    }
+  },
+  workflow: {
+    node: {
+      priority: '优先级',
+      task: {
+        name: '任务',
+        add: '添加任务',
+        nodeName: '任务节点',
+        conditionNodes: {
+          nodeName: '任务 1'
+        }
+      },
+      condition: {
+        nodeName: '决策节点',
+        conditionNodes: {
+          nodeName: '条件',
+          otherNodeName: '其他情况',
+          otherTip: '该分支为系统默认创建，与其他分支互斥。只有当其他分支都无法运行时，才会运行该分支。',
+          priority: '优先级',
+          conditionTip: '请设置条件',
+          logicalCondition: '判定逻辑',
+          expressionType: '表达式类型',
+          nodeExpression: '节点表达式',
+          otherNodeTip: '如存在未满足其他分支条件的情况，则进入此分支'
+        },
+        addBranch: '添加条件'
+      },
+      callback: {
+        nodeName: '回调通知',
+        conditionNodes: {
+          nodeName: '回调通知',
+          contentType: '请求类型',
+          webhookTip: '请配置回调通知'
+        }
+      },
+      endNode: '流程结束',
+      log: {
+        title: '日志详情'
+      }
     }
   },
   form: {

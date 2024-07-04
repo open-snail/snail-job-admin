@@ -146,3 +146,77 @@ export function monthRangeISO8601(months: number = 1, startOf: dayjs.OpUnitType 
     dayjs().endOf('day').format('YYYY-MM-DDTHH:mm:ss')
   ] as [string, string];
 }
+
+export function isNotNull(value: any) {
+  return value !== undefined && value !== null && value !== '' && value !== 'undefined';
+}
+
+export function parseArgsJson(value: string) {
+  let argsJson;
+
+  try {
+    argsJson = JSON.stringify(JSON.parse(value), null, 4);
+  } catch {}
+
+  return argsJson;
+}
+
+export function parseContent(value?: { key: string; value: string | number | boolean; type: string }[]) {
+  if (!value) return undefined;
+  return value.reduce<{ [key: string]: string | number | boolean }>((obj, item) => {
+    if (item.type === 'string') {
+      obj[item.key] = String(item.value);
+    }
+
+    if (item.type === 'boolean') {
+      obj[item.key] = item.value === 1;
+    }
+
+    if (item.type === 'number') {
+      obj[item.key] = Number(item.value);
+    }
+
+    return obj;
+  }, {});
+}
+
+export function stringToContent(
+  jsonString?: string
+): { key: string; value: string | number | boolean; type: string }[] {
+  if (!jsonString) return [];
+  // 尝试解析JSON字符串
+  let parsedObj = jsonString;
+
+  if (typeof jsonString === 'string') {
+    try {
+      parsedObj = JSON.parse(jsonString);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // 创建结果数组
+  const result = [];
+
+  // 遍历对象的键值对
+  for (const [key, value] of Object.entries(parsedObj)) {
+    // 根据值的类型确定type字段
+    let type = 'string';
+    if (typeof value === 'number') {
+      type = 'number';
+    } else if (typeof value === 'boolean') {
+      type = 'boolean';
+    } else {
+      type = 'string';
+    }
+
+    // 将转换后的对象添加到结果数组中
+    result.push({
+      key,
+      value,
+      type
+    });
+  }
+
+  return result as any;
+}

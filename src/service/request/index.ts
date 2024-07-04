@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios';
-import { createFlatRequest } from '@sa/axios';
+import { BACKEND_ERROR_CODE, createFlatRequest } from '@sa/axios';
 import { useAuthStore } from '@/store/modules/auth';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
@@ -72,7 +72,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
         if (!request.state.isLogout) {
           request.state.isLogout = true;
           window.$dialog?.error({
-            title: 'Error',
+            title: $t('common.error'),
             content: $t('request.logoutWithModalMsg'),
             positiveText: $t('common.confirm'),
             maskClosable: false,
@@ -118,8 +118,10 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       let backendErrorCode = '';
 
       // get backend error message and code
-      message = error.response?.data?.message || message;
-      backendErrorCode = error.response?.data?.status?.toString() || '';
+      if (String(error.code) === BACKEND_ERROR_CODE) {
+        message = error.response?.data?.message || message;
+        backendErrorCode = error.response?.data?.status || '';
+      }
 
       // the error message is displayed in the modal
       const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
@@ -130,6 +132,10 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       // when the token is expired, refresh token and retry request, so no need to show error message
       const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
       if (expiredTokenCodes.includes(backendErrorCode)) {
+        return;
+      }
+
+      if (error.code === 'ERR_CANCELED') {
         return;
       }
 

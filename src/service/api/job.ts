@@ -18,10 +18,27 @@ export function fetchGetJobList(params?: Api.Job.JobSearchParams) {
   });
 }
 
+/** get Job list */
+export function fetchGetJobDetail(id: string) {
+  return request<Workflow.JobTaskType>({
+    url: `/job/${id}`,
+    method: 'get'
+  });
+}
+
 /** get Job Task list */
 export function fetchGetJobTaskList(params?: Api.Job.jobTaskSearchParams) {
   return request<Api.Job.JobTaskList>({
     url: '/job/task/list',
+    method: 'get',
+    params
+  });
+}
+
+/** get Job Task Tree */
+export function fetchGetJobTaskTree(params?: Api.Job.jobTaskSearchParams) {
+  return request<Api.Job.JobTaskTreeList>({
+    url: '/job/task/tree/list',
     method: 'get',
     params
   });

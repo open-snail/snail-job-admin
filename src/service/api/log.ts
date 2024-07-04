@@ -1,11 +1,12 @@
 import { request } from '../request';
 
 /** get Job Log List */
-export function fetchJobLogList(params?: Api.JobLog.JobLogSearchParams) {
+export function fetchJobLogList(params?: Api.JobLog.JobLogSearchParams, controller?: AbortController) {
   return request<Api.JobLog.JobLogList>({
     url: '/job/log/list',
     method: 'get',
-    params
+    params,
+    signal: controller?.signal
   });
 }
 
