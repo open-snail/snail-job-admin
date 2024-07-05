@@ -117,6 +117,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 :deep(.virtual-list) {
+  height: calc(100vh - 166px) !important;
   max-height: calc(100vh - 166px) !important;
 }
 </style>
