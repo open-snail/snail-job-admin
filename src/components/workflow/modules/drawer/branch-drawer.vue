@@ -72,25 +72,30 @@ const save = () => {
     .catch(() => window.$message?.warning('请检查表单信息'));
 };
 
+const nodeExpressionFeedback = ref('');
+
 const checkNodeExpression = async () => {
   if (!form.value.decision?.nodeExpression) {
-    return Promise.reject(new Error('请填写条件表达式'));
+    nodeExpressionFeedback.value = '请填写条件表达式';
+    return;
   }
   const { error, data } = await fetchCheckNodeExpression(form.value.decision!);
   if (!error) {
     if (data.key !== 1) {
-      return Promise.reject(data.value ?? '请检查条件表达式');
+      nodeExpressionFeedback.value = data.value || '请检查条件表达式';
+      return;
     }
   } else {
-    return Promise.reject(new Error('接口请求失败'));
+    nodeExpressionFeedback.value = '接口请求失败';
+    return;
   }
-  return Promise.resolve();
+  nodeExpressionFeedback.value = '';
 };
 
 const rules: FormRules = {
   decision: {
     expressionType: [{ required: true, message: '请选择表达式类型', trigger: 'change', type: 'number' }],
-    nodeExpression: [{ required: true, validator: checkNodeExpression, trigger: 'blur' }]
+    nodeExpression: [{ required: true, message: '请填写条件表达式', trigger: 'blur' }]
   }
 };
 </script>
@@ -132,11 +137,23 @@ const rules: FormRules = {
             </NSpace>
           </NRadioGroup>
         </NFormItem>
-        <NFormItem path="decision.nodeExpression" label="条件表达式">
+        <NFormItem
+          path="decision.nodeExpression"
+          label="条件表达式"
+          validation-status="error"
+          :feedback="nodeExpressionFeedback"
+        >
           <CodeMirror v-model="form.decision!.nodeExpression" placeholder="请输入条件表达式" />
         </NFormItem>
-        <NFormItem path="decision.checkContents" label="模拟上下文">
+        <NFormItem
+          path="decision.checkContents"
+          label="模拟上下文"
+          :show-feedback="form.decision?.checkContents && form.decision.checkContents.length === 0"
+        >
           <DynamicInput v-model:value="form.decision!.checkContents!" path="decision.checkContents" />
+        </NFormItem>
+        <NFormItem :show-label="false" :show-feedback="false">
+          <NButton type="primary" ghost block @click="checkNodeExpression">校验条件表达式</NButton>
         </NFormItem>
       </NForm>
 

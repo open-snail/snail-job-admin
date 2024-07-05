@@ -210,7 +210,7 @@ const rules: Record<RuleKey, FormItemRule> = {
             </NFormItem>
           </NGi>
         </NGrid>
-        <NFormItem path="wfContext" label="工作流上下文">
+        <NFormItem path="wfContext" label="工作流上下文" :show-feedback="false">
           <DynamicInput v-model:value="form.wfContexts!" path="wfContexts" />
         </NFormItem>
         <NFormItem path="workflowStatus" label="节点状态">
