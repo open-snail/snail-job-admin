@@ -115,4 +115,8 @@ onBeforeUnmount(() => {
   </OperateDrawer>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.virtual-list) {
+  max-height: calc(100vh - 166px) !important;
+}
+</style>
