@@ -65,7 +65,12 @@ watch(
   <CronInput v-if="backOff === 3" v-model="cron" :lang="app.locale" />
 
   <NInputGroup v-else-if="backOff === 2 || backOff === 4">
-    <NInputNumber v-model:value="interval" :placeholder="$t('page.retryScene.form.triggerInterval')" clearable />
+    <NInputNumber
+      v-model:value="interval"
+      :min="10"
+      :placeholder="$t('page.retryScene.form.triggerInterval')"
+      clearable
+    />
     <NInputGroupLabel>{{ $t('common.second') }}</NInputGroupLabel>
   </NInputGroup>
 </template>
