@@ -123,7 +123,7 @@ const { columns, columnChecks, data, loading, mobilePagination } = useTable({
         const argsDom = () => (
           <td class="n-data-table-td n-data-table-td--last-col" colspan={columns.value.length || 9}>
             <NCode
-              class="max-h-300px overflow-auto"
+              class={`max-h-300px overflow-auto ${String(row.parentId) !== '0' ? 'pl-36px' : ''}`}
               hljs={hljs}
               code={parseArgsJson(row.argsStr)}
               language="json"
