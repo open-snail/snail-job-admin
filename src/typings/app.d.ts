@@ -395,6 +395,7 @@ declare namespace App {
           form: string;
           items: {
             java: string;
+            python: string;
           };
         };
         taskType: {

@@ -135,7 +135,8 @@ const local: App.I18n.Schema = {
       label: '执行器类型',
       form: '请选择执行器类型',
       items: {
-        java: 'Java'
+        java: 'Java',
+        python: 'Python'
       }
     },
     taskType: {
