@@ -5,6 +5,7 @@ import { useEventListener, usePreferredColorScheme } from '@vueuse/core';
 import { getPaletteColorByNumber } from '@sa/color';
 import { SetupStoreId } from '@/enum';
 import { localStg } from '@/utils/storage';
+import { useWatermark } from '@/hooks/common/watermark';
 import {
   addThemeVarsToHtml,
   createThemeToken,
@@ -53,6 +54,26 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
    * It is for copy settings
    */
   const settingsJson = computed(() => JSON.stringify(settings.value));
+
+  /** Watermarks */
+  const { setWatermark, clearWatermark } = useWatermark({ id: 'global_watermark_id' });
+
+  /** 开启水印 */
+  function toggleWatermark(visible: boolean) {
+    visible ? setWatermark(settings.value.watermark.text) : clearWatermark();
+  }
+
+  /** 修改水印文案 */
+  function setWatermarkText(text: string) {
+    if (!text) {
+      clearWatermark();
+      return;
+    }
+    if (settings.value.watermark.visible) {
+      settings.value.watermark.text = text;
+      setWatermark(settings.value.watermark.text);
+    }
+  }
 
   /** Reset store */
   function resetStore() {
@@ -171,6 +192,15 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
       },
       { immediate: true }
     );
+
+    watch(
+      settings.value.watermark,
+      val => {
+        toggleWatermark(val.visible);
+        setWatermarkText(val.text);
+      },
+      { immediate: true }
+    );
   });
 
   /** On scope dispose */
@@ -189,6 +219,8 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
     setThemeScheme,
     toggleThemeScheme,
     updateThemeColors,
-    setThemeLayout
+    setThemeLayout,
+    setWatermarkText,
+    toggleWatermark
   };
 });

@@ -46,6 +46,10 @@ export const themeSettings: App.Theme.ThemeSetting = {
     fixed: false,
     height: 48,
     right: true
+  },
+  watermark: {
+    visible: true,
+    text: 'Snail Job'
   }
 };
 

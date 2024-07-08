@@ -301,6 +301,10 @@ const local: App.I18n.Schema = {
       copySuccessMsg: 'Copy Success, Please replace the variable "themeSettings" in "src/theme/settings.ts"',
       resetConfig: 'Reset Config',
       resetSuccessMsg: 'Reset Success'
+    },
+    watermark: {
+      visible: 'Watermark Visible',
+      text: 'Watermark Text'
     }
   },
   route: {

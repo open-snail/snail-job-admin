@@ -97,6 +97,13 @@ declare namespace App {
         /** Whether float the footer to the right when the layout is 'horizontal-mix' */
         right: boolean;
       };
+      /** Watermark */
+      watermark: {
+        /** Whether to show the watermark */
+        visible: boolean;
+        /** WatermarkText */
+        text: string;
+      };
     }
 
     interface OtherColor {
@@ -520,6 +527,10 @@ declare namespace App {
           copySuccessMsg: string;
           resetConfig: string;
           resetSuccessMsg: string;
+        };
+        watermark: {
+          visible: string;
+          text: string;
         };
       };
       route: Record<I18nRouteKey, string>;

@@ -1058,6 +1058,8 @@ declare namespace Api {
       taskStatus: Common.TaskStatus;
       /** 任务类型 */
       taskType: Common.TaskType;
+      /** 父级 ID */
+      parentId: string;
       /** 子节点 */
       children: JobTaskTree[];
       /** 是否存在下级 */
