@@ -105,7 +105,7 @@ const isWrapperScrollMode = computed(() => themeStore.layout.scrollMode === 'wra
       <NSwitch v-model:value="themeStore.watermark.visible" />
     </SettingItem>
     <SettingItem key="8-1" :label="$t('theme.watermark.text')">
-      <NInput v-model:value="themeStore.watermark.text" size="small" :step="1" class="w-120px" />
+      <NInput v-model:value="themeStore.watermark.text" size="small" :step="1" class="max-w-180px" />
     </SettingItem>
   </TransitionGroup>
 </template>
