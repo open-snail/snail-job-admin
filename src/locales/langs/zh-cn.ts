@@ -301,6 +301,10 @@ const local: App.I18n.Schema = {
       copySuccessMsg: '复制成功，请替换 src/theme/settings.ts 中的变量 themeSettings',
       resetConfig: '重置配置',
       resetSuccessMsg: '重置成功'
+    },
+    watermark: {
+      visible: '开启',
+      text: '水印文字'
     }
   },
   route: {

@@ -220,3 +220,33 @@ export function stringToContent(
 
   return result as any;
 }
+
+/**
+ * 函数防抖
+ *
+ * @param func 函数
+ * @param wait 延迟毫秒数
+ * @param immediate true/false (是/否)即执行
+ */
+export function debounce(func: () => any, wait: number, immediate?: boolean) {
+  let timeout: any;
+
+  return () => {
+    /* eslint-disable */
+    // @ts-ignore
+    const context = this
+    const args: any = arguments
+    if (timeout) clearTimeout(timeout);
+    if (immediate) {
+      const callNow = !timeout;
+      timeout = setTimeout(() => {
+        timeout = null;
+      }, wait);
+      if (callNow) func.apply(context, args);
+    } else {
+      timeout = setTimeout(() => {
+        func.apply(context, args);
+      }, wait);
+    }
+  };
+}
