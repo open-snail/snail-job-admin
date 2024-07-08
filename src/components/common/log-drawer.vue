@@ -304,6 +304,10 @@ const SnailLogComponent = defineComponent({
           </NDropdown>
         </div>
       </template>
+      <div v-if="logList.length === 0" class="h-full flex-center">
+        <NEmpty v-if="logList.length === 0 && finished" />
+        <NSpin v-if="logList.length === 0 && !finished" />
+      </div>
       <SnailLogComponent />
     </NDrawerContent>
   </NDrawer>
@@ -344,6 +348,10 @@ const SnailLogComponent = defineComponent({
         </NTooltip>
       </div>
     </template>
+    <div v-if="logList.length === 0" class="h-full flex-center">
+      <NEmpty v-if="logList.length === 0 && finished" />
+      <NSpin v-if="logList.length === 0 && !finished" />
+    </div>
     <SnailLogComponent />
   </NCard>
 </template>
@@ -353,6 +361,7 @@ const SnailLogComponent = defineComponent({
   padding: 0;
 
   .virtual-list {
+    height: calc(100vh - 101px);
     max-height: calc(100vh - 101px);
   }
 

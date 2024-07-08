@@ -185,9 +185,16 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 
             <n-divider vertical />
 
-            <NButton text type="error" ghost size="small" onClick={() => execute(row.id!)}>
-              {$t('common.execute')}
-            </NButton>
+            <NPopconfirm onPositiveClick={() => execute(row.id!)}>
+              {{
+                default: () => $t('common.confirmExecute'),
+                trigger: () => (
+                  <NButton type="error" text ghost size="small">
+                    {$t('common.execute')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
 
             <n-divider vertical />
 

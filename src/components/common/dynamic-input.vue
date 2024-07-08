@@ -69,9 +69,9 @@ const handleUpdateType = (index: number) => {
 
 <template>
   <NDynamicInput v-model:value="content" item-style="margin-bottom: 0;" :on-create="onCreate" #="{ index }">
-    <NGrid :x-gap="16">
+    <NGrid>
       <NFormItemGi
-        :span="8"
+        :span="7"
         ignore-path-change
         :show-label="false"
         :rule="dynamicInputRule"
@@ -79,9 +79,9 @@ const handleUpdateType = (index: number) => {
       >
         <NInput v-model:value="content[index].key" placeholder="key" @keydown.enter.prevent />
       </NFormItemGi>
-      <NGi :span="1" class="h-34px lh-34px">=</NGi>
+      <NGi :span="2" class="h-34px text-center lh-34px">=</NGi>
       <NFormItemGi
-        :span="8"
+        :span="7"
         ignore-path-change
         :show-label="false"
         :rule="dynamicInputRule"
@@ -109,8 +109,14 @@ const handleUpdateType = (index: number) => {
           @keydown.enter.prevent
         />
       </NFormItemGi>
-      <NFormItemGi :span="3" class="w-130px" ignore-path-change :show-label="false" :path="`${path}[${index}].type`">
-        <div :span="1" class="h-34px lh-34px">(</div>
+      <NFormItemGi
+        :span="3"
+        class="ml-12px w-115px"
+        ignore-path-change
+        :show-label="false"
+        :path="`${path}[${index}].type`"
+      >
+        <div class="h-34px lh-34px">(</div>
         <NSelect
           v-model:value="content[index].type"
           class="mx-3px"
@@ -119,7 +125,7 @@ const handleUpdateType = (index: number) => {
           @keydown.enter.prevent
           @update:value="handleUpdateType(index)"
         />
-        <div :span="1" class="h-34px lh-34px">)</div>
+        <div class="h-34px lh-34px">)</div>
       </NFormItemGi>
     </NGrid>
   </NDynamicInput>
