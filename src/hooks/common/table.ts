@@ -92,6 +92,10 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
         } else if (column.type === 'expand') {
           columnMap.set(EXPAND_KEY, column);
         }
+
+        if (isMobile.value && column.fixed) {
+          column.fixed = undefined;
+        }
       });
 
       const filteredColumns = checks

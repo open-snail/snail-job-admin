@@ -10,6 +10,8 @@ defineOptions({
   name: 'PageFun'
 });
 
+const isDev = import.meta.env.DEV;
+
 const themeStore = useThemeStore();
 
 const layoutMode = computed(() => themeStore.layout.mode);
@@ -101,10 +103,10 @@ const isWrapperScrollMode = computed(() => themeStore.layout.scrollMode === 'wra
     >
       <NSwitch v-model:value="themeStore.footer.right" />
     </SettingItem>
-    <SettingItem key="8" :label="$t('theme.watermark.visible')">
+    <SettingItem v-if="isDev" key="8" :label="$t('theme.watermark.visible')">
       <NSwitch v-model:value="themeStore.watermark.visible" />
     </SettingItem>
-    <SettingItem key="8-1" :label="$t('theme.watermark.text')">
+    <SettingItem v-if="isDev" key="8-1" :label="$t('theme.watermark.text')">
       <NInput v-model:value="themeStore.watermark.text" size="small" :step="1" class="max-w-180px" />
     </SettingItem>
   </TransitionGroup>

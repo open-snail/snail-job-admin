@@ -1,9 +1,9 @@
 <script setup lang="tsx">
 import type { DataTableRowKey } from 'naive-ui';
-import { NButton, NCode, NPopover, NTag } from 'naive-ui';
+import { NButton, NCode, NTag } from 'naive-ui';
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
-import { ref } from 'vue';
+import { ref, render } from 'vue';
 import { taskStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { parseArgsJson } from '@/utils/common';
@@ -30,6 +30,8 @@ interface Emits {
 const emit = defineEmits<Emits>();
 
 const expandedRowKeys = ref<DataTableRowKey[]>([]);
+
+const argsDomMap = ref<Map<string, boolean>>(new Map());
 
 const { columns, columnChecks, data, loading, mobilePagination } = useTable({
   apiFn: fetchGetJobTaskList,
@@ -118,25 +120,52 @@ const { columns, columnChecks, data, loading, mobilePagination } = useTable({
       titleAlign: 'center',
       minWidth: 120,
       render: row => {
+        const argsDom = () => (
+          <td class="n-data-table-td n-data-table-td--last-col" colspan={columns.value.length || 9}>
+            <NCode
+              class="max-h-300px overflow-auto"
+              hljs={hljs}
+              code={parseArgsJson(row.argsStr)}
+              language="json"
+              show-line-numbers
+            />
+          </td>
+        );
+
+        const handleView = () => {
+          if (argsDomMap.value.get(row.id)) {
+            return;
+          }
+          const tr = document.querySelector(`#job-task-${row.id}`);
+          const argsTr = document.createElement('tr');
+          argsTr.setAttribute('id', `job-task-args-${row.id}`);
+          argsTr.setAttribute('class', 'n-data-table-tr n-data-table-tr--expanded');
+          tr?.after(argsTr);
+          render(argsDom(), argsTr!);
+          argsDomMap.value.set(row.id, true);
+        };
+
+        const handleClose = () => {
+          if (!argsDomMap.value.get(row.id)) {
+            return;
+          }
+          const tr = document.querySelector(`#job-task-args-${row.id}`);
+          tr?.remove();
+          argsDomMap.value.set(row.id, false);
+        };
+
         return (
-          <NPopover trigger="click">
-            {{
-              trigger: () => (
-                <NButton type="primary" text>
-                  <span class="w-28px ws-break-spaces">{`查看\n参数`}</span>
-                </NButton>
-              ),
-              default: () => (
-                <NCode
-                  class="max-h-300px overflow-auto"
-                  hljs={hljs}
-                  code={parseArgsJson(row.argsStr)}
-                  language="json"
-                  show-line-numbers
-                />
-              )
-            }}
-          </NPopover>
+          <>
+            {argsDomMap.value.get(row.id) ? (
+              <NButton type="primary" text onClick={() => handleClose()}>
+                <span class="w-28px ws-break-spaces">{`收起`}</span>
+              </NButton>
+            ) : (
+              <NButton type="primary" text onClick={() => handleView()}>
+                <span class="w-28px ws-break-spaces">{`查看\n参数`}</span>
+              </NButton>
+            )}
+          </>
         );
       }
     },
@@ -156,7 +185,7 @@ const { columns, columnChecks, data, loading, mobilePagination } = useTable({
       key: 'createDt',
       title: $t('page.jobBatch.jobTask.createDt'),
       align: 'left',
-      minWidth: 120
+      minWidth: 130
     }
   ]
 });
@@ -207,7 +236,7 @@ init();
     :data="data"
     :loading="loading"
     remote
-    :scroll-x="962"
+    :scroll-x="1000"
     :row-key="row => row.id"
     :pagination="mobilePagination"
     :indent="16"
@@ -215,6 +244,7 @@ init();
     allow-checking-not-loaded
     :expanded-row-keys="expandedRowKeys"
     class="sm:h-full"
+    :row-props="row => ({ id: `job-task-${row.id}` })"
     @update:expanded-row-keys="onExpandedRowKeys"
     @update:page="onUpdatePage"
     @load="onLoad"
