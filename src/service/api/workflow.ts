@@ -43,13 +43,6 @@ export function fetchUpdateWorkflowStatus(id: string) {
   });
 }
 
-export function fetchDelWorkflow(id: string) {
-  return request({
-    url: `/workflow/${id}`,
-    method: 'delete'
-  });
-}
-
 export function fetchBatchDeleteWorkflow(data: string[]) {
   return request({
     url: '/workflow/ids',

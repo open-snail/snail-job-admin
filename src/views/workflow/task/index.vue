@@ -3,7 +3,6 @@ import { NButton, NDropdown, NPopconfirm, NTag } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import {
   fetchBatchDeleteWorkflow,
-  fetchDelWorkflow,
   fetchGetWorkflowPageList,
   fetchTriggerWorkflow,
   fetchUpdateWorkflowStatus
@@ -230,7 +229,7 @@ async function handleBatchDelete() {
 
 async function handleDelete(id: string) {
   // request
-  const { error } = await fetchDelWorkflow(id!);
+  const { error } = await fetchBatchDeleteWorkflow([id!]);
   if (error) return;
   onDeleted();
 }

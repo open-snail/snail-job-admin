@@ -2,13 +2,7 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { ref } from 'vue';
-import {
-  fetchBatchDeleteJob,
-  fetchDeleteJob,
-  fetchGetJobPage,
-  fetchTriggerJob,
-  fetchUpdateJobStatus
-} from '@/service/api';
+import { fetchBatchDeleteJob, fetchGetJobPage, fetchTriggerJob, fetchUpdateJobStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -241,7 +235,7 @@ const {
 } = useTableOperate(data, getData);
 
 async function handleDelete(id: string) {
-  const { error } = await fetchDeleteJob(id);
+  const { error } = await fetchBatchDeleteJob([id]);
   if (error) return;
   onDeleted();
 }

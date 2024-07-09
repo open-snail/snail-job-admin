@@ -138,7 +138,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               {$t('common.edit')}
             </NButton>
             <n-divider vertical />
-            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+            <NPopconfirm onPositiveClick={() => handleDelete(row.groupName!)}>
               {{
                 default: () => $t('common.confirmDelete'),
                 trigger: () => (
@@ -170,8 +170,8 @@ function edit(id: string) {
   handleEdit(id);
 }
 
-async function handleDelete(id: string) {
-  const { error } = await fetchDeleteGroup(id);
+async function handleDelete(groupName: string) {
+  const { error } = await fetchDeleteGroup(groupName);
   if (error) return;
   onDeleted();
 }

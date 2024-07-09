@@ -42,7 +42,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       type: 'selection',
       align: 'center',
       width: 48,
-      disabled: row => row.retryStatus !== 1
+      disabled: row => row.retryStatus === 0
     },
     {
       key: 'id',

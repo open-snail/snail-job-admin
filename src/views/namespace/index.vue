@@ -90,7 +90,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
                 {$t('common.switch')}
               </NButton>
               <n-divider vertical />
-              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+              <NPopconfirm onPositiveClick={() => handleDelete(row.uniqueId!)}>
                 {{
                   default: () => $t('common.confirmDelete'),
                   trigger: () => (
@@ -125,8 +125,8 @@ function edit(id: string) {
   handleEdit(id);
 }
 
-async function handleDelete(id: string) {
-  const { error } = await fetchDeleteNamespace(id);
+async function handleDelete(uniqueId: string) {
+  const { error } = await fetchDeleteNamespace(uniqueId);
   if (error) return;
   onDeleted();
 }

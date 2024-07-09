@@ -28,9 +28,9 @@ export function fetchEditNamespace(data: Api.Namespace.Namespace) {
 }
 
 /** delete namespace by id */
-export function fetchDeleteNamespace(id: string) {
+export function fetchDeleteNamespace(uniqueId: string) {
   return request<boolean>({
-    url: `/namespace/${id}`,
+    url: `/namespace/${uniqueId}`,
     method: 'delete'
   });
 }
