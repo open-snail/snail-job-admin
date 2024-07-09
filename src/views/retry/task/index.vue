@@ -54,7 +54,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'uniqueId',
       title: $t('page.retryTask.uniqueId'),
-      align: 'left',
+      align: 'center',
       fixed: 'left',
       minWidth: 120,
       render: row => {
@@ -149,7 +149,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'operate',
       title: $t('common.operate'),
-      align: 'left',
+      align: 'center',
       width: 260,
       fixed: 'right',
       render: row => (

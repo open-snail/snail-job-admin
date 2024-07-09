@@ -35,8 +35,9 @@ export function fetchJobBatchRetry(jobId: string) {
 /** delete job */
 export function fetchDeleteJobBatch(id: string) {
   return request<boolean>({
-    url: `/job/batch/${id}`,
-    method: 'delete'
+    url: `/job/batch/ids`,
+    method: 'delete',
+    data: [id]
   });
 }
 

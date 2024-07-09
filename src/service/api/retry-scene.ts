@@ -43,3 +43,21 @@ export function fetchUpdateSceneStatus(id: string, status: Api.Common.EnableStat
     method: 'put'
   });
 }
+
+/** delete retry scene status */
+export function fetchDeleteRetryScene(id: string) {
+  return request({
+    url: '/scene-config/ids',
+    method: 'delete',
+    data: [id]
+  });
+}
+
+/** batch delete retry scene status */
+export function fetchBatchDeleteRetryScene(data: string[]) {
+  return request({
+    url: '/scene-config/ids',
+    method: 'delete',
+    data
+  });
+}

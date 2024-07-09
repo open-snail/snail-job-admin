@@ -2,7 +2,12 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetRetryScenePageList, fetchUpdateSceneStatus } from '@/service/api';
+import {
+  fetchBatchDeleteRetryScene,
+  fetchDeleteRetryScene,
+  fetchGetRetryScenePageList,
+  fetchUpdateSceneStatus
+} from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -47,6 +52,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     },
     {
       key: 'sceneName',
+      align: 'center',
       title: $t('page.retryScene.sceneName'),
       fixed: 'left',
       width: 120,
@@ -161,25 +167,46 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       fixed: 'right',
-      width: 120,
+      width: 100,
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
+          <n-divider vertical />
+          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+            {{
+              default: () => $t('common.confirmDelete'),
+              trigger: () => (
+                <NButton type="error" text ghost size="small">
+                  {$t('common.delete')}
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
         </div>
       )
     }
   ]
 });
 
-const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys } = useTableOperate(
-  data,
-  getData
-);
+const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys, onDeleted, onBatchDeleted } =
+  useTableOperate(data, getData);
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleDelete(id: string) {
+  const { error } = await fetchDeleteRetryScene(id);
+  if (error) return;
+  onDeleted();
+}
+
+async function handleBatchDelete() {
+  const { error } = await fetchBatchDeleteRetryScene(checkedRowKeys.value);
+  if (error) return;
+  onBatchDeleted();
 }
 
 function triggerInterval(backOff: number, maxRetryCount: number) {
@@ -223,8 +250,8 @@ function handleExport() {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          :show-delete="false"
           @add="handleAdd"
+          @delete="handleBatchDelete"
           @refresh="getData"
         >
           <template #addAfter>

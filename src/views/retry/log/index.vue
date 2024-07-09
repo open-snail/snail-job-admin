@@ -130,7 +130,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 80,
       render: row => (
         <div class="flex-center gap-8px">
           {row.retryStatus === 1 ? (

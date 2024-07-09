@@ -2,7 +2,7 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
-import { fetchDelUser, fetchGetUserPageList } from '@/service/api';
+import { fetchBatchDelteUser, fetchDelUser, fetchGetUserPageList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -30,9 +30,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   columns: () => [
     {
       key: 'permissions',
-      align: 'left',
+      align: 'center',
       type: 'expand',
-      minWidth: 10,
+      minWidth: 36,
       renderExpand: row => {
         return (
           <div>
@@ -56,6 +56,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           </div>
         );
       }
+    },
+    {
+      type: 'selection'
     },
     {
       key: 'id',
@@ -144,15 +147,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys, onDeleted } = useTableOperate(
-  data,
-  getData
-);
+const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys, onDeleted, onBatchDeleted } =
+  useTableOperate(data, getData);
 
 async function handleDelete(id: string) {
   const { error } = await fetchDelUser(id as any);
   if (error) return;
   onDeleted();
+}
+
+async function handleBatchDelete() {
+  const { error } = await fetchBatchDelteUser(checkedRowKeys.value);
+  if (error) return;
+  onBatchDeleted();
 }
 
 function edit(id: string) {
@@ -175,8 +182,8 @@ function edit(id: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          :show-delete="false"
           @add="handleAdd"
+          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>
