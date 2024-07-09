@@ -2,10 +2,16 @@
 import { NButton, NPopconfirm, NTag, NTooltip } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { ref } from 'vue';
-import { fetchGetJobBatchList, fetchJobBatchRetry, fetchJobBatchStop } from '@/service/api';
+import {
+  fetchBatchDeleteJobBatch,
+  fetchDeleteJobBatch,
+  fetchGetJobBatchList,
+  fetchJobBatchRetry,
+  fetchJobBatchStop
+} from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
-import { useTable } from '@/hooks/common/table';
+import { useTable, useTableOperate } from '@/hooks/common/table';
 import { operationReasonRecord, taskBatchStatusRecord, taskTypeRecord } from '@/constants/business';
 import { monthRangeISO8601, tagColor } from '@/utils/common';
 import SvgIcon from '@/components/custom/svg-icon.vue';
@@ -39,6 +45,9 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
     taskBatchStatus
   },
   columns: () => [
+    {
+      type: 'selection'
+    },
     {
       key: 'id',
       align: 'center',
@@ -158,7 +167,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 170,
       render: row => {
         const stopBtn = () => {
           if (row.taskBatchStatus === 1 || row.taskBatchStatus === 2) {
@@ -208,12 +217,42 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
             </NButton>
             {stopBtn()}
             {retryBtn()}
+            <n-divider vertical />
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" text ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
           </div>
         );
       }
     }
   ]
 });
+
+const {
+  checkedRowKeys,
+  onDeleted,
+  onBatchDeleted
+  // closeDrawer
+} = useTableOperate(data, getData);
+
+async function handleDelete(id: string) {
+  const { error } = await fetchDeleteJobBatch(id);
+  if (error) return;
+  onDeleted();
+}
+
+async function handleBatchDelete() {
+  const { error } = await fetchBatchDeleteJobBatch(checkedRowKeys.value);
+  if (error) return;
+  onBatchDeleted();
+}
 
 function handleLog(row: Api.JobBatch.JobBatch) {
   detailData.value = row;
@@ -251,13 +290,15 @@ async function handleStopJob(id: string) {
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
+          :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          :show-delete="false"
           :show-add="false"
+          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>
       <NDataTable
+        v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
         :data="data"
         :flex-height="!appStore.isMobile"

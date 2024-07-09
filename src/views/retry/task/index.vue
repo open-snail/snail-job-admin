@@ -259,7 +259,6 @@ const { bool: batchAddDrawerVisible, setTrue: openBatchAddDrawer } = useBoolean(
 async function handleDelete(groupName: string, id: string) {
   const { error } = await fetchBatchDeleteRetryTask({ groupName, ids: [id] });
   if (error) return;
-
   onDeleted();
 }
 
@@ -274,7 +273,6 @@ async function handleBatchDelete() {
   const groupName = data.value[0].groupName;
   const { error } = await fetchBatchDeleteRetryTask({ groupName, ids });
   if (error) return;
-
   onBatchDeleted();
 }
 

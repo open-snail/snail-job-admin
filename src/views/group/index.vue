@@ -32,11 +32,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   },
   columns: () => [
     {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
-    {
       key: 'id',
       title: $t('common.index'),
       align: 'center',
@@ -207,10 +202,9 @@ function handleExport() {
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          :show-delete="false"
           :show-add="hasAuth('R_ADMIN')"
+          :show-delete="false"
           @add="handleAdd"
           @refresh="getData"
         >

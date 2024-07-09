@@ -79,6 +79,15 @@ export function fetchDeleteJob(id: string) {
   });
 }
 
+/** batch delete Job by id */
+export function fetchBatchDeleteJob(data: string[]) {
+  return request<boolean>({
+    url: '/job/ids',
+    method: 'delete',
+    data
+  });
+}
+
 /** trigger Job by id */
 export function fetchTriggerJob(jobId: string) {
   return request<boolean>({

@@ -144,7 +144,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys } = useTableOperate(
+const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys, onDeleted } = useTableOperate(
   data,
   getData
 );
@@ -152,8 +152,7 @@ const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedR
 async function handleDelete(id: string) {
   const { error } = await fetchDelUser(id as any);
   if (error) return;
-  getData();
-  window.$message?.success($t('common.deleteSuccess'));
+  onDeleted();
 }
 
 function edit(id: string) {

@@ -136,7 +136,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-const { handleAdd, checkedRowKeys } = useTableOperate(data, getData);
+const { handleAdd, checkedRowKeys, onDeleted, onBatchDeleted } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
   // request
@@ -145,8 +145,8 @@ async function handleBatchDelete() {
     groupName: searchParams.groupName!
   });
   if (error) return;
-  window.$message?.success($t('common.deleteSuccess'));
-  getData();
+  if (error) return;
+  onBatchDeleted();
 }
 
 async function handleBatchRollback() {
@@ -163,8 +163,7 @@ async function handleBatchRollback() {
 async function handleDelete(row: Api.RetryDeadLetter.DeadLetter) {
   const { error } = await fetchDeleteRetryDeadLetter({ ids: [row.id!], groupName: row.groupName! });
   if (error) return;
-  window.$message?.success($t('common.deleteSuccess'));
-  getData();
+  onDeleted();
 }
 
 async function loadRetryInfo(row: Api.RetryDeadLetter.DeadLetter) {

@@ -60,7 +60,7 @@ export function fetchGetAllGroupConfigList(data: string[]) {
   });
 }
 
-/** delete Group by id */
+/** delete group by id */
 export function fetchDeleteGroup(id: string) {
   return request<boolean>({
     url: `/group/${id}`,

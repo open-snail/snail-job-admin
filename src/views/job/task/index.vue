@@ -2,7 +2,13 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { ref } from 'vue';
-import { fetchDeleteJob, fetchGetJobPage, fetchTriggerJob, fetchUpdateJobStatus } from '@/service/api';
+import {
+  fetchBatchDeleteJob,
+  fetchDeleteJob,
+  fetchGetJobPage,
+  fetchTriggerJob,
+  fetchUpdateJobStatus
+} from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -229,7 +235,8 @@ const {
   handleAdd,
   handleEdit,
   checkedRowKeys,
-  onDeleted
+  onDeleted,
+  onBatchDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
@@ -237,6 +244,12 @@ async function handleDelete(id: string) {
   const { error } = await fetchDeleteJob(id);
   if (error) return;
   onDeleted();
+}
+
+async function handleBatchDelete() {
+  const { error } = await fetchBatchDeleteJob(checkedRowKeys.value);
+  if (error) return;
+  onBatchDeleted();
 }
 
 function edit(id: string) {
@@ -285,8 +298,9 @@ function handleExport() {
         <TableHeaderOperation
           v-model:columns="columnChecks"
           :loading="loading"
-          :show-delete="false"
+          :disabled-delete="checkedRowKeys.length === 0"
           @add="handleAdd"
+          @delete="handleBatchDelete"
           @refresh="getData"
         >
           <template #addAfter>

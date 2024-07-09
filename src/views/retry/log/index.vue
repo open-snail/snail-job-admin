@@ -153,20 +153,18 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   ]
 });
 
-const { checkedRowKeys } = useTableOperate(data, getData);
+const { checkedRowKeys, onDeleted, onBatchDeleted } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
   const { error } = await fetchBatchDeleteRetryLog(checkedRowKeys.value as any[]);
-  if (!error) {
-    window.$message?.success($t('common.deleteSuccess'));
-    getData();
-  }
+  if (error) return;
+  onBatchDeleted();
 }
 
 async function handleDelete(id: any) {
-  await fetchDeleteRetryLog(id);
-  window.$message?.success($t('common.deleteSuccess'));
-  getData();
+  const { error } = await fetchDeleteRetryLog(id);
+  if (error) return;
+  onDeleted();
 }
 
 async function loadRetryInfo(row: Api.RetryLog.RetryLog) {

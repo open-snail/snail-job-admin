@@ -50,6 +50,14 @@ export function fetchDelWorkflow(id: string) {
   });
 }
 
+export function fetchBatchDeleteWorkflow(data: string[]) {
+  return request({
+    url: '/workflow/ids',
+    method: 'delete',
+    data
+  });
+}
+
 export function fetchStopWorkflowBatch(id: string) {
   return request({
     url: `/workflow/batch/stop/${id}`,
@@ -116,5 +124,20 @@ export function fetchNodeStop(nodeId: string, taskBatchId: string) {
   return request<null>({
     url: `/workflow/node/stop/${nodeId}/${taskBatchId}`,
     method: 'post'
+  });
+}
+
+export function fetchDeleteWorkflowBatch(id: string) {
+  return request({
+    url: `/workflow/batch/${id}`,
+    method: 'delete'
+  });
+}
+
+export function fetchBatchDeleteWorkflowBatch(data: string[]) {
+  return request({
+    url: '/workflow/batch/ids',
+    method: 'delete',
+    data
   });
 }

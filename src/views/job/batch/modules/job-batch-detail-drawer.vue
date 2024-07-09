@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { executorTypeRecord, operationReasonRecord, taskBatchStatusRecord } from '@/constants/business';
 import { $t } from '@/locales';
 import { tagColor } from '@/utils/common';
+import { fetchJobBatchRetry } from '@/service/api';
 
 defineOptions({
   name: 'JobBatchDetailDrawer'
@@ -14,7 +15,7 @@ interface Props {
   log?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   log: false,
   rowData: null
 });
@@ -29,6 +30,13 @@ const logShow = ref(false);
 async function openLog(row: Api.Job.JobTask) {
   logShow.value = true;
   taskData.value = row;
+}
+
+async function retry() {
+  const { error } = await fetchJobBatchRetry(props.rowData!.id!);
+  if (!error) {
+    window.$message?.success($t('common.operateSuccess'));
+  }
 }
 </script>
 
@@ -62,7 +70,7 @@ async function openLog(row: Api.Job.JobTask) {
         </NDescriptions>
       </NTabPane>
       <NTabPane :name="1" :tab="$t('page.log.title')" display-directive="if">
-        <JobTaskListTable :row-data="rowData" @show-log="openLog" />
+        <JobTaskListTable :row-data="rowData" @show-log="openLog" @retry="retry" />
       </NTabPane>
     </NTabs>
   </DetailDrawer>

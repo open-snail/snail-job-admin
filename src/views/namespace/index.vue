@@ -28,12 +28,12 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     keyword: null
   },
   columns: () => [
-    // {
-    //   key: 'id',
-    //   title: $t('common.index'),
-    //   align: 'center',
-    //   width: 64
-    // },
+    {
+      key: 'id',
+      title: $t('common.index'),
+      align: 'center',
+      width: 64
+    },
     {
       key: 'name',
       title: $t('page.namespace.name'),
