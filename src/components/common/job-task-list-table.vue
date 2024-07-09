@@ -6,7 +6,7 @@ import json from 'highlight.js/lib/languages/json';
 import { ref, render } from 'vue';
 import { taskStatusRecord, taskStatusRecordOptions } from '@/constants/business';
 import { $t } from '@/locales';
-import { parseArgsJson, translateOptions } from '@/utils/common';
+import { isNotNull, parseArgsJson, translateOptions } from '@/utils/common';
 import { useTable } from '@/hooks/common/table';
 import { fetchGetJobTaskList, fetchGetJobTaskTree } from '@/service/api';
 
@@ -36,6 +36,7 @@ const emit = defineEmits<Emits>();
 const expandedRowKeys = ref<DataTableRowKey[]>([]);
 
 const argsDomMap = ref<Map<string, boolean>>(new Map());
+const resultDomMap = ref<Map<string, boolean>>(new Map());
 
 const { columns, searchParams, columnChecks, data, getData, loading, mobilePagination } = useTable({
   apiFn: fetchGetJobTaskList,
@@ -138,6 +139,11 @@ const { columns, searchParams, columnChecks, data, getData, loading, mobilePagin
         );
 
         const handleView = () => {
+          if (resultDomMap.value.get(row.id)) {
+            const tr = document.querySelector(`#job-task-result-${row.id}`);
+            tr?.remove();
+            resultDomMap.value.set(row.id, false);
+          }
           if (argsDomMap.value.get(row.id)) {
             return;
           }
@@ -166,7 +172,7 @@ const { columns, searchParams, columnChecks, data, getData, loading, mobilePagin
                 <span class="w-28px ws-break-spaces">{`收起`}</span>
               </NButton>
             ) : (
-              <NButton type="primary" text onClick={() => handleView()}>
+              <NButton type="primary" text disabled={!isNotNull(row.argsStr)} onClick={() => handleView()}>
                 <span class="w-28px ws-break-spaces">{`查看\n参数`}</span>
               </NButton>
             )}
@@ -178,7 +184,61 @@ const { columns, searchParams, columnChecks, data, getData, loading, mobilePagin
       key: 'resultMessage',
       title: $t('page.jobBatch.jobTask.resultMessage'),
       align: 'left',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        const argsDom = () => (
+          <td class="n-data-table-td n-data-table-td--last-col" colspan={columns.value.length || 9}>
+            <NCode
+              class={`max-h-300px overflow-auto ${String(row.parentId) !== '0' ? 'pl-36px' : ''}`}
+              hljs={hljs}
+              code={row.resultMessage}
+              language="json"
+              show-line-numbers
+            />
+          </td>
+        );
+
+        const handleView = () => {
+          if (argsDomMap.value.get(row.id)) {
+            const tr = document.querySelector(`#job-task-args-${row.id}`);
+            tr?.remove();
+            argsDomMap.value.set(row.id, false);
+          }
+          if (resultDomMap.value.get(row.id)) {
+            return;
+          }
+          const tr = document.querySelector(`#job-task-${row.id}`);
+          const argsTr = document.createElement('tr');
+          argsTr.setAttribute('id', `job-task-result-${row.id}`);
+          argsTr.setAttribute('class', 'n-data-table-tr n-data-table-tr--expanded');
+          tr?.after(argsTr);
+          render(argsDom(), argsTr!);
+          resultDomMap.value.set(row.id, true);
+        };
+
+        const handleClose = () => {
+          if (!resultDomMap.value.get(row.id)) {
+            return;
+          }
+          const tr = document.querySelector(`#job-task-result-${row.id}`);
+          tr?.remove();
+          resultDomMap.value.set(row.id, false);
+        };
+
+        return (
+          <>
+            {resultDomMap.value.get(row.id) ? (
+              <NButton type="primary" text onClick={() => handleClose()}>
+                <span class="w-28px ws-break-spaces">{`收起`}</span>
+              </NButton>
+            ) : (
+              <NButton type="primary" text disabled={!isNotNull(row.resultMessage)} onClick={() => handleView()}>
+                <span class="w-28px ws-break-spaces">{`查看\n结果`}</span>
+              </NButton>
+            )}
+          </>
+        );
+      }
     },
     {
       key: 'retryCount',
