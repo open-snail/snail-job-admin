@@ -1,7 +1,7 @@
 <script setup lang="tsx">
-import { NButton } from 'naive-ui';
+import { NButton, NPopconfirm } from 'naive-ui';
 import { ref } from 'vue';
-import { fetchGetNamespaceList } from '@/service/api';
+import { fetchDeleteNamespace, fetchGetNamespaceList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -77,7 +77,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 64,
+      width: 80,
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
@@ -89,6 +89,17 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
               <NButton type="warning" text ghost size="small" onClick={() => handleChange(row.uniqueId!)}>
                 {$t('common.switch')}
               </NButton>
+              <n-divider vertical />
+              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+                {{
+                  default: () => $t('common.confirmDelete'),
+                  trigger: () => (
+                    <NButton type="error" text ghost size="small">
+                      {$t('common.delete')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
             </>
           ) : (
             ''
@@ -105,12 +116,19 @@ const {
   editingData,
   handleAdd,
   handleEdit,
-  checkedRowKeys
+  checkedRowKeys,
+  onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleDelete(id: string) {
+  const { error } = await fetchDeleteNamespace(id);
+  if (error) return;
+  onDeleted();
 }
 </script>
 

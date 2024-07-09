@@ -4,9 +4,9 @@ import { NButton, NCode, NTag } from 'naive-ui';
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
 import { ref, render } from 'vue';
-import { taskStatusRecord } from '@/constants/business';
+import { taskStatusRecord, taskStatusRecordOptions } from '@/constants/business';
 import { $t } from '@/locales';
-import { parseArgsJson } from '@/utils/common';
+import { parseArgsJson, translateOptions } from '@/utils/common';
 import { useTable } from '@/hooks/common/table';
 import { fetchGetJobTaskList, fetchGetJobTaskTree } from '@/service/api';
 
@@ -19,11 +19,15 @@ hljs.registerLanguage('json', json);
 interface Props {
   /** row data */
   rowData?: Api.JobBatch.JobBatch | null;
+  isRetry?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  rowData: null
+});
 
 interface Emits {
+  (e: 'retry'): void;
   (e: 'showLog', rowData: Api.Job.JobTask): void;
 }
 
@@ -33,7 +37,7 @@ const expandedRowKeys = ref<DataTableRowKey[]>([]);
 
 const argsDomMap = ref<Map<string, boolean>>(new Map());
 
-const { columns, columnChecks, data, loading, mobilePagination } = useTable({
+const { columns, searchParams, columnChecks, data, getData, loading, mobilePagination } = useTable({
   apiFn: fetchGetJobTaskList,
   apiParams: {
     page: 1,
@@ -41,7 +45,8 @@ const { columns, columnChecks, data, loading, mobilePagination } = useTable({
     groupName: props.rowData?.groupName,
     taskBatchId: props.rowData?.id,
     startId: 0,
-    fromIndex: 0
+    fromIndex: 0,
+    taskStatus: undefined
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
   },
@@ -217,6 +222,21 @@ const onUpdatePage = (_: number) => {
   expandedRowKeys.value = [];
 };
 
+async function flushed() {
+  searchParams.taskStatus = undefined;
+  await getData();
+}
+
+const retry = async () => {
+  emit('retry');
+};
+
+const isRetry = () => {
+  return (
+    props.rowData?.taskBatchStatus === 4 || props.rowData?.taskBatchStatus === 5 || props.rowData?.taskBatchStatus === 6
+  );
+};
+
 const init = () => {
   columnChecks.value = columnChecks.value.filter(column => {
     if (!['4', '5'].includes(String(props.rowData?.taskType) || '-1')) {
@@ -231,24 +251,56 @@ init();
 </script>
 
 <template>
-  <NDataTable
-    :columns="columns"
-    :data="data"
-    :loading="loading"
-    remote
-    :scroll-x="1000"
-    :row-key="row => row.id"
-    :pagination="mobilePagination"
-    :indent="16"
-    :cascade="false"
-    allow-checking-not-loaded
-    :expanded-row-keys="expandedRowKeys"
-    class="sm:h-full"
-    :row-props="row => ({ id: `job-task-${row.id}` })"
-    @update:expanded-row-keys="onExpandedRowKeys"
-    @update:page="onUpdatePage"
-    @load="onLoad"
-  />
+  <NCard
+    :bordered="false"
+    size="small"
+    class="sm:flex-1-hidden card-wrapper pt-16px"
+    :content-style="{ padding: 0 }"
+    :header-style="{ padding: 0 }"
+  >
+    <template #header>
+      <NSelect
+        v-model:value="searchParams.taskStatus"
+        clearable
+        class="max-w-180px"
+        :options="translateOptions(taskStatusRecordOptions)"
+        placeholder="请选择状态"
+        @update:value="getData"
+      />
+    </template>
+    <template #header-extra>
+      <NButton class="mr-16px" @click="flushed">
+        <template #icon>
+          <icon-ant-design:sync-outlined class="text-icon" />
+        </template>
+        刷新
+      </NButton>
+      <NButton v-if="isRetry()" @click="retry">
+        <template #icon>
+          <icon-ant-design:redo-outlined class="text-icon" />
+        </template>
+        重试
+      </NButton>
+    </template>
+    <NDataTable
+      :columns="columns"
+      :data="data"
+      :loading="loading"
+      remote
+      :scroll-x="1000"
+      :row-key="row => row.id"
+      :pagination="mobilePagination"
+      :indent="16"
+      :cascade="false"
+      allow-checking-not-loaded
+      :expanded-row-keys="expandedRowKeys"
+      class="mt-16px sm:h-full"
+      :row-props="row => ({ id: `job-task-${row.id}` })"
+      @update:expanded-row-keys="onExpandedRowKeys"
+      @update:page="onUpdatePage"
+      @load="onLoad"
+    />
+  </NCard>
 </template>
 
 <style scoped></style>

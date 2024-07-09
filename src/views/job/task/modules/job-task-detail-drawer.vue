@@ -26,7 +26,7 @@ const visible = defineModel<boolean>('visible', {
 </script>
 
 <template>
-  <OperateDrawer v-model="visible" :title="$t('page.jobTask.detail')">
+  <DetailDrawer v-model="visible" :title="$t('page.jobTask.detail')" :width="['50%', '90%']">
     <NDescriptions label-placement="top" bordered :column="2">
       <NDescriptionsItem :label="$t('page.jobTask.groupName')">{{ rowData?.groupName }}</NDescriptionsItem>
       <NDescriptionsItem :label="$t('page.jobTask.jobName')">{{ rowData?.jobName }}</NDescriptionsItem>
@@ -74,7 +74,7 @@ const visible = defineModel<boolean>('visible', {
         {{ rowData?.description }}
       </NDescriptionsItem>
     </NDescriptions>
-  </OperateDrawer>
+  </DetailDrawer>
 </template>
 
 <style scoped></style>

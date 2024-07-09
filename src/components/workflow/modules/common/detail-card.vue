@@ -1,19 +1,13 @@
 <script setup lang="tsx">
 import { nextTick, ref, useSlots, watch } from 'vue';
-import { NButton, NTag } from 'naive-ui';
+import { NTag } from 'naive-ui';
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
-import { isNotNull, translateOptions } from '@/utils/common';
-import {
-  jobExecutorEnum,
-  jobOperationReasonEnum,
-  jobStatusEnum,
-  taskBatchStatusEnum,
-  taskStatusRecordOptions
-} from '@/constants/business';
+import { isNotNull } from '@/utils/common';
+import { jobExecutorEnum, jobOperationReasonEnum, jobStatusEnum, taskBatchStatusEnum } from '@/constants/business';
 import { useWorkflowStore } from '@/store/modules/workflow';
 import { $t } from '@/locales';
-import { fetchGetJobBatchDetail, fetchGetJobDetail, fetchGetJobTaskList, fetchWorkflowNodeRetry } from '@/service/api';
+import { fetchGetJobBatchDetail, fetchGetJobDetail, fetchWorkflowNodeRetry } from '@/service/api';
 
 defineOptions({
   name: 'DetailCard'
@@ -45,11 +39,8 @@ const store = useWorkflowStore();
 const visible = ref(false);
 const logOpen = ref(false);
 const spinning = ref(false);
-const loading = ref(false);
 const currentIndex = ref(1);
-const taskStatusSearch = ref();
 const jobData = ref<Workflow.JobTaskType>({});
-const dataSource = ref<Workflow.JobBatchType[]>([]);
 
 const pagination = ref({
   page: 1,
@@ -61,13 +52,11 @@ const pagination = ref({
     pagination.value.page = page;
     const id = props.ids[currentIndex.value - 1];
     getBatchDetail(id);
-    getRows(id, page);
   },
   onUpdatePageSize: async (pageSize: number) => {
     pagination.value.pageSize = pageSize;
     const id = props.ids[currentIndex.value - 1];
     getBatchDetail(id);
-    getRows(id, pagination.value.page);
   }
 });
 
@@ -104,27 +93,6 @@ async function getBatchDetail(id: string) {
   }
 }
 
-async function getRows(id: string, page: number = 1) {
-  loading.value = true;
-  const { data, error } = await fetchGetJobTaskList({
-    groupName: store.groupName!,
-    taskBatchId: id ?? '0',
-    taskStatus: taskStatusSearch.value,
-    page,
-    size: pagination.value.pageSize
-  });
-  if (!error) {
-    pagination.value.pageCount = data.total;
-    dataSource.value = data.data;
-    loading.value = false;
-  }
-}
-
-async function flushed(id: string) {
-  taskStatusSearch.value = null;
-  await getRows(id);
-}
-
 const idList = ref<string[]>([]);
 
 function onLoad() {
@@ -133,11 +101,9 @@ function onLoad() {
   nextTick(() => {
     if (props.ids.length > 0) {
       getBatchDetail(props.ids[0]);
-      getRows(props.ids[0]);
     } else if (props.id) {
       idList.value = [jobData.value.taskBatchId!];
       getDetail(props.id);
-      getRows(jobData.value.taskBatchId!);
     }
   });
 }
@@ -149,15 +115,11 @@ const getLogRows = (task: Workflow.JobTaskType) => {
   logOpen.value = true;
 };
 
-const retry = async (item: Workflow.JobTaskType) => {
-  const { error } = await fetchWorkflowNodeRetry(store.id!, item.workflowNodeId!);
+const retry = async () => {
+  const { error } = await fetchWorkflowNodeRetry(store.id!, jobData.value.workflowNodeId!);
   if (!error) {
     window.$message?.success('执行重试成功');
   }
-};
-
-const isRetry = (taskBatchStatus: number) => {
-  return taskBatchStatus === 4 || taskBatchStatus === 5 || taskBatchStatus === 6;
 };
 
 function getTagColor(color: string) {
@@ -172,7 +134,6 @@ const onUpdatePage = (page: number) => {
   currentIndex.value = page;
   const id = props.ids[page - 1];
   getBatchDetail(id);
-  getRows(id, page);
 };
 </script>
 
@@ -240,39 +201,7 @@ const onUpdatePage = (page: number) => {
               <template #tab>
                 <span>任务项列表</span>
               </template>
-              <NCard
-                :bordered="false"
-                size="small"
-                class="sm:flex-1-hidden card-wrapper pt-16px"
-                :content-style="{ padding: 0 }"
-                :header-style="{ padding: 0 }"
-              >
-                <template #header>
-                  <NSelect
-                    v-model:value="taskStatusSearch"
-                    clearable
-                    class="max-w-180px"
-                    :options="translateOptions(taskStatusRecordOptions)"
-                    placeholder="请选择状态"
-                    @update:value="getRows(item)"
-                  />
-                </template>
-                <template #header-extra>
-                  <NButton class="mr-16px" @click="flushed(item)">
-                    <template #icon>
-                      <icon-ant-design:sync-outlined class="text-icon" />
-                    </template>
-                    刷新
-                  </NButton>
-                  <NButton v-if="isRetry(jobData.taskBatchStatus!)" @click="retry(jobData)">
-                    <template #icon>
-                      <icon-ant-design:redo-outlined class="text-icon" />
-                    </template>
-                    重试
-                  </NButton>
-                </template>
-                <JobTaskListTable class="mt-16px" :row-data="jobData as any" @show-log="getLogRows" />
-              </NCard>
+              <JobTaskListTable :row-data="jobData as any" @show-log="getLogRows" @retry="retry" />
             </NTabPane>
           </NTabs>
         </NTabPane>

@@ -36,7 +36,7 @@ async function openLog(row: Api.Job.JobTask) {
   <DetailDrawer v-model="visible" :title="$t('page.jobBatch.detail')" :width="['50%', '90%']">
     <NTabs type="segment" animated :default-value="log ? 1 : 0">
       <NTabPane :name="0" :tab="$t('page.log.info')">
-        <NDescriptions label-placement="top" bordered :column="2">
+        <NDescriptions class="pt-16px" label-placement="top" bordered :column="2">
           <NDescriptionsItem :label="$t('page.jobBatch.groupName')">{{ rowData?.groupName }}</NDescriptionsItem>
           <NDescriptionsItem :label="$t('page.jobBatch.jobName')">{{ rowData?.jobName }}</NDescriptionsItem>
           <NDescriptionsItem :label="$t('page.jobBatch.taskBatchStatus')">
@@ -69,4 +69,8 @@ async function openLog(row: Api.Job.JobTask) {
   <LogDrawer v-model:show="logShow" :title="$t('page.log.title')" :task-data="taskData" />
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.n-tab-pane) {
+  padding-top: 0 !important;
+}
+</style>

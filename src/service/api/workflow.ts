@@ -60,7 +60,7 @@ export function fetchStopWorkflowBatch(id: string) {
 export function fetchWorkflowNodeRetry(id: string, workflowNodeId: string) {
   return request<null>({
     url: `/workflow/node/retry/${workflowNodeId}/${id}`,
-    method: 'get'
+    method: 'post'
   });
 }
 

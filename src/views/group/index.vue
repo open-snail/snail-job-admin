@@ -2,7 +2,7 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
+import { fetchDeleteGroup, fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -142,6 +142,17 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
             <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
               {$t('common.edit')}
             </NButton>
+            <n-divider vertical />
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" text ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
           </div>
         );
       }
@@ -155,12 +166,19 @@ const {
   editingData,
   handleAdd,
   handleEdit,
-  checkedRowKeys
+  checkedRowKeys,
+  onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleDelete(id: string) {
+  const { error } = await fetchDeleteGroup(id);
+  if (error) return;
+  onDeleted();
 }
 
 function body(): Api.GroupConfig.ExportGroupConfig {
