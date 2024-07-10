@@ -14,6 +14,7 @@ import { useThemeStore } from '../theme';
 import { clearAuthStorage, getToken } from './shared';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
+  const appTitle = import.meta.env.VITE_APP_TITLE || 'Snail Job';
   const route = useRoute();
   const routeStore = useRouteStore();
   const themeStore = useThemeStore();
@@ -56,7 +57,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
     authStore.$reset();
 
-    themeStore.setWatermarkText(import.meta.env.VITE_APP_TITLE || 'Snail Job');
+    themeStore.setWatermarkText(appTitle);
 
     if (!route.meta.constant) {
       await toLogin();
@@ -82,7 +83,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       const pass = await loginByToken(loginToken);
 
       if (pass) {
-        themeStore.setWatermarkText(userInfo.userName);
+        themeStore.setWatermarkText(`${userInfo.userName}@${appTitle}`);
         await routeStore.initAuthRoute();
 
         if (redirect) {
