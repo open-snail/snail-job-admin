@@ -122,8 +122,9 @@ export function fetchNodeStop(nodeId: string, taskBatchId: string) {
 
 export function fetchDeleteWorkflowBatch(id: string) {
   return request({
-    url: `/workflow/batch/${id}`,
-    method: 'delete'
+    url: '/workflow/batch/ids',
+    method: 'delete',
+    data: [id]
   });
 }
 
