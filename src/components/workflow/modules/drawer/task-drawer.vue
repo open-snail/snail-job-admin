@@ -117,6 +117,7 @@ const jobTaskChange = (_: string, option: { label: string; value: number }) => {
         <NFormItem path="jobTask.jobId" label="所属任务" placeholder="请选择任务">
           <NSelect
             v-model:value="form.jobTask!.jobId"
+            filterable
             :options="
               jobList.map(job => {
                 return {

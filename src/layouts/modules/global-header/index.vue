@@ -64,7 +64,7 @@ const href = (url: string) => {
       <GlobalSearch />
       <ButtonIcon
         v-if="!appStore.isMobile"
-        class="color-#c71d23"
+        class="color-#c71d23 xl:block sm:hidden"
         tooltip-content="Gitee"
         icon="simple-icons:gitee"
         @click="href('https://gitee.com/aizuda/snail-job')"
@@ -72,7 +72,7 @@ const href = (url: string) => {
       <ButtonIcon
         v-if="!appStore.isMobile"
         tooltip-content="Github"
-        class="color-#010409 dark:color-#e6edf3"
+        class="color-#010409 xl:block sm:hidden dark:color-#e6edf3"
         icon="simple-icons:github"
         @click="href('https://github.com/aizuda/snail-job')"
       />
@@ -83,14 +83,14 @@ const href = (url: string) => {
         icon="material-symbols:unknown-document-outline"
         @click="href('https://snailjob.opensnail.com/')"
       />
-      <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
+      <FullScreen v-if="!appStore.isMobile" class="xl:block sm:hidden" :full="isFullscreen" @click="toggle" />
       <LangSwitch :lang="appStore.locale" :lang-options="appStore.localeOptions" @change-lang="appStore.changeLocale" />
       <ThemeSchemaSwitch
         :theme-schema="themeStore.themeScheme"
         :is-dark="themeStore.darkMode"
         @switch="themeStore.toggleThemeScheme"
       />
-      <ThemeButton v-if="!appStore.isMobile" />
+      <ThemeButton v-if="!appStore.isMobile" class="xl:block sm:hidden" />
       <UserAvatar />
     </div>
   </DarkModeContainer>
