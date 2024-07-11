@@ -130,6 +130,8 @@ declare namespace Api {
       namespaceIds: NamespaceId[];
     }
 
+    type DeleteAlertType = 'job-task' | 'retry-scene' | 'workflow-task';
+
     interface UserInfo {
       id: string;
       userId: string;
@@ -140,6 +142,9 @@ declare namespace Api {
       roles: string[];
       buttons: string[];
       namespaceIds: NamespaceId[];
+      deleteAlert: {
+        [key in DeleteAlertType]: boolean;
+      };
     }
 
     interface NamespaceId {

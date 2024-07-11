@@ -152,7 +152,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
             key: 'd2'
           },
           {
-            show: hasAuth('R_ADMIN'),
             type: 'render',
             key: 'delete',
             render: () => (
@@ -283,6 +282,7 @@ function goToBatch(workflowId: string) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <WorkflowSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <DeleteAlert type="workflow-task" />
     <NCard
       :title="$t('page.workflow.title')"
       :bordered="false"
@@ -295,6 +295,7 @@ function goToBatch(workflowId: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
