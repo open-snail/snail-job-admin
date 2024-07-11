@@ -35,6 +35,15 @@ export function fetchDelUser(id: number) {
   });
 }
 
+/** batch delete user */
+export function fetchBatchDelteUser(data: string[]) {
+  return request<boolean>({
+    url: `/user/ids`,
+    method: 'delete',
+    data
+  });
+}
+
 /** update user password */
 export function fetchUpdateUserPassword(data: Api.UserManager.UpdateUserPassword) {
   return request<boolean>({

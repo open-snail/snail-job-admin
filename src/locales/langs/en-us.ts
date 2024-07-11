@@ -135,7 +135,8 @@ const local: App.I18n.Schema = {
       label: 'Executor Type',
       form: 'Please enter executor type',
       items: {
-        java: 'Java'
+        java: 'Java',
+        python: 'Python'
       }
     },
     taskType: {

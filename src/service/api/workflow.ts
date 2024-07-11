@@ -43,10 +43,11 @@ export function fetchUpdateWorkflowStatus(id: string) {
   });
 }
 
-export function fetchDelWorkflow(id: string) {
+export function fetchBatchDeleteWorkflow(data: string[]) {
   return request({
-    url: `/workflow/${id}`,
-    method: 'delete'
+    url: '/workflow/ids',
+    method: 'delete',
+    data
   });
 }
 
@@ -60,7 +61,7 @@ export function fetchStopWorkflowBatch(id: string) {
 export function fetchWorkflowNodeRetry(id: string, workflowNodeId: string) {
   return request<null>({
     url: `/workflow/node/retry/${workflowNodeId}/${id}`,
-    method: 'get'
+    method: 'post'
   });
 }
 
@@ -116,5 +117,21 @@ export function fetchNodeStop(nodeId: string, taskBatchId: string) {
   return request<null>({
     url: `/workflow/node/stop/${nodeId}/${taskBatchId}`,
     method: 'post'
+  });
+}
+
+export function fetchDeleteWorkflowBatch(id: string) {
+  return request({
+    url: '/workflow/batch/ids',
+    method: 'delete',
+    data: [id]
+  });
+}
+
+export function fetchBatchDeleteWorkflowBatch(data: string[]) {
+  return request({
+    url: '/workflow/batch/ids',
+    method: 'delete',
+    data
   });
 }

@@ -2,7 +2,7 @@
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { ref } from 'vue';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
+import { fetchDeleteGroup, fetchGetGroupConfigList, fetchUpdateGroupStatus } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -31,11 +31,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     groupStatus: null
   },
   columns: () => [
-    {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
     {
       key: 'id',
       title: $t('common.index'),
@@ -142,6 +137,17 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
             <NButton type="primary" text ghost size="small" onClick={() => edit(row.id!)}>
               {$t('common.edit')}
             </NButton>
+            <n-divider vertical />
+            <NPopconfirm onPositiveClick={() => handleDelete(row.groupName!)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" text ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
           </div>
         );
       }
@@ -155,12 +161,19 @@ const {
   editingData,
   handleAdd,
   handleEdit,
-  checkedRowKeys
+  checkedRowKeys,
+  onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+async function handleDelete(groupName: string) {
+  const { error } = await fetchDeleteGroup(groupName);
+  if (error) return;
+  onDeleted();
 }
 
 function body(): Api.GroupConfig.ExportGroupConfig {
@@ -189,10 +202,9 @@ function handleExport() {
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          :show-delete="false"
           :show-add="hasAuth('R_ADMIN')"
+          :show-delete="false"
           @add="handleAdd"
           @refresh="getData"
         >

@@ -91,8 +91,8 @@ declare namespace Api {
     /** 工作流节点状态 */
     type WorkFlowNodeStatus = 0 | 1;
 
-    /** 执行器类型 1:Java */
-    type ExecutorType = 1;
+    /** 执行器类型 1:Java 2:Python */
+    type ExecutorType = 1 | 2;
 
     /** 触发类型 2:固定时间 3:CRON 表达式 99:工作流 */
     type TriggerType = 2 | 3 | 99;

@@ -2,7 +2,7 @@
 import { NButton, NDropdown, NPopconfirm, NTag } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import {
-  fetchDelWorkflow,
+  fetchBatchDeleteWorkflow,
   fetchGetWorkflowPageList,
   fetchTriggerWorkflow,
   fetchUpdateWorkflowStatus
@@ -216,22 +216,22 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 
 const {
   checkedRowKeys,
-  onBatchDeleted
+  onBatchDeleted,
+  onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
+  const { error } = await fetchBatchDeleteWorkflow(checkedRowKeys.value);
+  if (error) return;
   onBatchDeleted();
 }
 
 async function handleDelete(id: string) {
   // request
-  const { error } = await fetchDelWorkflow(id!);
-  if (!error) {
-    window.$message?.success($t('common.deleteSuccess'));
-    getData();
-  }
+  const { error } = await fetchBatchDeleteWorkflow([id!]);
+  if (error) return;
+  onDeleted();
 }
 
 function edit(id: string) {
@@ -295,7 +295,6 @@ function goToBatch(workflowId: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
-          :show-delete="false"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

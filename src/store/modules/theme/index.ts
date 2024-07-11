@@ -59,7 +59,7 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
   const { setWatermark, clearWatermark } = useWatermark({ id: 'global_watermark_id' });
 
   /** 开启水印 */
-  function toggleWatermark(visible: boolean) {
+  function toggleWatermark(visible: boolean = false) {
     visible ? setWatermark(settings.value.watermark.text) : clearWatermark();
   }
 

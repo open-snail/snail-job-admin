@@ -135,7 +135,8 @@ const local: App.I18n.Schema = {
       label: '执行器类型',
       form: '请选择执行器类型',
       items: {
-        java: 'Java'
+        java: 'Java',
+        python: 'Python'
       }
     },
     taskType: {
@@ -303,7 +304,7 @@ const local: App.I18n.Schema = {
       resetSuccessMsg: '重置成功'
     },
     watermark: {
-      visible: '开启',
+      visible: '开启水印',
       text: '水印文字'
     }
   },

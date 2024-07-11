@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onUnmounted, reactive } from 'vue';
+import { computed } from 'vue';
 import { useFullscreen } from '@vueuse/core';
 import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
@@ -49,21 +49,6 @@ const headerMenus = computed(() => {
 const href = (url: string) => {
   window.open(url, '_blank');
 };
-
-const state = reactive({ width: 0 });
-
-const getState = () => {
-  state.width = document.documentElement.clientWidth;
-};
-
-nextTick(() => {
-  getState();
-  window.addEventListener('resize', getState);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', getState);
-});
 </script>
 
 <template>
@@ -72,40 +57,40 @@ onUnmounted(() => {
     <HorizontalMenu v-if="showMenu" mode="horizontal" :menus="headerMenus" class="px-12px" />
     <div v-else class="h-full flex-y-center flex-1-hidden">
       <MenuToggler v-if="showMenuToggler" :collapsed="appStore.siderCollapse" @click="appStore.toggleSiderCollapse" />
-      <GlobalBreadcrumb v-if="!appStore.isMobile && state.width > 900" class="ml-12px" />
+      <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
     </div>
     <div class="h-full flex-y-center justify-end">
-      <NamespaceSelect :is-mobile="appStore.isMobile || state.width < 970" />
+      <NamespaceSelect />
       <GlobalSearch />
       <ButtonIcon
-        v-if="!appStore.isMobile && state.width > 760"
-        class="color-#c71d23"
+        v-if="!appStore.isMobile"
+        class="color-#c71d23 xl:block sm:hidden"
         tooltip-content="Gitee"
         icon="simple-icons:gitee"
         @click="href('https://gitee.com/aizuda/snail-job')"
       />
       <ButtonIcon
-        v-if="!appStore.isMobile && state.width > 760"
+        v-if="!appStore.isMobile"
         tooltip-content="Github"
-        class="color-#010409 dark:color-#e6edf3"
+        class="color-#010409 xl:block sm:hidden dark:color-#e6edf3"
         icon="simple-icons:github"
         @click="href('https://github.com/aizuda/snail-job')"
       />
       <ButtonIcon
-        v-if="!appStore.isMobile && state.width > 760"
+        v-if="!appStore.isMobile"
         tooltip-content="Document"
         class="color-#272636 dark:color-#f0f2f5"
         icon="material-symbols:unknown-document-outline"
         @click="href('https://snailjob.opensnail.com/')"
       />
-      <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
+      <FullScreen v-if="!appStore.isMobile" class="xl:block sm:hidden" :full="isFullscreen" @click="toggle" />
       <LangSwitch :lang="appStore.locale" :lang-options="appStore.localeOptions" @change-lang="appStore.changeLocale" />
       <ThemeSchemaSwitch
         :theme-schema="themeStore.themeScheme"
         :is-dark="themeStore.darkMode"
         @switch="themeStore.toggleThemeScheme"
       />
-      <ThemeButton v-if="!appStore.isMobile && state.width > 970" />
+      <ThemeButton v-if="!appStore.isMobile" class="xl:block sm:hidden" />
       <UserAvatar />
     </div>
   </DarkModeContainer>

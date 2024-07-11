@@ -43,7 +43,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       type: 'selection',
       align: 'center',
-      width: 48
+      width: 48,
+      disabled: row => row.retryStatus === 0
     },
     {
       key: 'id',
@@ -54,7 +55,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'uniqueId',
       title: $t('page.retryTask.uniqueId'),
-      align: 'left',
+      align: 'center',
       fixed: 'left',
       minWidth: 120,
       render: row => {
@@ -149,7 +150,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     {
       key: 'operate',
       title: $t('common.operate'),
-      align: 'left',
+      align: 'center',
       width: 260,
       fixed: 'right',
       render: row => (
@@ -259,7 +260,6 @@ const { bool: batchAddDrawerVisible, setTrue: openBatchAddDrawer } = useBoolean(
 async function handleDelete(groupName: string, id: string) {
   const { error } = await fetchBatchDeleteRetryTask({ groupName, ids: [id] });
   if (error) return;
-
   onDeleted();
 }
 
@@ -274,7 +274,6 @@ async function handleBatchDelete() {
   const groupName = data.value[0].groupName;
   const { error } = await fetchBatchDeleteRetryTask({ groupName, ids });
   if (error) return;
-
   onBatchDeleted();
 }
 

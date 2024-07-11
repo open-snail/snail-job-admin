@@ -1,7 +1,12 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useRouter } from 'vue-router';
-import { fetchGetWorkflowBatchList, fetchStopWorkflowBatch } from '@/service/api';
+import {
+  fetchBatchDeleteWorkflowBatch,
+  fetchDeleteWorkflowBatch,
+  fetchGetWorkflowBatchList,
+  fetchStopWorkflowBatch
+} from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -35,6 +40,9 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     taskBatchStatus
   },
   columns: () => [
+    {
+      type: 'selection'
+    },
     {
       key: 'id',
       title: $t('common.index'),
@@ -121,19 +129,32 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       render: row => (
         <div class="flex-center gap-8px">
           {row?.taskBatchStatus === 1 || row?.taskBatchStatus === 2 ? (
-            <NPopconfirm onPositiveClick={() => handleStop(row.id!)}>
-              {{
-                default: () => $t('common.confirmStop'),
-                trigger: () => (
-                  <NButton type="error" text ghost size="small">
-                    {$t('common.stop')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            <>
+              <NPopconfirm onPositiveClick={() => handleStop(row.id!)}>
+                {{
+                  default: () => $t('common.confirmStop'),
+                  trigger: () => (
+                    <NButton type="error" text ghost size="small">
+                      {$t('common.stop')}
+                    </NButton>
+                  )
+                }}
+              </NPopconfirm>
+              <n-divider vertical />
+            </>
           ) : (
             ''
           )}
+          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+            {{
+              default: () => $t('common.confirmDelete'),
+              trigger: () => (
+                <NButton type="error" text ghost size="small">
+                  {$t('common.delete')}
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
         </div>
       )
     }
@@ -142,12 +163,20 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
 
 const {
   checkedRowKeys,
+  onDeleted,
   onBatchDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
+async function handleDelete(id: string) {
+  const { error } = await fetchDeleteWorkflowBatch(id);
+  if (error) return;
+  onDeleted();
+}
+
 async function handleBatchDelete() {
-  // requestd
+  const { error } = await fetchBatchDeleteWorkflowBatch(checkedRowKeys.value);
+  if (error) return;
   onBatchDeleted();
 }
 
@@ -180,7 +209,6 @@ function detail(id: string) {
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           :show-add="false"
-          :show-delete="false"
           @delete="handleBatchDelete"
           @refresh="getData"
         />

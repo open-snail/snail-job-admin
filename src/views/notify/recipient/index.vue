@@ -114,16 +114,15 @@ const {
   editingData,
   handleAdd,
   handleEdit,
-  checkedRowKeys
+  checkedRowKeys,
+  onBatchDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
   const { error } = await fetchDeleteNotifyRecipient(checkedRowKeys.value);
-  if (!error) {
-    window.$message?.success($t('common.deleteSuccess'));
-    getData();
-  }
+  if (error) return;
+  onBatchDeleted();
 }
 
 async function handleDelete(id: string) {

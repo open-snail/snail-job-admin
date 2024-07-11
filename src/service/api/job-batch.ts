@@ -31,3 +31,21 @@ export function fetchJobBatchRetry(jobId: string) {
     method: 'post'
   });
 }
+
+/** delete job */
+export function fetchDeleteJobBatch(id: string) {
+  return request<boolean>({
+    url: `/job/batch/ids`,
+    method: 'delete',
+    data: [id]
+  });
+}
+
+/** delete job */
+export function fetchBatchDeleteJobBatch(data: string[]) {
+  return request<boolean>({
+    url: '/job/batch/ids',
+    method: 'delete',
+    data
+  });
+}

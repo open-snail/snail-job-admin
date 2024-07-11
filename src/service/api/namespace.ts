@@ -26,3 +26,11 @@ export function fetchEditNamespace(data: Api.Namespace.Namespace) {
     data
   });
 }
+
+/** delete namespace by id */
+export function fetchDeleteNamespace(uniqueId: string) {
+  return request<boolean>({
+    url: `/namespace/${uniqueId}`,
+    method: 'delete'
+  });
+}

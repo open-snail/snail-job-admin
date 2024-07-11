@@ -41,8 +41,8 @@ async function search() {
 }
 
 const btnSpan = computed(() => {
-  const keyNum = Object.keys(props.model).length - 1;
-  return props.btnSpan || (keyNum % 4 !== 0 ? `24 m:12 m:${(4 - ((keyNum - 1) % 4)) * 6}` : '24');
+  const keyNum = Object.keys(props.model).length - 2;
+  return props.btnSpan || (keyNum % 4 !== 0 ? `24 m:12 m:${(4 - (keyNum % 4)) * 6}` : '24');
 });
 </script>
 
