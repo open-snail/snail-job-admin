@@ -36,7 +36,7 @@ const handleClose = () => {
       <!-- <span class="font-600">提示:</span> -->
       📢 {{ text }}；该删除为
       <span class="color-error font-600">物理删除</span>
-      ，删除后不可恢复，必须时可以先导出备份
+      ，删除后不可恢复，必要时可以先导出备份
     </div>
   </NAlert>
 </template>
