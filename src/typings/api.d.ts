@@ -143,7 +143,7 @@ declare namespace Api {
       buttons: string[];
       namespaceIds: NamespaceId[];
       deleteAlert: {
-        [key in DeleteAlertType]: boolean;
+        [key: string]: boolean;
       };
     }
 

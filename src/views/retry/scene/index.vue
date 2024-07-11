@@ -238,7 +238,7 @@ function handleExport() {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <SceneSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <DeleteAlert type="retry-scene" />
+    <DeleteAlert />
     <NCard
       :title="$t('page.retryScene.title')"
       :bordered="false"
@@ -251,6 +251,7 @@ function handleExport() {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

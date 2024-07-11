@@ -282,7 +282,7 @@ function goToBatch(workflowId: string) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <WorkflowSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <DeleteAlert type="workflow-task" />
+    <DeleteAlert />
     <NCard
       :title="$t('page.workflow.title')"
       :bordered="false"

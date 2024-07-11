@@ -50,7 +50,7 @@ declare namespace StorageType {
       data: Api.JobLog.JobMessage[];
     };
     deleteAlert: {
-      [key in Api.Auth.DeleteAlertType]: boolean;
+      [key: string]: boolean;
     };
   }
 }

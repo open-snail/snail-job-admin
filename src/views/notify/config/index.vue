@@ -218,6 +218,7 @@ function edit(id: string) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <NotifyConfigSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <DeleteAlert />
     <NCard
       :title="$t('page.notifyConfig.title')"
       :bordered="false"
@@ -230,6 +231,7 @@ function edit(id: string) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

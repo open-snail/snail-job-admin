@@ -135,6 +135,7 @@ async function handleDelete(uniqueId: string) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <NamespaceSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <DeleteAlert />
     <NCard
       :title="$t('page.namespace.title')"
       :bordered="false"
