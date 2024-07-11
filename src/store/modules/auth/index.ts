@@ -83,7 +83,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       const pass = await loginByToken(loginToken);
 
       if (pass) {
-        themeStore.setWatermarkText(`${userInfo.userName}@${appTitle}`);
         await routeStore.initAuthRoute();
 
         if (redirect) {
@@ -142,6 +141,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       info!.roles = [roleTypeRecord[info.role]];
       localStg.set('userInfo', info);
       Object.assign(userInfo, info);
+      themeStore.setWatermarkText(`${userInfo.userName}@${appTitle}`);
 
       return true;
     }
