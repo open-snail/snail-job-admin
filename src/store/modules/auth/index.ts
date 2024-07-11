@@ -35,7 +35,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     userName: '',
     roles: [],
     buttons: [],
-    namespaceIds: []
+    namespaceIds: [],
+    deleteAlert: {
+      'job-task': true,
+      'retry-scene': true,
+      'workflow-task': true
+    }
   });
 
   /** is super role in static route */
@@ -140,6 +145,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       info!.userName = info?.username;
       info!.roles = [roleTypeRecord[info.role]];
       localStg.set('userInfo', info);
+      localStg.set('userInfo', info);
       Object.assign(userInfo, info);
       themeStore.setWatermarkText(`${userInfo.userName}@${appTitle}`);
 
@@ -178,6 +184,16 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     localStg.set('namespaceId', namespaceId);
   }
 
+  function setDeleteAlert(type: Api.Auth.DeleteAlertType, value: boolean) {
+    userInfo.deleteAlert[type] = value;
+    localStg.set('deleteAlert', userInfo.deleteAlert);
+  }
+
+  function getDeleteAlert(type: Api.Auth.DeleteAlertType) {
+    const deleteAlert = localStg.get('deleteAlert') || userInfo.deleteAlert;
+    return deleteAlert[type];
+  }
+
   return {
     token,
     userInfo,
@@ -190,6 +206,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     getUserInfo,
     initUserInfo,
     initAppVersion,
-    setNamespaceId
+    setNamespaceId,
+    setDeleteAlert,
+    getDeleteAlert
   };
 });

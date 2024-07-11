@@ -16,7 +16,12 @@ export function getUserInfo() {
     role: 1,
     roles: [],
     buttons: [],
-    namespaceIds: []
+    namespaceIds: [],
+    deleteAlert: {
+      'job-task': true,
+      'retry-scene': true,
+      'workflow-task': true
+    }
   };
   const userInfo = localStg.get('userInfo') || emptyInfo;
 
@@ -34,4 +39,5 @@ export function clearAuthStorage() {
   // localStg.remove('refreshToken');
   localStg.remove('namespaceId');
   localStg.remove('userInfo');
+  localStg.remove('deleteAlert');
 }

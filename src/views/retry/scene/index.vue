@@ -238,6 +238,7 @@ function handleExport() {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <SceneSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <DeleteAlert type="retry-scene" />
     <NCard
       :title="$t('page.retryScene.title')"
       :bordered="false"

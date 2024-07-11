@@ -49,5 +49,8 @@ declare namespace StorageType {
       taskBatchId: string;
       data: Api.JobLog.JobMessage[];
     };
+    deleteAlert: {
+      [key in Api.Auth.DeleteAlertType]: boolean;
+    };
   }
 }
