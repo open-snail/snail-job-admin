@@ -192,6 +192,7 @@ function handleExport() {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <GroupSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <DeleteAlert />
     <NCard
       :title="$t('page.groupConfig.title')"
       :bordered="false"

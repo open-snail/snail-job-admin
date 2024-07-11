@@ -281,7 +281,7 @@ function handleExport() {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <JobTaskSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <DeleteAlert type="job-task" />
+    <DeleteAlert />
     <NCard
       :title="$t('page.jobTask.title')"
       :bordered="false"
@@ -294,6 +294,7 @@ function handleExport() {
           v-model:columns="columnChecks"
           :loading="loading"
           :disabled-delete="checkedRowKeys.length === 0"
+          :show-delete="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

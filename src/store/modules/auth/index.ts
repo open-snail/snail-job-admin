@@ -36,11 +36,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     roles: [],
     buttons: [],
     namespaceIds: [],
-    deleteAlert: {
-      'job-task': true,
-      'retry-scene': true,
-      'workflow-task': true
-    }
+    deleteAlert: {}
   });
 
   /** is super role in static route */
@@ -184,12 +180,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     localStg.set('namespaceId', namespaceId);
   }
 
-  function setDeleteAlert(type: Api.Auth.DeleteAlertType, value: boolean) {
+  function setDeleteAlert(type: string, value: boolean) {
     userInfo.deleteAlert[type] = value;
     localStg.set('deleteAlert', userInfo.deleteAlert);
   }
 
-  function getDeleteAlert(type: Api.Auth.DeleteAlertType) {
+  function getDeleteAlert(type: string) {
     const deleteAlert = localStg.get('deleteAlert') || userInfo.deleteAlert;
     return deleteAlert[type];
   }

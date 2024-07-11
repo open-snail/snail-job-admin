@@ -154,6 +154,7 @@ function handleExport() {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <NotifyRecipientSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <DeleteAlert />
     <NCard
       :title="$t('page.notifyRecipient.title')"
       :bordered="false"
@@ -166,6 +167,7 @@ function handleExport() {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="hasAuth('R_ADMIN')"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
