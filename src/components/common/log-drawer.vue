@@ -1,6 +1,17 @@
 <script setup lang="tsx">
-import { NButton, NCard, NCollapse, NCollapseItem, NDivider, NDropdown, NEmpty, NSpin, NVirtualList } from 'naive-ui';
-import { defineComponent, onBeforeUnmount, ref, watch } from 'vue';
+import {
+  NButton,
+  NCard,
+  NCollapse,
+  NCollapseItem,
+  NDivider,
+  NDropdown,
+  NEmpty,
+  NSpin,
+  NVirtualList,
+  type VirtualListInst
+} from 'naive-ui';
+import { defineComponent, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { fetchJobLogList, fetchRetryLogList } from '@/service/api/log';
 import ButtonIcon from '@/components/custom/button-icon.vue';
@@ -29,6 +40,9 @@ const visible = defineModel<boolean>('show', {
   default: false
 });
 
+const isAutoScroll = ref(true);
+const isFullscreen = ref(true);
+const virtualListInst = ref<VirtualListInst>();
 const syncTime = ref(1);
 const logList = ref<Api.JobLog.JobMessage[]>([]);
 const interval = ref<NodeJS.Timeout>();
@@ -94,6 +108,9 @@ async function getLogList() {
       logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
     }
     if (!finished.value && syncTime.value !== 0) {
+      nextTick(() => {
+        if (isAutoScroll.value) virtualListInst.value?.scrollTo({ position: 'bottom' });
+      });
       clearTimeout(interval.value);
       interval.value = setTimeout(getLogList, syncTime.value * 1000);
     }
@@ -241,17 +258,29 @@ const SnailLogComponent = defineComponent({
 
     return () => (
       <code class="snail-log">
-        <NVirtualList class="virtual-list" itemSize={65} items={logList.value}>
+        <NVirtualList
+          ref={virtualListInst}
+          class="virtual-list"
+          itemSize={85}
+          items={logList.value}
+          scrollbar-props={{ xScrollable: true }}
+        >
           {{
             default: ({ item: message }: { item: Api.JobLog.JobMessage }) => (
-              <pre>
-                <span class="log-hljs-time inline-block">{timestampToDate(message.time_stamp)}</span>
-                <span class={`log-hljs-level-${message.level} ml-12px mr-12px inline-block`}>{`${message.level}`}</span>
-                <span class="log-hljs-thread mr-12px inline-block">{`[${message.host}:${message.port}]`}</span>
-                <span class="log-hljs-thread mr-12px inline-block">{`[${message.thread}]`}</span>
-                <span class="log-hljs-location">{`${message.location}: \n`}</span> -
-                <span class="pl-6px">{`${message.message}`}</span>
-                {throwableComponent(message.throwable)}
+              <pre key={message.time_stamp} class="h-85px">
+                <div>
+                  <span class="log-hljs-time inline-block">{timestampToDate(message.time_stamp)}</span>
+                  <span
+                    class={`log-hljs-level-${message.level} ml-12px mr-12px inline-block`}
+                  >{`${message.level}`}</span>
+                  <span class="log-hljs-thread mr-12px inline-block">{`[${message.host}:${message.port}]`}</span>
+                  <span class="log-hljs-thread mr-12px inline-block">{`[${message.thread}]`}</span>
+                </div>
+                <div class="log-hljs-location">{`${message.location}: `}</div>
+                <div>
+                  <span class="pl-6px">- {`${message.message}`}</span>
+                  {throwableComponent(message.throwable)}
+                </div>
                 <NDivider />
               </pre>
             )
@@ -264,44 +293,68 @@ const SnailLogComponent = defineComponent({
 </script>
 
 <template>
-  <NDrawer v-if="drawer" v-model:show="visible" width="100%" display-directive="if" :auto-focus="false">
+  <NDrawer
+    v-if="drawer"
+    v-model:show="visible"
+    :width="isFullscreen ? '100%' : '50%'"
+    display-directive="if"
+    :auto-focus="false"
+  >
     <NDrawerContent closable>
       <template #header>
-        <div class="flex-center">
-          <NTooltip v-if="finished">
-            <template #trigger>
-              <icon-material-symbols:check-circle class="text-20px color-success" />
-            </template>
-            日志加载完成
-          </NTooltip>
-          <NTooltip v-else>
-            <template #trigger>
-              <NSpin size="small">
-                <template #icon>
-                  <icon-nonicons:loading-16 />
-                </template>
-              </NSpin>
-            </template>
-            日志正在加载
-          </NTooltip>
-          <span class="ml-6px">{{ title }}</span>
-          <ButtonIcon icon="hugeicons:share-01" tooltip-content="在新标签页打开" class="ml-6px" @click="openNewTab" />
-          <NDropdown trigger="hover" :options="syncOptions" width="trigger" @select="handleSyncSelect">
-            <NTooltip placement="right">
+        <div class="flex items-center justify-between" :class="`tool-header${isFullscreen ? '-full' : ''}`">
+          <div class="flex-center">
+            <NTooltip v-if="finished">
               <template #trigger>
-                <NButton dashed class="ml-3px w-136px" @click="handleSyncSelect(-1)">
-                  <template #icon>
-                    <div class="flex-center gap-8px">
-                      <icon-solar:refresh-outline class="text-18px" />
-                      {{ syncOptions.filter(item => item.key === syncTime)[0].label }}
-                      <SvgIcon icon="material-symbols:expand-more-rounded" />
-                    </div>
-                  </template>
-                </NButton>
+                <icon-material-symbols:check-circle class="text-20px color-success" />
               </template>
-              自动刷新频率
+              日志加载完成
             </NTooltip>
-          </NDropdown>
+            <NTooltip v-else>
+              <template #trigger>
+                <NSpin size="small">
+                  <template #icon>
+                    <icon-nonicons:loading-16 />
+                  </template>
+                </NSpin>
+              </template>
+              日志正在加载
+            </NTooltip>
+            <span class="ml-6px">{{ title }}</span>
+            <NDropdown trigger="hover" :options="syncOptions" width="trigger" @select="handleSyncSelect">
+              <NTooltip placement="right">
+                <template #trigger>
+                  <NButton dashed class="ml-16px w-136px" @click="handleSyncSelect(-1)">
+                    <template #icon>
+                      <div class="flex-center gap-8px">
+                        <icon-solar:refresh-outline class="text-18px" />
+                        {{ syncOptions.filter(item => item.key === syncTime)[0].label }}
+                        <SvgIcon icon="material-symbols:expand-more-rounded" />
+                      </div>
+                    </template>
+                  </NButton>
+                </template>
+                自动刷新频率
+              </NTooltip>
+            </NDropdown>
+          </div>
+          <div class="flex-center">
+            <NSwitch v-model:value="isAutoScroll" :round="false" size="large">
+              <template #checked>自动滚动</template>
+              <template #unchecked>自动滚动</template>
+            </NSwitch>
+            <ButtonIcon
+              size="tiny"
+              icon="hugeicons:share-01"
+              tooltip-content="在新标签页打开"
+              class="ml-6px"
+              @click="openNewTab"
+            />
+            <ButtonIcon size="tiny" @click="() => (isFullscreen = !isFullscreen)">
+              <icon-material-symbols:close-fullscreen-rounded v-if="isFullscreen" />
+              <icon-material-symbols:open-in-full-rounded v-else />
+            </ButtonIcon>
+          </div>
         </div>
       </template>
       <div v-if="logList.length === 0" class="h-full flex-center">
@@ -314,10 +367,14 @@ const SnailLogComponent = defineComponent({
   <NCard v-else :bordered="false" :title="title" size="small" class="h-full sm:flex-1-hidden card-wrapper">
     <template #header-extra>
       <div class="flex items-center">
+        <NSwitch v-model:value="isAutoScroll" :round="false" size="large">
+          <template #checked>自动滚动</template>
+          <template #unchecked>自动滚动</template>
+        </NSwitch>
         <NDropdown trigger="hover" :options="syncOptions" width="trigger" @select="handleSyncSelect">
           <NTooltip placement="right">
             <template #trigger>
-              <NButton dashed class="ml-3px w-136px" @click="handleSyncSelect(-1)">
+              <NButton dashed class="mx-16px w-136px" @click="handleSyncSelect(-1)">
                 <template #icon>
                   <div class="flex-center gap-8px">
                     <icon-solar:refresh-outline class="text-18px" />
@@ -371,7 +428,7 @@ const SnailLogComponent = defineComponent({
   }
 
   pre {
-    white-space: pre-wrap;
+    // white-space: pre-wrap;
     word-break: break-word;
     margin: 0;
     font-size: 16px;
@@ -428,5 +485,13 @@ const SnailLogComponent = defineComponent({
   width: 18px !important;
   font-size: 18px !important;
   margin-right: 6px;
+}
+
+.tool-header-full {
+  width: calc(100vw - 72px);
+}
+
+.tool-header {
+  width: calc(50vw - 72px);
 }
 </style>

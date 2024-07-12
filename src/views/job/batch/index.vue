@@ -302,7 +302,7 @@ async function handleStopJob(id: string) {
         :columns="columns"
         :data="data"
         :flex-height="!appStore.isMobile"
-        :scroll-x="962"
+        :scroll-x="2000"
         :loading="loading"
         remote
         :row-key="row => row.id"
