@@ -138,85 +138,83 @@ const onUpdatePage = (page: number) => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" :width="800" display-directive="if" @update:show="onUpdateShow">
-    <NDrawerContent title="任务批次详情" closable>
-      <NTabs v-if="idList && idList.length > 0" v-model:value="currentIndex" type="segment" animated>
-        <NTabPane v-for="(item, index) in idList" :key="index" :name="index + 1" :tab="item">
-          <NTabs class="detail-tabs" type="segment" animated>
-            <NTabPane name="info" :tab="$t('page.log.info')">
-              <NSpin :show="spinning">
-                <NDescriptions class="pt-12px" label-placement="left" bordered :column="2">
-                  <NDescriptionsItem :label="$t('page.jobBatch.groupName')">{{ jobData?.groupName }}</NDescriptionsItem>
+  <DetailDrawer v-model="visible" title="任务批次详情" :width="['800px', '90%']" @update:show="onUpdateShow">
+    <NTabs v-if="idList && idList.length > 0" v-model:value="currentIndex" type="segment" animated>
+      <NTabPane v-for="(item, index) in idList" :key="index" :name="index + 1" :tab="item">
+        <NTabs class="detail-tabs" type="segment" animated>
+          <NTabPane name="info" :tab="$t('page.log.info')">
+            <NSpin :show="spinning">
+              <NDescriptions class="pt-12px" label-placement="left" bordered :column="2">
+                <NDescriptionsItem :label="$t('page.jobBatch.groupName')">{{ jobData?.groupName }}</NDescriptionsItem>
 
-                  <NDescriptionsItem :label="$t('page.jobBatch.jobName')">{{ jobData?.jobName }}</NDescriptionsItem>
+                <NDescriptionsItem :label="$t('page.jobBatch.jobName')">{{ jobData?.jobName }}</NDescriptionsItem>
 
-                  <NDescriptionsItem :label="$t('page.jobBatch.taskBatchStatus')">
-                    <NTag
-                      v-if="isNotNull(jobData.taskBatchStatus)"
-                      :color="getTagColor(taskBatchStatusEnum[jobData.taskBatchStatus!].color )"
-                    >
-                      {{ taskBatchStatusEnum[jobData.taskBatchStatus!].title }}
-                    </NTag>
-                    <NTag
-                      v-if="isNotNull(jobData.jobStatus)"
-                      :color="getTagColor(jobStatusEnum[jobData.jobStatus!].color)"
-                    >
-                      {{ $t(jobStatusEnum[jobData.jobStatus!].name) }}
-                    </NTag>
-                  </NDescriptionsItem>
+                <NDescriptionsItem :label="$t('page.jobBatch.taskBatchStatus')">
+                  <NTag
+                    v-if="isNotNull(jobData.taskBatchStatus)"
+                    :color="getTagColor(taskBatchStatusEnum[jobData.taskBatchStatus!].color )"
+                  >
+                    {{ taskBatchStatusEnum[jobData.taskBatchStatus!].title }}
+                  </NTag>
+                  <NTag
+                    v-if="isNotNull(jobData.jobStatus)"
+                    :color="getTagColor(jobStatusEnum[jobData.jobStatus!].color)"
+                  >
+                    {{ $t(jobStatusEnum[jobData.jobStatus!].name) }}
+                  </NTag>
+                </NDescriptionsItem>
 
-                  <NDescriptionsItem :label="$t('page.jobBatch.executionAt')">
-                    {{ jobData?.executionAt }}
-                  </NDescriptionsItem>
+                <NDescriptionsItem :label="$t('page.jobBatch.executionAt')">
+                  {{ jobData?.executionAt }}
+                </NDescriptionsItem>
 
-                  <NDescriptionsItem :label="$t('page.jobBatch.operationReason')">
-                    <NTag
-                      v-if="isNotNull(jobData.operationReason)"
-                      :color="getTagColor(jobOperationReasonEnum[jobData.operationReason!].color)"
-                    >
-                      {{ $t(jobOperationReasonEnum[jobData.operationReason!].name) }}
-                    </NTag>
-                  </NDescriptionsItem>
+                <NDescriptionsItem :label="$t('page.jobBatch.operationReason')">
+                  <NTag
+                    v-if="isNotNull(jobData.operationReason)"
+                    :color="getTagColor(jobOperationReasonEnum[jobData.operationReason!].color)"
+                  >
+                    {{ $t(jobOperationReasonEnum[jobData.operationReason!].name) }}
+                  </NTag>
+                </NDescriptionsItem>
 
-                  <NDescriptionsItem v-if="!slots.default" :label="$t('page.jobBatch.executorType')">
-                    <NTag
-                      v-if="isNotNull(jobData.executorType)"
-                      :color="getTagColor(jobExecutorEnum[jobData.executorType!].color)"
-                    >
-                      {{ $t(jobExecutorEnum[jobData.executorType!].name) }}
-                    </NTag>
-                  </NDescriptionsItem>
+                <NDescriptionsItem v-if="!slots.default" :label="$t('page.jobBatch.executorType')">
+                  <NTag
+                    v-if="isNotNull(jobData.executorType)"
+                    :color="getTagColor(jobExecutorEnum[jobData.executorType!].color)"
+                  >
+                    {{ $t(jobExecutorEnum[jobData.executorType!].name) }}
+                  </NTag>
+                </NDescriptionsItem>
 
-                  <NDescriptionsItem :label="$t('page.jobBatch.executorInfo')" :span="2">
-                    {{ jobData?.executorInfo }}
-                  </NDescriptionsItem>
-                  <NDescriptionsItem :label="$t('common.createDt')" :span="2">
-                    {{ jobData?.createDt }}
-                  </NDescriptionsItem>
-                </NDescriptions>
-              </NSpin>
-              <slot></slot>
-            </NTabPane>
-            <NTabPane name="task" :disabled="jobData.taskBatchStatus === 99">
-              <template #tab>
-                <span>任务项列表</span>
-              </template>
-              <JobTaskListTable :row-data="jobData as any" @show-log="getLogRows" @retry="retry" />
-            </NTabPane>
-          </NTabs>
-        </NTabPane>
-      </NTabs>
-      <template v-if="ids && ids.length > 1" #footer>
-        <NPagination
-          v-model:page="currentIndex"
-          class="text-center"
-          :page-size="1"
-          :page-count="ids.length"
-          @update:page="onUpdatePage"
-        />
-      </template>
-    </NDrawerContent>
-  </NDrawer>
+                <NDescriptionsItem :label="$t('page.jobBatch.executorInfo')" :span="2">
+                  {{ jobData?.executorInfo }}
+                </NDescriptionsItem>
+                <NDescriptionsItem :label="$t('common.createDt')" :span="2">
+                  {{ jobData?.createDt }}
+                </NDescriptionsItem>
+              </NDescriptions>
+            </NSpin>
+            <slot></slot>
+          </NTabPane>
+          <NTabPane name="task" :disabled="jobData.taskBatchStatus === 99">
+            <template #tab>
+              <span>任务项列表</span>
+            </template>
+            <JobTaskListTable :row-data="jobData as any" @show-log="getLogRows" @retry="retry" />
+          </NTabPane>
+        </NTabs>
+      </NTabPane>
+    </NTabs>
+    <template v-if="ids && ids.length > 1" #footer>
+      <NPagination
+        v-model:page="currentIndex"
+        class="text-center"
+        :page-size="1"
+        :page-count="ids.length"
+        @update:page="onUpdatePage"
+      />
+    </template>
+  </DetailDrawer>
   <FlowLogDrawer v-model:show="logOpen" title="日志详情" :task-data="record" />
 </template>
 

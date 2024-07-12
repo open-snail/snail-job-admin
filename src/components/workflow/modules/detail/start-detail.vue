@@ -39,7 +39,7 @@ const onClose = () => {
 </script>
 
 <template>
-  <DetailDrawer v-model="visible" title="工作流详情" :width="['50%', '90%']" @after-leave="onClose">
+  <DetailDrawer v-model="visible" title="工作流详情" :width="['500px', '90%']" @after-leave="onClose">
     <NDescriptions :column="1" label-placement="left" bordered :label-style="{ width: '120px' }">
       <NDescriptionsItem label="工作流名称">{{ modelValue.workflowName }}</NDescriptionsItem>
       <NDescriptionsItem label="组名称">{{ modelValue.groupName }}</NDescriptionsItem>

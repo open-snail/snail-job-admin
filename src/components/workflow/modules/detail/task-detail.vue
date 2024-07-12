@@ -46,7 +46,7 @@ const getTaskName = (id: string) => {
 </script>
 
 <template>
-  <DetailDrawer v-model="visible" title="任务详情" :width="['50%', '90%']" @after-leave="onClose">
+  <DetailDrawer v-model="visible" title="任务详情" :width="['500px', '90%']" @after-leave="onClose">
     <NDescriptions :column="1" label-placement="left" bordered :label-style="{ width: '120px' }">
       <NDescriptionsItem label="节点名称">{{ modelValue.nodeName }}</NDescriptionsItem>
       <NDescriptionsItem label="任务 ID">{{ modelValue.jobTask?.jobId }}</NDescriptionsItem>

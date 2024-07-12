@@ -38,7 +38,7 @@ const onClose = () => {
 </script>
 
 <template>
-  <DetailDrawer v-model="visible" title="回调详情" :width="['50%', '90%']" @after-leave="onClose">
+  <DetailDrawer v-model="visible" title="回调详情" :width="['500px', '90%']" @after-leave="onClose">
     <NDescriptions :column="1" label-placement="left" bordered :label-style="{ width: '120px' }">
       <NDescriptionsItem label="节点名称">{{ modelValue.nodeName }}</NDescriptionsItem>
       <NDescriptionsItem label="webhook">{{ modelValue.callback?.webhook }}</NDescriptionsItem>

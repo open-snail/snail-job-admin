@@ -14,6 +14,7 @@ const props = defineProps<Props>();
 
 interface Emits {
   (e: 'update:modelValue', modelValue: boolean): void;
+  (e: 'update:show', show: boolean): void;
   (e: 'afterLeave'): void;
 }
 const emit = defineEmits<Emits>();
@@ -58,6 +59,7 @@ onUnmounted(() => {
 
 const onUpdateShow = (value: boolean) => {
   emit('update:modelValue', value);
+  emit('update:show', value);
 };
 
 const afterLeave = () => {
