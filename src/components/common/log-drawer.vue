@@ -110,10 +110,10 @@ async function getLogList() {
         .sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10))
         .forEach((item, index) => (item.index = index));
     }
+    nextTick(() => {
+      if (isAutoScroll.value) virtualListInst.value?.scrollTo({ position: 'bottom', debounce: true });
+    });
     if (!finished.value && syncTime.value !== 0) {
-      nextTick(() => {
-        if (isAutoScroll.value) virtualListInst.value?.scrollTo({ position: 'bottom', debounce: true });
-      });
       clearTimeout(interval.value);
       interval.value = setTimeout(getLogList, syncTime.value * 1000);
     }
@@ -352,10 +352,14 @@ const SnailLogComponent = defineComponent({
             </NDropdown>
           </div>
           <div class="flex-center">
-            <NSwitch v-model:value="isAutoScroll" :round="false" size="large">
-              <template #checked>自动滚动</template>
-              <template #unchecked>自动滚动</template>
-            </NSwitch>
+            <ButtonIcon
+              size="tiny"
+              :tooltip-content="isAutoScroll ? '关闭自动滚动' : '开启自动滚动'"
+              @click="() => (isAutoScroll = !isAutoScroll)"
+            >
+              <icon-streamline:synchronize-disable v-if="isAutoScroll" />
+              <icon-streamline:interface-arrows-vertical-scroll-point-move-scroll-vertical v-else />
+            </ButtonIcon>
             <ButtonIcon
               size="tiny"
               icon="hugeicons:share-01"
@@ -363,7 +367,11 @@ const SnailLogComponent = defineComponent({
               class="ml-6px"
               @click="openNewTab"
             />
-            <ButtonIcon size="tiny" @click="() => (isFullscreen = !isFullscreen)">
+            <ButtonIcon
+              size="tiny"
+              :tooltip-content="isFullscreen ? '半屏' : '全屏'"
+              @click="() => (isFullscreen = !isFullscreen)"
+            >
               <icon-material-symbols:close-fullscreen-rounded v-if="isFullscreen" />
               <icon-material-symbols:open-in-full-rounded v-else />
             </ButtonIcon>
@@ -380,14 +388,10 @@ const SnailLogComponent = defineComponent({
   <NCard v-else :bordered="false" :title="title" size="small" class="h-full sm:flex-1-hidden card-wrapper">
     <template #header-extra>
       <div class="flex items-center">
-        <NSwitch v-model:value="isAutoScroll" :round="false" size="large">
-          <template #checked>自动滚动</template>
-          <template #unchecked>自动滚动</template>
-        </NSwitch>
         <NDropdown trigger="hover" :options="syncOptions" width="trigger" @select="handleSyncSelect">
           <NTooltip placement="right">
             <template #trigger>
-              <NButton dashed class="mx-16px w-136px" @click="handleSyncSelect(-1)">
+              <NButton dashed class="mx-12px w-136px" @click="handleSyncSelect(-1)">
                 <template #icon>
                   <div class="flex-center gap-8px">
                     <icon-solar:refresh-outline class="text-18px" />
@@ -400,6 +404,15 @@ const SnailLogComponent = defineComponent({
             自动刷新频率
           </NTooltip>
         </NDropdown>
+        <ButtonIcon
+          size="tiny"
+          class="mr-12px"
+          :tooltip-content="isAutoScroll ? '关闭自动滚动' : '开启自动滚动'"
+          @click="() => (isAutoScroll = !isAutoScroll)"
+        >
+          <icon-streamline:synchronize-disable v-if="isAutoScroll" />
+          <icon-streamline:interface-arrows-vertical-scroll-point-move-scroll-vertical v-else />
+        </ButtonIcon>
         <NTooltip v-if="finished">
           <template #trigger>
             <icon-material-symbols:check-circle class="text-20px color-success" />
