@@ -62,6 +62,15 @@ export function fetchExecuteRetryTask(data: Api.RetryTask.ManualTriggerTaskReque
   });
 }
 
+/** manual execute callbackTask */
+export function fetchExecuteCallbackTask(data: Api.RetryTask.ManualTriggerTaskRequestVO) {
+  return request<boolean>({
+    url: '/retry-task/manual/trigger/callback/task',
+    method: 'post',
+    data
+  });
+}
+
 /** batch delete retryTask */
 export function fetchBatchDeleteRetryTask(data: Api.RetryTask.BatchDeleteRetryTaskVO) {
   return request<number>({

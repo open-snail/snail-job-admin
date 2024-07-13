@@ -14,6 +14,8 @@ const props = defineProps<Props>();
 
 interface Emits {
   (e: 'update:modelValue', modelValue: boolean): void;
+  (e: 'update:show', show: boolean): void;
+  (e: 'afterLeave'): void;
 }
 const emit = defineEmits<Emits>();
 
@@ -57,11 +59,22 @@ onUnmounted(() => {
 
 const onUpdateShow = (value: boolean) => {
   emit('update:modelValue', value);
+  emit('update:show', value);
+};
+
+const afterLeave = () => {
+  emit('afterLeave');
 };
 </script>
 
 <template>
-  <NDrawer v-model:show="model" display-directive="if" :width="drawerWidth" @update:show="onUpdateShow">
+  <NDrawer
+    v-model:show="model"
+    display-directive="if"
+    :width="drawerWidth"
+    @update:show="onUpdateShow"
+    @after-leave="afterLeave"
+  >
     <NDrawerContent :title="props.title" :native-scrollbar="false" closable header-class="operate-dawer-header">
       <template #header>
         {{ props.title }}

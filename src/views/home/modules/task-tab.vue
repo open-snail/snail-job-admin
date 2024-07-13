@@ -204,7 +204,12 @@ getGroupNames();
         <NRadioButton value="MONTH" :label="$t('page.home.retryTab.params.month')" />
         <NRadioButton value="YEAR" :label="$t('page.home.retryTab.params.year')" />
       </NRadioGroup>
-      <DatetimeRange v-model:value="tabParams.datetimeRange" @update:value="onUpdateDate" @clear="onClearDate" />
+      <DatetimeRange
+        v-model:value="tabParams.datetimeRange"
+        class="w-300px lg:w-250px md:w-275px sm:w-300px xl:w-400px"
+        @update:value="onUpdateDate"
+        @clear="onClearDate"
+      />
       <NSelect v-model:value="tabParams.groupName" :options="groupOptions" class="w-200px lg:w-150px md:w-170px" />
     </div>
   </div>

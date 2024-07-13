@@ -46,21 +46,19 @@ const getTaskName = (id: string) => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" placement="right" :width="500" display-directive="if" @after-leave="onClose">
-    <NDrawerContent title="工作流详情">
-      <NDescriptions :column="1" label-placement="left" bordered :label-style="{ width: '120px' }">
-        <NDescriptionsItem label="节点名称">{{ modelValue.nodeName }}</NDescriptionsItem>
-        <NDescriptionsItem label="任务 ID">{{ modelValue.jobTask?.jobId }}</NDescriptionsItem>
-        <NDescriptionsItem label="任务名称">{{ getTaskName(modelValue.jobTask?.jobId!) }}</NDescriptionsItem>
-        <NDescriptionsItem label="失败策略">
-          {{ $t(failStrategyRecord[modelValue.failStrategy!]) }}
-        </NDescriptionsItem>
-        <NDescriptionsItem label="工作流状态">
-          {{ $t(workFlowNodeStatusRecord[modelValue.workflowNodeStatus!]) }}
-        </NDescriptionsItem>
-      </NDescriptions>
-    </NDrawerContent>
-  </NDrawer>
+  <DetailDrawer v-model="visible" title="任务详情" :width="['500px', '90%']" @after-leave="onClose">
+    <NDescriptions :column="1" label-placement="left" bordered :label-style="{ width: '120px' }">
+      <NDescriptionsItem label="节点名称">{{ modelValue.nodeName }}</NDescriptionsItem>
+      <NDescriptionsItem label="任务 ID">{{ modelValue.jobTask?.jobId }}</NDescriptionsItem>
+      <NDescriptionsItem label="任务名称">{{ getTaskName(modelValue.jobTask?.jobId!) }}</NDescriptionsItem>
+      <NDescriptionsItem label="失败策略">
+        {{ $t(failStrategyRecord[modelValue.failStrategy!]) }}
+      </NDescriptionsItem>
+      <NDescriptionsItem label="工作流状态">
+        {{ $t(workFlowNodeStatusRecord[modelValue.workflowNodeStatus!]) }}
+      </NDescriptionsItem>
+    </NDescriptions>
+  </DetailDrawer>
 </template>
 
 <style scoped lang="scss"></style>

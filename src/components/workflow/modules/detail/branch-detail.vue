@@ -38,9 +38,7 @@ watch(
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" placement="right" :width="500" display-directive="if" @after-leave="onClose">
-    <NDrawerContent title="决策详情">
-      <BranchDesc v-if="visible" :model-value="modelValue" />
-    </NDrawerContent>
-  </NDrawer>
+  <DetailDrawer v-model="visible" title="决策详情" :width="['500px', '90%']" @after-leave="onClose">
+    <BranchDesc v-if="visible" :model-value="modelValue" />
+  </DetailDrawer>
 </template>

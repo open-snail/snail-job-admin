@@ -199,23 +199,17 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
           <NButton type="warning" ghost text size="small" onClick={() => edit(row.id!)}>
             {$t('common.edit')}
           </NButton>
-          {hasAuth('R_ADMIN') ? (
-            <>
-              <n-divider vertical />
-              <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
-                {{
-                  default: () => $t('common.confirmDelete'),
-                  trigger: () => (
-                    <NButton type="error" text ghost size="small">
-                      {$t('common.delete')}
-                    </NButton>
-                  )
-                }}
-              </NPopconfirm>
-            </>
-          ) : (
-            ''
-          )}
+          <n-divider vertical />
+          <NPopconfirm onPositiveClick={() => handleDelete(row.id!)}>
+            {{
+              default: () => $t('common.confirmDelete'),
+              trigger: () => (
+                <NButton type="error" text ghost size="small">
+                  {$t('common.delete')}
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
         </div>
       )
     }
