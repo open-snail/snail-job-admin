@@ -67,6 +67,7 @@ const stopLog = () => {
 };
 
 async function getLogList() {
+  clearTimeout(interval.value);
   let logData = null;
   let logError;
 
@@ -114,11 +115,41 @@ async function getLogList() {
       if (isAutoScroll.value) virtualListInst.value?.scrollTo({ position: 'bottom', debounce: true });
     });
     if (!finished.value && syncTime.value !== 0) {
-      clearTimeout(interval.value);
       interval.value = setTimeout(getLogList, syncTime.value * 1000);
+    }
+
+    if (finished.value && syncTime.value !== 0) {
+      setTimeout(() => {
+        watchFinished();
+      }, 5 * 1000);
     }
   } else if (logError?.code !== 'ERR_CANCELED') {
     stopLog();
+  }
+}
+
+async function watchFinished() {
+  clearTimeout(interval.value);
+  if (props.type === 'job' && syncTime.value !== 0) {
+    const taskData = props.taskData! as Api.Job.JobTask;
+    const { data, error } = await fetchJobLogList(
+      {
+        taskBatchId: taskData.taskBatchId,
+        jobId: taskData.jobId,
+        taskId: taskData.id,
+        startId,
+        fromIndex,
+        size: 50
+      },
+      controller
+    );
+    if (!error && data) {
+      if (data.finished) {
+        interval.value = setTimeout(watchFinished, 5 * 1000);
+        return;
+      }
+      await getLogList();
+    }
   }
 }
 
