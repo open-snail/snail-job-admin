@@ -267,7 +267,7 @@ const SnailLogComponent = defineComponent({
         >
           {{
             default: ({ item: message }: { item: Api.JobLog.JobMessage }) => (
-              <pre key={message.time_stamp} class="h-85px">
+              <pre key={message.time_stamp} class="min-h-85px">
                 <div>
                   <span class="log-hljs-time inline-block">{timestampToDate(message.time_stamp)}</span>
                   <span
@@ -277,10 +277,8 @@ const SnailLogComponent = defineComponent({
                   <span class="log-hljs-thread mr-12px inline-block">{`[${message.thread}]`}</span>
                 </div>
                 <div class="log-hljs-location">{`${message.location}: `}</div>
-                <div>
-                  <span class="pl-6px">- {`${message.message}`}</span>
-                  {throwableComponent(message.throwable)}
-                </div>
+                <div class="pl-6px">- {`${message.message}`}</div>
+                <div>{throwableComponent(message.throwable)}</div>
                 <NDivider />
               </pre>
             )
@@ -493,5 +491,9 @@ const SnailLogComponent = defineComponent({
 
 .tool-header {
   width: calc(50vw - 72px);
+}
+
+:deep(.n-collapse-item__content-inner) {
+  padding-top: 0 !important;
 }
 </style>

@@ -46,12 +46,13 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
   },
   columns: () => [
     {
-      type: 'selection'
+      type: 'selection',
+      width: 30
     },
     {
       key: 'id',
       align: 'center',
-      width: 120,
+      width: 60,
       title: () => {
         return (
           <div class="flex-center">
@@ -87,7 +88,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'groupName',
       title: $t('page.jobBatch.groupName'),
       align: 'left',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'taskType',
@@ -114,19 +115,19 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'jobName',
       title: $t('page.jobBatch.jobName'),
       align: 'center',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'executionAt',
       title: $t('page.jobBatch.executionAt'),
       align: 'center',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'taskBatchStatus',
       title: $t('page.jobBatch.taskBatchStatus'),
       align: 'center',
-      minWidth: 120,
+      width: 120,
       render: row => {
         if (row.taskBatchStatus === null) {
           return null;
@@ -147,7 +148,7 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'operationReason',
       title: $t('page.jobBatch.operationReason'),
       align: 'center',
-      minWidth: 120,
+      width: 120,
       render: row => {
         if (row.operationReason === null) {
           return null;
@@ -161,13 +162,13 @@ const { columnChecks, columns, data, getData, loading, mobilePagination, searchP
       key: 'createDt',
       title: $t('common.createDt'),
       align: 'center',
-      minWidth: 120
+      width: 120
     },
     {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 170,
+      width: 160,
       render: row => {
         const stopBtn = () => {
           if (row.taskBatchStatus === 1 || row.taskBatchStatus === 2) {
@@ -302,7 +303,7 @@ async function handleStopJob(id: string) {
         :columns="columns"
         :data="data"
         :flex-height="!appStore.isMobile"
-        :scroll-x="2000"
+        :scroll-x="1200"
         :loading="loading"
         remote
         :row-key="row => row.id"

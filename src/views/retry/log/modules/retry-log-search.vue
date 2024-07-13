@@ -29,7 +29,7 @@ function search() {
 </script>
 
 <template>
-  <SearchForm :model="model" @search="search" @reset="reset">
+  <SearchForm btn-span="24 xl:3" :model="model" @search="search" @reset="reset">
     <NFormItemGi span="24 s:12 m:6" :label="$t('page.retryLog.groupName')" path="groupName" class="pr-24px">
       <SelectGroup v-model:value="model.groupName" clearable />
     </NFormItemGi>
