@@ -4,6 +4,7 @@ import { useBoolean } from '@sa/hooks';
 import { onMounted, ref } from 'vue';
 import {
   fetchBatchDeleteRetryTask,
+  fetchExecuteCallbackTask,
   fetchExecuteRetryTask,
   fetchGetAllGroupNameList,
   fetchGetRetryTaskById,
@@ -158,7 +159,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
           {/* 非[完成,最大次数], 显示[执行]按钮 */}
           {row.retryStatus !== 1 && row.retryStatus !== 2 ? (
             <>
-              <NPopconfirm onPositiveClick={() => handleExecute(row.groupName!, row.uniqueId!)}>
+              <NPopconfirm onPositiveClick={() => handleExecute(row.groupName!, row.uniqueId!, row.taskType!)}>
                 {{
                   default: () => $t('common.confirmExecute'),
                   trigger: () => (
@@ -281,8 +282,15 @@ function handleBatchAdd() {
   openBatchAddDrawer();
 }
 
-function handleExecute(groupName: string, uniqueId: string) {
-  fetchExecuteRetryTask({ groupName, uniqueIds: [uniqueId] });
+function handleExecute(groupName: string, uniqueId: string, type: Api.RetryTask.TaskType) {
+  if (type === 1) {
+    fetchExecuteRetryTask({ groupName, uniqueIds: [uniqueId] });
+    return;
+  }
+
+  if (type === 2) {
+    fetchExecuteCallbackTask({ groupName, uniqueIds: [uniqueId] });
+  }
 }
 
 function handleResume(id: number, groupName: string) {

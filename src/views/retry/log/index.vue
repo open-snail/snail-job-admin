@@ -133,7 +133,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       width: 80,
       render: row => (
         <div class="flex-center gap-8px">
-          {row.retryStatus === 1 ? (
+          {row.retryStatus === 1 || row.retryStatus === 2 ? (
             <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
               {{
                 default: () => $t('common.confirmDelete'),
