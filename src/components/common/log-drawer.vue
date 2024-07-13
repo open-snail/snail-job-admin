@@ -40,8 +40,9 @@ const visible = defineModel<boolean>('show', {
   default: false
 });
 
-const isAutoScroll = ref(true);
+const isAutoScroll = ref(false);
 const isFullscreen = ref(true);
+const expandedNames = ref<string[]>([]);
 const virtualListInst = ref<VirtualListInst>();
 const syncTime = ref(1);
 const logList = ref<Api.JobLog.JobMessage[]>([]);
@@ -105,11 +106,13 @@ async function getLogList() {
     fromIndex = logData.fromIndex;
     if (logData.message) {
       logList.value.push(...logData.message);
-      logList.value.sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10));
+      logList.value
+        .sort((a, b) => Number.parseInt(a.time_stamp, 10) - Number.parseInt(b.time_stamp, 10))
+        .forEach((item, index) => (item.index = index));
     }
     if (!finished.value && syncTime.value !== 0) {
       nextTick(() => {
-        if (isAutoScroll.value) virtualListInst.value?.scrollTo({ position: 'bottom' });
+        if (isAutoScroll.value) virtualListInst.value?.scrollTo({ position: 'bottom', debounce: true });
       });
       clearTimeout(interval.value);
       interval.value = setTimeout(getLogList, syncTime.value * 1000);
@@ -238,7 +241,8 @@ const SnailLogComponent = defineComponent({
       return () => <NEmpty class="h-full flex-center" size="huge" />;
     }
 
-    const throwableComponent = (throwable: string) => {
+    const throwableComponent = (message: Api.JobLog.JobMessage) => {
+      const throwable = message.throwable;
       if (!throwable) {
         return <></>;
       }
@@ -247,43 +251,54 @@ const SnailLogComponent = defineComponent({
         return <></>;
       }
       const restOfText = throwable.replace(/^.+(\n|$)/m, '');
-      return (
-        <NCollapse>
-          <NCollapseItem title={firstLine[0]} name="1">
-            {`${restOfText}`}
-          </NCollapseItem>
-        </NCollapse>
-      );
+      return <NCollapseItem title={firstLine[0]} name={message.index}>{`${restOfText}`}</NCollapseItem>;
+    };
+
+    const handleUpdateExpanded = (val: string[]) => {
+      expandedNames.value = val;
+    };
+
+    const handleResize = () => {
+      expandedNames.value = [];
     };
 
     return () => (
       <code class="snail-log">
-        <NVirtualList
-          ref={virtualListInst}
-          class="virtual-list"
-          itemSize={85}
-          items={logList.value}
-          scrollbar-props={{ xScrollable: true }}
+        <NCollapse
+          accordion
+          v-model:expanded-names={expandedNames.value}
+          on-update:expanded-names={handleUpdateExpanded}
         >
-          {{
-            default: ({ item: message }: { item: Api.JobLog.JobMessage }) => (
-              <pre key={message.time_stamp} class="min-h-85px">
-                <div>
-                  <span class="log-hljs-time inline-block">{timestampToDate(message.time_stamp)}</span>
-                  <span
-                    class={`log-hljs-level-${message.level} ml-12px mr-12px inline-block`}
-                  >{`${message.level}`}</span>
-                  <span class="log-hljs-thread mr-12px inline-block">{`[${message.host}:${message.port}]`}</span>
-                  <span class="log-hljs-thread mr-12px inline-block">{`[${message.thread}]`}</span>
-                </div>
-                <div class="log-hljs-location">{`${message.location}: `}</div>
-                <div class="pl-6px">- {`${message.message}`}</div>
-                <div>{throwableComponent(message.throwable)}</div>
-                <NDivider />
-              </pre>
-            )
-          }}
-        </NVirtualList>
+          <NVirtualList
+            ref={virtualListInst}
+            class="virtual-list"
+            itemSize={85}
+            item-resizable
+            padding-bottom={16}
+            items={logList.value}
+            scrollbar-props={{ xScrollable: true }}
+            on-resize={handleResize}
+          >
+            {{
+              default: ({ item: message }: { item: Api.JobLog.JobMessage }) => (
+                <pre key={message.index} class="min-h-85px min-w-full">
+                  <div>
+                    <span class="log-hljs-time inline-block">{timestampToDate(message.time_stamp)}</span>
+                    <span
+                      class={`log-hljs-level-${message.level} ml-12px mr-12px inline-block`}
+                    >{`${message.level}`}</span>
+                    <span class="log-hljs-thread mr-12px inline-block">{`[${message.host}:${message.port}]`}</span>
+                    <span class="log-hljs-thread mr-12px inline-block">{`[${message.thread}]`}</span>
+                  </div>
+                  <div class="log-hljs-location">{`${message.location}: `}</div>
+                  <div class="pl-6px">- {`${message.message}`}</div>
+                  <div>{throwableComponent(message)}</div>
+                  <NDivider />
+                </pre>
+              )
+            }}
+          </NVirtualList>
+        </NCollapse>
       </code>
     );
   }
@@ -355,11 +370,11 @@ const SnailLogComponent = defineComponent({
           </div>
         </div>
       </template>
-      <div v-if="logList.length === 0" class="h-full flex-center">
+      <div v-if="logList.length === 0" class="empty-height flex-center">
         <NEmpty v-if="logList.length === 0 && finished" />
         <NSpin v-if="logList.length === 0 && !finished" />
       </div>
-      <SnailLogComponent />
+      <SnailLogComponent v-if="logList.length > 0" />
     </NDrawerContent>
   </NDrawer>
   <NCard v-else :bordered="false" :title="title" size="small" class="h-full sm:flex-1-hidden card-wrapper">
@@ -416,7 +431,7 @@ const SnailLogComponent = defineComponent({
   padding: 0;
 
   .virtual-list {
-    height: calc(100vh - 101px);
+    min-height: calc(100vh - 101px);
     max-height: calc(100vh - 101px);
   }
 
@@ -493,7 +508,17 @@ const SnailLogComponent = defineComponent({
   width: calc(50vw - 72px);
 }
 
+.empty-height {
+  min-height: calc(100vh - 101px);
+  max-height: calc(100vh - 101px);
+}
+
 :deep(.n-collapse-item__content-inner) {
   padding-top: 0 !important;
+}
+
+:deep(.v-vl-items) {
+  display: inline-block !important;
+  min-width: 100%;
 }
 </style>
