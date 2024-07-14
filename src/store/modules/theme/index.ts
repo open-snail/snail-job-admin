@@ -60,7 +60,7 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
 
   /** 开启水印 */
   function toggleWatermark(visible: boolean = false) {
-    visible ? setWatermark(settings.value.watermark.text) : clearWatermark();
+    visible ? setWatermark(settings.value?.watermark.text) : clearWatermark();
   }
 
   /** 修改水印文案 */
@@ -69,7 +69,7 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
       clearWatermark();
       return;
     }
-    if (settings.value.watermark.visible) {
+    if (settings.value.watermark && settings.value.watermark?.visible) {
       settings.value.watermark.text = text;
       setWatermark(settings.value.watermark.text);
     }
@@ -194,10 +194,10 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
     );
 
     watch(
-      settings.value.watermark,
+      settings.value?.watermark,
       val => {
-        toggleWatermark(val.visible);
-        setWatermarkText(val.text);
+        toggleWatermark(val?.visible);
+        setWatermarkText(val?.text);
       },
       { immediate: true }
     );
