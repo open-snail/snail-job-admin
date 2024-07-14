@@ -191,7 +191,7 @@ const { columns, searchParams, columnChecks, data, getData, loading, mobilePagin
             <NCode
               class={`max-h-300px overflow-auto ${String(row.parentId) !== '0' ? 'pl-36px' : ''}`}
               hljs={hljs}
-              code={row.resultMessage}
+              code={parseArgsJson(row.resultMessage)}
               language="json"
               show-line-numbers
             />
