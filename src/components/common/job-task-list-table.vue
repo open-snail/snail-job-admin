@@ -284,6 +284,7 @@ const onUpdatePage = (_: number) => {
 
 async function flushed() {
   searchParams.taskStatus = undefined;
+  expandedRowKeys.value = [];
   await getData();
 }
 
