@@ -255,6 +255,22 @@ const { columns, searchParams, columnChecks, data, getData, loading, mobilePagin
   ]
 });
 
+const clearDoms = () => {
+  const resultEntries = resultDomMap.value.entries();
+  for (const [id, _] of resultEntries) {
+    const tr = document.querySelector(`#job-task-result-${id}`);
+    tr?.remove();
+    resultDomMap.value.set(id, false);
+  }
+
+  const argsEntries = argsDomMap.value.entries();
+  for (const [id, _] of argsEntries) {
+    const tr = document.querySelector(`#job-task-args-${id}`);
+    tr?.remove();
+    argsDomMap.value.set(id, false);
+  }
+};
+
 const onLoad = (row: Record<string, any>) => {
   return new Promise<void>((resolve, reject) => {
     fetchGetJobTaskTree({
@@ -280,11 +296,13 @@ const onExpandedRowKeys = (keys: DataTableRowKey[]) => {
 
 const onUpdatePage = (_: number) => {
   expandedRowKeys.value = [];
+  clearDoms();
 };
 
 async function flushed() {
   searchParams.taskStatus = undefined;
   expandedRowKeys.value = [];
+  clearDoms();
   await getData();
 }
 
