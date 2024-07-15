@@ -282,14 +282,32 @@ const SnailLogComponent = defineComponent({
         return <></>;
       }
       const restOfText = throwable.replace(/^.+(\n|$)/m, '');
-      return <NCollapseItem title={firstLine[0]} name={message.index}>{`${restOfText}`}</NCollapseItem>;
+      return <NCollapseItem title={firstLine[0]} name={`throwable-${message.index}`}>{`${restOfText}`}</NCollapseItem>;
+    };
+
+    const messageComponent = (message: Api.JobLog.JobMessage) => {
+      const msg = message.message;
+      if (!msg) {
+        return <></>;
+      }
+      const firstLine = msg.match(/^.+/m);
+      if (!firstLine) {
+        return <></>;
+      }
+      const restOfText = msg.replace(/^.+(\n|$)/m, '').replaceAll('\n', '\n - ');
+      if (restOfText) {
+        return (
+          <NCollapseItem title={firstLine[0]} name={`message-${message.index}`}>{` - ${restOfText}`}</NCollapseItem>
+        );
+      }
+      return <div class="pl-6px">- {`${msg}`}</div>;
     };
 
     const handleUpdateExpanded = (val: string[]) => {
       expandedNames.value = val;
     };
 
-    const handleResize = () => {
+    const handleResize = (_: ResizeObserverEntry) => {
       expandedNames.value = [];
     };
 
@@ -305,6 +323,7 @@ const SnailLogComponent = defineComponent({
             class="virtual-list"
             itemSize={85}
             item-resizable
+            ignore-item-resize
             padding-bottom={16}
             items={logList.value}
             scrollbar-props={{ xScrollable: true }}
@@ -322,7 +341,7 @@ const SnailLogComponent = defineComponent({
                     <span class="log-hljs-thread mr-12px inline-block">{`[${message.thread}]`}</span>
                   </div>
                   <div class="log-hljs-location">{`${message.location}: `}</div>
-                  <div class="pl-6px">- {`${message.message}`}</div>
+                  <div>{messageComponent(message)}</div>
                   <div>{throwableComponent(message)}</div>
                   <NDivider />
                 </pre>
@@ -477,6 +496,14 @@ const SnailLogComponent = defineComponent({
   .virtual-list {
     min-height: calc(100vh - 101px);
     max-height: calc(100vh - 101px);
+  }
+
+  .v-vl {
+    min-height: calc(100vh - 101px);
+  }
+
+  .v-vl-items {
+    min-height: calc(100vh - 101px - 16px) !important;
   }
 
   .n-divider:not(.n-divider--vertical) {
