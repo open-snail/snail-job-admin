@@ -16,7 +16,7 @@ export function createStaticRoutes() {
     {
       name: 'document',
       path: '/document',
-      component: 'layout.blank$view.iframe-page',
+      component: 'layout.base$view.iframe-page',
       props: {
         url: 'https://snailjob.opensnail.com/'
       },
@@ -24,7 +24,8 @@ export function createStaticRoutes() {
         title: 'document',
         i18nKey: 'route.document',
         order: 1000,
-        icon: 'mdi:file-document-multiple-outline'
+        icon: 'mdi:file-document-multiple-outline',
+        href: 'https://snailjob.opensnail.com/'
       }
     }
   ];
