@@ -317,6 +317,7 @@ const local: App.I18n.Schema = {
     log: '日志',
     home: '首页',
     about: '关于',
+    document: '文档',
     pods: '在线机器',
     namespace: '命名空间',
     group: '组管理',

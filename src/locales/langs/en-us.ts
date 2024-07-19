@@ -317,6 +317,7 @@ const local: App.I18n.Schema = {
     log: 'Log',
     home: 'Home',
     about: 'About',
+    document: 'Document',
     pods: 'Online Machine',
     namespace: 'Namespace',
     notify: 'Notify',

@@ -12,7 +12,22 @@ const customRoutes: CustomRoute[] = [];
 
 /** create routes when the auth route mode is static */
 export function createStaticRoutes() {
-  const constantRoutes: ElegantRoute[] = [];
+  const constantRoutes: ElegantRoute[] = [
+    {
+      name: 'document',
+      path: '/document',
+      component: 'layout.blank$view.iframe-page',
+      props: {
+        url: 'https://snailjob.opensnail.com/'
+      },
+      meta: {
+        title: 'document',
+        i18nKey: 'route.document',
+        order: 1000,
+        icon: 'mdi:file-document-multiple-outline'
+      }
+    }
+  ];
 
   const authRoutes: ElegantRoute[] = [];
 
