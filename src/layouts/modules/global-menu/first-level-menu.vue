@@ -28,6 +28,10 @@ const appStore = useAppStore();
 const themeStore = useThemeStore();
 const routeStore = useRouteStore();
 
+const menus = computed(() => {
+  return routeStore.menus.filter(item => item.show !== false);
+});
+
 interface MixMenuItemProps {
   /** Menu item label */
   label: App.Global.Menu['label'];
@@ -80,7 +84,7 @@ function handleClickMixMenu(menu: App.Global.Menu) {
     <slot></slot>
     <SimpleScrollbar>
       <MixMenuItem
-        v-for="menu in routeStore.menus"
+        v-for="menu in menus"
         :key="menu.key"
         :label="menu.label"
         :icon="menu.icon"

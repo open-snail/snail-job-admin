@@ -25,7 +25,7 @@ const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
       <div v-for="item in columns" :key="item.key" class="h-36px flex-y-center rd-4px hover:(bg-primary bg-opacity-20)">
         <icon-mdi-drag class="mr-8px h-full cursor-move text-icon" />
         <NCheckbox v-model:checked="item.checked" class="none_draggable flex-1">
-          {{ item.title }}
+          {{ typeof item.title === 'function' ? item.key.toUpperCase() : item.title }}
         </NCheckbox>
       </div>
     </VueDraggable>

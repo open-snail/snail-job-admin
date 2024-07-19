@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddRetryTask, fetchIdempotentIdGenerate } from '@/service/api';
-import { translateOptions } from '@/utils/common';
+import { isNotNull, translateOptions } from '@/utils/common';
 import { retryTaskStatusTypeOptions } from '@/constants/business';
 import CodeMirror from '@/components/common/code-mirror.vue';
 import SelectGroup from '@/components/common/select-group.vue';
@@ -33,6 +33,7 @@ const visible = defineModel<boolean>('visible', {
   default: false
 });
 
+const argsList = ref<string[]>([]);
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 
@@ -74,11 +75,31 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   idempotentId: defaultRequiredRule,
   bizNo: defaultRequiredRule,
   executorName: defaultRequiredRule,
-  argsStr: defaultRequiredRule,
+  argsStr: { ...defaultRequiredRule, validator: validatorArgsStr },
   retryStatus: defaultRequiredRule
 };
 
+function validatorArgsStr() {
+  if (argsList.value.length === 0) {
+    return false;
+  }
+
+  try {
+    argsList.value.forEach(arg => {
+      if (!isNotNull(arg)) {
+        throw new Error($t('form.required'));
+      }
+    });
+  } catch {
+    return false;
+  }
+
+  return true;
+}
+
 function handleUpdateModelWhenEdit() {
+  argsList.value = [];
+
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
     return;
@@ -86,6 +107,7 @@ function handleUpdateModelWhenEdit() {
 
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
+    argsList.value = JSON.parse(props.rowData.argsStr || '[]');
   }
 }
 
@@ -97,14 +119,14 @@ async function handleSubmit() {
   await validate();
 
   if (props.operateType === 'add') {
-    const { groupName, sceneName, idempotentId, bizNo, executorName, argsStr, retryStatus } = model;
+    const { groupName, sceneName, idempotentId, bizNo, executorName, retryStatus } = model;
     const { error } = await fetchAddRetryTask({
       groupName,
       sceneName,
       idempotentId,
       bizNo,
       executorName,
-      argsStr,
+      argsStr: JSON.stringify(argsList.value),
       retryStatus
     });
     if (error) return;
@@ -184,7 +206,19 @@ async function setIdempotentId() {
         />
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.argsStr')" path="argsStr">
-        <CodeMirror v-model="model.argsStr" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
+        <NDynamicInput v-model:value="argsList" :on-create="() => ''">
+          <template #default="{ index }">
+            <NFormItem
+              class="w-full"
+              ignore-path-change
+              :show-label="false"
+              :show-feedback="false"
+              :path="`argsStr[${index}]`"
+            >
+              <CodeMirror v-model="argsList[index]" lang="json" :placeholder="$t('page.jobTask.form.argsStr')" />
+            </NFormItem>
+          </template>
+        </NDynamicInput>
       </NFormItem>
       <NFormItem :label="$t('page.retryTask.retryStatus')" path="retryStatus">
         <NSelect
