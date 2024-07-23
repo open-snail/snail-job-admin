@@ -83,7 +83,7 @@ const checkNodeExpression = async () => {
   }
   const { error, data } = await fetchCheckNodeExpression(form.value.decision!);
   if (!error) {
-    if (data.key !== 1) {
+    if (data.key !== 1 || !data.value) {
       nodeExpressionFeedback.value = data.value || '请检查条件表达式';
       return;
     }
