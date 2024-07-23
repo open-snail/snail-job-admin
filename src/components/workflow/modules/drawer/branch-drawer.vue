@@ -73,8 +73,10 @@ const save = () => {
 };
 
 const nodeExpressionFeedback = ref('');
+const nodeExpressionStatus = ref<'error' | 'success'>('success');
 
 const checkNodeExpression = async () => {
+  nodeExpressionStatus.value = 'error';
   if (!form.value.decision?.nodeExpression) {
     nodeExpressionFeedback.value = '请填写条件表达式';
     return;
@@ -89,7 +91,8 @@ const checkNodeExpression = async () => {
     nodeExpressionFeedback.value = '接口请求失败';
     return;
   }
-  nodeExpressionFeedback.value = '';
+  nodeExpressionStatus.value = 'success';
+  nodeExpressionFeedback.value = '表达式校验通过';
 };
 
 const rules: FormRules = {
@@ -140,7 +143,7 @@ const rules: FormRules = {
         <NFormItem
           path="decision.nodeExpression"
           label="条件表达式"
-          validation-status="error"
+          :validation-status="nodeExpressionStatus"
           :feedback="nodeExpressionFeedback"
         >
           <CodeMirror v-model="form.decision!.nodeExpression" placeholder="请输入条件表达式" />
