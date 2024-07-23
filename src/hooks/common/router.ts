@@ -31,11 +31,11 @@ export function useRouterPush(inSetup = true) {
       name: key
     };
 
-    if (query) {
+    if (Object.keys(query || {}).length) {
       routeLocation.query = query;
     }
 
-    if (params) {
+    if (Object.keys(params || {}).length) {
       routeLocation.params = params;
     }
 
@@ -44,6 +44,19 @@ export function useRouterPush(inSetup = true) {
     }
 
     return routerPush(routeLocation);
+  }
+
+  function routerPushByKeyWithMetaQuery(key: RouteKey) {
+    const allRoutes = router.getRoutes();
+    const meta = allRoutes.find(item => item.name === key)?.meta || null;
+
+    const query: Record<string, string> = {};
+
+    meta?.query?.forEach(item => {
+      query[item.key] = item.value;
+    });
+
+    return routerPushByKey(key, { query });
   }
 
   async function toHome() {
@@ -100,6 +113,7 @@ export function useRouterPush(inSetup = true) {
     routerPush,
     routerBack,
     routerPushByKey,
+    routerPushByKeyWithMetaQuery,
     toLogin,
     toggleLoginModule,
     redirectFromLogin
