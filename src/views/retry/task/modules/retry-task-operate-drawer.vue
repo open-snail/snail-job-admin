@@ -75,7 +75,7 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   idempotentId: defaultRequiredRule,
   bizNo: defaultRequiredRule,
   executorName: defaultRequiredRule,
-  argsStr: { ...defaultRequiredRule, validator: validatorArgsStr },
+  argsStr: { ...defaultRequiredRule, required: false, validator: validatorArgsStr },
   retryStatus: defaultRequiredRule
 };
 
