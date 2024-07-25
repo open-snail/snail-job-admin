@@ -104,8 +104,6 @@ declare namespace App {
       watermark: {
         /** Whether to show the watermark */
         visible: boolean;
-        /** WatermarkText */
-        text: string;
       };
     }
 

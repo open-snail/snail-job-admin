@@ -71,8 +71,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
     }
   },
   watermark: {
-    visible: true,
-    text: import.meta.env.VITE_APP_TITLE || 'Snail Job'
+    visible: true
   }
 };
 
