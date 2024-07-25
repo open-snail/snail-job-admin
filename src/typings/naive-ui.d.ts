@@ -47,7 +47,7 @@ declare namespace NaiveUI {
     /**
      * whether to display the total items count
      *
-     * @default false
+     * @default true
      */
     showTotal?: boolean;
   };
