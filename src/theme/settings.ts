@@ -71,7 +71,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
     }
   },
   watermark: {
-    visible: true
+    visible: false
   }
 };
 
