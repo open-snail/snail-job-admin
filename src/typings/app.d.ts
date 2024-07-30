@@ -387,6 +387,8 @@ declare namespace App {
             random: string;
             lru: string;
             round: string;
+            first: string;
+            last: string;
           };
         };
         blockStrategy: {

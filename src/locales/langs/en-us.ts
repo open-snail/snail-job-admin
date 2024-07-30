@@ -107,7 +107,9 @@ const local: App.I18n.Schema = {
         consistentHash: 'Consistent hash',
         random: 'Random',
         lru: 'LRU',
-        round: 'Round robin'
+        round: 'Round robin',
+        first: 'First',
+        last: 'Last'
       }
     },
     blockStrategy: {

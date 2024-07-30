@@ -107,7 +107,9 @@ const local: App.I18n.Schema = {
         consistentHash: '一致性哈希',
         random: '随机',
         lru: 'LRU',
-        round: '轮询'
+        round: '轮询',
+        first: '第一个',
+        last: '最后一个'
       }
     },
     blockStrategy: {
