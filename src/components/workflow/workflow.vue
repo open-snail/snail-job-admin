@@ -25,6 +25,7 @@ interface Emits {
   (e: 'update:modelValue', modelValue: Workflow.NodeDataType): void;
   (e: 'save'): void;
   (e: 'cancel'): void;
+  (e: 'refresh'): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -164,7 +165,12 @@ const onDragstop = () => {
             <div class="workflow-design" :style="`transform: scale(${zoom / 100})`">
               <div class="box-scale">
                 <StartNode v-model="nodeData" :disabled="disabled" />
-                <NodeWrap v-if="nodeData.nodeConfig" v-model="nodeData.nodeConfig" :disabled="disabled" />
+                <NodeWrap
+                  v-if="nodeData.nodeConfig"
+                  v-model="nodeData.nodeConfig"
+                  :disabled="disabled"
+                  @refresh="() => emit('refresh')"
+                />
                 <div class="end-node">
                   <div class="end-node-circle"></div>
                   <div class="end-node-text">{{ $t('workflow.node.endNode') }}</div>
