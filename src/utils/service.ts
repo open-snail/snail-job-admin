@@ -69,5 +69,5 @@ function createProxyPattern(key?: App.Service.OtherBaseURLKey) {
     return '/snail-job';
   }
 
-  return `/proxy-${key}`;
+  return `/${key}`;
 }
