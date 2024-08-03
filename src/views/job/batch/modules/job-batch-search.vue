@@ -49,6 +49,7 @@ watch(
   (value: string) => {
     if (value.length !== 0) {
       keywordsUpdate();
+      model.value.jobName = value;
     } else {
       noSearchFlag.value = false;
     }

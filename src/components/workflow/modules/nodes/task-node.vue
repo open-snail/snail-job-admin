@@ -25,6 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 interface Emits {
+  (e: 'refresh'): void;
   (e: 'update:modelValue', modelValue: Workflow.NodeModelType): void;
 }
 
@@ -159,6 +160,7 @@ const retry = async (node: Workflow.ConditionNodeType) => {
   const { error } = await fetchNodeRetry(node.id!, store.id!);
   if (!error) {
     message.success('执行重试成功');
+    emit('refresh');
   }
 };
 
@@ -166,6 +168,7 @@ const stop = async (node: Workflow.ConditionNodeType) => {
   const { error } = await fetchNodeStop(node.id!, store.id!);
   if (!error) {
     message.success('停止任务成功');
+    emit('refresh');
   }
 };
 

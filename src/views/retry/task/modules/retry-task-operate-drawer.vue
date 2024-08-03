@@ -4,7 +4,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import OperateDrawer from '@/components/common/operate-drawer.vue';
 import { $t } from '@/locales';
 import { fetchAddRetryTask, fetchIdempotentIdGenerate } from '@/service/api';
-import { isNotNull, translateOptions } from '@/utils/common';
+import { translateOptions } from '@/utils/common';
 import { retryTaskStatusTypeOptions } from '@/constants/business';
 import CodeMirror from '@/components/common/code-mirror.vue';
 import SelectGroup from '@/components/common/select-group.vue';
@@ -66,7 +66,7 @@ function createDefaultModel(): Model {
 
 type RuleKey = Extract<
   keyof Model,
-  'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'executorName' | 'argsStr' | 'retryStatus'
+  'groupName' | 'sceneName' | 'idempotentId' | 'bizNo' | 'executorName' | 'retryStatus'
 >;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
@@ -75,27 +75,27 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   idempotentId: defaultRequiredRule,
   bizNo: defaultRequiredRule,
   executorName: defaultRequiredRule,
-  argsStr: { ...defaultRequiredRule, validator: validatorArgsStr },
+  // argsStr: { ...defaultRequiredRule, required: false, validator: validatorArgsStr },
   retryStatus: defaultRequiredRule
 };
 
-function validatorArgsStr() {
-  if (argsList.value.length === 0) {
-    return false;
-  }
+// function validatorArgsStr() {
+//   if (argsList.value.length === 0) {
+//     return false;
+//   }
 
-  try {
-    argsList.value.forEach(arg => {
-      if (!isNotNull(arg)) {
-        throw new Error($t('form.required'));
-      }
-    });
-  } catch {
-    return false;
-  }
+//   try {
+//     argsList.value.forEach(arg => {
+//       if (!isNotNull(arg)) {
+//         throw new Error($t('form.required'));
+//       }
+//     });
+//   } catch {
+//     return false;
+//   }
 
-  return true;
-}
+//   return true;
+// }
 
 function handleUpdateModelWhenEdit() {
   argsList.value = [];

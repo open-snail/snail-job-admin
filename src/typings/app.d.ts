@@ -4,16 +4,6 @@ declare namespace App {
   namespace Theme {
     type ColorPaletteNumber = import('@sa/color').ColorPaletteNumber;
 
-    /** Theme token */
-    type ThemeToken = {
-      colors: ThemeTokenColor;
-      boxShadow: {
-        header: string;
-        sider: string;
-        tab: string;
-      };
-    };
-
     /** Theme setting */
     interface ThemeSetting {
       /** Theme scheme */
@@ -34,6 +24,12 @@ declare namespace App {
         mode: UnionKey.ThemeLayoutMode;
         /** Scroll mode */
         scrollMode: UnionKey.ThemeScrollMode;
+        /**
+         * Whether to reverse the horizontal mix
+         *
+         * if true, the vertical child level menus in left and horizontal first level menus in top
+         */
+        reverseHorizontalMix?: boolean;
       };
       /** Page */
       page: {
@@ -97,12 +93,17 @@ declare namespace App {
         /** Whether float the footer to the right when the layout is 'horizontal-mix' */
         right: boolean;
       };
+      /** define some theme settings tokens, will transform to css variables */
+      tokens: {
+        light: ThemeSettingToken;
+        dark?: {
+          [K in keyof ThemeSettingToken]?: Partial<ThemeSettingToken[K]>;
+        };
+      };
       /** Watermark */
       watermark: {
         /** Whether to show the watermark */
         visible: boolean;
-        /** WatermarkText */
-        text: string;
       };
     }
 
@@ -125,14 +126,33 @@ declare namespace App {
 
     type BaseToken = Record<string, Record<string, string>>;
 
-    interface ThemeTokenColor extends ThemePaletteColor {
-      nprogress: string;
+    interface ThemeSettingTokenColor {
+      /** the progress bar color, if not set, will use the primary color */
+      nprogress?: string;
       container: string;
       layout: string;
       inverted: string;
-      base_text: string;
-      [key: string]: string;
+      'base-text': string;
     }
+
+    interface ThemeSettingTokenBoxShadow {
+      header: string;
+      sider: string;
+      tab: string;
+    }
+
+    interface ThemeSettingToken {
+      colors: ThemeSettingTokenColor;
+      boxShadow: ThemeSettingTokenBoxShadow;
+    }
+
+    type ThemeTokenColor = ThemePaletteColor & ThemeSettingTokenColor;
+
+    /** Theme token CSS variables */
+    type ThemeTokenCSSVars = {
+      colors: ThemeTokenColor & { [key: string]: string };
+      boxShadow: ThemeSettingTokenBoxShadow & { [key: string]: string };
+    };
   }
 
   /** Global namespace */
@@ -155,7 +175,7 @@ declare namespace App {
     }
 
     /** The global menu */
-    interface Menu {
+    type Menu = {
       /**
        * The menu key
        *
@@ -176,7 +196,7 @@ declare namespace App {
       children?: Menu[];
       /** The menu show */
       show?: boolean;
-    }
+    };
 
     type Breadcrumb = Omit<Menu, 'children'> & {
       options?: Breadcrumb[];
@@ -295,6 +315,7 @@ declare namespace App {
         exportAll: string;
         exportPar: string;
         edit: string;
+        warning: string;
         error: string;
         detail: string;
         index: string;
@@ -366,6 +387,8 @@ declare namespace App {
             random: string;
             lru: string;
             round: string;
+            first: string;
+            last: string;
           };
         };
         blockStrategy: {
@@ -481,7 +504,7 @@ declare namespace App {
       theme: {
         themeSchema: { title: string } & Record<UnionKey.ThemeScheme, string>;
         grayscale: string;
-        layoutMode: { title: string } & Record<UnionKey.ThemeLayoutMode, string>;
+        layoutMode: { title: string; reverseHorizontalMix: string } & Record<UnionKey.ThemeLayoutMode, string>;
         recommendColor: string;
         recommendColorDesc: string;
         themeColor: {

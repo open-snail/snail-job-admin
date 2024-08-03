@@ -10,14 +10,11 @@ import { $t } from '@/locales';
 import { roleTypeRecord } from '@/constants/business';
 import { useRouteStore } from '../route';
 import { useTabStore } from '../tab';
-import { useThemeStore } from '../theme';
 import { clearAuthStorage, getToken } from './shared';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
-  const appTitle = import.meta.env.VITE_APP_TITLE || 'Snail Job';
   const route = useRoute();
   const routeStore = useRouteStore();
-  const themeStore = useThemeStore();
   const tabStore = useTabStore();
   const { toLogin, redirectFromLogin } = useRouterPush(false);
   const { loading: loginLoading, startLoading, endLoading } = useLoading();
@@ -57,8 +54,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     clearAuthStorage();
 
     authStore.$reset();
-
-    themeStore.setWatermarkText(appTitle);
 
     if (!route.meta.constant) {
       await toLogin();
@@ -143,7 +138,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       localStg.set('userInfo', info);
       localStg.set('userInfo', info);
       Object.assign(userInfo, info);
-      themeStore.setWatermarkText(`${userInfo.userName}@${appTitle}`);
 
       return true;
     }

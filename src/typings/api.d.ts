@@ -70,8 +70,8 @@ declare namespace Api {
       status?: EnableStatus | null;
     } & T;
 
-    /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 */
-    type RouteKey = 1 | 2 | 3 | 4;
+    /** 1: 一致性Hash 2: 随机 3: LRU 4: 轮询 5: 第一个 6: 最后一个 */
+    type RouteKey = 1 | 2 | 3 | 4 | 5 | 6;
 
     /** 阻塞策略 1:丢弃 2:覆盖 3:并行 4:恢复 */
     type BlockStrategy = 1 | 2 | 3 | 4;

@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 interface Emits {
+  (e: 'refresh'): void;
   (e: 'update:modelValue', modelValue: Workflow.NodeModelType): void;
 }
 
@@ -43,7 +44,7 @@ watch(
 </script>
 
 <template>
-  <TaskNode v-if="nodeConfig.nodeType == 1" v-model="nodeConfig" :disabled="disabled">
+  <TaskNode v-if="nodeConfig.nodeType == 1" v-model="nodeConfig" :disabled="disabled" @refresh="() => emit('refresh')">
     <template #default="slot">
       <NodeWrap v-if="slot.node" v-model="slot.node.childNode" :disabled="disabled" />
     </template>

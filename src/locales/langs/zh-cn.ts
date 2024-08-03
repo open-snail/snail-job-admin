@@ -36,6 +36,7 @@ const local: App.I18n.Schema = {
     exportAll: '确认导出列表中全部数据吗?',
     exportPar: '确认导出{num}条数据吗?',
     edit: '编辑',
+    warning: '警告',
     error: '错误',
     detail: '详情',
     index: '序号',
@@ -106,7 +107,9 @@ const local: App.I18n.Schema = {
         consistentHash: '一致性哈希',
         random: '随机',
         lru: 'LRU',
-        round: '轮询'
+        round: '轮询',
+        first: '第一个',
+        last: '最后一个'
       }
     },
     blockStrategy: {
@@ -226,13 +229,14 @@ const local: App.I18n.Schema = {
       dark: '暗黑模式',
       auto: '跟随系统'
     },
-    grayscale: '灰度模式',
+    grayscale: '灰色模式',
     layoutMode: {
       title: '布局模式',
       vertical: '左侧菜单模式',
       'vertical-mix': '左侧菜单混合模式',
       horizontal: '顶部菜单模式',
-      'horizontal-mix': '顶部菜单混合模式'
+      'horizontal-mix': '顶部菜单混合模式',
+      reverseHorizontalMix: '一级菜单与子级菜单位置反转'
     },
     recommendColor: '应用推荐算法的颜色',
     recommendColorDesc: '推荐颜色的算法参照',
@@ -938,7 +942,7 @@ const local: App.I18n.Schema = {
     },
     pwd: {
       required: '请输入密码',
-      invalid: '由字母、数字、特殊字符，任意2种组成，6-20位'
+      invalid: '密码格式不正确，6-18位字符，包含字母、数字、下划线'
     },
     confirmPwd: {
       required: '请输入确认密码',

@@ -112,7 +112,9 @@ export const routeKeyRecord: Record<Api.Common.RouteKey, App.I18n.I18nKey> = {
   1: 'common.routeKey.items.consistentHash',
   2: 'common.routeKey.items.random',
   3: 'common.routeKey.items.lru',
-  4: 'common.routeKey.items.round'
+  4: 'common.routeKey.items.round',
+  5: 'common.routeKey.items.first',
+  6: 'common.routeKey.items.last'
 };
 export const routeKeyRecordOptions = transformRecordToNumberOption(routeKeyRecord, true);
 

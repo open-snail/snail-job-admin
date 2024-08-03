@@ -74,6 +74,7 @@ function handleDropdown(key: DropdownKey) {
   } else if (key === 'password') {
     handleChangePassword();
   } else {
+    // If your other options are jumps from other routes, they will be directly supported here
     routerPushByKey(key);
   }
 }

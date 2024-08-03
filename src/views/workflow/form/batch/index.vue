@@ -110,7 +110,7 @@ const syncOptions = ref([
 </script>
 
 <template>
-  <Workflow v-model="node" :spinning="false" disabled>
+  <Workflow v-model="node" :spinning="false" disabled @refresh="getBatchDetail()">
     <template #buttons>
       <div class="flex-center">
         <NDropdown trigger="hover" width="trigger" :options="syncOptions" @select="handleSyncSelect">

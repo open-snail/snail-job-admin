@@ -36,6 +36,7 @@ const local: App.I18n.Schema = {
     exportAll: 'Are you sure to export all?',
     exportPar: 'Are you sure to export {num} pieces of data?',
     edit: 'Edit',
+    warning: 'Warning',
     error: 'Error',
     detail: 'Detail',
     index: 'Index',
@@ -106,7 +107,9 @@ const local: App.I18n.Schema = {
         consistentHash: 'Consistent hash',
         random: 'Random',
         lru: 'LRU',
-        round: 'Round robin'
+        round: 'Round robin',
+        first: 'First',
+        last: 'Last'
       }
     },
     blockStrategy: {
@@ -232,7 +235,8 @@ const local: App.I18n.Schema = {
       vertical: 'Vertical Menu Mode',
       horizontal: 'Horizontal Menu Mode',
       'vertical-mix': 'Vertical Mix Menu Mode',
-      'horizontal-mix': 'Horizontal Mix menu Mode'
+      'horizontal-mix': 'Horizontal Mix menu Mode',
+      reverseHorizontalMix: 'Reverse first level menus and child level menus position'
     },
     recommendColor: 'Apply Recommended Color Algorithm',
     recommendColorDesc: 'The recommended color algorithm refers to',
