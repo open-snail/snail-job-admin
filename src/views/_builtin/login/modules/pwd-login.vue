@@ -88,6 +88,7 @@ async function refreshTokenFn() {
     authorize();
     return;
   }
+
   const response = await fetch('https://gitee.com/oauth/token', {
     method: 'POST',
     headers: new Headers({
@@ -99,10 +100,18 @@ async function refreshTokenFn() {
     })
   });
 
+  if (response.status === 401) {
+    localStorage.removeItem('gitee_access_token');
+    localStorage.removeItem('gitee_refresh_token');
+    authorize();
+    return;
+  }
+
   const res = await response.json();
 
-  localStorage.setItem('gitee_access_token', res.data.access_token);
-  localStorage.setItem('gitee_refresh_token', res.data.refresh_token);
+  localStorage.setItem('gitee_access_token', res.access_token);
+  localStorage.setItem('gitee_refresh_token', res.refresh_token);
+  userStarred();
 }
 
 async function oauth2() {
