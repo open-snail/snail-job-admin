@@ -1,11 +1,13 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import Vcode from 'vue3-puzzle-vcode';
 import { useRoute } from 'vue-router';
+import { NA } from 'naive-ui';
 import { md5 } from '@/utils/common';
 import { $t } from '@/locales';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { useAuthStore } from '@/store/modules/auth';
+import SvgIcon from '@/components/custom/svg-icon.vue';
 
 defineOptions({
   name: 'PwdLogin'
@@ -38,8 +40,45 @@ async function handleSubmit() {
 }
 
 const codeShow = ref(false);
+const starred = ref<boolean>(false);
 
 const validateCode = async () => {
+  if (!starred.value) {
+    window.$dialog?.error({
+      icon: () => {
+        return <SvgIcon icon="material-symbols:favorite" class="color-#f5222d" />;
+      },
+      title: () => {
+        return <>您的支持将是我们前行的动力</>;
+      },
+      content: () => {
+        return (
+          <div class="mt-20px text-base">
+            <div>
+              💖 如果您喜欢 Snail Job，请给它一个
+              <n-a href="https://gitee.com/aizuda/snail-job" target="_blank">
+                &ensp;Star
+              </n-a>
+              ，您的支持将是我们前行的动力。 👨‍💻👨‍💻👨‍💻
+            </div>
+            <div class="mt-20px">
+              🚀 本系统将在
+              <n-a href="https://gitee.com/aizuda/snail-job" target="_blank">
+                &ensp;Star&ensp;
+              </n-a>
+              后正常开放展示，感谢您的理解与支持 🙇
+            </div>
+          </div>
+        );
+      },
+      positiveText: '去 Start',
+      onPositiveClick: () => {
+        window.open('https://gitee.com/aizuda/snail-job', '_blank');
+      }
+    });
+    return;
+  }
+
   const { VITE_LOGIN_CODE } = import.meta.env;
   await validate();
   if (VITE_LOGIN_CODE === 'Y') {
@@ -58,7 +97,6 @@ const onSuccess = () => {
 };
 
 const route = useRoute();
-const starred = ref<boolean>(false);
 
 async function userStarred() {
   const accessToken = localStorage.getItem('gitee_access_token');
@@ -187,15 +225,7 @@ init();
       </div>
       <NPopover :show="codeShow" row>
         <template #trigger>
-          <NButton
-            :disabled="!starred"
-            type="primary"
-            size="large"
-            round
-            block
-            :loading="authStore.loginLoading"
-            @click="validateCode"
-          >
+          <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="validateCode">
             {{ $t('page.login.common.login') }}
           </NButton>
         </template>
